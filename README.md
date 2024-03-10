@@ -1,38 +1,22 @@
-# Welcome to Remix!
+# Welcome to Codevault's main site.
 
-- [Remix Docs](https://remix.run/docs)
+This is codevault's marketing and documentation site. It is built using [Remix](https://remix.run/), a full-stack web framework for React.
 
-## Development
+## Getting Started
 
-From your terminal:
+To get started, clone this repository and run the following commands:
 
-```sh
+```bash
+npm install
 npm run dev
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+This will start the development server and you can start building your site.
 
-## Deployment
+## Contributing
 
-First, build your app for production:
+If you would like to contribute to this site, please open a pull request and we will review it as soon as possible.
 
-```sh
-npm run build
-```
+## License
 
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
+This site is licensed under the CodeVault license. See the [LICENSE](LICENSE) file for more information.
