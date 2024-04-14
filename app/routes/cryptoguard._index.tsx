@@ -1,9 +1,16 @@
-import { MetaFunction } from "@remix-run/react";
+import { Link, MetaFunction } from "@remix-run/react";
 import { FeatureDisplay } from "~/components/FeatureDisplay";
 import { Button } from "~/components/ui/button";
 import { GithubBranch } from "~/types/github-branch";
 import { userPrefs } from "~/utils/cookies.server";
 import { getGithubRelease } from "~/utils/document.server";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
 
 export const meta: MetaFunction = () => {
   return [
@@ -125,7 +132,9 @@ export default function Index() {
         CryptoGuard is a versatile encryption and decryption tool designed to
         provide robust file security.
       </p>
-      <Button variant="outline">Get me for free!</Button>
+      <Button variant="outline">
+        <Link to="/cryptoguard/docs">Get me for free!</Link>
+      </Button>
 
       <section className="py-8 w-full">
         <FeatureDisplay
@@ -154,6 +163,29 @@ export default function Index() {
             <div key={index}>{sponsor.logo}</div>
           ))}
         </div>
+      </section>
+
+      <section className="py-8 w-full">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="cryptoguard">
+            <AccordionTrigger>What is CryptoGuard?</AccordionTrigger>
+            <AccordionContent>
+              CryptoGuard is a versatile encryption and decryption tool designed
+              to provide robust file security.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="features">
+            <AccordionTrigger>Features</AccordionTrigger>
+            <AccordionContent>
+              <ul>
+                <li>File Encryption</li>
+                <li>File Decryption</li>
+                <li>CLI Interface</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </section>
     </div>
   );
