@@ -36,7 +36,7 @@ export default function Index() {
         </div>
 
         <div className="flex flex-row items-center gap-2 h-full">
-          <Button variant="secondary">
+          <Button variant="secondary" asChild>
             <Link
               to="https://github.com/CodeVault-LLC/codevault"
               className="flex flex-row items-center gap-2"

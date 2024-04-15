@@ -132,7 +132,7 @@ export default function Index() {
         CryptoGuard is a versatile encryption and decryption tool designed to
         provide robust file security.
       </p>
-      <Button variant="outline">
+      <Button variant="outline" asChild>
         <Link to="/cryptoguard/docs">Get me for free!</Link>
       </Button>
 
