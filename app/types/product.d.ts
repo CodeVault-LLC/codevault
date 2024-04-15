@@ -3,7 +3,5 @@ type Product = {
   description: string;
   link: string;
 
-  colors: string[];
-
   updated: string;
 };
