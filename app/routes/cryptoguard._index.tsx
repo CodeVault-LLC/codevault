@@ -158,14 +158,6 @@ export default function Index() {
       </section>
 
       <section className="py-8 w-full">
-        <div className="flex flex-row items-center justify-between gap-8">
-          {sponsors.map((sponsor, index: number) => (
-            <div key={index}>{sponsor.logo}</div>
-          ))}
-        </div>
-      </section>
-
-      <section className="py-8 w-full">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="cryptoguard">
             <AccordionTrigger>What is CryptoGuard?</AccordionTrigger>
@@ -186,6 +178,14 @@ export default function Index() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </section>
+
+      <section className="py-8 w-full">
+        <div className="flex flex-row items-center justify-between gap-8">
+          {sponsors.map((sponsor, index: number) => (
+            <div key={index}>{sponsor.logo}</div>
+          ))}
+        </div>
       </section>
     </div>
   );

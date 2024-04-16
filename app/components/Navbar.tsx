@@ -1,9 +1,13 @@
+import { Link } from "@remix-run/react";
 import { ThemeSwitch } from "./ThemeSwitch";
 
 export default function Navbar() {
   return (
     <div className="flex justify-between items-center p-4 border-b dark:border-zinc-900">
-      <div className="flex items-center"></div>
+      <Link to="/" className="text-xl font-bold">
+        CryptoGuard
+      </Link>
+      <div className="flex items-center" />
       <ThemeSwitch />
     </div>
   );
