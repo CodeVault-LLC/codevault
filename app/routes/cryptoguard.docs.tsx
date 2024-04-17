@@ -78,7 +78,7 @@ export default function Index() {
   ];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { githubFiles }: { githubFiles: any } = useLoaderData();
+  const { githubFiles } = useLoaderData() as { githubFiles: any[] };
   console.log(githubFiles);
 
   return (
@@ -128,7 +128,7 @@ export default function Index() {
         <div className="col-span-4 w-full">
           <h3 className="text-xl font-bold">Name</h3>
           <Table>
-            <TableHead>
+            <TableHead>url
               <TableHeader>Name</TableHeader>
               <TableHeader></TableHeader>
             </TableHead>
@@ -139,7 +139,13 @@ export default function Index() {
                   <TableCell>{file.path}</TableCell>
                   <TableCell>
                     <Button variant="secondary" asChild>
-                      <Link to={`/cryptoguard/docs/${file.path}`}>View</Link>
+                      <Link
+                        to={`https://github.com/CodeVault-LLC/codevault/blob/main/${file.path}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        View
+                      </Link>
                     </Button>
                   </TableCell>
                 </TableRow>
