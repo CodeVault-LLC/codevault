@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { getAppConfig } from "@/configs/app";
 import { Scripts, Meta, Html, Head, Body } from "@tanstack/start";
 import { seo } from "@/lib/seo";
+import { Footer } from "@/components/Footer";
+import { Separator } from "@/components/ui/separator";
 
 export const RootPage: React.FC = () => {
   return (
@@ -17,12 +19,16 @@ export const RootPage: React.FC = () => {
           defaultTheme={getAppConfig("color_mode.default")}
           storageKey={getAppConfig("color_mode.storage_key")}
         >
-          <div className="flex flex-col h-screen">
-            <TooltipProvider delayDuration={50}>
+          <TooltipProvider delayDuration={100}>
+            <div className="flex flex-col min-h-screen">
               <Navbar />
-              <Outlet />
-            </TooltipProvider>
-          </div>
+              <div className="container mx-auto my-8">
+                <Outlet />
+              </div>
+              <Separator />
+              <Footer />
+            </div>
+          </TooltipProvider>
         </ThemeProvider>
         <Scripts />
       </Body>
