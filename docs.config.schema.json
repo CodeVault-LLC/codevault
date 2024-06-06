@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CodeVault-LLC/codevault/blob/main/docs.config.schema.json",
+  "title": "Project Documentation Schema",
+  "type": "object",
+  "properties": {
+    "docs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "section": {
+            "type": "string",
+            "enum": [
+              "Overview",
+              "Installation",
+              "Usage",
+              "API",
+              "Modules",
+              "Contributing",
+              "Changelog",
+              "License",
+              "FAQ",
+              "Troubleshooting",
+              "Glossary",
+              "References"
+            ]
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "filename": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9-_]+\\.md$"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["title", "filename"]
+            }
+          }
+        },
+        "required": ["section", "files"]
+      }
+    }
+  },
+  "required": ["docs"]
+}
