@@ -1,8 +1,8 @@
 import ProductComponent from "@/components/ProductComponent";
-import Promo from "@/components/Promo";
 import { seo } from "@/lib/seo";
 import { products } from "@/products";
 import { createFileRoute } from "@tanstack/react-router";
+import { ImageIcon, InfinityIcon, InfoIcon } from "lucide-react";
 
 const Home: React.FC = () => {
   return (
@@ -26,18 +26,65 @@ const Home: React.FC = () => {
           </span>
         </span>
 
-        <span className="text-lg mt-1 dark:text-gray-400 max-w-xl">
+        <span className="mt-1 dark:text-muted-foreground max-w-xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
           CodeVault is a perfect solution when in needs of products! It offers a
           wide range of products that are made by developers for developers.
         </span>
       </div>
+
+      <section className="w-full py-12 md:py-24 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
+                Our Core Values
+              </div>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Integrity, Innovation, and Impact
+              </h2>
+              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                At CodeVault LLC, we are driven by a commitment to delivering
+                exceptional results, pushing the boundaries of creativity, and
+                making a meaningful difference for our clients and their
+                audiences.
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto grid justify-center max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+            <div className="grid gap-1">
+              <InfinityIcon className="h-12 w-12 text-primary" />
+              <h3 className="text-xl font-bold">Integrity</h3>
+              <p className="text-muted-foreground">
+                We are committed to honesty, transparency, and ethical practices
+                in all that we do.
+              </p>
+            </div>
+            <div className="grid gap-1">
+              <InfoIcon className="h-12 w-12 text-primary" />
+              <h3 className="text-xl font-bold">Innovation</h3>
+              <p className="text-muted-foreground">
+                We constantly push the boundaries of creativity to deliver
+                unique and impactful solutions.
+              </p>
+            </div>
+            <div className="grid gap-1">
+              <ImageIcon className="h-12 w-12 text-primary" />
+              <h3 className="text-xl font-bold">Impact</h3>
+              <p className="text-muted-foreground">
+                We strive to make a lasting positive impact on developers and
+                their communities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="mt-8">
         <h2 className="text-3xl font-bold mb-8 text-center">
           Powerful products for every team
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-28">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-28 justify-center items-center">
           {products.map((product, index: number) => (
             <ProductComponent key={index} product={product} />
           ))}
@@ -45,7 +92,6 @@ const Home: React.FC = () => {
       </section>
 
       <div className="mt-8" />
-      <Promo sosial="discord" link="https://discord.gg" />
     </div>
   );
 };

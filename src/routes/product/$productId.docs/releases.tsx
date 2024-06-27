@@ -9,7 +9,7 @@ const ReleaseNotes: React.FC = () => {
     strict: false,
   });
 
-  const { data } = useGithub(product.githubContentUrl + "/main/CHANGELOG.md");
+  const { data } = useGithub(product.github.contentUrl + "/main/CHANGELOG.md");
 
   return (
     <>

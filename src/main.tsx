@@ -3,6 +3,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NotFound } from "./components/NotFound";
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -26,6 +27,9 @@ const router = createRouter({
 
   context: {
     router: undefined!, // We'll inject this when we render
+  },
+  defaultNotFoundComponent: () => {
+    return <NotFound />;
   },
 });
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

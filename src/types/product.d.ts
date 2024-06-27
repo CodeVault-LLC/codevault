@@ -1,21 +1,56 @@
-export interface Product {
-  id: string;
+interface Feature {
   name: string;
-
-  tagline: string;
   description: string;
-  features: string[];
+  icon?: JSX.Element | undefined; // Optional icon for the feature
+}
 
-  textStyle: string;
+interface Price {
+  amount: number;
+  currency: string;
+  salePrice?: number; // Optional sale price
+  isOnSale?: boolean; // Indicates if the product is currently on sale
+}
 
-  latestVersion: string;
+interface ReleaseStatus {
+  released: boolean;
+  phase?: "alpha" | "beta" | "stable"; // Indicates the release phase
+}
 
-  badge?: "new" | "soon";
+interface GitHubInfo {
+  url?: string; // Main GitHub repository URL
+  roadmapUrl?: string; // GitHub Roadmap URL
+  contentUrl?: string; // URL for GitHub contents or files
+}
 
-  downloable?: boolean;
-  downloadUrl?: string;
+export interface Product {
+  id: string; // Unique identifier for the product
+  name: string; // Name of the product
+  isFree: boolean; // Indicates if the product is free
 
-  githubUrl?: string;
-  githubRoadmapUrl?: string;
-  githubContentUrl?: string;
+  tagline: string; // Short tagline or slogan for the product
+  description: string; // Detailed description of the product
+  features: Feature[]; // List of product features
+
+  textStyle: string; // Styling for product's display text
+
+  latestVersion: string; // Latest version identifier of the product
+
+  badge?: "new" | "comingSoon"; // Optional badge for product status
+  category:
+    | "template"
+    | "tool"
+    | "library"
+    | "course"
+    | "project"
+    | "service"
+    | "other"; // Product category
+
+  isDownloadable?: boolean; // Indicates if the product is downloadable
+  downloadUrl?: string; // URL for downloading the product, if applicable
+
+  github: GitHubInfo; // GitHub-related information
+
+  releaseStatus: ReleaseStatus; // Status of the product's release
+
+  priceDetails?: Price; // Pricing details for the product
 }

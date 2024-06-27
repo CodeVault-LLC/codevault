@@ -28,14 +28,14 @@ const Documentation: React.FC = () => {
     {
       name: "GitHub",
       description: "View the source code on GitHub",
-      link: product.githubUrl,
+      link: product.github.url,
       icon: <GitHubLogoIcon className="size-6" />,
       issue: false,
     },
     {
       name: "Report Issue",
       description: "Report an issue on GitHub",
-      link: product.githubUrl + "/issues/new/choose",
+      link: product.github.url + "/issues/new/choose",
       icon: <BugIcon className="size-6" />,
       issue: false,
     },
@@ -44,7 +44,7 @@ const Documentation: React.FC = () => {
       description: "Download the latest version",
       link: product.downloadUrl,
       icon: <DownloadIcon className="size-6" />,
-      issue: !product.downloable,
+      issue: !product.isDownloadable,
     },
   ];
 

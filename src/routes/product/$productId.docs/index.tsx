@@ -18,7 +18,7 @@ const Documentation: React.FC = () => {
     strict: false,
   });
 
-  const { data } = useGithub(product.githubContentUrl + "/main/README.md");
+  const { data } = useGithub(product.github.contentUrl + "/main/README.md");
 
   return (
     <>
@@ -78,7 +78,7 @@ const Documentation: React.FC = () => {
             </Link>
 
             <a
-              href={product.githubRoadmapUrl}
+              href={product.github.roadmapUrl}
               className="w-full h-full"
               target="_blank"
               referrerPolicy="no-referrer"

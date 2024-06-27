@@ -5,15 +5,40 @@ export const mockgenProduct: Product = {
   name: "Mockgen",
   tagline: `Easy and blazingly fast mock data generation for your tests and prototypes`,
   description: `Mock Gen is a data generation tool used in making test data or fake data based on options.`,
-  features: ["File Encryption", "File Decryption", "CLI Interface"],
+  features: [
+    {
+      name: "Easy to Use",
+      description:
+        "Mockgen is designed to be easy to use and fast to generate data.",
+    },
+    {
+      name: "Customizable",
+      description: "You can customize the data generation based on your needs.",
+    },
+    {
+      name: "Blazingly Fast",
+      description:
+        "Mockgen is designed to be fast and efficient in generating data.",
+    },
+  ],
   badge: "new",
+  category: "tool",
 
-  textStyle: "text-yellow-500",
+  isFree: true,
+  releaseStatus: {
+    released: true,
+    phase: "stable",
+  },
+
+  textStyle: "from-yellow-400 to-purple-600",
 
   latestVersion: "v1.0.0",
-  downloable: true,
+  isDownloadable: true,
   downloadUrl: "https://github.com/CodeVault-LLC/mockgen/releases",
-  githubUrl: "https://github.com/CodeVault-LLC/mockgen",
-  githubRoadmapUrl: "https://github.com/orgs/CodeVault-LLC/projects/3/views/1",
-  githubContentUrl: "https://raw.githubusercontent.com/CodeVault-LLC/mockgen/",
+
+  github: {
+    url: "https://github.com/CodeVault-LLC/mockgen",
+    roadmapUrl: "https://github.com/orgs/CodeVault-LLC/projects/3/views/1",
+    contentUrl: "https://raw.githubusercontent.com/CodeVault-LLC/mockgen/",
+  },
 };
