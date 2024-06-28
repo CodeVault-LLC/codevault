@@ -1,128 +1,75 @@
 import { useGithub } from "@/client/hooks/useGithub";
 import { Markdown } from "@/components/Markdown";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { getProductById } from "@/products";
 import { Product } from "@/types/product";
-import { Link, createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { Star } from "lucide-react";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { ShieldCheck } from "lucide-react";
 
 const Documentation: React.FC = () => {
   const { product }: { product: Product } = useLoaderData({
     strict: false,
   });
 
-  const { data } = useGithub(product.github.contentUrl + "/main/README.md");
+  const { data } = useGithub(
+    product.github?.contentUrl + "/main/README.md" ?? ""
+  );
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-6 w-full gap-4">
-        <div className="col-span-1 md:col-span-4 w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link
-              to="/product/$productId/docs"
-              params={{
-                productId: product.id,
-              }}
-              className="w-full h-full"
-            >
-              <Card className="h-full flex flex-col">
-                <CardHeader className="flex-grow">
-                  <CardTitle>Getting Started</CardTitle>
-                  <CardDescription>
-                    Learn how to get started with {product.name} in your
-                    project.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+      <Markdown value={data} />
+      {product.isDownloadable && (
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              Download Now
+            </h2>
+            <p className="mt-4 max-w-[700px] text-muted-foreground md:text-lg">
+              Get started with our product today. Choose the version that best
+              suits your needs.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {Object.entries(product.download).map(([platform, data]) => (
+              <div className="rounded-lg bg-background p-6 transition-all border border-muted">
+                <h3 className="text-xl font-bold">
+                  {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                </h3>
+                <p className="mt-2 text-muted-foreground">
+                  Download the{" "}
+                  {platform.charAt(0).toUpperCase() + platform.slice(1)} version
+                  of our product.
+                </p>
+                <div className="mt-4 flex flex-row items-center justify-between">
+                  {data && data.virustotal && (
+                    <a
+                      href={data.virustotal.toString()}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <Button size="sm" variant="outline">
+                        <ShieldCheck className="size-6 text-green-400" />
+                      </Button>
+                    </a>
+                  )}
 
-            <Link
-              to="/product/$productId/docs"
-              params={{
-                productId: product.id,
-              }}
-              className="w-full h-full"
-            >
-              <Card className="h-full flex flex-col">
-                <CardHeader className="flex-grow">
-                  <CardTitle>Tutorials</CardTitle>
-                  <CardDescription>
-                    Dive deep into {product.name} with our tutorials.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            <Link
-              to="/product/$productId/docs/releases"
-              params={{
-                productId: product.id,
-              }}
-              className="w-full h-full"
-            >
-              <Card className="h-full flex flex-col">
-                <CardHeader className="flex-grow">
-                  <CardTitle>Release Notes</CardTitle>
-                  <CardDescription>
-                    Stay up to date with the latest {product.name} releases.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-
-            <a
-              href={product.github.roadmapUrl}
-              className="w-full h-full"
-              target="_blank"
-              referrerPolicy="no-referrer"
-            >
-              <Card className="h-full flex flex-col">
-                <CardHeader className="flex-grow">
-                  <CardTitle>Roadmap</CardTitle>
-                  <CardDescription>
-                    Check out the future plans for {product.name}.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </a>
+                  {data && data.url && (
+                    <a
+                      href={data.url.toString()}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <Button size="sm" variant="outline">
+                        Download
+                      </Button>
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
-        <Card className="col-span-1 md:col-span-2 flex flex-col">
-          <CardHeader className="flex-grow">
-            <CardTitle>Open Source</CardTitle>
-            <CardDescription>
-              Beautifully designed components that you can copy and paste into
-              your apps. Accessible. Customizable. Open Source.
-            </CardDescription>
-          </CardHeader>
-
-          <CardFooter className="flex flex-row gap-4 items-center justify-between">
-            <div className="flex flex-row items-center gap-2">
-              <div className="w-4 h-4 border border-blue-500 rounded-full" />
-              <span>Typescript</span>
-            </div>
-
-            <div className="flex flex-row items-center gap-2">
-              <Star className="size-6" />
-              <span>1.2k</span>
-            </div>
-
-            <div className="flex flex-row items-center gap-2">
-              <span>Updated April 2023</span>
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
-      <Separator className="my-2" />
-      <Markdown value={data} />
+      )}
     </>
   );
 };

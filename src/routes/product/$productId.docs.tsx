@@ -1,3 +1,4 @@
+import { NotFound } from "@/components/NotFound";
 import { Button } from "@/components/ui/button";
 
 import { Separator } from "@/components/ui/separator";
@@ -17,34 +18,29 @@ import {
   createFileRoute,
   useLoaderData,
 } from "@tanstack/react-router";
-import { ShieldCheck, BugIcon, DownloadIcon } from "lucide-react";
+import { ShieldCheck, BugIcon } from "lucide-react";
 
 const Documentation: React.FC = () => {
-  const { product }: { product: Product } = useLoaderData({
+  const { product }: { product: Product | null } = useLoaderData({
     strict: false,
   });
+
+  if (!product) return <NotFound />;
 
   const socials = [
     {
       name: "GitHub",
       description: "View the source code on GitHub",
-      link: product.github.url,
+      link: product?.github?.url,
       icon: <GitHubLogoIcon className="size-6" />,
       issue: false,
     },
     {
       name: "Report Issue",
       description: "Report an issue on GitHub",
-      link: product.github.url + "/issues/new/choose",
+      link: product?.github?.url + "/issues/new/choose",
       icon: <BugIcon className="size-6" />,
       issue: false,
-    },
-    {
-      name: "Download",
-      description: "Download the latest version",
-      link: product.downloadUrl,
-      icon: <DownloadIcon className="size-6" />,
-      issue: !product.isDownloadable,
     },
   ];
 
@@ -119,6 +115,13 @@ export const Route = createFileRoute("/product/$productId/docs")({
   },
   meta: (ctx) => {
     const product = getProductById(ctx.params.productId);
+
+    if (!product) {
+      return seo({
+        title: "Product Not Found | CodeVault",
+        description: "The product you are looking for does not exist.",
+      });
+    }
 
     return seo({
       title: product.name

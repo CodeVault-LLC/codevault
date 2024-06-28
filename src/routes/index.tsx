@@ -1,10 +1,21 @@
 import ProductComponent from "@/components/ProductComponent";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { seo } from "@/lib/seo";
 import { products } from "@/products";
 import { createFileRoute } from "@tanstack/react-router";
 import { ImageIcon, InfinityIcon, InfoIcon } from "lucide-react";
+import { useMemo, useState } from "react";
 
 const Home: React.FC = () => {
+  const [search, setSearch] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search]);
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <div className="flex justify-center items-center flex-col">
@@ -80,12 +91,31 @@ const Home: React.FC = () => {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          Powerful products for every team
-        </h2>
+        <div className="text-center space-y-4 mb-4">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+            Explore the Possibilities with CodeVault
+          </h1>
+          <p className="text-center text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            Search for one of our powerful products to get started.
+          </p>
+          <div className="mx-auto w-full max-w-sm space-y-2">
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Enter your search..."
+                className="max-w-lg flex-1"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button onClick={() => setSearch(search)} type="button">
+                Explore
+              </Button>
+            </div>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-28 justify-center items-center">
-          {products.map((product, index: number) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-28 justify-center items-center">
+          {filteredProducts.map((product, index: number) => (
             <ProductComponent key={index} product={product} />
           ))}
         </div>

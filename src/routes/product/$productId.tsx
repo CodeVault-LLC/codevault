@@ -11,6 +11,13 @@ export const Route = createFileRoute("/product/$productId")({
   meta: (ctx) => {
     const product = getProductById(ctx.params.productId);
 
+    if (!product) {
+      return seo({
+        title: "Product Not Found | CodeVault",
+        description: "The product you are looking for does not exist.",
+      });
+    }
+
     return seo({
       title: product.name
         ? `${product.name} | CodeVault`

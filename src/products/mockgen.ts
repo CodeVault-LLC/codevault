@@ -34,7 +34,17 @@ export const mockgenProduct: Product = {
 
   latestVersion: "v1.0.0",
   isDownloadable: true,
-  downloadUrl: "https://github.com/CodeVault-LLC/mockgen/releases",
+  download: {
+    linux: {
+      url: "https://github.com/CodeVault-LLC/mockgen/releases/download/latest/mock_data-ubuntu.tar.gz",
+    },
+    mac: {
+      url: "https://github.com/CodeVault-LLC/mockgen/releases/download/latest/mock_data-macos.tar.gz",
+    },
+    windows: {
+      url: "https://github.com/CodeVault-LLC/mockgen/releases/download/latest/mock_data-windows.tar.gz",
+    },
+  },
 
   github: {
     url: "https://github.com/CodeVault-LLC/mockgen",

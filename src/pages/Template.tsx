@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Product } from "@/types/product";
 import { Link } from "@tanstack/react-router";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, StarIcon } from "lucide-react";
 
 interface TemplateProps {
   product: Product;
@@ -27,7 +27,8 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link
-                    href="#"
+                    to="/product/$productId/docs"
+                    params={{ productId: product.id }}
                     className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                   >
                     Get Started
@@ -108,39 +109,78 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
             </div>
           </div>
         </section>
-        <section
-          className="w-full py-12 md:py-24 lg:py-32 bg-muted"
-          id="pricing"
-        >
-          <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                Affordable Pricing
-              </h2>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Our PostgreSQL template offers flexible pricing options to fit
-                your budget and needs.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end">
-              <div className="bg-gradient-to-r from-[#ff6b6b] to-[#ffa500] rounded-md shadow-lg p-2">
-                <div className="bg-background rounded-md p-6 shadow-md">
-                  <div className="flex items-center justify-between gap-8">
-                    <h3 className="text-2xl font-bold">Starter Plan</h3>
-                    <div className="bg-primary px-3 py-1 rounded-md text-primary-foreground text-sm font-medium">
-                      40% OFF
+
+        {!product.isFree && (
+          <section
+            className="w-full py-12 md:py-24 lg:py-32 bg-muted"
+            id="pricing"
+          >
+            <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                  Affordable Pricing
+                </h2>
+                <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Our PostgreSQL template offers flexible pricing options to fit
+                  your budget and needs.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end">
+                <div className="bg-gradient-to-r from-[#ff6b6b] to-[#ffa500] rounded-md shadow-lg p-2">
+                  <div className="bg-background rounded-md p-6 shadow-md">
+                    <div className="flex items-center justify-between gap-8">
+                      <h3 className="text-2xl font-bold">Starter Plan</h3>
+                      <div className="bg-primary px-3 py-1 rounded-md text-primary-foreground text-sm font-medium">
+                        40% OFF
+                      </div>
                     </div>
+                    <p className="text-muted-foreground text-lg">$9/month</p>
+                    <p className="text-muted-foreground text-sm">
+                      Billed annually at $99 $59
+                    </p>
+                    <Button className="mt-4 w-full">Get Started</Button>
                   </div>
-                  <p className="text-muted-foreground text-lg">$9/month</p>
-                  <p className="text-muted-foreground text-sm">
-                    Billed annually at $99 $59
-                  </p>
-                  <Button className="mt-4 w-full">Get Started</Button>
                 </div>
               </div>
             </div>
+          </section>
+        )}
+
+        {product.templateAssets && (
+          <div className="space-y-4 mb-4">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center">
+              Explore our Template Assets
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 text-white">
+              {product.templateAssets.map((asset) => (
+                <div
+                  className="bg-muted rounded-lg shadow-md transition-colors duration-300"
+                  key={asset.name}
+                >
+                  <div className="p-6">
+                    <div className="flex items-center mb-4 gap-4">
+                      {asset.icon}
+                      <h3 className="text-xl font-bold">{asset.name}</h3>
+                    </div>
+                    <p className="text-[#e0e0e0] mb-4">{asset.description}</p>
+                    <div className="flex justify-between items-center">
+                      <Button
+                        variant="outline"
+                        className="text-[#326ce5] hover:bg-[#326ce5]/20 transition-colors duration-300"
+                      >
+                        Learn More
+                      </Button>
+                      <div className="flex items-center space-x-2">
+                        <StarIcon className="w-5 h-5 text-[#9b59b6]" />
+                        <span className="text-[#e0e0e0]">4.7</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </section>
+        )}
         <section
           className="w-full py-12 md:py-24 lg:py-32 border-t"
           id="contact"

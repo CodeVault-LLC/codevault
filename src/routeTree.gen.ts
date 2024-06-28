@@ -16,7 +16,6 @@ import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as ProductProductIdIndexImport } from './routes/product/$productId.index'
 import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
 import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
-import { Route as ProductProductIdDocsReleasesImport } from './routes/product/$productId.docs/releases'
 
 // Create/Update Routes
 
@@ -44,12 +43,6 @@ const ProductProductIdDocsIndexRoute = ProductProductIdDocsIndexImport.update({
   path: '/',
   getParentRoute: () => ProductProductIdDocsRoute,
 } as any)
-
-const ProductProductIdDocsReleasesRoute =
-  ProductProductIdDocsReleasesImport.update({
-    path: '/releases',
-    getParentRoute: () => ProductProductIdDocsRoute,
-  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -83,13 +76,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdIndexImport
       parentRoute: typeof ProductProductIdImport
     }
-    '/product/$productId/docs/releases': {
-      id: '/product/$productId/docs/releases'
-      path: '/releases'
-      fullPath: '/product/$productId/docs/releases'
-      preLoaderRoute: typeof ProductProductIdDocsReleasesImport
-      parentRoute: typeof ProductProductIdDocsImport
-    }
     '/product/$productId/docs/': {
       id: '/product/$productId/docs/'
       path: '/'
@@ -106,7 +92,6 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   ProductProductIdRoute: ProductProductIdRoute.addChildren({
     ProductProductIdDocsRoute: ProductProductIdDocsRoute.addChildren({
-      ProductProductIdDocsReleasesRoute,
       ProductProductIdDocsIndexRoute,
     }),
     ProductProductIdIndexRoute,
@@ -139,17 +124,12 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "product/$productId.docs.tsx",
       "parent": "/product/$productId",
       "children": [
-        "/product/$productId/docs/releases",
         "/product/$productId/docs/"
       ]
     },
     "/product/$productId/": {
       "filePath": "product/$productId.index.tsx",
       "parent": "/product/$productId"
-    },
-    "/product/$productId/docs/releases": {
-      "filePath": "product/$productId.docs/releases.tsx",
-      "parent": "/product/$productId/docs"
     },
     "/product/$productId/docs/": {
       "filePath": "product/$productId.docs/index.tsx",

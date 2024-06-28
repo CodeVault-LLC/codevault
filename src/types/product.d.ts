@@ -22,6 +22,13 @@ interface GitHubInfo {
   contentUrl?: string; // URL for GitHub contents or files
 }
 
+interface TemplateAssets {
+  name: string;
+  icon: JSX.Element;
+  description: string;
+  url: string;
+}
+
 export interface Product {
   id: string; // Unique identifier for the product
   name: string; // Name of the product
@@ -45,10 +52,25 @@ export interface Product {
     | "service"
     | "other"; // Product category
 
-  isDownloadable?: boolean; // Indicates if the product is downloadable
-  downloadUrl?: string; // URL for downloading the product, if applicable
+  templateAssets?: TemplateAssets[]; // List of template libraries and important notes (Kubernetes, Docker, etc.)
 
-  github: GitHubInfo; // GitHub-related information
+  isDownloadable?: boolean; // Indic<ates if the product is downloadable
+  download: {
+    linux?: {
+      url: string;
+      virustotal?: string;
+    };
+    mac?: {
+      url: string;
+      virustotal?: string;
+    };
+    windows?: {
+      url: string;
+      virustotal?: string;
+    };
+  };
+
+  github?: GitHubInfo; // GitHub-related information
 
   releaseStatus: ReleaseStatus; // Status of the product's release
 
