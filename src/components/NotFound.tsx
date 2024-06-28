@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import React from "react";
 
 export const NotFound: React.FC = () => {
   return (
@@ -8,11 +9,11 @@ export const NotFound: React.FC = () => {
           404
         </div>
         <h1 className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Oops, the page you were looking for doesn't exist
+          Oops, the page you were looking for doesn&apos;t exist
         </h1>
         <p className="mt-4 text-muted-foreground">
-          The page you're looking for may have been moved or deleted. Don't
-          worry, you can find plenty of other things on our homepage.
+          The page you&apos;re looking for may have been moved or deleted.
+          Don&apos;t worry, you can find plenty of other things on our homepage.
         </p>
         <div className="mt-8">
           <Link

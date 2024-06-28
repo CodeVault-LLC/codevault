@@ -1,7 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Card } from "./ui/card";
-import { Product } from "@/types/product";
-import { Badge } from "./ui/badge";
+import React from "react";
 import {
   CircleIcon,
   DoorOpenIcon,
@@ -9,9 +7,12 @@ import {
   Github,
   StarIcon,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { Product } from "@/types/product";
+import { Card } from "./ui/card";
+import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
 
 type ProductComponentProps = {
   product: Product;
@@ -65,11 +66,11 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
           <div>
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-bold">{product.name}</h3>
-              {product.badge && (
+              {product.badge ? (
                 <div className="flex flex-wrap gap-2">
                   <BadgeComponent badge={product.badge} />
                 </div>
-              )}
+              ) : null}
             </div>
 
             <p className="text-muted-foreground">
@@ -103,7 +104,7 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
               Add to Cart
             </Button>
           )}
-          {product.github?.url && product.github.url !== "Not Now!" && (
+          {product.github?.url && product.github.url !== "Not Now!" ? (
             <a
               href={product.github.url}
               target="_blank"
@@ -113,11 +114,11 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
               GitHub
               <Github className="h-4 w-4" />
             </a>
-          )}
+          ) : null}
         </div>
       </div>
     </Card>
   );
 };
 
-export default ProductComponent;
+export { ProductComponent };

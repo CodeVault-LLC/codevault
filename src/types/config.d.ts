@@ -1,5 +1,4 @@
 export type ConfigKeyOf<T extends object> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [K in keyof T & (string | number)]: T[K] extends any[]
     ? `${K}`
     : T[K] extends object

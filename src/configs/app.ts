@@ -1,5 +1,4 @@
 import type { ConfigKeyOf } from "@/types/config";
-
 import { getConfigValue } from "@/lib/config";
 
 export interface AppConfig {

@@ -1,5 +1,5 @@
-import { Product } from "@/types/product";
 import { LockIcon, Rocket, ShieldIcon } from "lucide-react";
+import { Product } from "@/types/product";
 
 export const logsyncProduct: Product = {
   id: "logsync",

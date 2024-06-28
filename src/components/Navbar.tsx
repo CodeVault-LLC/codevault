@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import React from "react";
+import { Github } from "lucide-react";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { Button } from "./ui/button";
-import { Github } from "lucide-react";
 
-export default function Navbar() {
+export const Navbar: React.FC = () => {
   return (
     <div className="flex justify-between items-center p-4 border-b dark:border-zinc-900 px-24">
       <Link to="/" className="text-xl font-bold">
@@ -29,4 +30,4 @@ export default function Navbar() {
       </div>
     </div>
   );
-}
+};

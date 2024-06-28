@@ -1,12 +1,12 @@
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
-import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { routeTree } from "./routeTree.gen";
 import { NotFound } from "./components/NotFound";
+import "./index.css";
 
 declare module "@tanstack/react-router" {
-  interface Register {
+  interface _Register {
     router: typeof router;
   }
 }

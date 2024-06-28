@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import React from "react";
 
 export const Footer: React.FC = () => {
   return (

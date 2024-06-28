@@ -1,12 +1,13 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import Navbar from "../components/Navbar";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/theme-provider";
-import { getAppConfig } from "@/configs/app";
+import React from "react";
 import { Scripts, Meta, Html, Head, Body } from "@tanstack/start";
 import { seo } from "@/lib/seo";
 import { Footer } from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
+import { Navbar } from "@/components/Navbar";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import { getAppConfig } from "@/configs/app";
 
 export const RootPage: React.FC = () => {
   return (

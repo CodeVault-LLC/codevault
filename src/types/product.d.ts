@@ -1,3 +1,5 @@
+import type { JSX } from "react/jsx-runtime";
+
 interface Feature {
   name: string;
   description: string;

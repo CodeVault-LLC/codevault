@@ -1,7 +1,5 @@
 /* prettier-ignore-start */
 
-/* eslint-disable */
-
 // @ts-nocheck
 
 // noinspection JSUnusedGlobalSymbols
@@ -10,79 +8,79 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as ProductProductIdImport } from './routes/product/$productId'
-import { Route as ProductProductIdIndexImport } from './routes/product/$productId.index'
-import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
-import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as IndexImport } from "./routes/index";
+import { Route as ProductProductIdImport } from "./routes/product/$productId";
+import { Route as ProductProductIdIndexImport } from "./routes/product/$productId.index";
+import { Route as ProductProductIdDocsImport } from "./routes/product/$productId.docs";
+import { Route as ProductProductIdDocsIndexImport } from "./routes/product/$productId.docs/index";
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
-  path: '/',
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const ProductProductIdRoute = ProductProductIdImport.update({
-  path: '/product/$productId',
+  path: "/product/$productId",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const ProductProductIdIndexRoute = ProductProductIdIndexImport.update({
-  path: '/',
+  path: "/",
   getParentRoute: () => ProductProductIdRoute,
-} as any)
+} as any);
 
 const ProductProductIdDocsRoute = ProductProductIdDocsImport.update({
-  path: '/docs',
+  path: "/docs",
   getParentRoute: () => ProductProductIdRoute,
-} as any)
+} as any);
 
 const ProductProductIdDocsIndexRoute = ProductProductIdDocsIndexImport.update({
-  path: '/',
+  path: "/",
   getParentRoute: () => ProductProductIdDocsRoute,
-} as any)
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/product/$productId': {
-      id: '/product/$productId'
-      path: '/product/$productId'
-      fullPath: '/product/$productId'
-      preLoaderRoute: typeof ProductProductIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/product/$productId/docs': {
-      id: '/product/$productId/docs'
-      path: '/docs'
-      fullPath: '/product/$productId/docs'
-      preLoaderRoute: typeof ProductProductIdDocsImport
-      parentRoute: typeof ProductProductIdImport
-    }
-    '/product/$productId/': {
-      id: '/product/$productId/'
-      path: '/'
-      fullPath: '/product/$productId/'
-      preLoaderRoute: typeof ProductProductIdIndexImport
-      parentRoute: typeof ProductProductIdImport
-    }
-    '/product/$productId/docs/': {
-      id: '/product/$productId/docs/'
-      path: '/'
-      fullPath: '/product/$productId/docs/'
-      preLoaderRoute: typeof ProductProductIdDocsIndexImport
-      parentRoute: typeof ProductProductIdDocsImport
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/product/$productId": {
+      id: "/product/$productId";
+      path: "/product/$productId";
+      fullPath: "/product/$productId";
+      preLoaderRoute: typeof ProductProductIdImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/product/$productId/docs": {
+      id: "/product/$productId/docs";
+      path: "/docs";
+      fullPath: "/product/$productId/docs";
+      preLoaderRoute: typeof ProductProductIdDocsImport;
+      parentRoute: typeof ProductProductIdImport;
+    };
+    "/product/$productId/": {
+      id: "/product/$productId/";
+      path: "/";
+      fullPath: "/product/$productId/";
+      preLoaderRoute: typeof ProductProductIdIndexImport;
+      parentRoute: typeof ProductProductIdImport;
+    };
+    "/product/$productId/docs/": {
+      id: "/product/$productId/docs/";
+      path: "/";
+      fullPath: "/product/$productId/docs/";
+      preLoaderRoute: typeof ProductProductIdDocsIndexImport;
+      parentRoute: typeof ProductProductIdDocsImport;
+    };
   }
 }
 
@@ -96,7 +94,7 @@ export const routeTree = rootRoute.addChildren({
     }),
     ProductProductIdIndexRoute,
   }),
-})
+});
 
 /* prettier-ignore-end */
 

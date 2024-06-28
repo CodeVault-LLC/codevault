@@ -1,7 +1,7 @@
+import type { Product } from "@/types/product";
 import { mockgenProduct } from "./mockgen";
 import { logsyncProduct } from "./service/logsync";
 import { postgresTemplate } from "./template/postgres";
-import { Product } from "@/types/product";
 
 export const products = [mockgenProduct, postgresTemplate, logsyncProduct];
 

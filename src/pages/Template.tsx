@@ -1,9 +1,10 @@
+import { Link } from "@tanstack/react-router";
+import { CheckIcon, StarIcon } from "lucide-react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Product } from "@/types/product";
-import { Link } from "@tanstack/react-router";
-import { CheckIcon, StarIcon } from "lucide-react";
 
 interface TemplateProps {
   product: Product;
@@ -146,7 +147,7 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
           </section>
         )}
 
-        {product.templateAssets && (
+        {product.templateAssets ? (
           <div className="space-y-4 mb-4">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center">
               Explore our Template Assets
@@ -180,7 +181,7 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
               ))}
             </div>
           </div>
-        )}
+        ) : null}
         <section
           className="w-full py-12 md:py-24 lg:py-32 border-t"
           id="contact"
@@ -192,7 +193,7 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
               </h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Have questions or need more information? Fill out the form below
-                and we'll get back to you.
+                and we&apos;l get back to you.
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-2">

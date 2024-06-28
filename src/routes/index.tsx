@@ -1,11 +1,11 @@
-import ProductComponent from "@/components/ProductComponent";
+import { createFileRoute } from "@tanstack/react-router";
+import React, { useMemo, useState } from "react";
+import { ImageIcon, InfinityIcon, InfoIcon } from "lucide-react";
+import { ProductComponent } from "@/components/ProductComponent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { seo } from "@/lib/seo";
 import { products } from "@/products";
-import { createFileRoute } from "@tanstack/react-router";
-import { ImageIcon, InfinityIcon, InfoIcon } from "lucide-react";
-import { useMemo, useState } from "react";
 
 const Home: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -115,8 +115,8 @@ const Home: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-28 justify-center items-center">
-          {filteredProducts.map((product, index: number) => (
-            <ProductComponent key={index} product={product} />
+          {filteredProducts.map((product) => (
+            <ProductComponent key={product.id} product={product} />
           ))}
         </div>
       </section>

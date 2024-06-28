@@ -1,7 +1,8 @@
+import { Link } from "@tanstack/react-router";
+import React from "react";
+import { CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types/product";
-import { Link } from "@tanstack/react-router";
-import { CheckIcon } from "lucide-react";
 
 interface ProductProps {
   product: Product;
@@ -43,7 +44,7 @@ export const ProductPage: React.FC<ProductProps> = ({ product }) => {
             </h2>
             <ul className="grid gap-4">
               {product.features.map((feature) => (
-                <li className="flex items-start gap-4">
+                <li className="flex items-start gap-4" key={feature.name}>
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
                     <CheckIcon className="h-5 w-5" />
                   </div>
@@ -70,7 +71,7 @@ export const ProductPage: React.FC<ProductProps> = ({ product }) => {
             </p>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <a
-                href={product.github.url || "#"}
+                href={product?.github?.url || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"

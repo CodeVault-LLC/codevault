@@ -1,6 +1,14 @@
+import {
+  Link,
+  Outlet,
+  createFileRoute,
+  useLoaderData,
+} from "@tanstack/react-router";
+import React from "react";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { ShieldCheck, BugIcon } from "lucide-react";
 import { NotFound } from "@/components/NotFound";
 import { Button } from "@/components/ui/button";
-
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -11,14 +19,6 @@ import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { getProductById } from "@/products";
 import { Product } from "@/types/product";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import {
-  Link,
-  Outlet,
-  createFileRoute,
-  useLoaderData,
-} from "@tanstack/react-router";
-import { ShieldCheck, BugIcon } from "lucide-react";
 
 const Documentation: React.FC = () => {
   const { product }: { product: Product | null } = useLoaderData({
@@ -38,7 +38,7 @@ const Documentation: React.FC = () => {
     {
       name: "Report Issue",
       description: "Report an issue on GitHub",
-      link: product?.github?.url + "/issues/new/choose",
+      link: `${product?.github?.url}/issues/new/choose`,
       icon: <BugIcon className="size-6" />,
       issue: false,
     },
@@ -57,12 +57,12 @@ const Documentation: React.FC = () => {
         </div>
 
         <div className="flex flex-row items-center gap-2 h-full">
-          {socials.map((social, index) => (
+          {socials.map((social, index: number) => (
             <>
               <Tooltip>
                 <TooltipTrigger>
                   <Button
-                    key={index}
+                    key={social.name}
                     variant="secondary"
                     asChild
                     className={cn(

@@ -1,6 +1,7 @@
+import { Outlet, createFileRoute } from "@tanstack/react-router";
+import React from "react";
 import { seo } from "@/lib/seo";
 import { getProductById } from "@/products";
-import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 const ProductLayout: React.FC = () => {
   return <Outlet />;

@@ -1,5 +1,5 @@
-import { Product } from "@/types/product";
 import { DockIcon, LockIcon, RocketIcon, Settings } from "lucide-react";
+import { Product } from "@/types/product";
 
 export const postgresTemplate: Product = {
   id: "postgres_template",

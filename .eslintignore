@@ -1,0 +1,8 @@
+dist
+.eslintrc.cjs
+tailwind.config.js
+postcss.config.js
+src/components/ui/*.tsx
+tsconfig.json
+src/routeTree.gen.ts
+vite.config.ts

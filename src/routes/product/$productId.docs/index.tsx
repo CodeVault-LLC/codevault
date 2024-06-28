@@ -1,24 +1,23 @@
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { ShieldCheck } from "lucide-react";
+import React from "react";
 import { useGithub } from "@/client/hooks/useGithub";
 import { Markdown } from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
 import { getProductById } from "@/products";
 import { Product } from "@/types/product";
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { ShieldCheck } from "lucide-react";
 
 const Documentation: React.FC = () => {
   const { product }: { product: Product } = useLoaderData({
     strict: false,
   });
 
-  const { data } = useGithub(
-    product.github?.contentUrl + "/main/README.md" ?? ""
-  );
+  const { data } = useGithub(`${product.github?.contentUrl}/main/README.md`);
 
   return (
     <>
       <Markdown value={data} />
-      {product.isDownloadable && (
+      {product.isDownloadable ? (
         <div className="space-y-6">
           <div>
             <h2 className="text-xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -31,7 +30,10 @@ const Documentation: React.FC = () => {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Object.entries(product.download).map(([platform, data]) => (
-              <div className="rounded-lg bg-background p-6 transition-all border border-muted">
+              <div
+                className="rounded-lg bg-background p-6 transition-all border border-muted"
+                key={platform}
+              >
                 <h3 className="text-xl font-bold">
                   {platform.charAt(0).toUpperCase() + platform.slice(1)}
                 </h3>
@@ -41,7 +43,7 @@ const Documentation: React.FC = () => {
                   of our product.
                 </p>
                 <div className="mt-4 flex flex-row items-center justify-between">
-                  {data && data.virustotal && (
+                  {data && data.virustotal ? (
                     <a
                       href={data.virustotal.toString()}
                       target="_blank"
@@ -51,9 +53,9 @@ const Documentation: React.FC = () => {
                         <ShieldCheck className="size-6 text-green-400" />
                       </Button>
                     </a>
-                  )}
+                  ) : null}
 
-                  {data && data.url && (
+                  {data && data.url ? (
                     <a
                       href={data.url.toString()}
                       target="_blank"
@@ -63,13 +65,13 @@ const Documentation: React.FC = () => {
                         Download
                       </Button>
                     </a>
-                  )}
+                  ) : null}
                 </div>
               </div>
             ))}
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 };
