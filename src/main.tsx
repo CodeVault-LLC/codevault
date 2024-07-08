@@ -28,6 +28,7 @@ const router = createRouter({
   context: {
     router: undefined!, // We'll inject this when we render
   },
+
   defaultNotFoundComponent: () => {
     return <NotFound />;
   },

@@ -7,10 +7,10 @@ interface Feature {
 }
 
 interface Price {
-  amount: number;
-  currency: string;
-  salePrice?: number; // Optional sale price
-  isOnSale?: boolean; // Indicates if the product is currently on sale
+  method: "pricing-table" | "product";
+
+  pricing_table_id?: string; // Stripe Pricing Table ID (required if method is "pricing-table")
+  amount?: number; // Price amount in cents
 }
 
 interface ReleaseStatus {
