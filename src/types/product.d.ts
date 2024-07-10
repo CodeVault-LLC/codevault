@@ -14,6 +14,7 @@ interface Price {
 }
 
 interface ReleaseStatus {
+  waitlist?: boolean; // Indicates if the product is in waitlist
   released: boolean;
   phase?: "alpha" | "beta" | "stable"; // Indicates the release phase
 }

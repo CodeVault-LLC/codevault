@@ -5,6 +5,7 @@ import { ProductPage } from "@/pages/Product";
 import { TemplatePage } from "@/pages/Template";
 import { getProductById } from "@/products";
 import { Product } from "@/types/product";
+import { Waitlist } from "@/pages/Waitlist";
 
 const RouteForm: React.FC = () => {
   const { product }: { product: Product | null } = useLoaderData({
@@ -12,6 +13,8 @@ const RouteForm: React.FC = () => {
   });
 
   if (!product) return <NotFound />;
+
+  if (product.releaseStatus.waitlist) return <Waitlist product={product} />;
 
   if (product.category === "template")
     return <TemplatePage product={product} />;

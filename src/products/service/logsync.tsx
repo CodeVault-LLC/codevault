@@ -32,6 +32,7 @@ export const logsyncProduct: Product = {
 
   isFree: false,
   releaseStatus: {
+    waitlist: true,
     released: false,
     phase: "alpha",
   },

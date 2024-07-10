@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { seo } from "@/lib/seo";
 import { products } from "@/products";
+import { FlipWords } from "@/components/ui/flip-words";
 
 const Home: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -15,6 +16,8 @@ const Home: React.FC = () => {
       product.name.toLowerCase().includes(search.toLowerCase())
     );
   }, [search]);
+
+  const words = ["High-quality", "Innovative", "Developer-first"];
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
@@ -31,10 +34,7 @@ const Home: React.FC = () => {
           </h1>
         </div>
         <span className="text-3xl line-clamp-2 font-bold max-w-lg text-center">
-          High-quality tools made for developers,{" "}
-          <span className="uppercase bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">
-            by developers
-          </span>
+          <FlipWords words={words} />
         </span>
 
         <span className="mt-1 dark:text-muted-foreground max-w-xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">

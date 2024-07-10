@@ -19,10 +19,19 @@ const Checkout: React.FC = () => {
   return (
     <div>
       <h1 className="text-4xl font-bold text-center">{product.name}</h1>
-      <p className="text-lg text-muted-foreground text-center">
-        Remember to fill in your account details on here, so we can send you the
-        product.
-      </p>
+      <div className="text-center text-lg bg-muted my-8 rounded-lg p-2">
+        <h5 className="text-2xl">Warning</h5>
+        <p className="text-sm text-yellow-400">
+          Enter your payment information correctly to avoid any issues. If you
+          do however contact us at{" "}
+          <a
+            href="mailto:codevaultllc@gmail.com"
+            className="underline text-blue-600 hover:text-blue-800"
+          >
+            codevaultllc@gmail.com
+          </a>
+        </p>
+      </div>
 
       <stripe-pricing-table
         pricing-table-id={product.priceDetails?.pricing_table_id}
