@@ -44,7 +44,7 @@ export interface Product {
 
   latestVersion: string; // Latest version identifier of the product
 
-  badge?: "new" | "comingSoon"; // Optional badge for product status
+  badge?: "new" | "soon"; // Optional badge for product status
   category:
     | "template"
     | "tool"

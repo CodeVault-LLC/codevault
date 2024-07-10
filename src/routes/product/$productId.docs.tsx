@@ -5,8 +5,6 @@ import {
   useLoaderData,
 } from "@tanstack/react-router";
 import React from "react";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { ShieldCheck, BugIcon } from "lucide-react";
 import { NotFound } from "@/components/NotFound";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -16,7 +14,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { seo } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 import { getProductById } from "@/products";
 import { Product } from "@/types/product";
 
@@ -27,22 +24,15 @@ const Documentation: React.FC = () => {
 
   if (!product) return <NotFound />;
 
-  const socials = [
-    {
-      name: "GitHub",
-      description: "View the source code on GitHub",
-      link: product?.github?.url,
-      icon: <GitHubLogoIcon className="size-6" />,
-      issue: false,
-    },
-    {
-      name: "Report Issue",
-      description: "Report an issue on GitHub",
-      link: `${product?.github?.url}/issues/new/choose`,
-      icon: <BugIcon className="size-6" />,
-      issue: false,
-    },
-  ];
+  const socials = product.github?.url
+    ? [
+        {
+          name: "GitHub",
+          link: product.github.url,
+          description: "View the source code on GitHub",
+        },
+      ]
+    : [];
 
   return (
     <div className="w-full">
@@ -61,27 +51,13 @@ const Documentation: React.FC = () => {
             <>
               <Tooltip>
                 <TooltipTrigger>
-                  <Button
-                    key={social.name}
-                    variant="secondary"
-                    asChild
-                    className={cn(
-                      social.issue
-                        ? "cursor-not-allowed bg-yellow-600 hover:bg-yellow-700"
-                        : "cursor-pointer"
-                    )}
-                  >
+                  <Button key={social.name} variant="secondary" asChild>
                     <Link
                       to={social.link}
                       className="flex flex-row items-center gap-2"
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {social.issue ? (
-                        <ShieldCheck className="size-6" />
-                      ) : (
-                        social.icon
-                      )}
                       <span>{social.name}</span>
                     </Link>
                   </Button>

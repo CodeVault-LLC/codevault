@@ -27,7 +27,7 @@ export const postgresTemplate: Product = {
     },
   ],
   category: "template",
-  badge: "comingSoon",
+  badge: "soon",
 
   templateAssets: [
     {

@@ -24,13 +24,23 @@ export const ProductPage: React.FC<ProductProps> = ({ product }) => {
           <p className="max-w-[700px] text-muted-foreground md:text-xl">
             {product.description}
           </p>
-          <Link
-            to="/product/$productId/docs"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            params={{ productId: product.id }}
-          >
-            Explore Documentation
-          </Link>
+          {product.isFree ? (
+            <Link
+              to="/product/$productId/docs"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              params={{ productId: product.id }}
+            >
+              Explore Documentation
+            </Link>
+          ) : (
+            <Link
+              to="/product/$productId/checkout"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              params={{ productId: product.id }}
+            >
+              Purchase Now
+            </Link>
+          )}
         </div>
       </main>
       <section className="w-full bg-muted py-12 md:py-24 lg:py-32">

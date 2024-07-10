@@ -1,9 +1,24 @@
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { StartClient } from "@tanstack/start";
 import { routeTree } from "./routeTree.gen";
 import { NotFound } from "./components/NotFound";
 import "./index.css";
+
+declare global {
+  namespace React.JSX {
+    // eslint-disable-next-line no-unused-vars -- This is a custom element
+    interface IntrinsicElements {
+      // eslint-disable-next-line no-undef -- This is a custom element
+      "stripe-pricing-table": React.DetailedHTMLProps<
+        // eslint-disable-next-line no-undef -- This is a custom element
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      >;
+    }
+  }
+}
 
 declare module "@tanstack/react-router" {
   interface _Register {
@@ -35,6 +50,6 @@ const router = createRouter({
 });
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router} context={{ router }} />
+    <StartClient router={router} />
   </QueryClientProvider>
 );

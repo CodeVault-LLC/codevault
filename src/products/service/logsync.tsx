@@ -28,7 +28,7 @@ export const logsyncProduct: Product = {
     },
   ],
   category: "service",
-  badge: "comingSoon",
+  badge: "soon",
 
   isFree: false,
   releaseStatus: {

@@ -1,4 +1,8 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import {
+  Outlet,
+  ScrollRestoration,
+  createRootRoute,
+} from "@tanstack/react-router";
 import React from "react";
 import { Scripts, Meta, Html, Head, Body } from "@tanstack/start";
 import { seo } from "@/lib/seo";
@@ -13,6 +17,8 @@ export const RootPage: React.FC = () => {
   return (
     <Html lang="en">
       <Head>
+        <ScrollRestoration />
+        <Scripts />
         <Meta />
       </Head>
       <Body>
@@ -21,9 +27,9 @@ export const RootPage: React.FC = () => {
           storageKey={getAppConfig("color_mode.storage_key")}
         >
           <TooltipProvider delayDuration={100}>
-            <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col">
               <Navbar />
-              <div className="container mx-auto my-8">
+              <div className="container mx-auto my-8 min-h-screen h-full">
                 <Outlet />
               </div>
               <Separator />
