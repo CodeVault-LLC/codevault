@@ -1,10 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import React from "react";
 import { Github } from "lucide-react";
-import { ThemeSwitch } from "./ThemeSwitch";
+import { useCurrentUser } from "@/client/hooks/useUser";
 import { Button } from "./ui/button";
+import { ThemeSwitch } from "./ThemeSwitch";
 
 export const Navbar: React.FC = () => {
+  const { data } = useCurrentUser();
+
   return (
     <div className="flex justify-between items-center p-4 border-b dark:border-zinc-900 px-24">
       <Link to="/" className="text-xl font-bold">
@@ -27,6 +30,22 @@ export const Navbar: React.FC = () => {
         </a>
 
         <ThemeSwitch />
+
+        {data ? (
+          <Link to="/dashboard">
+            <Button variant="ghost">
+              <img
+                src={data.avatarUrl}
+                alt="Users id"
+                className="w-8 h-8 rounded-full"
+              />
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <Button variant="ghost">Login</Button>
+          </Link>
+        )}
       </div>
     </div>
   );

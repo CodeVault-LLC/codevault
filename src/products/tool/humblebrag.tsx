@@ -4,8 +4,9 @@ import { Product } from "@/types/product";
 export const humblebragTool: Product = {
   id: "humblebrag",
   name: "Humblebrag",
-  tagline: `A quick and easy way to see website data in a simple extension`,
-  description: `Humblebrag is a browser extension that allows you to view website data and analysis in a simple and easy-to-understand format.`,
+  tagline: `Scan websites quickly and easily with a API-first approach.`,
+  description:
+    "Use our API to scan websites for vulnerabilities and security issues. Our tool is built with security in mind and is highly customizable to fit your needs.",
   features: [
     {
       name: "Secure by Design",
@@ -31,8 +32,8 @@ export const humblebragTool: Product = {
 
   isFree: false,
   releaseStatus: {
-    released: false,
-    phase: "alpha",
+    released: true,
+    phase: "beta",
   },
   priceDetails: {
     method: "pricing-table",
@@ -43,7 +44,7 @@ export const humblebragTool: Product = {
 
   latestVersion: "v0.1.0",
 
-  isDownloadable: true,
+  isDownloadable: false,
   download: {
     windows: {
       url: "https://github.com/CodeVault-LLC/postgres-template/releases/latest/download/dist.tar",

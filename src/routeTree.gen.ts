@@ -11,17 +11,42 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RegisterImport } from './routes/register'
+import { Route as LoginImport } from './routes/login'
+import { Route as FaqImport } from './routes/faq'
 import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as ProductProductIdIndexImport } from './routes/product/$productId.index'
+import { Route as DashboardProjectsIndexImport } from './routes/dashboard/projects/index'
 import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
 import { Route as ProductProductIdCheckoutImport } from './routes/product/$productId.checkout'
 import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
 
 // Create/Update Routes
 
+const RegisterRoute = RegisterImport.update({
+  path: '/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FaqRoute = FaqImport.update({
+  path: '/faq',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardIndexRoute = DashboardIndexImport.update({
+  path: '/dashboard/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -33,6 +58,11 @@ const ProductProductIdRoute = ProductProductIdImport.update({
 const ProductProductIdIndexRoute = ProductProductIdIndexImport.update({
   path: '/',
   getParentRoute: () => ProductProductIdRoute,
+} as any)
+
+const DashboardProjectsIndexRoute = DashboardProjectsIndexImport.update({
+  path: '/dashboard/projects/',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const ProductProductIdDocsRoute = ProductProductIdDocsImport.update({
@@ -61,11 +91,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterImport
+      parentRoute: typeof rootRoute
+    }
     '/product/$productId': {
       id: '/product/$productId'
       path: '/product/$productId'
       fullPath: '/product/$productId'
       preLoaderRoute: typeof ProductProductIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
     '/product/$productId/checkout': {
@@ -81,6 +139,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$productId/docs'
       preLoaderRoute: typeof ProductProductIdDocsImport
       parentRoute: typeof ProductProductIdImport
+    }
+    '/dashboard/projects/': {
+      id: '/dashboard/projects/'
+      path: '/dashboard/projects'
+      fullPath: '/dashboard/projects'
+      preLoaderRoute: typeof DashboardProjectsIndexImport
+      parentRoute: typeof rootRoute
     }
     '/product/$productId/': {
       id: '/product/$productId/'
@@ -103,6 +168,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  FaqRoute,
+  LoginRoute,
+  RegisterRoute,
   ProductProductIdRoute: ProductProductIdRoute.addChildren({
     ProductProductIdCheckoutRoute,
     ProductProductIdDocsRoute: ProductProductIdDocsRoute.addChildren({
@@ -110,6 +178,8 @@ export const routeTree = rootRoute.addChildren({
     }),
     ProductProductIdIndexRoute,
   }),
+  DashboardIndexRoute,
+  DashboardProjectsIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -121,11 +191,25 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/product/$productId"
+        "/faq",
+        "/login",
+        "/register",
+        "/product/$productId",
+        "/dashboard/",
+        "/dashboard/projects/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/faq": {
+      "filePath": "faq.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/register": {
+      "filePath": "register.tsx"
     },
     "/product/$productId": {
       "filePath": "product/$productId.tsx",
@@ -134,6 +218,9 @@ export const routeTree = rootRoute.addChildren({
         "/product/$productId/docs",
         "/product/$productId/"
       ]
+    },
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx"
     },
     "/product/$productId/checkout": {
       "filePath": "product/$productId.checkout.tsx",
@@ -145,6 +232,9 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/product/$productId/docs/"
       ]
+    },
+    "/dashboard/projects/": {
+      "filePath": "dashboard/projects/index.tsx"
     },
     "/product/$productId/": {
       "filePath": "product/$productId.index.tsx",
