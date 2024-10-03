@@ -38,7 +38,7 @@
     }
   },
   "lint-staged": {
-    "*.tsx": "eslint --cache --cache-location .eslintcache --fix"
+    "*.jsx": "eslint --cache --cache-location .eslintcache --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
