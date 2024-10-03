@@ -3,6 +3,8 @@ export interface Project {
   name: string;
   description: string;
 
+  isPublic: boolean;
+
   createdAt: string;
   updatedAt: string;
 }

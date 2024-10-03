@@ -21,7 +21,12 @@ import { Route as ProductProductIdIndexImport } from './routes/product/$productI
 import { Route as DashboardProjectsIndexImport } from './routes/dashboard/projects/index'
 import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
 import { Route as ProductProductIdCheckoutImport } from './routes/product/$productId.checkout'
+import { Route as DashboardProjectsIdImport } from './routes/dashboard/projects/$id'
 import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
+import { Route as DashboardProjectsIdIndexImport } from './routes/dashboard/projects/$id.index'
+import { Route as DashboardProjectsIdSettingsImport } from './routes/dashboard/projects/$id.settings'
+import { Route as DashboardProjectsIdSettingsIndexImport } from './routes/dashboard/projects/$id.settings/index'
+import { Route as DashboardProjectsIdSettingsPricingImport } from './routes/dashboard/projects/$id.settings/pricing'
 
 // Create/Update Routes
 
@@ -75,10 +80,38 @@ const ProductProductIdCheckoutRoute = ProductProductIdCheckoutImport.update({
   getParentRoute: () => ProductProductIdRoute,
 } as any)
 
+const DashboardProjectsIdRoute = DashboardProjectsIdImport.update({
+  path: '/dashboard/projects/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProductProductIdDocsIndexRoute = ProductProductIdDocsIndexImport.update({
   path: '/',
   getParentRoute: () => ProductProductIdDocsRoute,
 } as any)
+
+const DashboardProjectsIdIndexRoute = DashboardProjectsIdIndexImport.update({
+  path: '/',
+  getParentRoute: () => DashboardProjectsIdRoute,
+} as any)
+
+const DashboardProjectsIdSettingsRoute =
+  DashboardProjectsIdSettingsImport.update({
+    path: '/settings',
+    getParentRoute: () => DashboardProjectsIdRoute,
+  } as any)
+
+const DashboardProjectsIdSettingsIndexRoute =
+  DashboardProjectsIdSettingsIndexImport.update({
+    path: '/',
+    getParentRoute: () => DashboardProjectsIdSettingsRoute,
+  } as any)
+
+const DashboardProjectsIdSettingsPricingRoute =
+  DashboardProjectsIdSettingsPricingImport.update({
+    path: '/pricing',
+    getParentRoute: () => DashboardProjectsIdSettingsRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -126,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/projects/$id': {
+      id: '/dashboard/projects/$id'
+      path: '/dashboard/projects/$id'
+      fullPath: '/dashboard/projects/$id'
+      preLoaderRoute: typeof DashboardProjectsIdImport
+      parentRoute: typeof rootRoute
+    }
     '/product/$productId/checkout': {
       id: '/product/$productId/checkout'
       path: '/checkout'
@@ -154,12 +194,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdIndexImport
       parentRoute: typeof ProductProductIdImport
     }
+    '/dashboard/projects/$id/settings': {
+      id: '/dashboard/projects/$id/settings'
+      path: '/settings'
+      fullPath: '/dashboard/projects/$id/settings'
+      preLoaderRoute: typeof DashboardProjectsIdSettingsImport
+      parentRoute: typeof DashboardProjectsIdImport
+    }
+    '/dashboard/projects/$id/': {
+      id: '/dashboard/projects/$id/'
+      path: '/'
+      fullPath: '/dashboard/projects/$id/'
+      preLoaderRoute: typeof DashboardProjectsIdIndexImport
+      parentRoute: typeof DashboardProjectsIdImport
+    }
     '/product/$productId/docs/': {
       id: '/product/$productId/docs/'
       path: '/'
       fullPath: '/product/$productId/docs/'
       preLoaderRoute: typeof ProductProductIdDocsIndexImport
       parentRoute: typeof ProductProductIdDocsImport
+    }
+    '/dashboard/projects/$id/settings/pricing': {
+      id: '/dashboard/projects/$id/settings/pricing'
+      path: '/pricing'
+      fullPath: '/dashboard/projects/$id/settings/pricing'
+      preLoaderRoute: typeof DashboardProjectsIdSettingsPricingImport
+      parentRoute: typeof DashboardProjectsIdSettingsImport
+    }
+    '/dashboard/projects/$id/settings/': {
+      id: '/dashboard/projects/$id/settings/'
+      path: '/'
+      fullPath: '/dashboard/projects/$id/settings/'
+      preLoaderRoute: typeof DashboardProjectsIdSettingsIndexImport
+      parentRoute: typeof DashboardProjectsIdSettingsImport
     }
   }
 }
@@ -179,6 +247,14 @@ export const routeTree = rootRoute.addChildren({
     ProductProductIdIndexRoute,
   }),
   DashboardIndexRoute,
+  DashboardProjectsIdRoute: DashboardProjectsIdRoute.addChildren({
+    DashboardProjectsIdSettingsRoute:
+      DashboardProjectsIdSettingsRoute.addChildren({
+        DashboardProjectsIdSettingsPricingRoute,
+        DashboardProjectsIdSettingsIndexRoute,
+      }),
+    DashboardProjectsIdIndexRoute,
+  }),
   DashboardProjectsIndexRoute,
 })
 
@@ -196,6 +272,7 @@ export const routeTree = rootRoute.addChildren({
         "/register",
         "/product/$productId",
         "/dashboard/",
+        "/dashboard/projects/$id",
         "/dashboard/projects/"
       ]
     },
@@ -222,6 +299,13 @@ export const routeTree = rootRoute.addChildren({
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
     },
+    "/dashboard/projects/$id": {
+      "filePath": "dashboard/projects/$id.tsx",
+      "children": [
+        "/dashboard/projects/$id/settings",
+        "/dashboard/projects/$id/"
+      ]
+    },
     "/product/$productId/checkout": {
       "filePath": "product/$productId.checkout.tsx",
       "parent": "/product/$productId"
@@ -240,9 +324,29 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "product/$productId.index.tsx",
       "parent": "/product/$productId"
     },
+    "/dashboard/projects/$id/settings": {
+      "filePath": "dashboard/projects/$id.settings.tsx",
+      "parent": "/dashboard/projects/$id",
+      "children": [
+        "/dashboard/projects/$id/settings/pricing",
+        "/dashboard/projects/$id/settings/"
+      ]
+    },
+    "/dashboard/projects/$id/": {
+      "filePath": "dashboard/projects/$id.index.tsx",
+      "parent": "/dashboard/projects/$id"
+    },
     "/product/$productId/docs/": {
       "filePath": "product/$productId.docs/index.tsx",
       "parent": "/product/$productId/docs"
+    },
+    "/dashboard/projects/$id/settings/pricing": {
+      "filePath": "dashboard/projects/$id.settings/pricing.tsx",
+      "parent": "/dashboard/projects/$id/settings"
+    },
+    "/dashboard/projects/$id/settings/": {
+      "filePath": "dashboard/projects/$id.settings/index.tsx",
+      "parent": "/dashboard/projects/$id/settings"
     }
   }
 }

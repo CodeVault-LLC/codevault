@@ -1,10 +1,11 @@
 import ReactDOM from "react-dom/client";
 import { createRouter } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { StartClient } from "@tanstack/start";
 import { routeTree } from "./routeTree.gen";
 import { NotFound } from "./components/NotFound";
 import "./index.css";
+import { queryClient } from "./client/query";
 
 declare global {
   namespace React.JSX {
@@ -25,15 +26,6 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: false,
-    },
-  },
-});
 
 const router = createRouter({
   routeTree,

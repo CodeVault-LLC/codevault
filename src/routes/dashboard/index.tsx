@@ -11,9 +11,10 @@ import {
 } from "chart.js";
 import { useCurrentUser } from "@/client/hooks/useUser";
 import { Button } from "@/components/ui/button";
+import { Unauthorized } from "@/components/Unauthorized";
 
 const Index: FC = () => {
-  const { data } = useCurrentUser();
+  const { data, isError } = useCurrentUser();
   Chart.register(LinearScale);
   Chart.register(CategoryScale);
   Chart.register(BarElement);
@@ -38,6 +39,8 @@ const Index: FC = () => {
       },
     ],
   };
+
+  if (isError) return <Unauthorized />;
 
   return (
     <div className="p-4">
