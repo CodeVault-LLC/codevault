@@ -1,12 +1,13 @@
-import AutoFormCheckbox from "./fields/checkbox";
-import AutoFormDate from "./fields/date";
-import AutoFormEnum from "./fields/enum";
-import AutoFormFile from "./fields/file";
-import AutoFormInput from "./fields/input";
-import AutoFormNumber from "./fields/number";
-import AutoFormRadioGroup from "./fields/radio-group";
-import AutoFormSwitch from "./fields/switch";
-import AutoFormTextarea from "./fields/textarea";
+import { AutoFormCheckbox } from "./fields/checkbox";
+import { AutoFormDate } from "./fields/date";
+import { AutoFormEnum } from "./fields/enum";
+import { AutoFormFile } from "./fields/file";
+import { AutoFormInput } from "./fields/input";
+import { AutoFormNumber } from "./fields/number";
+import { AutoFormRadioGroup } from "./fields/radio-group";
+import { AutoFormSwitch } from "./fields/switch";
+import { AutoFormTags } from "./fields/tags";
+import { AutoFormTextarea } from "./fields/textarea";
 
 export const INPUT_COMPONENTS = {
   checkbox: AutoFormCheckbox,
@@ -18,6 +19,7 @@ export const INPUT_COMPONENTS = {
   number: AutoFormNumber,
   file: AutoFormFile,
   fallback: AutoFormInput,
+  tags: AutoFormTags,
 };
 
 /**

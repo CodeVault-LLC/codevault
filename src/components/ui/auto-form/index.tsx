@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import AutoFormObject from "./fields/object";
+import { AutoFormObject } from "./fields/object";
 import { Dependency, FieldConfig } from "./types";
 import {
   ZodObjectOrWrapped,
@@ -109,4 +109,5 @@ const AutoForm = <SchemaType extends ZodObjectOrWrapped>({
   );
 };
 
+// eslint-disable-next-line import/no-default-export -- This is the default export
 export default AutoForm;

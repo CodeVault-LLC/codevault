@@ -1,20 +1,17 @@
+import type { FC, InputHTMLAttributes, ReactElement, ReactNode } from "react";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import * as z from "zod";
 import { INPUT_COMPONENTS } from "./config";
 
 export type FieldConfigItem = {
-  description?: React.ReactNode;
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement> & {
+  description?: ReactNode;
+  inputProps?: InputHTMLAttributes<HTMLInputElement> & {
     showLabel?: boolean;
   };
   label?: string;
-  fieldType?:
-    | keyof typeof INPUT_COMPONENTS
-    | React.FC<AutoFormInputComponentProps>;
+  fieldType?: keyof typeof INPUT_COMPONENTS | FC<AutoFormInputComponentProps>;
 
-  renderParent?: (props: {
-    children: React.ReactNode;
-  }) => React.ReactElement | null;
+  renderParent?: (props: { children: React.ReactNode }) => ReactElement | null;
 };
 
 export type FieldConfig<SchemaType extends z.infer<z.ZodObject<any, any>>> = {

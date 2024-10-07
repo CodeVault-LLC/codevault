@@ -1,16 +1,16 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormItem } from "@/components/ui/form";
-import AutoFormTooltip from "../common/tooltip";
+import { AutoFormTooltip } from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
-import AutoFormLabel from "../common/label";
+import { AutoFormLabel } from "../common/label";
 
-export default function AutoFormCheckbox({
+export const AutoFormCheckbox = ({
   label,
   isRequired,
   field,
   fieldConfigItem,
   fieldProps,
-}: AutoFormInputComponentProps) {
+}: AutoFormInputComponentProps) => {
   return (
     <div>
       <FormItem>
@@ -31,4 +31,4 @@ export default function AutoFormCheckbox({
       <AutoFormTooltip fieldConfigItem={fieldConfigItem} />
     </div>
   );
-}
+};

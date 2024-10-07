@@ -1,13 +1,15 @@
-function AutoFormTooltip({ fieldConfigItem }: { fieldConfigItem: any }) {
+export const AutoFormTooltip = ({
+  fieldConfigItem,
+}: {
+  fieldConfigItem: any;
+}) => {
   return (
     <>
-      {fieldConfigItem?.description && (
+      {fieldConfigItem?.description ? (
         <p className="text-sm text-gray-500 dark:text-white">
           {fieldConfigItem.description}
         </p>
-      )}
+      ) : null}
     </>
   );
-}
-
-export default AutoFormTooltip;
+};

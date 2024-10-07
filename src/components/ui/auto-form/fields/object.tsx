@@ -1,3 +1,6 @@
+import type { ReactNode } from "react";
+import { useForm, useFormContext } from "react-hook-form";
+import * as z from "zod";
 import {
   Accordion,
   AccordionContent,
@@ -5,8 +8,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FormField } from "@/components/ui/form";
-import { useForm, useFormContext } from "react-hook-form";
-import * as z from "zod";
 import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from "../config";
 import { Dependency, FieldConfig, FieldConfigItem } from "../types";
 import {
@@ -15,16 +16,14 @@ import {
   getBaseType,
   zodToHtmlInputProps,
 } from "../utils";
-import AutoFormArray from "./array";
 import resolveDependencies from "../dependencies";
+import { AutoFormArray } from "./array";
 
-function DefaultParent({ children }: { children: React.ReactNode }) {
+const DefaultParent = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
-}
+};
 
-export default function AutoFormObject<
-  SchemaType extends z.ZodObject<any, any>,
->({
+export const AutoFormObject = <SchemaType extends z.ZodObject<any, any>>({
   schema,
   form,
   fieldConfig,
@@ -36,7 +35,7 @@ export default function AutoFormObject<
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
   path?: string[];
   dependencies?: Dependency<z.infer<SchemaType>>[];
-}) {
+}) => {
   const { watch } = useFormContext(); // Use useFormContext to access the watch function
 
   if (!schema) {
@@ -70,6 +69,7 @@ export default function AutoFormObject<
         const zodBaseType = getBaseType(item);
         const itemName = item._def.description ?? beautifyObjectName(name);
         const key = [...path, name].join(".");
+        const fieldConfigItem: FieldConfigItem = fieldConfig?.[name] ?? {};
 
         const {
           isHidden,
@@ -100,7 +100,10 @@ export default function AutoFormObject<
             </AccordionItem>
           );
         }
-        if (zodBaseType === "ZodArray") {
+        if (
+          zodBaseType === "ZodArray" &&
+          fieldConfigItem.fieldType !== "tags"
+        ) {
           return (
             <AutoFormArray
               key={key}
@@ -113,7 +116,6 @@ export default function AutoFormObject<
           );
         }
 
-        const fieldConfigItem: FieldConfigItem = fieldConfig?.[name] ?? {};
         const zodInputProps = zodToHtmlInputProps(item);
         const isRequired =
           isRequiredByDependency ||
@@ -153,10 +155,11 @@ export default function AutoFormObject<
                 ...fieldConfigItem.inputProps,
                 disabled: fieldConfigItem.inputProps?.disabled || isDisabled,
                 ref: undefined,
-                value: value,
+                value,
               };
 
               if (InputComponent === undefined) {
+                // eslint-disable-next-line react/jsx-no-useless-fragment -- Required for conditional rendering
                 return <></>;
               }
 
@@ -180,4 +183,4 @@ export default function AutoFormObject<
       })}
     </Accordion>
   );
-}
+};

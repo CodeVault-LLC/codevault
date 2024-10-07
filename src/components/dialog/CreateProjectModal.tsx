@@ -52,6 +52,13 @@ export const CreateProjectModal: FC = () => {
                 defaultChecked: false,
               },
             },
+            tags: {
+              label: "Tags",
+              fieldType: "tags",
+              inputProps: {
+                placeholder: "Add tags to your project",
+              },
+            },
           }}
           onSubmit={(values) => {
             mutate(values);

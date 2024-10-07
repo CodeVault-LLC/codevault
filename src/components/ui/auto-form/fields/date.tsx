@@ -1,16 +1,16 @@
 import { DatePicker } from "@/components/ui/date-picker";
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
-import AutoFormLabel from "../common/label";
-import AutoFormTooltip from "../common/tooltip";
+import { AutoFormLabel } from "../common/label";
+import { AutoFormTooltip } from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
 
-export default function AutoFormDate({
+export const AutoFormDate = ({
   label,
   isRequired,
   field,
   fieldConfigItem,
   fieldProps,
-}: AutoFormInputComponentProps) {
+}: AutoFormInputComponentProps) => {
   return (
     <FormItem>
       <AutoFormLabel
@@ -29,4 +29,4 @@ export default function AutoFormDate({
       <FormMessage />
     </FormItem>
   );
-}
+};

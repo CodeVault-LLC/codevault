@@ -1,3 +1,6 @@
+import { Plus, Trash } from "lucide-react";
+import { useFieldArray, useForm } from "react-hook-form";
+import * as z from "zod";
 import {
   AccordionContent,
   AccordionItem,
@@ -5,25 +8,22 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Trash } from "lucide-react";
-import { useFieldArray, useForm } from "react-hook-form";
-import * as z from "zod";
 import { beautifyObjectName } from "../utils";
-import AutoFormObject from "./object";
+import { AutoFormObject } from "./object";
 
 function isZodArray(
-  item: z.ZodArray<any> | z.ZodDefault<any>,
+  item: z.ZodArray<any> | z.ZodDefault<any>
 ): item is z.ZodArray<any> {
   return item instanceof z.ZodArray;
 }
 
 function isZodDefault(
-  item: z.ZodArray<any> | z.ZodDefault<any>,
+  item: z.ZodArray<any> | z.ZodDefault<any>
 ): item is z.ZodDefault<any> {
   return item instanceof z.ZodDefault;
 }
 
-export default function AutoFormArray({
+export const AutoFormArray = ({
   name,
   item,
   form,
@@ -35,18 +35,19 @@ export default function AutoFormArray({
   form: ReturnType<typeof useForm>;
   path?: string[];
   fieldConfig?: any;
-}) {
+}) => {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name,
   });
   const title = item._def.description ?? beautifyObjectName(name);
 
+  // eslint-disable-next-line no-nested-ternary -- This is a ternary
   const itemDefType = isZodArray(item)
     ? item._def.type
     : isZodDefault(item)
-    ? item._def.innerType._def.type
-    : null;
+      ? item._def.innerType._def.type
+      : null;
 
   return (
     <AccordionItem value={name} className="border-none">
@@ -90,4 +91,4 @@ export default function AutoFormArray({
       </AccordionContent>
     </AccordionItem>
   );
-}
+};

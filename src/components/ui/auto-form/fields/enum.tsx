@@ -1,3 +1,4 @@
+import * as z from "zod";
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import {
   Select,
@@ -6,20 +7,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import * as z from "zod";
-import AutoFormLabel from "../common/label";
-import AutoFormTooltip from "../common/tooltip";
+import { AutoFormLabel } from "../common/label";
+import { AutoFormTooltip } from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
 import { getBaseSchema } from "../utils";
 
-export default function AutoFormEnum({
+export const AutoFormEnum = ({
   label,
   isRequired,
   field,
   fieldConfigItem,
   zodItem,
   fieldProps,
-}: AutoFormInputComponentProps) {
+}: AutoFormInputComponentProps) => {
   const baseValues = (getBaseSchema(zodItem) as unknown as z.ZodEnum<any>)._def
     .values;
 
@@ -64,4 +64,4 @@ export default function AutoFormEnum({
       <FormMessage />
     </FormItem>
   );
-}
+};

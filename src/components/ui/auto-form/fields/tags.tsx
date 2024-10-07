@@ -1,10 +1,10 @@
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { AutoFormLabel } from "../common/label";
 import { AutoFormTooltip } from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
+import { InputTags } from "../../input-tags";
 
-export const AutoFormInput = ({
+export const AutoFormTags = ({
   label,
   isRequired,
   fieldConfigItem,
@@ -12,7 +12,12 @@ export const AutoFormInput = ({
 }: AutoFormInputComponentProps) => {
   const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
   const showLabel = _showLabel === undefined ? true : _showLabel;
-  const type = fieldProps.type || "text";
+  // eslint-disable-next-line no-nested-ternary -- This is a ternary
+  const valueArray = Array.isArray(fieldProps?.value)
+    ? fieldProps?.value
+    : fieldProps?.value
+      ? [fieldProps?.value]
+      : [];
 
   return (
     <div className="flex flex-row  items-center space-x-2">
@@ -24,7 +29,7 @@ export const AutoFormInput = ({
           />
         ) : null}
         <FormControl>
-          <Input type={type} {...fieldPropsWithoutShowLabel} />
+          <InputTags {...fieldPropsWithoutShowLabel} value={valueArray} />  
         </FormControl>
         <AutoFormTooltip fieldConfigItem={fieldConfigItem} />
         <FormMessage />

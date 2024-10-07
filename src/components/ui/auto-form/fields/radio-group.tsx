@@ -1,3 +1,4 @@
+import * as z from "zod";
 import {
   FormControl,
   FormItem,
@@ -5,20 +6,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import * as z from "zod";
-import AutoFormLabel from "../common/label";
-import AutoFormTooltip from "../common/tooltip";
+import { AutoFormLabel } from "../common/label";
+import { AutoFormTooltip } from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
 import { getBaseSchema } from "../utils";
 
-export default function AutoFormRadioGroup({
+export const AutoFormRadioGroup = ({
   label,
   isRequired,
   field,
   zodItem,
   fieldProps,
   fieldConfigItem,
-}: AutoFormInputComponentProps) {
+}: AutoFormInputComponentProps) => {
   const baseValues = (getBaseSchema(zodItem) as unknown as z.ZodEnum<any>)._def
     .values;
 
@@ -60,4 +60,4 @@ export default function AutoFormRadioGroup({
       <AutoFormTooltip fieldConfigItem={fieldConfigItem} />
     </div>
   );
-}
+};

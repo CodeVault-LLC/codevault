@@ -1,17 +1,18 @@
-import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 import { ChangeEvent, useState } from "react";
-import AutoFormLabel from "../common/label";
-import AutoFormTooltip from "../common/tooltip";
+import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { AutoFormLabel } from "../common/label";
+import { AutoFormTooltip } from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
-export default function AutoFormFile({
+
+export const AutoFormFile = ({
   label,
   isRequired,
   fieldConfigItem,
   fieldProps,
   field,
-}: AutoFormInputComponentProps) {
+}: AutoFormInputComponentProps) => {
   const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
   const showLabel = _showLabel === undefined ? true : _showLabel;
   const [file, setFile] = useState<string | null>(null);
@@ -36,32 +37,36 @@ export default function AutoFormFile({
 
   return (
     <FormItem>
-      {showLabel && (
+      {showLabel ? (
         <AutoFormLabel
           label={fieldConfigItem?.label || label}
           isRequired={isRequired}
         />
-      )}
+      ) : null}
       {!file && (
         <FormControl>
           <Input
             type="file"
             {...fieldPropsWithoutShowLabel}
             onChange={handleFileChange}
-            value={""}
+            value=""
           />
         </FormControl>
       )}
-      {file && (
+      {file ? (
         <div className="flex h-[40px] w-full flex-row items-center justify-between space-x-2 rounded-sm border p-2 text-black focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-white dark:text-black dark:focus-visible:ring-0 dark:focus-visible:ring-offset-0">
           <p>{fileName}</p>
-          <button onClick={handleRemoveClick} aria-label="Remove image">
+          <button
+            onClick={handleRemoveClick}
+            aria-label="Remove image"
+            type="button"
+          >
             <Trash2 size={16} />
           </button>
         </div>
-      )}
+      ) : null}
       <AutoFormTooltip fieldConfigItem={fieldConfigItem} />
       <FormMessage />
     </FormItem>
   );
-}
+};
