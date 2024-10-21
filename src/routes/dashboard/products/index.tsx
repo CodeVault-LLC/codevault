@@ -1,11 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { FC } from "react";
-import { useProjects } from "@/client/hooks/useProject";
+import { useRetrieveProducts } from "@/client/hooks/useProject";
 import { CreateProjectModal } from "@/components/dialog/CreateProjectModal";
 import { Unauthorized } from "@/components/Unauthorized";
 
-const Projects: FC = () => {
-  const { data: projects, isError } = useProjects();
+const Products: FC = () => {
+  const { data: products, isError } = useRetrieveProducts();
 
   if (isError) return <Unauthorized />;
 
@@ -16,19 +16,19 @@ const Projects: FC = () => {
         <CreateProjectModal />
       </div>
 
-      {!projects && (
+      {!products && (
         <div className="flex justify-center items-center h-32">
           <p className="text-lg">No projects available.</p>
         </div>
       )}
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {projects
-          ? projects.map((project) => (
+        {products
+          ? products.map((project) => (
               <Link
                 key={project.id}
                 className="group/item w-full h-40 rounded-md border border-gray-800 transition-all duration-300 flex flex-row justify-between gap-4 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-                to="/dashboard/projects/$id"
+                to="/dashboard/products/$id"
                 params={{ id: project.id.toString() }}
               >
                 {/*<img src={project.images} alt="Project" className="h-full object-cover" />*/}
@@ -53,6 +53,6 @@ const Projects: FC = () => {
   );
 };
 
-export const Route = createFileRoute("/dashboard/projects/")({
-  component: Projects,
+export const Route = createFileRoute("/dashboard/products/")({
+  component: Products,
 });

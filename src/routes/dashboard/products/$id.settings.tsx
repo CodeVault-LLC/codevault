@@ -11,19 +11,19 @@ const Settings: FC = () => {
 
   const links = [
     {
-      to: `/dashboard/projects/${id}/settings`,
+      to: `/dashboard/products/${id}/settings`,
       label: "General",
     },
     {
-      to: `/dashboard/projects/${id}/settings/pricing`,
+      to: `/dashboard/products/${id}/settings/pricing`,
       label: "Pricing",
     },
     {
-      to: `/dashboard/projects/${id}/settings/security`,
+      to: `/dashboard/products/${id}/settings/security`,
       label: "Security",
     },
     {
-      to: `/dashboard/projects/${id}/settings/advanced`,
+      to: `/dashboard/products/${id}/settings/advanced`,
       label: "Advanced",
     },
   ];
@@ -33,10 +33,10 @@ const Settings: FC = () => {
       <hr className="my-4" />
 
       <main className="flex flex-1 flex-col gap-4 md:gap-8">
-        <div className="mx-auto grid w-full max-w-6xl gap-2">
+        <div className="mx-auto grid w-full gap-2">
           <h1 className="text-3xl font-semibold">Settings</h1>
         </div>
-        <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+        <div className="mx-auto grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
           <nav className="grid gap-4 text-sm text-muted-foreground">
             {links.map((link) => (
               <Link
@@ -62,6 +62,6 @@ const Settings: FC = () => {
   );
 };
 
-export const Route = createFileRoute("/dashboard/projects/$id/settings")({
+export const Route = createFileRoute("/dashboard/products/$id/settings")({
   component: Settings,
 });

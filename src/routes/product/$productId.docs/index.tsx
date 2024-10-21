@@ -4,8 +4,8 @@ import React from "react";
 import { useGithub } from "@/client/hooks/useGithub";
 import { Markdown } from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
-import { getProductById } from "@/products";
 import { Product } from "@/types/product";
+import { retrieveProduct } from "@/client/hooks/useProject";
 
 const Documentation: React.FC = () => {
   const { product }: { product: Product } = useLoaderData({
@@ -17,7 +17,7 @@ const Documentation: React.FC = () => {
   return (
     <>
       <Markdown value={data} />
-      {product.isDownloadable ? (
+      {product.isPublic ? (
         <div className="space-y-6">
           <div>
             <h2 className="text-xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -29,7 +29,7 @@ const Documentation: React.FC = () => {
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {Object.entries(product.download).map(([platform, data]) => (
+            {Object.entries(product.category).map(([platform, data]) => (
               <div
                 className="rounded-lg bg-background p-6 transition-all border border-muted"
                 key={platform}
@@ -43,9 +43,9 @@ const Documentation: React.FC = () => {
                   of our product.
                 </p>
                 <div className="mt-4 flex flex-row items-center justify-between">
-                  {data && data.virustotal ? (
+                  {data ? (
                     <a
-                      href={data.virustotal.toString()}
+                      href={data.toString()}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -78,9 +78,9 @@ const Documentation: React.FC = () => {
 
 export const Route = createFileRoute("/product/$productId/docs/")({
   component: Documentation,
-  loader: (ctx) => {
+  loader: async (ctx) => {
     const { productId } = ctx.params;
-    const product = getProductById(productId);
+    const product = await retrieveProduct(parseInt(productId));
 
     return {
       product,

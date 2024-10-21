@@ -7,6 +7,7 @@ module.exports = {
   env: { browser: true, es2020: true },
   extends: [
     "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
 
     require.resolve("@vercel/style-guide/eslint/browser"),
     require.resolve("@vercel/style-guide/eslint/react"),

@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { useCreateProject } from "@/client/hooks/useProject";
-import { projectCreateSchema } from "@/client/forms";
+import { useCreateProduct } from "@/client/hooks/useProject";
+import { productCreateSchema } from "@/client/forms";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,7 @@ import {
 import { Button } from "../ui/button";
 
 export const CreateProjectModal: FC = () => {
-  const { mutate } = useCreateProject();
+  const { mutate } = useCreateProduct();
 
   return (
     <Dialog>
@@ -31,7 +31,7 @@ export const CreateProjectModal: FC = () => {
         </DialogHeader>
 
         <AutoForm
-          formSchema={projectCreateSchema}
+          formSchema={productCreateSchema}
           fieldConfig={{
             name: {
               label: "Name",

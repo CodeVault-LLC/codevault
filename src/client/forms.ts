@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const projectStatus = z.enum([
+export const productStatus = z.enum([
   "stable",
   "beta",
   "alpha",
@@ -10,7 +10,7 @@ export const projectStatus = z.enum([
   "in-progress",
 ]);
 
-export const projectCategory = z.enum([
+export const productCategory = z.enum([
   "api",
   "library",
   "framework",
@@ -20,22 +20,14 @@ export const projectCategory = z.enum([
   "other",
 ]);
 
-export const projectCreateSchema = z.object({
+export const productCreateSchema = z.object({
   name: z.string(),
   description: z.string(),
   tagline: z.string().optional(),
 
-  isPublic: z.boolean(),
-  status: projectStatus,
-  category: projectCategory,
+  isPublic: z.boolean().default(false).optional(),
+  status: productStatus,
+  category: productCategory,
 
   tags: z.array(z.string()).optional(),
-});
-
-export const projectPricingSettingsSchema = z.object({
-  apiKey: z
-    .string({
-      invalid_type_error: "Please enter an API key",
-    })
-    .optional(),
 });

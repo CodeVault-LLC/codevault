@@ -1,47 +1,61 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useMemo, useState } from "react";
-import { ImageIcon, InfinityIcon, InfoIcon } from "lucide-react";
+import React, { useState } from "react";
+import { ImageIcon, InfinityIcon, InfoIcon, Pause, Play } from "lucide-react";
 import { ProductComponent } from "@/components/ProductComponent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { seo } from "@/lib/seo";
-import { products } from "@/products";
-import { FlipWords } from "@/components/ui/flip-words";
+import { useRetrieveProducts } from "@/client/hooks/useProject";
 
 const Home: React.FC = () => {
   const [search, setSearch] = useState("");
-
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) =>
-      product.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
-
-  const words = ["High-quality", "Innovative", "Developer-first"];
+  const { data: products } = useRetrieveProducts();
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <div className="flex justify-center items-center flex-col">
-        <div className="flex flex-row items-center justify-between gap-4 mb-4">
-          <img
-            src="https://avatars.githubusercontent.com/u/160372018?s=48&v=4"
-            alt="CodeVault"
-            className="w-16 h-16 rounded-full"
-          />
-
-          <h1 className="text-6xl font-extrabold bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text uppercase">
-            CodeVault
-          </h1>
-        </div>
-        <span className="text-3xl line-clamp-2 font-bold max-w-lg text-center">
-          <FlipWords words={words} />
-        </span>
-
-        <span className="mt-1 dark:text-muted-foreground max-w-xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-          CodeVault is a perfect solution when in needs of products! It offers a
-          wide range of products that are made by developers for developers.
-        </span>
-      </div>
+      <main>
+        <section
+          className="relative h-[60vh] bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/placeholder.svg?height=800&width=1200')",
+          }}
+        >
+          <div className="absolute inset-0 bg-opacity-50 flex flex-col justify-center px-8">
+            <h1 className="text-5xl font-bold mb-4">NASA's SpaceX Crew-8</h1>
+            <p className="text-xl mb-4 max-w-2xl">
+              NASA and SpaceX have seen a marginal improvement in weather
+              conditions for the return of the agency's Crew-8 mission from the
+              International Space Station. Undocking is now targeted for no
+              earlier than 9:05 p.m. EDT on Monday, Oct. 21.
+            </p>
+            <Button className="bg-red-600 hover:bg-red-700 text-white w-fit">
+              Mission Updates
+            </Button>
+          </div>
+          <div className="absolute bottom-4 left-4 right-4 flex justify-between">
+            <div className="text-sm">
+              <h3 className="font-semibold">STATION RESEARCH</h3>
+              <p>Your Orbiting Laboratory</p>
+            </div>
+            <div className="text-sm">
+              <h3 className="font-semibold">INDUSTRY PARTNERSHIPS</h3>
+              <p>Commercial Crew</p>
+            </div>
+            <div className="text-sm">
+              <h3 className="font-semibold">STATION UPDATES</h3>
+              <p>NASA Blog</p>
+            </div>
+          </div>
+          <div className="absolute bottom-4 right-4 flex space-x-2">
+            <Button variant="ghost" className="rounded-full p-2">
+              <Play className="h-6 w-6" />
+            </Button>
+            <Button variant="ghost" className="rounded-full p-2">
+              <Pause className="h-6 w-6" />
+            </Button>
+          </div>
+        </section>
+      </main>
 
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
@@ -115,9 +129,11 @@ const Home: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
-          {filteredProducts.map((product) => (
-            <ProductComponent key={product.id} product={product} />
-          ))}
+          {products
+            ? products.map((product) => (
+                <ProductComponent key={product.id} product={product} />
+              ))
+            : null}
         </div>
       </section>
 

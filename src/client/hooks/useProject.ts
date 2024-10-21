@@ -1,62 +1,109 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { type z } from "zod";
-import { Project } from "@/types/project";
+import { z } from "zod";
+import { Product } from "@/types/product";
 import { queryClient } from "../query";
-import { projectCreateSchema } from "../forms";
+import { productCreateSchema } from "../forms";
 import { api } from "../api";
-import { fullStripeProductSchema } from "../schema/stripe-product.schemas";
+import {
+  localizationSchema,
+  pricingSchema,
+  stripeProductSchema,
+} from "../schema/stripe-product.schemas";
 
-export const useProjects = () => {
-  return useQuery<Project[]>({
-    queryKey: ["projects"],
+export const useRetrieveProducts = () => {
+  return useQuery<Product[]>({
+    queryKey: ["products"],
     queryFn: async () => {
-      const response = await api.get("/projects");
+      const response = await api.get("/products");
       return response.data;
     },
   });
 };
 
-export const useProject = (id: number) => {
-  return useQuery<Project>({
-    queryKey: ["project", id],
-    queryFn: async () => {
-      const response = await api.get(`/projects/${id}`);
-      return response.data;
-    },
+export const retrieveProduct = async (id: number) => {
+  const response = await api.get(`/products/${id}`);
+  return response.data;
+};
+
+export const useRetrieveProduct = (id: number) => {
+  return useQuery<Product>({
+    queryKey: ["product", id],
+    queryFn: async () => retrieveProduct(id),
   });
 };
 
-export const useCreateProject = () => {
+export const useCreateProduct = () => {
   return useMutation({
-    mutationKey: ["projects"],
-    mutationFn: async (project: z.infer<typeof projectCreateSchema>) => {
-      const response = await api.post<Project>("/projects", project);
+    mutationKey: ["products"],
+    mutationFn: async (project: z.infer<typeof productCreateSchema>) => {
+      const response = await api.post<Product>("/products", project);
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
 
-      window.location.href = `/dashboard/projects/${data.id}`;
+      window.location.href = `/dashboard/products/${data.id}`;
     },
   });
 };
 
-export const useCreatePricing = () => {
+export const useEditProduct = (id: number) => {
+  return useMutation({
+    mutationKey: ["projects", id],
+    mutationFn: async (project: z.infer<typeof productCreateSchema>) => {
+      const response = await api.put<Product>(`/products/${id}`, project);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", id] });
+    },
+  });
+};
+
+export const useRetrieveProductPricing = (id: number) => {
+  return useQuery<
+    (typeof stripeProductSchema._type & {
+      pricing: typeof pricingSchema._type;
+    })[]
+  >({
+    queryKey: ["pricing", id],
+    queryFn: async () => {
+      const response = await api.get(`/products/${id}/pricing`);
+      return response.data;
+    },
+  });
+};
+
+export const useRetrieveProductPricingDetails = (
+  id: number,
+  pricingId: number
+) => {
+  return useQuery<
+    typeof stripeProductSchema._type & {
+      pricing: typeof pricingSchema._type;
+      localization: typeof localizationSchema._type;
+    }
+  >({
+    queryKey: ["pricing", id, pricingId],
+    queryFn: async () => {
+      const response = await api.get(`/products/${id}/pricing/${pricingId}`);
+      return response.data;
+    },
+  });
+};
+
+export const useCreatePricing = (id: number) => {
   return useMutation({
     mutationKey: ["pricing"],
-    mutationFn: async (data: {
-      projectId: number;
-      body: z.infer<typeof fullStripeProductSchema>;
-    }) => {
-      const response = await api.post(`/projects/${data.projectId}/pricing`, {
-        body: data.body,
+    mutationFn: async (data: { body: z.infer<typeof stripeProductSchema> }) => {
+      const response = await api.post(`/products/${id}/pricing`, {
+        ...data.body,
       });
       return response.data;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
-
-      window.location.href = `/dashboard/projects/${data.id}`;
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pricing", id] });
     },
   });
 };

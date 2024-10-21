@@ -6,8 +6,8 @@ import {
 import * as React from "react";
 import { NotFound } from "@/components/NotFound";
 import { seo } from "@/lib/seo";
-import { getProductById } from "@/products";
 import { Product } from "@/types/product";
+import { retrieveProduct } from "@/client/hooks/useProject";
 
 const Checkout: React.FC = () => {
   const { product }: { product: Product | null } = useLoaderData({
@@ -43,16 +43,16 @@ const Checkout: React.FC = () => {
 
 export const Route = createFileRoute("/product/$productId/checkout")({
   component: Checkout,
-  loader: (ctx) => {
+  loader: async (ctx) => {
     const { productId } = ctx.params;
-    const product = getProductById(productId);
+    const product = await retrieveProduct(parseInt(productId));
 
     return {
       product,
     };
   },
   meta: (ctx) => {
-    const product = getProductById(ctx.params.productId);
+    const { product }: { product: Product | null } = ctx.loaderData.product;
 
     if (!product) {
       return seo({
@@ -61,7 +61,7 @@ export const Route = createFileRoute("/product/$productId/checkout")({
       });
     }
 
-    if (product.isFree || product.priceDetails?.method !== "pricing-table") {
+    if (product.isPublic) {
       throw redirect({
         to: "/product/$productId",
         params: { productId: product.id },

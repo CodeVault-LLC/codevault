@@ -59,12 +59,12 @@ export const stripeProductSchema = z.object({
   metadata: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
 
   // States for handling product visibility, availability, and lifecycle
-  highlight: z.boolean().optional().default(false), // Is the product highlighted (e.g., special or featured)?
-  featured: z.boolean().optional().default(false), // Is the product well-featured?
-  soldout: z.boolean().optional().default(false), // Is the product sold out?
-  comingsoon: z.boolean().optional().default(false), // Is the product coming soon?
-  waitlist: z.boolean().optional().default(false), // Is there a waitlist for this product?
-  hidden: z.boolean().optional().default(false), // Is the product hidden from the public?
+  highlight: z.boolean().default(false).optional(),
+  featured: z.boolean().default(false).optional(),
+  soldout: z.boolean().default(false).optional(),
+  comingsoon: z.boolean().default(false).optional(),
+  waitlist: z.boolean().default(false).optional(),
+  hidden: z.boolean().default(false).optional(),
 
   // Tags or categories for better organization
   tags: z.array(z.string()).optional(),

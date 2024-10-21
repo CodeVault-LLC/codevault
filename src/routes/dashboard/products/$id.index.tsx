@@ -1,13 +1,18 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { FC } from "react";
-import { useProject } from "@/client/hooks/useProject";
+import { useRetrieveProduct } from "@/client/hooks/useProject";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import { Unauthorized } from "@/components/Unauthorized";
 
 const Overview: FC = () => {
   const { id }: { id: number } = useParams({ strict: false });
 
-  const { data: project, isFetching, isError, isSuccess } = useProject(id);
+  const {
+    data: project,
+    isFetching,
+    isError,
+    isSuccess,
+  } = useRetrieveProduct(id);
 
   if (isFetching)
     return (
@@ -42,6 +47,6 @@ const Overview: FC = () => {
   return null;
 };
 
-export const Route = createFileRoute("/dashboard/projects/$id/")({
+export const Route = createFileRoute("/dashboard/products/$id/")({
   component: Overview,
 });

@@ -12,26 +12,33 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegisterImport } from './routes/register'
+import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
 import { Route as FaqImport } from './routes/faq'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as ProductProductIdIndexImport } from './routes/product/$productId.index'
-import { Route as DashboardProjectsIndexImport } from './routes/dashboard/projects/index'
+import { Route as DashboardProductsIndexImport } from './routes/dashboard/products/index'
 import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
 import { Route as ProductProductIdCheckoutImport } from './routes/product/$productId.checkout'
-import { Route as DashboardProjectsIdImport } from './routes/dashboard/projects/$id'
+import { Route as DashboardProductsIdImport } from './routes/dashboard/products/$id'
 import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
-import { Route as DashboardProjectsIdIndexImport } from './routes/dashboard/projects/$id.index'
-import { Route as DashboardProjectsIdSettingsImport } from './routes/dashboard/projects/$id.settings'
-import { Route as DashboardProjectsIdSettingsIndexImport } from './routes/dashboard/projects/$id.settings/index'
-import { Route as DashboardProjectsIdSettingsPricingImport } from './routes/dashboard/projects/$id.settings/pricing'
+import { Route as DashboardProductsIdIndexImport } from './routes/dashboard/products/$id.index'
+import { Route as DashboardProductsIdSettingsImport } from './routes/dashboard/products/$id.settings'
+import { Route as DashboardProductsIdSettingsIndexImport } from './routes/dashboard/products/$id.settings/index'
+import { Route as DashboardProductsIdSettingsPricingIndexImport } from './routes/dashboard/products/$id.settings/pricing/index'
+import { Route as DashboardProductsIdSettingsPricingPricingIdImport } from './routes/dashboard/products/$id.settings/pricing/$pricingId'
 
 // Create/Update Routes
 
 const RegisterRoute = RegisterImport.update({
   path: '/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProfileRoute = ProfileImport.update({
+  path: '/profile',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -65,8 +72,8 @@ const ProductProductIdIndexRoute = ProductProductIdIndexImport.update({
   getParentRoute: () => ProductProductIdRoute,
 } as any)
 
-const DashboardProjectsIndexRoute = DashboardProjectsIndexImport.update({
-  path: '/dashboard/projects/',
+const DashboardProductsIndexRoute = DashboardProductsIndexImport.update({
+  path: '/dashboard/products/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -80,8 +87,8 @@ const ProductProductIdCheckoutRoute = ProductProductIdCheckoutImport.update({
   getParentRoute: () => ProductProductIdRoute,
 } as any)
 
-const DashboardProjectsIdRoute = DashboardProjectsIdImport.update({
-  path: '/dashboard/projects/$id',
+const DashboardProductsIdRoute = DashboardProductsIdImport.update({
+  path: '/dashboard/products/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -90,27 +97,33 @@ const ProductProductIdDocsIndexRoute = ProductProductIdDocsIndexImport.update({
   getParentRoute: () => ProductProductIdDocsRoute,
 } as any)
 
-const DashboardProjectsIdIndexRoute = DashboardProjectsIdIndexImport.update({
+const DashboardProductsIdIndexRoute = DashboardProductsIdIndexImport.update({
   path: '/',
-  getParentRoute: () => DashboardProjectsIdRoute,
+  getParentRoute: () => DashboardProductsIdRoute,
 } as any)
 
-const DashboardProjectsIdSettingsRoute =
-  DashboardProjectsIdSettingsImport.update({
+const DashboardProductsIdSettingsRoute =
+  DashboardProductsIdSettingsImport.update({
     path: '/settings',
-    getParentRoute: () => DashboardProjectsIdRoute,
+    getParentRoute: () => DashboardProductsIdRoute,
   } as any)
 
-const DashboardProjectsIdSettingsIndexRoute =
-  DashboardProjectsIdSettingsIndexImport.update({
+const DashboardProductsIdSettingsIndexRoute =
+  DashboardProductsIdSettingsIndexImport.update({
     path: '/',
-    getParentRoute: () => DashboardProjectsIdSettingsRoute,
+    getParentRoute: () => DashboardProductsIdSettingsRoute,
   } as any)
 
-const DashboardProjectsIdSettingsPricingRoute =
-  DashboardProjectsIdSettingsPricingImport.update({
-    path: '/pricing',
-    getParentRoute: () => DashboardProjectsIdSettingsRoute,
+const DashboardProductsIdSettingsPricingIndexRoute =
+  DashboardProductsIdSettingsPricingIndexImport.update({
+    path: '/pricing/',
+    getParentRoute: () => DashboardProductsIdSettingsRoute,
+  } as any)
+
+const DashboardProductsIdSettingsPricingPricingIdRoute =
+  DashboardProductsIdSettingsPricingPricingIdImport.update({
+    path: '/pricing/$pricingId',
+    getParentRoute: () => DashboardProductsIdSettingsRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
+      parentRoute: typeof rootRoute
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -159,11 +179,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/projects/$id': {
-      id: '/dashboard/projects/$id'
-      path: '/dashboard/projects/$id'
-      fullPath: '/dashboard/projects/$id'
-      preLoaderRoute: typeof DashboardProjectsIdImport
+    '/dashboard/products/$id': {
+      id: '/dashboard/products/$id'
+      path: '/dashboard/products/$id'
+      fullPath: '/dashboard/products/$id'
+      preLoaderRoute: typeof DashboardProductsIdImport
       parentRoute: typeof rootRoute
     }
     '/product/$productId/checkout': {
@@ -180,11 +200,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdDocsImport
       parentRoute: typeof ProductProductIdImport
     }
-    '/dashboard/projects/': {
-      id: '/dashboard/projects/'
-      path: '/dashboard/projects'
-      fullPath: '/dashboard/projects'
-      preLoaderRoute: typeof DashboardProjectsIndexImport
+    '/dashboard/products/': {
+      id: '/dashboard/products/'
+      path: '/dashboard/products'
+      fullPath: '/dashboard/products'
+      preLoaderRoute: typeof DashboardProductsIndexImport
       parentRoute: typeof rootRoute
     }
     '/product/$productId/': {
@@ -194,19 +214,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdIndexImport
       parentRoute: typeof ProductProductIdImport
     }
-    '/dashboard/projects/$id/settings': {
-      id: '/dashboard/projects/$id/settings'
+    '/dashboard/products/$id/settings': {
+      id: '/dashboard/products/$id/settings'
       path: '/settings'
-      fullPath: '/dashboard/projects/$id/settings'
-      preLoaderRoute: typeof DashboardProjectsIdSettingsImport
-      parentRoute: typeof DashboardProjectsIdImport
+      fullPath: '/dashboard/products/$id/settings'
+      preLoaderRoute: typeof DashboardProductsIdSettingsImport
+      parentRoute: typeof DashboardProductsIdImport
     }
-    '/dashboard/projects/$id/': {
-      id: '/dashboard/projects/$id/'
+    '/dashboard/products/$id/': {
+      id: '/dashboard/products/$id/'
       path: '/'
-      fullPath: '/dashboard/projects/$id/'
-      preLoaderRoute: typeof DashboardProjectsIdIndexImport
-      parentRoute: typeof DashboardProjectsIdImport
+      fullPath: '/dashboard/products/$id/'
+      preLoaderRoute: typeof DashboardProductsIdIndexImport
+      parentRoute: typeof DashboardProductsIdImport
     }
     '/product/$productId/docs/': {
       id: '/product/$productId/docs/'
@@ -215,19 +235,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdDocsIndexImport
       parentRoute: typeof ProductProductIdDocsImport
     }
-    '/dashboard/projects/$id/settings/pricing': {
-      id: '/dashboard/projects/$id/settings/pricing'
-      path: '/pricing'
-      fullPath: '/dashboard/projects/$id/settings/pricing'
-      preLoaderRoute: typeof DashboardProjectsIdSettingsPricingImport
-      parentRoute: typeof DashboardProjectsIdSettingsImport
-    }
-    '/dashboard/projects/$id/settings/': {
-      id: '/dashboard/projects/$id/settings/'
+    '/dashboard/products/$id/settings/': {
+      id: '/dashboard/products/$id/settings/'
       path: '/'
-      fullPath: '/dashboard/projects/$id/settings/'
-      preLoaderRoute: typeof DashboardProjectsIdSettingsIndexImport
-      parentRoute: typeof DashboardProjectsIdSettingsImport
+      fullPath: '/dashboard/products/$id/settings/'
+      preLoaderRoute: typeof DashboardProductsIdSettingsIndexImport
+      parentRoute: typeof DashboardProductsIdSettingsImport
+    }
+    '/dashboard/products/$id/settings/pricing/$pricingId': {
+      id: '/dashboard/products/$id/settings/pricing/$pricingId'
+      path: '/pricing/$pricingId'
+      fullPath: '/dashboard/products/$id/settings/pricing/$pricingId'
+      preLoaderRoute: typeof DashboardProductsIdSettingsPricingPricingIdImport
+      parentRoute: typeof DashboardProductsIdSettingsImport
+    }
+    '/dashboard/products/$id/settings/pricing/': {
+      id: '/dashboard/products/$id/settings/pricing/'
+      path: '/pricing'
+      fullPath: '/dashboard/products/$id/settings/pricing'
+      preLoaderRoute: typeof DashboardProductsIdSettingsPricingIndexImport
+      parentRoute: typeof DashboardProductsIdSettingsImport
     }
   }
 }
@@ -238,6 +265,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   FaqRoute,
   LoginRoute,
+  ProfileRoute,
   RegisterRoute,
   ProductProductIdRoute: ProductProductIdRoute.addChildren({
     ProductProductIdCheckoutRoute,
@@ -247,15 +275,16 @@ export const routeTree = rootRoute.addChildren({
     ProductProductIdIndexRoute,
   }),
   DashboardIndexRoute,
-  DashboardProjectsIdRoute: DashboardProjectsIdRoute.addChildren({
-    DashboardProjectsIdSettingsRoute:
-      DashboardProjectsIdSettingsRoute.addChildren({
-        DashboardProjectsIdSettingsPricingRoute,
-        DashboardProjectsIdSettingsIndexRoute,
+  DashboardProductsIdRoute: DashboardProductsIdRoute.addChildren({
+    DashboardProductsIdSettingsRoute:
+      DashboardProductsIdSettingsRoute.addChildren({
+        DashboardProductsIdSettingsIndexRoute,
+        DashboardProductsIdSettingsPricingPricingIdRoute,
+        DashboardProductsIdSettingsPricingIndexRoute,
       }),
-    DashboardProjectsIdIndexRoute,
+    DashboardProductsIdIndexRoute,
   }),
-  DashboardProjectsIndexRoute,
+  DashboardProductsIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -269,11 +298,12 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/faq",
         "/login",
+        "/profile",
         "/register",
         "/product/$productId",
         "/dashboard/",
-        "/dashboard/projects/$id",
-        "/dashboard/projects/"
+        "/dashboard/products/$id",
+        "/dashboard/products/"
       ]
     },
     "/": {
@@ -284,6 +314,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/profile": {
+      "filePath": "profile.tsx"
     },
     "/register": {
       "filePath": "register.tsx"
@@ -299,11 +332,11 @@ export const routeTree = rootRoute.addChildren({
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
     },
-    "/dashboard/projects/$id": {
-      "filePath": "dashboard/projects/$id.tsx",
+    "/dashboard/products/$id": {
+      "filePath": "dashboard/products/$id.tsx",
       "children": [
-        "/dashboard/projects/$id/settings",
-        "/dashboard/projects/$id/"
+        "/dashboard/products/$id/settings",
+        "/dashboard/products/$id/"
       ]
     },
     "/product/$productId/checkout": {
@@ -317,36 +350,41 @@ export const routeTree = rootRoute.addChildren({
         "/product/$productId/docs/"
       ]
     },
-    "/dashboard/projects/": {
-      "filePath": "dashboard/projects/index.tsx"
+    "/dashboard/products/": {
+      "filePath": "dashboard/products/index.tsx"
     },
     "/product/$productId/": {
       "filePath": "product/$productId.index.tsx",
       "parent": "/product/$productId"
     },
-    "/dashboard/projects/$id/settings": {
-      "filePath": "dashboard/projects/$id.settings.tsx",
-      "parent": "/dashboard/projects/$id",
+    "/dashboard/products/$id/settings": {
+      "filePath": "dashboard/products/$id.settings.tsx",
+      "parent": "/dashboard/products/$id",
       "children": [
-        "/dashboard/projects/$id/settings/pricing",
-        "/dashboard/projects/$id/settings/"
+        "/dashboard/products/$id/settings/",
+        "/dashboard/products/$id/settings/pricing/$pricingId",
+        "/dashboard/products/$id/settings/pricing/"
       ]
     },
-    "/dashboard/projects/$id/": {
-      "filePath": "dashboard/projects/$id.index.tsx",
-      "parent": "/dashboard/projects/$id"
+    "/dashboard/products/$id/": {
+      "filePath": "dashboard/products/$id.index.tsx",
+      "parent": "/dashboard/products/$id"
     },
     "/product/$productId/docs/": {
       "filePath": "product/$productId.docs/index.tsx",
       "parent": "/product/$productId/docs"
     },
-    "/dashboard/projects/$id/settings/pricing": {
-      "filePath": "dashboard/projects/$id.settings/pricing.tsx",
-      "parent": "/dashboard/projects/$id/settings"
+    "/dashboard/products/$id/settings/": {
+      "filePath": "dashboard/products/$id.settings/index.tsx",
+      "parent": "/dashboard/products/$id/settings"
     },
-    "/dashboard/projects/$id/settings/": {
-      "filePath": "dashboard/projects/$id.settings/index.tsx",
-      "parent": "/dashboard/projects/$id/settings"
+    "/dashboard/products/$id/settings/pricing/$pricingId": {
+      "filePath": "dashboard/products/$id.settings/pricing/$pricingId.tsx",
+      "parent": "/dashboard/products/$id/settings"
+    },
+    "/dashboard/products/$id/settings/pricing/": {
+      "filePath": "dashboard/products/$id.settings/pricing/index.tsx",
+      "parent": "/dashboard/products/$id/settings"
     }
   }
 }

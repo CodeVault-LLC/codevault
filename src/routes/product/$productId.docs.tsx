@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { seo } from "@/lib/seo";
-import { getProductById } from "@/products";
+import { retrieveProduct } from "@/client/hooks/useProject";
 import { Product } from "@/types/product";
 
 const Documentation: React.FC = () => {
@@ -81,16 +81,16 @@ const Documentation: React.FC = () => {
 
 export const Route = createFileRoute("/product/$productId/docs")({
   component: Documentation,
-  loader: (ctx) => {
-    const { productId } = ctx.params;
-    const product = getProductById(productId);
+  loader: async (ctx) => {
+    const { productId }: { productId: string } = ctx.params;
+    const product = await retrieveProduct(parseInt(productId));
 
     return {
       product,
     };
   },
   meta: (ctx) => {
-    const product = getProductById(ctx.params.productId);
+    const { product }: { product: Product | null } = ctx.loaderData.product;
 
     if (!product) {
       return seo({

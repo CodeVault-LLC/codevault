@@ -12,6 +12,8 @@ import { Navbar } from "@/components/Navbar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getAppConfig } from "@/configs/app";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AdminSidebar } from "@/components/AdminSidebar";
 
 export const RootPage: React.FC = () => {
   return (
@@ -27,14 +29,17 @@ export const RootPage: React.FC = () => {
           storageKey={getAppConfig("color_mode.storage_key")}
         >
           <TooltipProvider delayDuration={100}>
-            <div className="flex flex-col">
-              <Navbar />
-              <div className="container mx-auto my-8 min-h-screen h-full">
-                <Outlet />
-              </div>
-              <Separator />
-              <Footer />
-            </div>
+            <SidebarProvider>
+              <AdminSidebar />
+              <SidebarInset>
+                  <Navbar />
+                  <div className="container mx-auto my-8 min-h-screen h-full">
+                    <Outlet />
+                  </div>
+                  <Separator />
+                  <Footer />
+              </SidebarInset>
+            </SidebarProvider>
           </TooltipProvider>
         </ThemeProvider>
         <Scripts />
