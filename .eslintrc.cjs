@@ -12,6 +12,7 @@ module.exports = {
     require.resolve("@vercel/style-guide/eslint/browser"),
     require.resolve("@vercel/style-guide/eslint/react"),
   ],
+  plugins: ["react-perf"],
   rules: {
     "unicorn/filename-case": "off",
     "react/function-component-definition": [
