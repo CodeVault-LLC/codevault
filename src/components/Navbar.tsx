@@ -20,7 +20,7 @@ export const Navbar: React.FC = () => {
       ) : null}
       <div className="flex justify-between items-center w-full">
         <div className="flex flex-row items-center justify-between gap-4">
-          <img src="/icon.png" alt="CodeVault" className="w-10 h-10" />
+          <img src="/favicon.svg" alt="CodeVault" className="w-12 h-12" />
 
           <Link to="/" className="text-xl font-bold">
             CodeVault

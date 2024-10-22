@@ -14,12 +14,11 @@ const Home: React.FC = () => {
           }}
         >
           <div className="absolute inset-0 bg-opacity-50 flex flex-col justify-center px-8">
-            <h1 className="text-5xl font-bold mb-4">CodeVault's Humblebrag</h1>
+            <h1 className="text-5xl font-bold mb-4">
+              CodeVault&apos;s Humblebrag
+            </h1>
             <p className="text-xl mb-4 max-w-2xl">
-              NASA and SpaceX have seen a marginal improvement in weather
-              conditions for the return of the agency's Crew-8 mission from the
-              International Space Station. Undocking is now targeted for no
-              earlier than 9:05 p.m. EDT on Monday, Oct. 21.
+              Humblebrag has seen drastic improvements in the last few months.
             </p>
             <Button className="bg-red-600 hover:bg-red-700 text-white w-fit">
               Mission Updates
