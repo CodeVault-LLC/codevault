@@ -26,7 +26,9 @@ import { Route as DashboardProductsIdImport } from './routes/dashboard/products/
 import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
 import { Route as DashboardProductsIdIndexImport } from './routes/dashboard/products/$id.index'
 import { Route as DashboardProductsIdSettingsImport } from './routes/dashboard/products/$id.settings'
+import { Route as DashboardProductsIdFlowsImport } from './routes/dashboard/products/$id.flows'
 import { Route as DashboardProductsIdSettingsIndexImport } from './routes/dashboard/products/$id.settings/index'
+import { Route as DashboardProductsIdFlowsIndexImport } from './routes/dashboard/products/$id.flows/index'
 import { Route as DashboardProductsIdSettingsPricingIndexImport } from './routes/dashboard/products/$id.settings/pricing/index'
 import { Route as DashboardProductsIdSettingsPricingPricingIdImport } from './routes/dashboard/products/$id.settings/pricing/$pricingId'
 
@@ -108,10 +110,21 @@ const DashboardProductsIdSettingsRoute =
     getParentRoute: () => DashboardProductsIdRoute,
   } as any)
 
+const DashboardProductsIdFlowsRoute = DashboardProductsIdFlowsImport.update({
+  path: '/flows',
+  getParentRoute: () => DashboardProductsIdRoute,
+} as any)
+
 const DashboardProductsIdSettingsIndexRoute =
   DashboardProductsIdSettingsIndexImport.update({
     path: '/',
     getParentRoute: () => DashboardProductsIdSettingsRoute,
+  } as any)
+
+const DashboardProductsIdFlowsIndexRoute =
+  DashboardProductsIdFlowsIndexImport.update({
+    path: '/',
+    getParentRoute: () => DashboardProductsIdFlowsRoute,
   } as any)
 
 const DashboardProductsIdSettingsPricingIndexRoute =
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdIndexImport
       parentRoute: typeof ProductProductIdImport
     }
+    '/dashboard/products/$id/flows': {
+      id: '/dashboard/products/$id/flows'
+      path: '/flows'
+      fullPath: '/dashboard/products/$id/flows'
+      preLoaderRoute: typeof DashboardProductsIdFlowsImport
+      parentRoute: typeof DashboardProductsIdImport
+    }
     '/dashboard/products/$id/settings': {
       id: '/dashboard/products/$id/settings'
       path: '/settings'
@@ -234,6 +254,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$productId/docs/'
       preLoaderRoute: typeof ProductProductIdDocsIndexImport
       parentRoute: typeof ProductProductIdDocsImport
+    }
+    '/dashboard/products/$id/flows/': {
+      id: '/dashboard/products/$id/flows/'
+      path: '/'
+      fullPath: '/dashboard/products/$id/flows/'
+      preLoaderRoute: typeof DashboardProductsIdFlowsIndexImport
+      parentRoute: typeof DashboardProductsIdFlowsImport
     }
     '/dashboard/products/$id/settings/': {
       id: '/dashboard/products/$id/settings/'
@@ -276,6 +303,9 @@ export const routeTree = rootRoute.addChildren({
   }),
   DashboardIndexRoute,
   DashboardProductsIdRoute: DashboardProductsIdRoute.addChildren({
+    DashboardProductsIdFlowsRoute: DashboardProductsIdFlowsRoute.addChildren({
+      DashboardProductsIdFlowsIndexRoute,
+    }),
     DashboardProductsIdSettingsRoute:
       DashboardProductsIdSettingsRoute.addChildren({
         DashboardProductsIdSettingsIndexRoute,
@@ -335,6 +365,7 @@ export const routeTree = rootRoute.addChildren({
     "/dashboard/products/$id": {
       "filePath": "dashboard/products/$id.tsx",
       "children": [
+        "/dashboard/products/$id/flows",
         "/dashboard/products/$id/settings",
         "/dashboard/products/$id/"
       ]
@@ -357,6 +388,13 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "product/$productId.index.tsx",
       "parent": "/product/$productId"
     },
+    "/dashboard/products/$id/flows": {
+      "filePath": "dashboard/products/$id.flows.tsx",
+      "parent": "/dashboard/products/$id",
+      "children": [
+        "/dashboard/products/$id/flows/"
+      ]
+    },
     "/dashboard/products/$id/settings": {
       "filePath": "dashboard/products/$id.settings.tsx",
       "parent": "/dashboard/products/$id",
@@ -373,6 +411,10 @@ export const routeTree = rootRoute.addChildren({
     "/product/$productId/docs/": {
       "filePath": "product/$productId.docs/index.tsx",
       "parent": "/product/$productId/docs"
+    },
+    "/dashboard/products/$id/flows/": {
+      "filePath": "dashboard/products/$id.flows/index.tsx",
+      "parent": "/dashboard/products/$id/flows"
     },
     "/dashboard/products/$id/settings/": {
       "filePath": "dashboard/products/$id.settings/index.tsx",

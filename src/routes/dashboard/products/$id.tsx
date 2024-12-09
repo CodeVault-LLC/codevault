@@ -18,7 +18,7 @@ const Project: FC = () => {
 
   const tabs = [
     { name: "Overview", to: "/dashboard/products/$id" },
-    { name: "Users", to: "/dashboard/products/$id/users" },
+    { name: "Flows", to: "/dashboard/products/$id/flows" },
     { name: "Settings", to: "/dashboard/products/$id/settings" },
   ];
 

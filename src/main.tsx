@@ -6,6 +6,7 @@ import { routeTree } from "./routeTree.gen";
 import { NotFound } from "./components/NotFound";
 import "./index.css";
 import { queryClient } from "./client/query";
+import "@xyflow/react/dist/style.css";
 
 declare global {
   namespace React.JSX {
@@ -29,13 +30,14 @@ declare module "@tanstack/react-router" {
 
 const router = createRouter({
   routeTree,
-  defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
+  // load the page instantly
+  defaultPreloadDelay: 0,
+  defaultPendingMinMs: 0,
+  defaultPendingMs: 0,
 
   context: {
     router: undefined!, // We'll inject this when we render
   },
-
   defaultNotFoundComponent: () => {
     return <NotFound />;
   },
