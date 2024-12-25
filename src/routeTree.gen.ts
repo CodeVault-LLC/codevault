@@ -23,12 +23,16 @@ import { Route as DashboardProductsIndexImport } from './routes/dashboard/produc
 import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
 import { Route as ProductProductIdCheckoutImport } from './routes/product/$productId.checkout'
 import { Route as DashboardProductsIdImport } from './routes/dashboard/products/$id'
+import { Route as DashboardIdNewsImport } from './routes/dashboard/$id.news'
 import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
 import { Route as DashboardProductsIdIndexImport } from './routes/dashboard/products/$id.index'
 import { Route as DashboardProductsIdSettingsImport } from './routes/dashboard/products/$id.settings'
 import { Route as DashboardProductsIdFlowsImport } from './routes/dashboard/products/$id.flows'
 import { Route as DashboardProductsIdSettingsIndexImport } from './routes/dashboard/products/$id.settings/index'
+import { Route as DashboardProductsIdNewsIndexImport } from './routes/dashboard/products/$id.news/index'
 import { Route as DashboardProductsIdFlowsIndexImport } from './routes/dashboard/products/$id.flows/index'
+import { Route as DashboardProductsIdNewsCreateImport } from './routes/dashboard/products/$id.news/create'
+import { Route as DashboardProductsIdNewsNewsIdImport } from './routes/dashboard/products/$id.news/$newsId'
 import { Route as DashboardProductsIdSettingsPricingIndexImport } from './routes/dashboard/products/$id.settings/pricing/index'
 import { Route as DashboardProductsIdSettingsPricingPricingIdImport } from './routes/dashboard/products/$id.settings/pricing/$pricingId'
 
@@ -94,6 +98,11 @@ const DashboardProductsIdRoute = DashboardProductsIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardIdNewsRoute = DashboardIdNewsImport.update({
+  path: '/dashboard/$id/news',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProductProductIdDocsIndexRoute = ProductProductIdDocsIndexImport.update({
   path: '/',
   getParentRoute: () => ProductProductIdDocsRoute,
@@ -121,10 +130,28 @@ const DashboardProductsIdSettingsIndexRoute =
     getParentRoute: () => DashboardProductsIdSettingsRoute,
   } as any)
 
+const DashboardProductsIdNewsIndexRoute =
+  DashboardProductsIdNewsIndexImport.update({
+    path: '/news/',
+    getParentRoute: () => DashboardProductsIdRoute,
+  } as any)
+
 const DashboardProductsIdFlowsIndexRoute =
   DashboardProductsIdFlowsIndexImport.update({
     path: '/',
     getParentRoute: () => DashboardProductsIdFlowsRoute,
+  } as any)
+
+const DashboardProductsIdNewsCreateRoute =
+  DashboardProductsIdNewsCreateImport.update({
+    path: '/news/create',
+    getParentRoute: () => DashboardProductsIdRoute,
+  } as any)
+
+const DashboardProductsIdNewsNewsIdRoute =
+  DashboardProductsIdNewsNewsIdImport.update({
+    path: '/news/$newsId',
+    getParentRoute: () => DashboardProductsIdRoute,
   } as any)
 
 const DashboardProductsIdSettingsPricingIndexRoute =
@@ -192,6 +219,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/$id/news': {
+      id: '/dashboard/$id/news'
+      path: '/dashboard/$id/news'
+      fullPath: '/dashboard/$id/news'
+      preLoaderRoute: typeof DashboardIdNewsImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard/products/$id': {
       id: '/dashboard/products/$id'
       path: '/dashboard/products/$id'
@@ -255,12 +289,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdDocsIndexImport
       parentRoute: typeof ProductProductIdDocsImport
     }
+    '/dashboard/products/$id/news/$newsId': {
+      id: '/dashboard/products/$id/news/$newsId'
+      path: '/news/$newsId'
+      fullPath: '/dashboard/products/$id/news/$newsId'
+      preLoaderRoute: typeof DashboardProductsIdNewsNewsIdImport
+      parentRoute: typeof DashboardProductsIdImport
+    }
+    '/dashboard/products/$id/news/create': {
+      id: '/dashboard/products/$id/news/create'
+      path: '/news/create'
+      fullPath: '/dashboard/products/$id/news/create'
+      preLoaderRoute: typeof DashboardProductsIdNewsCreateImport
+      parentRoute: typeof DashboardProductsIdImport
+    }
     '/dashboard/products/$id/flows/': {
       id: '/dashboard/products/$id/flows/'
       path: '/'
       fullPath: '/dashboard/products/$id/flows/'
       preLoaderRoute: typeof DashboardProductsIdFlowsIndexImport
       parentRoute: typeof DashboardProductsIdFlowsImport
+    }
+    '/dashboard/products/$id/news/': {
+      id: '/dashboard/products/$id/news/'
+      path: '/news'
+      fullPath: '/dashboard/products/$id/news'
+      preLoaderRoute: typeof DashboardProductsIdNewsIndexImport
+      parentRoute: typeof DashboardProductsIdImport
     }
     '/dashboard/products/$id/settings/': {
       id: '/dashboard/products/$id/settings/'
@@ -302,6 +357,7 @@ export const routeTree = rootRoute.addChildren({
     ProductProductIdIndexRoute,
   }),
   DashboardIndexRoute,
+  DashboardIdNewsRoute,
   DashboardProductsIdRoute: DashboardProductsIdRoute.addChildren({
     DashboardProductsIdFlowsRoute: DashboardProductsIdFlowsRoute.addChildren({
       DashboardProductsIdFlowsIndexRoute,
@@ -313,6 +369,9 @@ export const routeTree = rootRoute.addChildren({
         DashboardProductsIdSettingsPricingIndexRoute,
       }),
     DashboardProductsIdIndexRoute,
+    DashboardProductsIdNewsNewsIdRoute,
+    DashboardProductsIdNewsCreateRoute,
+    DashboardProductsIdNewsIndexRoute,
   }),
   DashboardProductsIndexRoute,
 })
@@ -332,6 +391,7 @@ export const routeTree = rootRoute.addChildren({
         "/register",
         "/product/$productId",
         "/dashboard/",
+        "/dashboard/$id/news",
         "/dashboard/products/$id",
         "/dashboard/products/"
       ]
@@ -362,12 +422,18 @@ export const routeTree = rootRoute.addChildren({
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
     },
+    "/dashboard/$id/news": {
+      "filePath": "dashboard/$id.news.tsx"
+    },
     "/dashboard/products/$id": {
       "filePath": "dashboard/products/$id.tsx",
       "children": [
         "/dashboard/products/$id/flows",
         "/dashboard/products/$id/settings",
-        "/dashboard/products/$id/"
+        "/dashboard/products/$id/",
+        "/dashboard/products/$id/news/$newsId",
+        "/dashboard/products/$id/news/create",
+        "/dashboard/products/$id/news/"
       ]
     },
     "/product/$productId/checkout": {
@@ -412,9 +478,21 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "product/$productId.docs/index.tsx",
       "parent": "/product/$productId/docs"
     },
+    "/dashboard/products/$id/news/$newsId": {
+      "filePath": "dashboard/products/$id.news/$newsId.tsx",
+      "parent": "/dashboard/products/$id"
+    },
+    "/dashboard/products/$id/news/create": {
+      "filePath": "dashboard/products/$id.news/create.tsx",
+      "parent": "/dashboard/products/$id"
+    },
     "/dashboard/products/$id/flows/": {
       "filePath": "dashboard/products/$id.flows/index.tsx",
       "parent": "/dashboard/products/$id/flows"
+    },
+    "/dashboard/products/$id/news/": {
+      "filePath": "dashboard/products/$id.news/index.tsx",
+      "parent": "/dashboard/products/$id"
     },
     "/dashboard/products/$id/settings/": {
       "filePath": "dashboard/products/$id.settings/index.tsx",

@@ -1,6 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { User } from "@/types/user";
 import { api } from "../api";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@radix-ui/react-toast";
 
 export const useCurrentUser = () => {
   return useQuery<User>({
@@ -27,7 +29,14 @@ export const useLogin = () => {
   });
 };
 
+/**
+ * Register a new user
+ * @deprecated Registration is not activated and will be removed in the future
+ * @returns
+ */
 export const useRegister = () => {
+  const { toast } = useToast();
+
   return useMutation({
     mutationKey: ["register"],
     mutationFn: async (data: {
@@ -52,6 +61,14 @@ export const useRegister = () => {
     },
     onSuccess: () => {
       window.location.href = "/login";
+    },
+    onError: (error) => {
+      toast({
+        title: "Registration failed",
+        description: error.message ?? "An error occurred",
+        variant: "destructive",
+        action: <ToastAction altText="Close">Close</ToastAction>,
+      });
     },
   });
 };

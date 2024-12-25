@@ -19,6 +19,7 @@ const Project: FC = () => {
   const tabs = [
     { name: "Overview", to: "/dashboard/products/$id" },
     { name: "Flows", to: "/dashboard/products/$id/flows" },
+    { name: "News", to: "/dashboard/products/$id/news" },
     { name: "Settings", to: "/dashboard/products/$id/settings" },
   ];
 
@@ -33,7 +34,7 @@ const Project: FC = () => {
 
   if (isSuccess) {
     return (
-      <div>
+      <>
         <div className="mt-8" />
         <div className="flex flex-col gap-2 flex-1">
           <div className="flex flex-row gap-8 items-center">
@@ -70,7 +71,7 @@ const Project: FC = () => {
           </TabsList>
         </Tabs>
         <Outlet />
-      </div>
+      </>
     );
   }
 };

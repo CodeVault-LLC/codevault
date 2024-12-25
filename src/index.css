@@ -73,3 +73,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ProseMirror {
+  outline: none;
+  @apply ring-0;
+  @apply border;
+  @apply border-muted;
+  position: initial;
+}
+
+/* Tasklist styles */
+.prose ul[data-type="taskList"] li {
+  @apply flex items-center gap-x-4 list-disc;
+}
+
+.prose ul[data-type="taskList"] {
+  @apply pl-0;
+}
+
+.tippy-box {
+  background-color: #333 !important;
+}
+.tippy-arrow {
+  display: none !important;
+}
+
+.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  background-color: #0d0d0d;
+}
+pre code {
+  font-weight: 400 !important;
+}
+
+div.tippy-content {
+  padding: 0px;
+}
+
+.mention {
+  color: #a78bfa;
+  font-weight: 500;
+  text-decoration: underline;
+}

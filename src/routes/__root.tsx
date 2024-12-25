@@ -14,6 +14,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { getAppConfig } from "@/configs/app";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/AdminSidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 export const RootPage: React.FC = () => {
   return (
@@ -32,12 +33,13 @@ export const RootPage: React.FC = () => {
             <SidebarProvider>
               <AdminSidebar />
               <SidebarInset>
-                  <Navbar />
-                  <div className="container mx-auto my-8 min-h-screen h-full">
-                    <Outlet />
-                  </div>
-                  <Separator />
-                  <Footer />
+                <Navbar />
+                <div className="container mx-auto min-h-screen h-full">
+                  <Outlet />
+                </div>
+                <Separator />
+                <Toaster />
+                <Footer />
               </SidebarInset>
             </SidebarProvider>
           </TooltipProvider>

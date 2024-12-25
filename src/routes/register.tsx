@@ -13,10 +13,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useRegister } from "@/client/hooks/useUser";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 const Register: FC = () => {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -95,7 +96,7 @@ const Register: FC = () => {
               <Input id="password" type="password" required />
             </div>
             <Button type="submit" className="w-full">
-              Register
+              {isPending ? <LoadingSpinner /> : "Register"}
             </Button>
           </form>
         </CardContent>
