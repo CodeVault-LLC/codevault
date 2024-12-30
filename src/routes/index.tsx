@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { seo } from "@/lib/seo";
+import FeaturedNews from "@/components/NewsDisplay";
 
 const Home: React.FC = () => {
   return (
@@ -25,6 +26,8 @@ const Home: React.FC = () => {
             </Button>
           </div>
         </section>
+
+        <FeaturedNews />
       </main>
 
       <div className="mt-8" />

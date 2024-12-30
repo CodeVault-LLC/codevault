@@ -1,6 +1,5 @@
 import { useMemo, type ComponentProps, type FC } from "react";
 import { Link, useParams, useRouterState } from "@tanstack/react-router";
-import { useCurrentUser } from "@/client/hooks/useUser";
 import {
   Sidebar,
   SidebarContent,
@@ -13,11 +12,14 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "./ui/sidebar";
+import { useMe } from "@/gql/gpl";
 
 export const AdminSidebar: FC<ComponentProps<typeof Sidebar>> = (props) => {
   const { id }: { id?: number } = useParams({ strict: false });
   const routerState = useRouterState();
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user, isLoading } = useMe({
+    role: true,
+  });
 
   // Define the sidebar data with conditional project items
   const data = useMemo(() => {

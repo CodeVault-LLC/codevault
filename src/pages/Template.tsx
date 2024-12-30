@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { CheckIcon, StarIcon } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/types/product";
+import { Product } from "@/gql/gpl.d";
 
 interface TemplateProps {
   product: Product;

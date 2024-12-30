@@ -6,14 +6,31 @@ import {
 } from "@tanstack/react-router";
 import { FC } from "react";
 import { Badge } from "@/components/ui/badge";
-import { useRetrieveProduct } from "@/client/hooks/useProject";
 import { Unauthorized } from "@/components/Unauthorized";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useProduct } from "@/gql/gpl";
 
 const Project: FC = () => {
   const { id }: { id: number } = useParams({ strict: false });
 
-  const { data: project, isError, isSuccess } = useRetrieveProduct(id);
+  const {
+    data: project,
+    isError,
+    isSuccess,
+  } = useProduct(
+    {
+      createdAt: true,
+      description: true,
+      name: true,
+      id: true,
+      public: true,
+      category: true,
+      status: true,
+      tagline: true,
+      updatedAt: true,
+    },
+    { id: id.toString() }
+  );
   const navigate = useNavigate();
 
   const tabs = [
@@ -39,8 +56,8 @@ const Project: FC = () => {
         <div className="flex flex-col gap-2 flex-1">
           <div className="flex flex-row gap-8 items-center">
             <h1 className="text-2xl font-bold">{project.name}</h1>
-            <Badge variant={project.isPublic ? "default" : "destructive"}>
-              {project.isPublic ? "Public" : "Private"}
+            <Badge variant={project.public ? "default" : "destructive"}>
+              {project.public ? "Public" : "Private"}
             </Badge>
           </div>
           <caption className="text-sm text-gray-500 dark:text-gray-400 text-start">

@@ -9,12 +9,18 @@ import {
   BarElement,
   BarController,
 } from "chart.js";
-import { useCurrentUser } from "@/client/hooks/useUser";
 import { Button } from "@/components/ui/button";
 import { Unauthorized } from "@/components/Unauthorized";
+import { useMe } from "@/gql/gpl";
 
 const Index: FC = () => {
-  const { data, isError } = useCurrentUser();
+  const { data, isError } = useMe({
+    id: true,
+    email: false,
+    role: true,
+    username: true,
+  });
+
   Chart.register(LinearScale);
   Chart.register(CategoryScale);
   Chart.register(BarElement);

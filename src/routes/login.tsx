@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,10 +10,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useLogin } from "@/client/hooks/useUser";
+import { useLogin } from "@/gql/gpl";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 const Login: FC = () => {
-  const { mutate } = useLogin();
+  const { mutate, isPending, data } = useLogin({ token: true });
+
+  useEffect(() => {
+    console.log(data);
+    if (data?.token) {
+      const token = data.token;
+      localStorage.setItem("jwt", token);
+
+      window.location.href = "/";
+    }
+  }, [data]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,7 +67,7 @@ const Login: FC = () => {
               <Input id="password" type="password" required />
             </div>
             <Button type="submit" className="w-full">
-              Login
+              {isPending ? <LoadingSpinner /> : "Sign in"}
             </Button>
           </form>
         </CardContent>

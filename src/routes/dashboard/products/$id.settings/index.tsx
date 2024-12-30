@@ -1,10 +1,10 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { FC } from "react";
 import { Unauthorized } from "@/components/Unauthorized";
-import { useEditProduct, useRetrieveProduct } from "@/client/hooks/useProject";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { productCreateSchema } from "@/client/forms";
+import { useProduct, useUpdateProduct } from "@/gql/gpl";
 
 const SettingsOverview: FC = () => {
   const { id }: { id: number } = useParams({ strict: false });
@@ -13,8 +13,25 @@ const SettingsOverview: FC = () => {
     isFetching,
     isError,
     isSuccess,
-  } = useRetrieveProduct(id);
-  const { mutate } = useEditProduct(id);
+  } = useProduct(
+    {
+      name: true,
+      id: true,
+      createdAt: true,
+      description: true,
+      updatedAt: true,
+      category: true,
+      public: true,
+      status: true,
+      tagline: true,
+    },
+    {
+      id: id.toString(),
+    }
+  );
+  const { mutate } = useUpdateProduct({
+    id: true,
+  });
 
   if (isFetching)
     return (
@@ -42,10 +59,11 @@ const SettingsOverview: FC = () => {
           values={{
             category: projectData.category,
             description: projectData.description,
-            isPublic: projectData.isPublic,
+            isPublic: projectData.public,
             name: projectData.name,
             status: projectData.status,
             tagline: projectData.tagline,
+            tags: [],
           }}
           fieldConfig={{
             name: {
@@ -73,7 +91,16 @@ const SettingsOverview: FC = () => {
             },
           }}
           onSubmit={(values) => {
-            mutate(values);
+            mutate({
+              id: projectData.id,
+              data: {
+                name: values.name,
+                category: values.category,
+                description: values.description,
+                public: values.isPublic,
+                status: values.status,
+              },
+            });
           }}
         >
           <AutoFormSubmit>Edit Project</AutoFormSubmit>

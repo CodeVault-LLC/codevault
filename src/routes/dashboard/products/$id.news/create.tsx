@@ -11,8 +11,8 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Editor } from "@/components/editor";
 import { editorMode } from "@/components/editor/extensions";
 import { Button } from "@/components/ui/button";
-import { useCreateNews } from "@/client/hooks/useNews";
 import { EditorRef } from "@/components/editor/Editor";
+import { useCreateNews } from "@/gql/gpl";
 
 const NewsEditor = () => {
   const { id } = useParams({ strict: false });
@@ -21,7 +21,12 @@ const NewsEditor = () => {
   const [title, setTitle] = useState("");
   const editorRef = useRef<EditorRef>(null);
 
-  const { mutate, isPending } = useCreateNews(id);
+  const { mutate, isPending } = useCreateNews({
+    id,
+    title: true,
+    content: true,
+    state: true,
+  });
 
   return (
     <div className="flex">
@@ -56,9 +61,12 @@ const NewsEditor = () => {
             variant="default"
             onClick={() => {
               mutate({
-                title,
-                content: editorRef.current?.getText() ?? "",
-                status: status.toLowerCase(),
+                productId: id,
+                data: JSON.stringify({
+                  title,
+                  content: editorRef.current?.getText() ?? "",
+                  status: status.toLowerCase(),
+                }),
               });
             }}
             isLoading={isPending}

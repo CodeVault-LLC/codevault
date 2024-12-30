@@ -1,8 +1,8 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { FC } from "react";
-import { useRetrieveProduct } from "@/client/hooks/useProject";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import { Unauthorized } from "@/components/Unauthorized";
+import { useProduct } from "@/gql/gpl";
 
 const Overview: FC = () => {
   const { id }: { id: number } = useParams({ strict: false });
@@ -12,7 +12,18 @@ const Overview: FC = () => {
     isFetching,
     isError,
     isSuccess,
-  } = useRetrieveProduct(id);
+  } = useProduct(
+    {
+      id: true,
+      createdAt: true,
+      description: true,
+      name: true,
+      updatedAt: true,
+    },
+    {
+      id: id.toString(),
+    }
+  );
 
   if (isFetching)
     return (

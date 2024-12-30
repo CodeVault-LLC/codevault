@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useNewsByProduct, useNewsStatisticsByProductId } from "@/gql/gpl";
 import { formatDateTime } from "@/lib/utils";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { DeleteIcon, EditIcon, PlusIcon } from "lucide-react";
@@ -19,8 +20,26 @@ import { DeleteIcon, EditIcon, PlusIcon } from "lucide-react";
 const NewsAdminDashboard = () => {
   const { id }: { id: number } = useParams({ strict: false });
 
-  const statistics = useRetrieveNewsStatistics(id);
-  const { data: news } = useRetrieveNews(id);
+  const { data: statistics } = useNewsStatisticsByProductId(
+    {
+      archived: true,
+      draft: true,
+      published: true,
+      recentlyUpdated: true,
+      total: true,
+    },
+    { productId: id.toString() }
+  );
+
+  const { data: news } = useNewsByProduct(
+    {
+      id: true,
+      title: true,
+      state: true,
+      updatedAt: true,
+    },
+    { productId: id.toString() }
+  );
 
   return (
     <>
@@ -28,21 +47,21 @@ const NewsAdminDashboard = () => {
         <Card className="p-4 rounded-lg">
           <h2 className="text-lg font-semibold">Total News Articles</h2>
           <p className="text-3xl font-bold text-blue-600">
-            {statistics.data?.total ?? 0}
+            {statistics?.total ?? 0}
           </p>
         </Card>
 
         <Card className="p-4 rounded-lg">
           <h2 className="text-lg font-semibold">Drafts</h2>
           <p className="text-3xl font-bold text-yellow-600">
-            {statistics.data?.draft ?? 0}
+            {statistics?.draft ?? 0}
           </p>
         </Card>
 
         <Card className="p-4 rounded-lg">
           <h2 className="text-lg font-semibold">Recently Updated</h2>
           <p className="text-3xl font-bold text-green-600">
-            {statistics.data?.recentlyUpdated ?? 0}
+            {statistics?.recentlyUpdated ?? 0}
           </p>
         </Card>
       </div>

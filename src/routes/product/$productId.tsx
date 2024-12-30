@@ -1,8 +1,8 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import React from "react";
 import { seo } from "@/lib/seo";
-import { retrieveProduct } from "@/client/hooks/useProject";
-import { Product } from "@/types/product";
+import { Product } from "@/gql/gpl.d";
+import { requestProduct } from "@/gql";
 
 const ProductLayout: React.FC = () => {
   return <Outlet />;
@@ -12,14 +12,27 @@ export const Route = createFileRoute("/product/$productId")({
   component: ProductLayout,
   loader: async (ctx) => {
     const { productId }: { productId: string } = ctx.params;
-    const product = await retrieveProduct(parseInt(productId));
+    const product = requestProduct(
+      {
+        id: true,
+        name: true,
+        description: true,
+        category: true,
+        createdAt: true,
+        updatedAt: true,
+        tagline: true,
+        public: true,
+        status: true,
+      },
+      { id: productId }
+    );
 
     return {
       product,
     };
   },
   meta: (ctx) => {
-    const { product }: { product: Product | null } = ctx.loaderData.product;
+    const product: Product | undefined = ctx.loaderData.product;
 
     if (!product) {
       return seo({

@@ -1,14 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import React from "react";
 import { Github } from "lucide-react";
-import { useCurrentUser } from "@/client/hooks/useUser";
 import { Button } from "./ui/button";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { SidebarTrigger } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
+import { useMe } from "@/gql/gpl";
 
 export const Navbar: React.FC = () => {
-  const { data } = useCurrentUser();
+  const { data } = useMe({ id: true, username: true, email: true, role: true });
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b dark:border-zinc-900">

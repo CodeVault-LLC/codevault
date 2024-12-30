@@ -4,8 +4,8 @@ import { NotFound } from "@/components/NotFound";
 import { ProductPage } from "@/pages/Product";
 import { TemplatePage } from "@/pages/Template";
 import { Waitlist } from "@/pages/Waitlist";
-import { Product } from "@/types/product";
-import { retrieveProduct } from "@/client/hooks/useProject";
+import { requestProduct } from "@/gql/index";
+import { Product } from "@/gql/gpl.d";
 
 const RouteForm: React.FC = () => {
   const { product }: { product: Product | null } = useLoaderData({
@@ -25,7 +25,22 @@ const RouteForm: React.FC = () => {
 export const Route = createFileRoute("/product/$productId/")({
   loader: async (ctx) => {
     const { productId }: { productId: string } = ctx.params;
-    const product = await retrieveProduct(parseInt(productId));
+    const product = await requestProduct(
+      {
+        id: true,
+        name: true,
+        description: true,
+        category: true,
+        status: true,
+        public: true,
+        createdAt: true,
+        updatedAt: true,
+        tagline: true,
+      },
+      {
+        id: productId,
+      }
+    );
 
     return {
       product,

@@ -1,33 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type { User } from "@/types/user";
-import { api } from "../api";
+import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
-
-export const useCurrentUser = () => {
-  return useQuery<User>({
-    queryKey: ["me"],
-    queryFn: async () => {
-      const responses = await api.get("/users/me");
-      return responses.data;
-    },
-  });
-};
-
-export const useLogin = () => {
-  return useMutation({
-    mutationKey: ["login"],
-    mutationFn: async (data: { email: string; password: string }) => {
-      const response = await api.post("/users/login", data);
-      return response.data;
-    },
-    onSuccess: (data) => {
-      localStorage.setItem("jwt", data.token);
-
-      window.location.href = "/";
-    },
-  });
-};
+import { api } from "../api";
 
 /**
  * Register a new user

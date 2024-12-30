@@ -1,11 +1,17 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { FC } from "react";
-import { useRetrieveProducts } from "@/client/hooks/useProject";
 import { CreateProjectModal } from "@/components/dialog/CreateProjectModal";
 import { Unauthorized } from "@/components/Unauthorized";
+import { useProducts } from "@/gql/gpl";
 
 const Products: FC = () => {
-  const { data: products, isError } = useRetrieveProducts();
+  const { data: products, isError } = useProducts({
+    id: true,
+    name: true,
+    description: true,
+    updatedAt: true,
+    createdAt: true,
+  });
 
   if (isError) return <Unauthorized />;
 
