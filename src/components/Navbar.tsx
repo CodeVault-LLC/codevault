@@ -6,9 +6,13 @@ import { Github } from "lucide-react";
 export default function Navbar() {
   return (
     <div className="flex justify-between items-center p-4 border-b dark:border-zinc-900 px-24">
-      <Link to="/" className="text-xl font-bold">
-        CodeVault
-      </Link>
+      <div className="flex flex-row items-center justify-between gap-4">
+        <img src="/favicon.svg" alt="CodeVault" className="w-12 h-12" />
+
+        <Link to="/" className="text-xl font-bold">
+          CodeVault
+        </Link>
+      </div>
       <div className="flex items-center" />
       <div className="flex flex-row items-center justify-between gap-4">
         <a

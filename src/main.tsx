@@ -1,29 +1,24 @@
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { NotFound } from "./components/NotFound";
+import { StartClient } from "@tanstack/start";
+import { queryClient } from "./client/query";
 
 declare module "@tanstack/react-router" {
-  interface Register {
+  interface _Register {
     router: typeof router;
   }
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: false,
-    },
-  },
-});
-
 const router = createRouter({
   routeTree,
-  defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
+  // load the page instantly
+  defaultPreloadDelay: 0,
+  defaultPendingMinMs: 0,
+  defaultPendingMs: 0,
 
   context: {
     router: undefined!, // We'll inject this when we render
@@ -34,6 +29,6 @@ const router = createRouter({
 });
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router} context={{ router }} />
+    <StartClient router={router} />
   </QueryClientProvider>
 );
