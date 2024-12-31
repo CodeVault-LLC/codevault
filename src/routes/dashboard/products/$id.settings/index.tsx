@@ -5,6 +5,7 @@ import { LoadingSpinner } from "@/components/ui/spinner";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { productCreateSchema } from "@/client/forms";
 import { useProduct, useUpdateProduct } from "@/gql/gpl";
+import { ProductCategory, ProductStatus } from "@/gql/gpl.d";
 
 const SettingsOverview: FC = () => {
   const { id }: { id: number } = useParams({ strict: false });
@@ -95,10 +96,12 @@ const SettingsOverview: FC = () => {
               id: projectData.id,
               data: {
                 name: values.name,
-                category: values.category,
+                category: ProductCategory.api,
                 description: values.description,
-                public: values.isPublic,
-                status: values.status,
+                public: values.isPublic ?? false,
+                status: ProductStatus.stable,
+                tagline: values.tagline ?? "",
+                tags: values.tags ?? [],
               },
             });
           }}

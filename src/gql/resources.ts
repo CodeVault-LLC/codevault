@@ -1,9 +1,21 @@
-import { User, Product, News, NewsStatistics, Token } from "./gpl.d";
+import { graphqlRequest } from "@/client/api";
+import {
+  User,
+  Product,
+  News,
+  NewsStatistics,
+  Token,
+  ProductCreateInput,
+  ProductUpdateInput,
+  NewsCreateInput,
+  NewsUpdateInput,
+} from "./gpl.d";
 import {
   meQuery,
   userQuery,
   productsQuery,
   productQuery,
+  newsLatestPublishedQuery,
   newsByProductQuery,
   newsStatisticsByProductIdQuery,
   newsByIdQuery,
@@ -13,7 +25,6 @@ import {
   createNewsQuery,
   updateNewsQuery,
 } from "./queries";
-import { graphqlRequest } from "../client/api";
 export const requestMe = async (
   selection: Partial<Record<keyof User, boolean>>
 ) => {
@@ -43,7 +54,10 @@ export const requestUser = async (
   if (!args.id) throw new Error("id is required.");
 
   let query = userQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.id}}", args.id);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.id}}", `"${args.id}"`);
 
   const response = (await graphqlRequest(query)) as { user: User };
   return response.user;
@@ -78,10 +92,31 @@ export const requestProduct = async (
   if (!args.id) throw new Error("id is required.");
 
   let query = productQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.id}}", args.id);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.id}}", `"${args.id}"`);
 
   const response = (await graphqlRequest(query)) as { product: Product };
   return response.product;
+};
+
+export const requestNewsLatestPublished = async (
+  selection: Partial<Record<keyof News, boolean>>
+) => {
+  const fields = Object.entries(selection)
+    .filter(([_, include]) => include)
+    .map(([key]) => key)
+    .join("\n");
+
+  if (!fields) throw new Error("No fields selected for query.");
+
+  let query = newsLatestPublishedQuery.replace("{{fields}}", fields);
+
+  const response = (await graphqlRequest(query)) as {
+    newsLatestPublished: News;
+  };
+  return response.newsLatestPublished;
 };
 
 export const requestNewsByProduct = async (
@@ -97,7 +132,10 @@ export const requestNewsByProduct = async (
   if (!args.productId) throw new Error("productId is required.");
 
   let query = newsByProductQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.productId}}", args.productId);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.productId}}", `"${args.productId}"`);
 
   const response = (await graphqlRequest(query)) as { newsByProduct: News };
   return response.newsByProduct;
@@ -116,7 +154,10 @@ export const requestNewsStatisticsByProductId = async (
   if (!args.productId) throw new Error("productId is required.");
 
   let query = newsStatisticsByProductIdQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.productId}}", args.productId);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.productId}}", `"${args.productId}"`);
 
   const response = (await graphqlRequest(query)) as {
     newsStatisticsByProductId: NewsStatistics;
@@ -137,7 +178,10 @@ export const requestNewsById = async (
   if (!args.id) throw new Error("id is required.");
 
   let query = newsByIdQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.id}}", args.id);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.id}}", `"${args.id}"`);
 
   const response = (await graphqlRequest(query)) as { newsById: News };
   return response.newsById;
@@ -157,8 +201,11 @@ export const requestLogin = async (
   if (!args.password) throw new Error("password is required.");
 
   let query = loginQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.email}}", args.email);
-  query = query.replace("{{args.password}}", args.password);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.email}}", `"${args.email}"`);
+  query = query.replace("{{args.password}}", `"${args.password}"`);
 
   const response = (await graphqlRequest(query)) as { login: Token };
   return response.login;
@@ -166,7 +213,7 @@ export const requestLogin = async (
 
 export const requestCreateProduct = async (
   selection: Partial<Record<keyof Product, boolean>>,
-  args: { data: any }
+  args: { data: ProductCreateInput }
 ) => {
   const fields = Object.entries(selection)
     .filter(([_, include]) => include)
@@ -177,7 +224,18 @@ export const requestCreateProduct = async (
   if (!args.data) throw new Error("data is required.");
 
   let query = createProductQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.data}}", args.data);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  const dataFields = Object.entries(args.data)
+    .map(([key, value]) => {
+      if (isEnumField(key)) {
+        return `${key}: ${value}`;
+      }
+      return `${key}: ${JSON.stringify(value)}`;
+    })
+    .join(", ");
+  query = query.replace("{{args.data}}", dataFields);
 
   const response = (await graphqlRequest(query)) as { createProduct: Product };
   return response.createProduct;
@@ -185,7 +243,7 @@ export const requestCreateProduct = async (
 
 export const requestUpdateProduct = async (
   selection: Partial<Record<keyof Product, boolean>>,
-  args: { id: string; data: any }
+  args: { id: string; data: ProductUpdateInput }
 ) => {
   const fields = Object.entries(selection)
     .filter(([_, include]) => include)
@@ -197,8 +255,19 @@ export const requestUpdateProduct = async (
   if (!args.data) throw new Error("data is required.");
 
   let query = updateProductQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.id}}", args.id);
-  query = query.replace("{{args.data}}", JSON.stringify(args.data));
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.id}}", `"${args.id}"`);
+  const dataFields = Object.entries(args.data)
+    .map(([key, value]) => {
+      if (isEnumField(key)) {
+        return `${key}: ${value}`;
+      }
+      return `${key}: ${JSON.stringify(value)}`;
+    })
+    .join(", ");
+  query = query.replace("{{args.data}}", dataFields);
 
   const response = (await graphqlRequest(query)) as { updateProduct: Product };
   return response.updateProduct;
@@ -206,7 +275,7 @@ export const requestUpdateProduct = async (
 
 export const requestCreateNews = async (
   selection: Partial<Record<keyof News, boolean>>,
-  args: { productId: string; data: any }
+  args: { productId: string; data: NewsCreateInput }
 ) => {
   const fields = Object.entries(selection)
     .filter(([_, include]) => include)
@@ -218,8 +287,19 @@ export const requestCreateNews = async (
   if (!args.data) throw new Error("data is required.");
 
   let query = createNewsQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.productId}}", args.productId);
-  query = query.replace("{{args.data}}", args.data);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.productId}}", `"${args.productId}"`);
+  const dataFields = Object.entries(args.data)
+    .map(([key, value]) => {
+      if (isEnumField(key)) {
+        return `${key}: ${value}`;
+      }
+      return `${key}: ${JSON.stringify(value)}`;
+    })
+    .join(", ");
+  query = query.replace("{{args.data}}", dataFields);
 
   const response = (await graphqlRequest(query)) as { createNews: News };
   return response.createNews;
@@ -227,7 +307,7 @@ export const requestCreateNews = async (
 
 export const requestUpdateNews = async (
   selection: Partial<Record<keyof News, boolean>>,
-  args: { id: string; data: any }
+  args: { id: string; data: NewsUpdateInput }
 ) => {
   const fields = Object.entries(selection)
     .filter(([_, include]) => include)
@@ -239,9 +319,30 @@ export const requestUpdateNews = async (
   if (!args.data) throw new Error("data is required.");
 
   let query = updateNewsQuery.replace("{{fields}}", fields);
-  query = query.replace("{{args.id}}", args.id);
-  query = query.replace("{{args.data}}", args.data);
+  const isEnumField = (field: string): boolean => {
+    return [].includes(field);
+  };
+  query = query.replace("{{args.id}}", `"${args.id}"`);
+  const dataFields = Object.entries(args.data)
+    .map(([key, value]) => {
+      if (isEnumField(key)) {
+        return `${key}: ${value}`;
+      }
+      return `${key}: ${JSON.stringify(value)}`;
+    })
+    .join(", ");
+  query = query.replace("{{args.data}}", dataFields);
 
   const response = (await graphqlRequest(query)) as { updateNews: News };
   return response.updateNews;
+};
+
+export const isFieldEnum = (field: string): boolean => {
+  return [
+    "ProductCategory",
+    "ProductStatus",
+    "NewsState",
+    "__TypeKind",
+    "__DirectiveLocation",
+  ].includes(field);
 };

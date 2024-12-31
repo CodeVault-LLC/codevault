@@ -3,8 +3,19 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { seo } from "@/lib/seo";
 import FeaturedNews from "@/components/NewsDisplay";
+import { useNewsLatestPublished } from "@/gql";
 
 const Home: React.FC = () => {
+  const { data: news } = useNewsLatestPublished({
+    id: true,
+    title: true,
+    content: true,
+    publishedAt: true,
+    createdAt: true,
+    state: true,
+    updatedAt: true,
+  });
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <main>

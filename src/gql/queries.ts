@@ -5,7 +5,7 @@ export const meQuery = `query Me {
 }`;
 
 export const userQuery = `query User {
-  user(id: "{{args.id}}") {
+  user(id: {{args.id}}) {
     {{fields}}
   }
 }`;
@@ -17,55 +17,62 @@ export const productsQuery = `query Products {
 }`;
 
 export const productQuery = `query Product {
-  product(id: "{{args.id}}") {
+  product(id: {{args.id}}) {
+    {{fields}}
+  }
+}`;
+
+export const newsLatestPublishedQuery = `query NewsLatestPublished {
+  newsLatestPublished {
     {{fields}}
   }
 }`;
 
 export const newsByProductQuery = `query NewsByProduct {
-  newsByProduct(productId: "{{args.productId}}") {
+  newsByProduct(productId: {{args.productId}}) {
     {{fields}}
   }
 }`;
 
 export const newsStatisticsByProductIdQuery = `query NewsStatisticsByProductId {
-  newsStatisticsByProductId(productId: "{{args.productId}}") {
+  newsStatisticsByProductId(productId: {{args.productId}}) {
     {{fields}}
   }
 }`;
 
 export const newsByIdQuery = `query NewsById {
-  newsById(id: "{{args.id}}") {
+  newsById(id: {{args.id}}) {
     {{fields}}
   }
 }`;
 
 export const loginQuery = `mutation Login {
-  login(email: "{{args.email}}", password: "{{args.password}}") {
+  login(email: {{args.email}}, password: {{args.password}}) {
     {{fields}}
   }
 }`;
 
 export const createProductQuery = `mutation CreateProduct {
-  createProduct(data: "{{args.data}}") {
+  createProduct(data: { {{args.data}} }) {
     {{fields}}
   }
 }`;
 
 export const updateProductQuery = `mutation UpdateProduct {
-  updateProduct(id: "{{args.id}}", data: {{args.data}}) {
+  updateProduct(id: {{args.id}}, data: { {{args.data}} }) {
     {{fields}}
   }
 }`;
 
 export const createNewsQuery = `mutation CreateNews {
-  createNews(productId: "{{args.productId}}", data: "{{args.data}}") {
+  createNews(productId: {{args.productId}}, data: { {{args.data}} }) {
     {{fields}}
   }
 }`;
 
 export const updateNewsQuery = `mutation UpdateNews {
-  updateNews(id: "{{args.id}}", data: "{{args.data}}") {
+  updateNews(id: {{args.id}}, data: { {{args.data}} }) {
     {{fields}}
   }
 }`;
+

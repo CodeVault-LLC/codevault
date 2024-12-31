@@ -42,7 +42,7 @@ const Products: FC = () => {
                 <div className="p-4 flex flex-col justify-between">
                   <div>
                     <h4 className="dark:text-white text-lg">{project.name}</h4>
-                    <p className="dark:text-gray-400 text-sm">
+                    <p className="dark:text-gray-400 text-sm truncate text-clip">
                       {project.description}
                     </p>
                   </div>

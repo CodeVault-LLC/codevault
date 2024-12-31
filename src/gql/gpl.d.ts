@@ -10,6 +10,7 @@ export interface Query {
   user: User;
   products: Product[];
   product: Product;
+  newsLatestPublished: News[];
   newsByProduct: News[];
   newsStatisticsByProductId: NewsStatistics;
   newsById: News;
@@ -27,13 +28,39 @@ export interface Mutation {
   updateNews: News;
 }
 
+/* 
+
+ */
+export enum ProductCategory {
+  api = "api",
+  library = "library",
+  framework = "framework",
+  tool = "tool",
+  plugin = "plugin",
+  template = "template",
+  other = "other",
+}
+
+/* 
+
+ */
+export enum ProductStatus {
+  stable = "stable",
+  beta = "beta",
+  alpha = "alpha",
+  deprecated = "deprecated",
+  coming_soon = "coming_soon",
+  planned = "planned",
+  in_progress = "in_progress",
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
   tagline: string;
-  category: any;
-  status: any;
+  category: ProductCategory;
+  status: ProductStatus;
   public: boolean;
   createdAt: string;
   updatedAt: string;
@@ -44,8 +71,8 @@ export interface ProductCreateInput {
   description: string;
   tagline: string;
   public: boolean;
-  status: any;
-  category: any;
+  status: ProductStatus;
+  category: ProductCategory;
   tags: string[];
 }
 
@@ -54,15 +81,24 @@ export interface ProductUpdateInput {
   description: string;
   tagline: string;
   public: boolean;
-  status: any;
-  category: any;
+  status: ProductStatus;
+  category: ProductCategory;
   tags: string[];
+}
+
+/* 
+
+ */
+export enum NewsState {
+  draft = "draft",
+  published = "published",
+  archived = "archived",
 }
 
 export interface News {
   id: string;
   title: string;
-  state: any;
+  state: NewsState;
   content: string;
   createdAt: string;
   updatedAt: string;
@@ -72,13 +108,13 @@ export interface News {
 export interface NewsCreateInput {
   title: string;
   content: string;
-  state: any;
+  state: NewsState;
 }
 
 export interface NewsUpdateInput {
   title: string;
   content: string;
-  state: any;
+  state: NewsState;
 }
 
 export interface NewsStatistics {
@@ -104,19 +140,34 @@ export interface __Schema {
 /* 
 The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
 
-Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
  */
 export interface __Type {
-  kind: any;
+  kind: __TypeKind;
   name: string;
   description: string;
-  specifiedByUrl: string;
+  specifiedByURL: string;
   fields: __Field[];
   interfaces: __Type[];
   possibleTypes: __Type[];
   enumValues: __EnumValue[];
   inputFields: __InputValue[];
   ofType: __Type;
+  isOneOf: boolean;
+}
+
+/* 
+An enum describing what kind of type a given `__Type` is.
+ */
+export enum __TypeKind {
+  SCALAR = "SCALAR",
+  OBJECT = "OBJECT",
+  INTERFACE = "INTERFACE",
+  UNION = "UNION",
+  ENUM = "ENUM",
+  INPUT_OBJECT = "INPUT_OBJECT",
+  LIST = "LIST",
+  NON_NULL = "NON_NULL",
 }
 
 /* 
@@ -162,7 +213,32 @@ export interface __Directive {
   name: string;
   description: string;
   isRepeatable: boolean;
-  locations: any[];
+  locations: __DirectiveLocation[];
   args: __InputValue[];
+}
+
+/* 
+A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
+ */
+export enum __DirectiveLocation {
+  QUERY = "QUERY",
+  MUTATION = "MUTATION",
+  SUBSCRIPTION = "SUBSCRIPTION",
+  FIELD = "FIELD",
+  FRAGMENT_DEFINITION = "FRAGMENT_DEFINITION",
+  FRAGMENT_SPREAD = "FRAGMENT_SPREAD",
+  INLINE_FRAGMENT = "INLINE_FRAGMENT",
+  VARIABLE_DEFINITION = "VARIABLE_DEFINITION",
+  SCHEMA = "SCHEMA",
+  SCALAR = "SCALAR",
+  OBJECT = "OBJECT",
+  FIELD_DEFINITION = "FIELD_DEFINITION",
+  ARGUMENT_DEFINITION = "ARGUMENT_DEFINITION",
+  INTERFACE = "INTERFACE",
+  UNION = "UNION",
+  ENUM = "ENUM",
+  ENUM_VALUE = "ENUM_VALUE",
+  INPUT_OBJECT = "INPUT_OBJECT",
+  INPUT_FIELD_DEFINITION = "INPUT_FIELD_DEFINITION",
 }
 
