@@ -4,28 +4,69 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Radar, Shield, Eye, Zap } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function MinervaProductPage() {
+  const features = [
+    {
+      icon: <Radar className="w-6 h-6 text-blue-400" />,
+      title: "Deep Scan Technology",
+      description:
+        "Utilizes advanced algorithms to detect vulnerabilities across your entire web infrastructure.",
+    },
+    {
+      icon: <Shield className="w-6 h-6 text-blue-400" />,
+      title: "Secret Detection",
+      description:
+        "Identifies exposed API keys, credentials, and other sensitive information in your codebase.",
+    },
+    {
+      icon: <Eye className="w-6 h-6 text-blue-400" />,
+      title: "Real-time Monitoring",
+      description:
+        "Continuously monitors your websites for new vulnerabilities and immediate alerts.",
+    },
+    {
+      icon: <Zap className="w-6 h-6 text-blue-400" />,
+      title: "Actionable Insights",
+      description:
+        "Provides detailed reports with prioritized recommendations for remediation.",
+    },
+  ];
+
   return (
     <div className="max-w-4xl mx-auto">
       <header className="text-center mb-12">
-        <div className="mb-4">
-          <img
-            src="/placeholder.svg?height=150&width=150"
-            alt="Minerva Mission Patch"
-            width={150}
-            height={150}
-            className="mx-auto"
-          />
-        </div>
-        <h1 className="text-4xl font-bold mb-2">Mission Minerva</h1>
-        <p className="text-xl text-blue-300">
-          Web Vulnerability and Secret Scanner
-        </p>
+        <section className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 px-6 py-12 md:px-12 lg:py-24">
+          <div className="space-y-8">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-2">
+              Minerva
+            </h1>
+            <p className="text-lg md:text-xl font-medium text-blue-300">
+              Scan websites with intelligence
+            </p>
+          </div>
+
+          <div className="relative hidden lg:block">
+            
+          </div>
+        </section>
       </header>
 
+      <div className="flex items-center justify-center mb-12">
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white mr-4">
+          Launch Minerva Scan
+        </Button>
+        <Button className="bg-gray-800 text-white">Learn More</Button>
+      </div>
+
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Mission Overview</h2>
+        <h2 className="text-2xl font-semibold mb-4">Overview</h2>
         <p className="text-gray-300 mb-4">
           Minerva is an advanced reconnaissance tool designed to scan websites
           for vulnerabilities and exposed secrets. Like its namesake, the Roman
@@ -49,28 +90,32 @@ export default function MinervaProductPage() {
       </section>
 
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Key Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FeatureCard
-            icon={<Radar className="w-6 h-6 text-blue-400" />}
-            title="Deep Scan Technology"
-            description="Utilizes advanced algorithms to detect vulnerabilities across your entire web infrastructure."
-          />
-          <FeatureCard
-            icon={<Shield className="w-6 h-6 text-blue-400" />}
-            title="Secret Detection"
-            description="Identifies exposed API keys, credentials, and other sensitive information in your codebase."
-          />
-          <FeatureCard
-            icon={<Eye className="w-6 h-6 text-blue-400" />}
-            title="Real-time Monitoring"
-            description="Continuously monitors your websites for new vulnerabilities and immediate alerts."
-          />
-          <FeatureCard
-            icon={<Zap className="w-6 h-6 text-blue-400" />}
-            title="Actionable Insights"
-            description="Provides detailed reports with prioritized recommendations for remediation."
-          />
+        <h2 className="text-4xl md:text-5xl md:leading-[3.5rem] font-black tracking-tight max-w-lg">
+          Boost Your Strategy with Smart Features
+        </h2>
+        <div className="mt-6 md:mt-8 w-full mx-auto grid md:grid-cols-2 gap-12">
+          <div>
+            <Accordion defaultValue="item-0" type="single" className="w-full">
+              {features.map(({ title, description, icon }, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className="data-[state=open]:border-b-2 data-[state=open]:border-primary"
+                >
+                  <AccordionTrigger className="text-lg [&>svg]:hidden">
+                    <div className="flex items-center gap-4">
+                      {icon}
+                      {title}
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-[17px] leading-relaxed text-muted-foreground">
+                    {description}
+                    <div className="mt-6 mb-2 md:hidden aspect-video w-full bg-muted rounded-xl" />
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
