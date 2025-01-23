@@ -12,7 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as ProductMinervaImport } from './routes/product/minerva'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as ProductProductIdIndexImport } from './routes/product/$productId.index'
 import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
@@ -22,11 +21,6 @@ import { Route as ProductProductIdDocsIndexImport } from './routes/product/$prod
 
 const IndexRoute = IndexImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProductMinervaRoute = ProductMinervaImport.update({
-  path: '/product/minerva',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -68,13 +62,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdImport
       parentRoute: typeof rootRoute
     }
-    '/product/minerva': {
-      id: '/product/minerva'
-      path: '/product/minerva'
-      fullPath: '/product/minerva'
-      preLoaderRoute: typeof ProductMinervaImport
-      parentRoute: typeof rootRoute
-    }
     '/product/$productId/docs': {
       id: '/product/$productId/docs'
       path: '/docs'
@@ -109,7 +96,6 @@ export const routeTree = rootRoute.addChildren({
     }),
     ProductProductIdIndexRoute,
   }),
-  ProductMinervaRoute,
 })
 
 /* prettier-ignore-end */
@@ -121,8 +107,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/product/$productId",
-        "/product/minerva"
+        "/product/$productId"
       ]
     },
     "/": {
@@ -134,9 +119,6 @@ export const routeTree = rootRoute.addChildren({
         "/product/$productId/docs",
         "/product/$productId/"
       ]
-    },
-    "/product/minerva": {
-      "filePath": "product/minerva.tsx"
     },
     "/product/$productId/docs": {
       "filePath": "product/$productId.docs.tsx",

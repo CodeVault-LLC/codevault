@@ -2,6 +2,7 @@ import { NotFound } from "@/components/NotFound";
 import { ProductPage } from "@/pages/Product";
 import { TemplatePage } from "@/pages/Template";
 import { getProductById } from "@/products";
+import { MinervaPage } from "@/products/minerva";
 import { Product } from "@/types/product";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 
@@ -11,6 +12,8 @@ const RouteForm: React.FC = () => {
   });
 
   if (!product) return <NotFound />;
+
+  if (product.id === "minerva") return <MinervaPage />;
 
   if (product.category === "template")
     return <TemplatePage product={product} />;

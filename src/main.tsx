@@ -27,6 +27,13 @@ const router = createRouter({
     return <NotFound />;
   },
 });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <QueryClientProvider client={queryClient}>
     <StartClient router={router} />

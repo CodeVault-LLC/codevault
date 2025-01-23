@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Card } from "./ui/card";
-import { Product } from "@/types/product";
+import { Product, ReleasePhase } from "@/types/product";
 import { Badge } from "./ui/badge";
 import {
   CircleIcon,
@@ -84,7 +84,7 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
           )}
         </div>
         <div className="mb-4 flex flex-row items-center justify-between gap-8">
-          {product.isFree ? (
+          {product.github ? (
             <Link
               to="/product/$productId"
               params={{ productId: product.id }}
@@ -98,7 +98,7 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
             <Button
               variant="outline"
               className="w-full"
-              disabled={!product.releaseStatus.released}
+              disabled={product.release.phase !== ReleasePhase.stable}
             >
               Add to Cart
             </Button>
