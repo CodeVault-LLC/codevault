@@ -133,7 +133,10 @@ const ProductProductIdRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+<<<<<<< HEAD
   '/projects': typeof ProjectsRoute
+=======
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
   '/product/$productId': typeof ProductProductIdRouteWithChildren
   '/product/$productId/docs': typeof ProductProductIdDocsRouteWithChildren
   '/product/$productId/': typeof ProductProductIdIndexRoute
@@ -142,7 +145,10 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+<<<<<<< HEAD
   '/projects': typeof ProjectsRoute
+=======
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
   '/product/$productId': typeof ProductProductIdIndexRoute
   '/product/$productId/docs': typeof ProductProductIdDocsIndexRoute
 }
@@ -150,7 +156,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+<<<<<<< HEAD
   '/projects': typeof ProjectsRoute
+=======
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
   '/product/$productId': typeof ProductProductIdRouteWithChildren
   '/product/$productId/docs': typeof ProductProductIdDocsRouteWithChildren
   '/product/$productId/': typeof ProductProductIdIndexRoute
@@ -161,17 +170,27 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+<<<<<<< HEAD
     | '/projects'
+=======
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
     | '/product/$productId'
     | '/product/$productId/docs'
     | '/product/$productId/'
     | '/product/$productId/docs/'
   fileRoutesByTo: FileRoutesByTo
+<<<<<<< HEAD
   to: '/' | '/projects' | '/product/$productId' | '/product/$productId/docs'
   id:
     | '__root__'
     | '/'
     | '/projects'
+=======
+  to: '/' | '/product/$productId' | '/product/$productId/docs'
+  id:
+    | '__root__'
+    | '/'
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
     | '/product/$productId'
     | '/product/$productId/docs'
     | '/product/$productId/'
@@ -181,13 +200,19 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+<<<<<<< HEAD
   ProjectsRoute: typeof ProjectsRoute
+=======
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
   ProductProductIdRoute: typeof ProductProductIdRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+<<<<<<< HEAD
   ProjectsRoute: ProjectsRoute,
+=======
+>>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
   ProductProductIdRoute: ProductProductIdRouteWithChildren,
 }
 

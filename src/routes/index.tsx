@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { seo } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 const Home: React.FC = () => {
@@ -52,4 +53,12 @@ const Home: React.FC = () => {
 
 export const Route = createFileRoute("/")({
   component: Home,
+  head: () => ({
+    meta: seo({
+      title: "Home | Codevault",
+      description:
+        "The marketing and documentation site for CodeVault Products.",
+      keywords: "codevault, products, documentation, marketing",
+    }),
+  }),
 });
