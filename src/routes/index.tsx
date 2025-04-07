@@ -167,12 +167,12 @@ const Home: React.FC = () => {
 
 export const Route = createFileRoute("/")({
   component: Home,
-  meta: () => {
-    return seo({
+  head: () => ({
+    meta: seo({
       title: "Home | Codevault",
       description:
         "The marketing and documentation site for CodeVault Products.",
       keywords: "codevault, products, documentation, marketing",
-    });
-  },
+    }),
+  }),
 });
