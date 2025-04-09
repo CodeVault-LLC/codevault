@@ -5,12 +5,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Product, ReleasePhase } from "@/types/product";
+import { Project, ReleasePhase } from "@/types/project";
 import { Link } from "@tanstack/react-router";
 import { Eye, Radar, Shield, Zap } from "lucide-react";
 import { FC } from "react";
 
-export const Minerva: Product = {
+export const Minerva: Project = {
   id: "minerva",
   name: "Minerva",
   tagline: "Advanced Reconnaissance Tool",
@@ -86,8 +86,8 @@ export const MinervaPage: FC = () => {
 
       <div className="flex items-center justify-center mb-12 w-4/12 mx-auto">
         <Link
-          to="/product/$productId/docs"
-          params={{ productId: "minerva" }}
+          to="/project/$projectId/docs"
+          params={{ projectId: "minerva" }}
           className="mr-4 w-full"
         >
           <Button className="bg-blue-500 hover:bg-blue-600 text-white mr-4 w-full">
@@ -96,8 +96,8 @@ export const MinervaPage: FC = () => {
         </Link>
 
         <Link
-          to="/product/$productId/docs"
-          params={{ productId: "minerva" }}
+          to="/project/$projectId/docs"
+          params={{ projectId: "minerva" }}
           className="w-full"
         >
           <Button className="bg-gray-800 text-white w-full">Support</Button>

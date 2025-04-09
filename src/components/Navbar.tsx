@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ThemeSwitch } from "./ThemeSwitch";
+import { ThemeSwitch } from "./theme-switcher";
 import { Button } from "./ui/button";
 import { Github } from "lucide-react";
 

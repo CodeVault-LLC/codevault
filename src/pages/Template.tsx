@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Product } from "@/types/product";
+import { Project } from "@/types/project";
 import { Link } from "@tanstack/react-router";
 import { CheckIcon, StarIcon } from "lucide-react";
 
 interface TemplateProps {
-  product: Product;
+  project: Project;
 }
 
-export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
+export const TemplatePage: React.FC<TemplateProps> = ({ project }) => {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
@@ -19,16 +19,16 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    {product.name}
+                    {project.name}
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    {product.description}
+                    {project.description}
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link
-                    to="/product/$productId/docs"
-                    params={{ productId: product.id }}
+                    to="/project/$projectId/docs"
+                    params={{ projectId: project.id }}
                     className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                   >
                     Get Started
@@ -58,7 +58,7 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
               <div className="flex flex-col justify-center space-y-4">
                 <ul className="grid gap-6">
-                  {product.features.map((feature) => (
+                  {project.features.map((feature) => (
                     <li key={feature.name}>
                       <div className="grid gap-1">
                         <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
           </div>
         </section>
 
-        {!product.isFree && (
+        {!project.isFree && (
           <section
             className="w-full py-12 md:py-24 lg:py-32 bg-muted"
             id="pricing"
@@ -146,13 +146,13 @@ export const TemplatePage: React.FC<TemplateProps> = ({ product }) => {
           </section>
         )}
 
-        {product.templateAssets && (
+        {project.templateAssets && (
           <div className="space-y-4 mb-4">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center">
               Explore our Template Assets
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 text-white">
-              {product.templateAssets.map((asset) => (
+              {project.templateAssets.map((asset) => (
                 <div
                   className="bg-muted rounded-lg shadow-md transition-colors duration-300"
                   key={asset.name}

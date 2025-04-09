@@ -1,10 +1,10 @@
-import { Product } from "@/types/product";
+import { Project } from "@/types/project";
 import { Minerva } from "./minerva";
 
-export const products = [Minerva];
+export const projects = [Minerva];
 
-export const getProductById = (id: string): Product | null => {
-  const product = products.find((product) => product.id === id);
+export const getProjectById = (id: string): Project | null => {
+  const product = projects.find((product) => product.id === id);
 
   if (!product) return null;
 

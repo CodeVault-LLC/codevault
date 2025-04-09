@@ -73,3 +73,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+#mdx-content * {
+  all: revert;
+}

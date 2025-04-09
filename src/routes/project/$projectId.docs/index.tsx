@@ -3,15 +3,16 @@ import { MDXProvider } from "@mdx-js/react";
 import { evaluate } from "@mdx-js/mdx";
 import * as runtime from "react/jsx-runtime";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/types/product";
+import { Project } from "@/types/project";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { DownloadCloudIcon } from "lucide-react";
-import { getProductById } from "@/products";
+import { getProjectById } from "@/products";
 import { useEffect, useState } from "react";
+import { AlertMDX } from "@/components/mdx/alert";
 
 const Documentation: React.FC = () => {
-  const { product }: { product: Product } = useLoaderData({
-    from: "/product/$productId/docs",
+  const { project }: { project: Project } = useLoaderData({
+    from: "/project/$projectId/docs",
   });
   const [mdxContent, setMdxContent] = useState<React.ReactNode>(null);
 
@@ -27,10 +28,15 @@ const Documentation: React.FC = () => {
     const parseMdx = async () => {
       if (!mdxSource) return;
 
+      const components = {
+        Alert: AlertMDX,
+      };
+
       try {
         const { default: Content } = await evaluate(mdxSource, {
           ...runtime,
           Fragment: runtime.Fragment,
+          useMDXComponents: () => components,
         });
 
         setMdxContent(<Content />);
@@ -47,12 +53,18 @@ const Documentation: React.FC = () => {
       {isLoading && <p>Loading documentation...</p>}
       {error && <p className="text-red-500">Failed to load documentation.</p>}
 
-      {mdxContent && <MDXProvider>{mdxContent}</MDXProvider>}
+      <div className="text-inherit" id="mdx-content">
+        {mdxContent && (
+          <MDXProvider components={{ Alert: AlertMDX }}>
+            {mdxContent}
+          </MDXProvider>
+        )}
+      </div>
 
-      {product.downloadUrl && (
+      {project.downloadUrl && (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <a
-            href={product.downloadUrl}
+            href={project.downloadUrl}
             target="_blank"
             rel="noreferrer"
             className="w-full"
@@ -67,14 +79,14 @@ const Documentation: React.FC = () => {
   );
 };
 
-export const Route = createFileRoute("/product/$productId/docs/")({
+export const Route = createFileRoute("/project/$projectId/docs/")({
   component: Documentation,
   loader: ({ params }) => {
-    const product = getProductById(params.productId);
-    if (!product) {
-      throw new Error(`Product with ID ${params.productId} not found.`);
+    const project = getProjectById(params.projectId);
+    if (!project) {
+      throw new Error(`Project with ID ${params.projectId} not found.`);
     }
-    
-    return { product };
+
+    return { project };
   },
 });

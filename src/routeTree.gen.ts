@@ -13,10 +13,10 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProjectsImport } from './routes/projects'
 import { Route as IndexImport } from './routes/index'
-import { Route as ProductProductIdImport } from './routes/product/$productId'
-import { Route as ProductProductIdIndexImport } from './routes/product/$productId.index'
-import { Route as ProductProductIdDocsImport } from './routes/product/$productId.docs'
-import { Route as ProductProductIdDocsIndexImport } from './routes/product/$productId.docs/index'
+import { Route as ProjectProjectIdImport } from './routes/project/$projectId'
+import { Route as ProjectProjectIdIndexImport } from './routes/project/$projectId.index'
+import { Route as ProjectProjectIdDocsImport } from './routes/project/$projectId.docs'
+import { Route as ProjectProjectIdDocsIndexImport } from './routes/project/$projectId.docs/index'
 
 // Create/Update Routes
 
@@ -32,28 +32,28 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProductProductIdRoute = ProductProductIdImport.update({
-  id: '/product/$productId',
-  path: '/product/$productId',
+const ProjectProjectIdRoute = ProjectProjectIdImport.update({
+  id: '/project/$projectId',
+  path: '/project/$projectId',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProductProductIdIndexRoute = ProductProductIdIndexImport.update({
+const ProjectProjectIdIndexRoute = ProjectProjectIdIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ProductProductIdRoute,
+  getParentRoute: () => ProjectProjectIdRoute,
 } as any)
 
-const ProductProductIdDocsRoute = ProductProductIdDocsImport.update({
+const ProjectProjectIdDocsRoute = ProjectProjectIdDocsImport.update({
   id: '/docs',
   path: '/docs',
-  getParentRoute: () => ProductProductIdRoute,
+  getParentRoute: () => ProjectProjectIdRoute,
 } as any)
 
-const ProductProductIdDocsIndexRoute = ProductProductIdDocsIndexImport.update({
+const ProjectProjectIdDocsIndexRoute = ProjectProjectIdDocsIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ProductProductIdDocsRoute,
+  getParentRoute: () => ProjectProjectIdDocsRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -74,146 +74,121 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsImport
       parentRoute: typeof rootRoute
     }
-    '/product/$productId': {
-      id: '/product/$productId'
-      path: '/product/$productId'
-      fullPath: '/product/$productId'
-      preLoaderRoute: typeof ProductProductIdImport
+    '/project/$projectId': {
+      id: '/project/$projectId'
+      path: '/project/$projectId'
+      fullPath: '/project/$projectId'
+      preLoaderRoute: typeof ProjectProjectIdImport
       parentRoute: typeof rootRoute
     }
-    '/product/$productId/docs': {
-      id: '/product/$productId/docs'
+    '/project/$projectId/docs': {
+      id: '/project/$projectId/docs'
       path: '/docs'
-      fullPath: '/product/$productId/docs'
-      preLoaderRoute: typeof ProductProductIdDocsImport
-      parentRoute: typeof ProductProductIdImport
+      fullPath: '/project/$projectId/docs'
+      preLoaderRoute: typeof ProjectProjectIdDocsImport
+      parentRoute: typeof ProjectProjectIdImport
     }
-    '/product/$productId/': {
-      id: '/product/$productId/'
+    '/project/$projectId/': {
+      id: '/project/$projectId/'
       path: '/'
-      fullPath: '/product/$productId/'
-      preLoaderRoute: typeof ProductProductIdIndexImport
-      parentRoute: typeof ProductProductIdImport
+      fullPath: '/project/$projectId/'
+      preLoaderRoute: typeof ProjectProjectIdIndexImport
+      parentRoute: typeof ProjectProjectIdImport
     }
-    '/product/$productId/docs/': {
-      id: '/product/$productId/docs/'
+    '/project/$projectId/docs/': {
+      id: '/project/$projectId/docs/'
       path: '/'
-      fullPath: '/product/$productId/docs/'
-      preLoaderRoute: typeof ProductProductIdDocsIndexImport
-      parentRoute: typeof ProductProductIdDocsImport
+      fullPath: '/project/$projectId/docs/'
+      preLoaderRoute: typeof ProjectProjectIdDocsIndexImport
+      parentRoute: typeof ProjectProjectIdDocsImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface ProductProductIdDocsRouteChildren {
-  ProductProductIdDocsIndexRoute: typeof ProductProductIdDocsIndexRoute
+interface ProjectProjectIdDocsRouteChildren {
+  ProjectProjectIdDocsIndexRoute: typeof ProjectProjectIdDocsIndexRoute
 }
 
-const ProductProductIdDocsRouteChildren: ProductProductIdDocsRouteChildren = {
-  ProductProductIdDocsIndexRoute: ProductProductIdDocsIndexRoute,
+const ProjectProjectIdDocsRouteChildren: ProjectProjectIdDocsRouteChildren = {
+  ProjectProjectIdDocsIndexRoute: ProjectProjectIdDocsIndexRoute,
 }
 
-const ProductProductIdDocsRouteWithChildren =
-  ProductProductIdDocsRoute._addFileChildren(ProductProductIdDocsRouteChildren)
+const ProjectProjectIdDocsRouteWithChildren =
+  ProjectProjectIdDocsRoute._addFileChildren(ProjectProjectIdDocsRouteChildren)
 
-interface ProductProductIdRouteChildren {
-  ProductProductIdDocsRoute: typeof ProductProductIdDocsRouteWithChildren
-  ProductProductIdIndexRoute: typeof ProductProductIdIndexRoute
+interface ProjectProjectIdRouteChildren {
+  ProjectProjectIdDocsRoute: typeof ProjectProjectIdDocsRouteWithChildren
+  ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
 }
 
-const ProductProductIdRouteChildren: ProductProductIdRouteChildren = {
-  ProductProductIdDocsRoute: ProductProductIdDocsRouteWithChildren,
-  ProductProductIdIndexRoute: ProductProductIdIndexRoute,
+const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
+  ProjectProjectIdDocsRoute: ProjectProjectIdDocsRouteWithChildren,
+  ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
 }
 
-const ProductProductIdRouteWithChildren =
-  ProductProductIdRoute._addFileChildren(ProductProductIdRouteChildren)
+const ProjectProjectIdRouteWithChildren =
+  ProjectProjectIdRoute._addFileChildren(ProjectProjectIdRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-<<<<<<< HEAD
   '/projects': typeof ProjectsRoute
-=======
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-  '/product/$productId': typeof ProductProductIdRouteWithChildren
-  '/product/$productId/docs': typeof ProductProductIdDocsRouteWithChildren
-  '/product/$productId/': typeof ProductProductIdIndexRoute
-  '/product/$productId/docs/': typeof ProductProductIdDocsIndexRoute
+  '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
+  '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
+  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/docs/': typeof ProjectProjectIdDocsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-<<<<<<< HEAD
   '/projects': typeof ProjectsRoute
-=======
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-  '/product/$productId': typeof ProductProductIdIndexRoute
-  '/product/$productId/docs': typeof ProductProductIdDocsIndexRoute
+  '/project/$projectId': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/docs': typeof ProjectProjectIdDocsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-<<<<<<< HEAD
   '/projects': typeof ProjectsRoute
-=======
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-  '/product/$productId': typeof ProductProductIdRouteWithChildren
-  '/product/$productId/docs': typeof ProductProductIdDocsRouteWithChildren
-  '/product/$productId/': typeof ProductProductIdIndexRoute
-  '/product/$productId/docs/': typeof ProductProductIdDocsIndexRoute
+  '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
+  '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
+  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/docs/': typeof ProjectProjectIdDocsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-<<<<<<< HEAD
     | '/projects'
-=======
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-    | '/product/$productId'
-    | '/product/$productId/docs'
-    | '/product/$productId/'
-    | '/product/$productId/docs/'
+    | '/project/$projectId'
+    | '/project/$projectId/docs'
+    | '/project/$projectId/'
+    | '/project/$projectId/docs/'
   fileRoutesByTo: FileRoutesByTo
-<<<<<<< HEAD
-  to: '/' | '/projects' | '/product/$productId' | '/product/$productId/docs'
+  to: '/' | '/projects' | '/project/$projectId' | '/project/$projectId/docs'
   id:
     | '__root__'
     | '/'
     | '/projects'
-=======
-  to: '/' | '/product/$productId' | '/product/$productId/docs'
-  id:
-    | '__root__'
-    | '/'
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-    | '/product/$productId'
-    | '/product/$productId/docs'
-    | '/product/$productId/'
-    | '/product/$productId/docs/'
+    | '/project/$projectId'
+    | '/project/$projectId/docs'
+    | '/project/$projectId/'
+    | '/project/$projectId/docs/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-<<<<<<< HEAD
   ProjectsRoute: typeof ProjectsRoute
-=======
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-  ProductProductIdRoute: typeof ProductProductIdRouteWithChildren
+  ProjectProjectIdRoute: typeof ProjectProjectIdRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-<<<<<<< HEAD
   ProjectsRoute: ProjectsRoute,
-=======
->>>>>>> 954fa8ccd42faa425ea05107e27479998b0cbbad
-  ProductProductIdRoute: ProductProductIdRouteWithChildren,
+  ProjectProjectIdRoute: ProjectProjectIdRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -228,7 +203,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/projects",
-        "/product/$productId"
+        "/project/$projectId"
       ]
     },
     "/": {
@@ -237,27 +212,27 @@ export const routeTree = rootRoute
     "/projects": {
       "filePath": "projects.tsx"
     },
-    "/product/$productId": {
-      "filePath": "product/$productId.tsx",
+    "/project/$projectId": {
+      "filePath": "project/$projectId.tsx",
       "children": [
-        "/product/$productId/docs",
-        "/product/$productId/"
+        "/project/$projectId/docs",
+        "/project/$projectId/"
       ]
     },
-    "/product/$productId/docs": {
-      "filePath": "product/$productId.docs.tsx",
-      "parent": "/product/$productId",
+    "/project/$projectId/docs": {
+      "filePath": "project/$projectId.docs.tsx",
+      "parent": "/project/$projectId",
       "children": [
-        "/product/$productId/docs/"
+        "/project/$projectId/docs/"
       ]
     },
-    "/product/$productId/": {
-      "filePath": "product/$productId.index.tsx",
-      "parent": "/product/$productId"
+    "/project/$projectId/": {
+      "filePath": "project/$projectId.index.tsx",
+      "parent": "/project/$projectId"
     },
-    "/product/$productId/docs/": {
-      "filePath": "product/$productId.docs/index.tsx",
-      "parent": "/product/$productId/docs"
+    "/project/$projectId/docs/": {
+      "filePath": "project/$projectId.docs/index.tsx",
+      "parent": "/project/$projectId/docs"
     }
   }
 }

@@ -1,10 +1,10 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getAppConfig } from "@/configs/app";
 import { seo } from "@/lib/seo";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/footer";
 import { Separator } from "@/components/ui/separator";
 import { QueryClient } from "@tanstack/react-query";
 
