@@ -9,6 +9,7 @@ import { DownloadCloudIcon } from "lucide-react";
 import { getProjectById } from "@/products";
 import { useEffect, useState } from "react";
 import { AlertMDX } from "@/components/mdx/alert";
+import { typographyComponents } from "@/components/mdx/typography";
 
 const Documentation: React.FC = () => {
   const { project }: { project: Project } = useLoaderData({
@@ -30,6 +31,7 @@ const Documentation: React.FC = () => {
 
       const components = {
         Alert: AlertMDX,
+        ...typographyComponents,
       };
 
       try {
@@ -37,6 +39,9 @@ const Documentation: React.FC = () => {
           ...runtime,
           Fragment: runtime.Fragment,
           useMDXComponents: () => components,
+          remarkPlugins: [],
+          stylePropertyNameCase: "css",
+          rehypePlugins: [],
         });
 
         setMdxContent(<Content />);
@@ -53,7 +58,7 @@ const Documentation: React.FC = () => {
       {isLoading && <p>Loading documentation...</p>}
       {error && <p className="text-red-500">Failed to load documentation.</p>}
 
-      <div className="text-inherit" id="mdx-content">
+      <div className="text-inherit tracking-wide leading-8 flex flex-col gap-4">
         {mdxContent && (
           <MDXProvider components={{ Alert: AlertMDX }}>
             {mdxContent}

@@ -41,7 +41,7 @@ export function AlertMDX({
   title?: string;
 }) {
   return (
-    <Alert className={cn("border-none", styles[type])} id="mdx-exclusion">
+    <Alert className={cn("border-none", styles[type])}>
       {icons[type]}
       <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{children.props.children}</AlertDescription>
