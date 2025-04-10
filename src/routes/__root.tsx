@@ -1,11 +1,8 @@
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import Navbar from "../components/navbar";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getAppConfig } from "@/configs/app";
 import { seo } from "@/lib/seo";
-import { Footer } from "@/components/footer";
-import { Separator } from "@/components/ui/separator";
 import { QueryClient } from "@tanstack/react-query";
 
 export const RootPage: React.FC = () => {
@@ -15,14 +12,7 @@ export const RootPage: React.FC = () => {
       storageKey={getAppConfig("color_mode.storage_key")}
     >
       <TooltipProvider delayDuration={100}>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <div className="container mx-auto my-8">
-            <Outlet />
-          </div>
-          <Separator />
-          <Footer />
-        </div>
+        <Outlet />
       </TooltipProvider>
     </ThemeProvider>
   );

@@ -7,7 +7,7 @@ export enum ReleasePhase {
   discontinued = "discontinued",
 }
 
-export interface Project {
+export interface IProject {
   id: string; // ex: "minerva"
   name: string; // ex: "Minerva"
   tagline: string; // ex: "Advanced Reconnaissance Tool"

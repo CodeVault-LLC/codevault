@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { Project } from "@/types/project";
+import { IProject } from "@/types/project";
 import { Link } from "@tanstack/react-router";
 import { CheckIcon } from "lucide-react";
 
 interface ProjectProps {
-  project: Project;
+  project: IProject;
 }
 
 export const ProjectPage: React.FC<ProjectProps> = ({ project }) => {

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Card } from "./ui/card";
-import { Project, ReleasePhase } from "@/types/project";
+import { IProject, ReleasePhase } from "@/types/project";
 import { Badge } from "./ui/badge";
 import {
   CircleIcon,
@@ -14,7 +14,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 type ProductComponentProps = {
-  product: Project;
+  product: IProject;
 };
 
 const truncateText = (text: string, maxLength: number): string =>

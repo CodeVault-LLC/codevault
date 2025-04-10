@@ -1,9 +1,9 @@
-import { useGithub } from "@/client/hooks/useGithub";
+import { useFetchGithub } from "@/client/hooks/useGithub";
 import { MDXProvider } from "@mdx-js/react";
 import { evaluate } from "@mdx-js/mdx";
 import * as runtime from "react/jsx-runtime";
 import { Button } from "@/components/ui/button";
-import { Project } from "@/types/project";
+import { IProject } from "@/types/project";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { DownloadCloudIcon } from "lucide-react";
 import { getProjectById } from "@/products";
@@ -12,7 +12,7 @@ import { AlertMDX } from "@/components/mdx/alert";
 import { typographyComponents } from "@/components/mdx/typography";
 
 const Documentation: React.FC = () => {
-  const { project }: { project: Project } = useLoaderData({
+  const { project }: { project: IProject } = useLoaderData({
     from: "/project/$projectId/docs",
   });
   const [mdxContent, setMdxContent] = useState<React.ReactNode>(null);
@@ -21,7 +21,7 @@ const Documentation: React.FC = () => {
     data: mdxSource,
     isLoading,
     error,
-  } = useGithub(
+  } = useFetchGithub(
     "https://raw.githubusercontent.com/CodeVault-LLC/graphql-generator/refs/heads/master/docs/getting-started/introduction.mdx"
   );
 

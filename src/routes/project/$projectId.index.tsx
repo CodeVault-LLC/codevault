@@ -3,11 +3,11 @@ import { ProjectPage } from "@/pages/Product";
 import { TemplatePage } from "@/pages/Template";
 import { getProjectById } from "@/products";
 import { MinervaPage } from "@/products/minerva";
-import { Project } from "@/types/project";
+import { IProject } from "@/types/project";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 
 const RouteForm: React.FC = () => {
-  const { project }: { project: Project | null } = useLoaderData({
+  const { project }: { project: IProject | null } = useLoaderData({
     strict: false,
   });
 

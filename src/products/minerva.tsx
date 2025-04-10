@@ -5,12 +5,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Project, ReleasePhase } from "@/types/project";
+import { IProject, ReleasePhase } from "@/types/project";
 import { Link } from "@tanstack/react-router";
 import { Eye, Radar, Shield, Zap } from "lucide-react";
 import { FC } from "react";
 
-export const Minerva: Project = {
+export const Minerva: IProject = {
   id: "minerva",
   name: "Minerva",
   tagline: "Advanced Reconnaissance Tool",

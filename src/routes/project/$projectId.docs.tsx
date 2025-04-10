@@ -1,25 +1,14 @@
 import { NotFound } from "@/components/not-found";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { DefaultWrapper } from "@/core/lib/wrappers/default-wrapper";
 import { getProjectById } from "@/products";
-import { Project } from "@/types/project";
+import { IProject } from "@/types/project";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import {
-  Link,
-  Outlet,
-  createFileRoute,
-  useLoaderData,
-} from "@tanstack/react-router";
+import { Outlet, createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { BugIcon } from "lucide-react";
 
 const Documentation: React.FC = () => {
-  const { project }: { project: Project | null } = useLoaderData({
+  const { project }: { project: IProject | null } = useLoaderData({
     strict: false,
   });
 
@@ -43,62 +32,22 @@ const Documentation: React.FC = () => {
   ];
 
   return (
-    <div className="w-full">
-      <div className="flex flex-row justify-between gap-2 items-center">
-        <div className="flex flex-row items-center gap-2">
-          <img
-            src="https://avatars.githubusercontent.com/u/160372018?s=48&v=4"
-            alt="CryptoGuard Logo"
-            className="w-8 h-8 rounded-md"
-          />
-          <h3 className="text-2xl font-bold text-center">{project.name}</h3>
+    <DefaultWrapper project={project}>
+      <div className="w-full">
+        <div className="flex flex-row justify-between gap-2 items-center">
+          <div className="flex flex-row items-center gap-2">
+            <img
+              src="https://avatars.githubusercontent.com/u/160372018?s=48&v=4"
+              alt="CryptoGuard Logo"
+              className="w-8 h-8 rounded-md"
+            />
+            <h3 className="text-2xl font-bold text-center">{project.name}</h3>
+          </div>
         </div>
-
-        <div className="flex flex-row items-center gap-2 h-full">
-          {socials.map((social, index) => (
-            <>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Button
-                    key={index}
-                    variant="secondary"
-                    asChild
-                    className={cn(
-                      social.issue
-                        ? "cursor-not-allowed bg-yellow-600 hover:bg-yellow-700"
-                        : "cursor-pointer"
-                    )}
-                  >
-                    <Link
-                      to={social.link}
-                      className="flex flex-row items-center gap-2"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <Button
-                        variant="ghost"
-                        className="bg-transparent hover:bg-transparent gap-2"
-                      >
-                        {social.icon}
-                        {social.name}
-                      </Button>
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent sideOffset={4} side="top">
-                  {social.description}
-                </TooltipContent>
-              </Tooltip>
-              {index !== socials.length - 1 && (
-                <Separator orientation="vertical" className="h-9" />
-              )}
-            </>
-          ))}
-        </div>
+        <Separator className="my-4" />
+        <Outlet />
       </div>
-      <Separator className="my-4" />
-      <Outlet />
-    </div>
+    </DefaultWrapper>
   );
 };
 

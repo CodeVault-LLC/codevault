@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Project } from "@/types/project";
+import { IProject } from "@/types/project";
 import { Link } from "@tanstack/react-router";
 import { CheckIcon, StarIcon } from "lucide-react";
 
 interface TemplateProps {
-  project: Project;
+  project: IProject;
 }
 
 export const TemplatePage: React.FC<TemplateProps> = ({ project }) => {
