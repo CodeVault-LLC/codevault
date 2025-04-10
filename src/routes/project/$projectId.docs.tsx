@@ -1,11 +1,9 @@
 import { NotFound } from "@/components/not-found";
 import { Separator } from "@/components/ui/separator";
 import { DefaultWrapper } from "@/core/lib/wrappers/default-wrapper";
-import { getProjectById } from "@/products";
+import { getProjectById } from "@/projects";
 import { IProject } from "@/types/project";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Outlet, createFileRoute, useLoaderData } from "@tanstack/react-router";
-import { BugIcon } from "lucide-react";
 
 const Documentation: React.FC = () => {
   const { project }: { project: IProject | null } = useLoaderData({
@@ -13,23 +11,6 @@ const Documentation: React.FC = () => {
   });
 
   if (!project) return <NotFound />;
-
-  const socials = [
-    {
-      name: "GitHub",
-      description: "View the source code on GitHub",
-      link: project?.github?.url,
-      icon: <GitHubLogoIcon className="size-6" />,
-      issue: false,
-    },
-    {
-      name: "Report Issue",
-      description: "Report an issue on GitHub",
-      link: project?.github?.url + "/issues/new/choose",
-      icon: <BugIcon className="size-6" />,
-      issue: false,
-    },
-  ];
 
   return (
     <DefaultWrapper project={project}>

@@ -16,7 +16,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ProjectProjectIdImport } from './routes/project/$projectId'
 import { Route as ProjectProjectIdIndexImport } from './routes/project/$projectId.index'
 import { Route as ProjectProjectIdDocsImport } from './routes/project/$projectId.docs'
-import { Route as ProjectProjectIdDocsIndexImport } from './routes/project/$projectId.docs/index'
+import { Route as ProjectProjectIdDocsBranchSplatIndexImport } from './routes/project/$projectId.docs/$branch.$/index'
 
 // Create/Update Routes
 
@@ -50,11 +50,12 @@ const ProjectProjectIdDocsRoute = ProjectProjectIdDocsImport.update({
   getParentRoute: () => ProjectProjectIdRoute,
 } as any)
 
-const ProjectProjectIdDocsIndexRoute = ProjectProjectIdDocsIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProjectProjectIdDocsRoute,
-} as any)
+const ProjectProjectIdDocsBranchSplatIndexRoute =
+  ProjectProjectIdDocsBranchSplatIndexImport.update({
+    id: '/$branch/$/',
+    path: '/$branch/$/',
+    getParentRoute: () => ProjectProjectIdDocsRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -95,11 +96,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdIndexImport
       parentRoute: typeof ProjectProjectIdImport
     }
-    '/project/$projectId/docs/': {
-      id: '/project/$projectId/docs/'
-      path: '/'
-      fullPath: '/project/$projectId/docs/'
-      preLoaderRoute: typeof ProjectProjectIdDocsIndexImport
+    '/project/$projectId/docs/$branch/$/': {
+      id: '/project/$projectId/docs/$branch/$/'
+      path: '/$branch/$'
+      fullPath: '/project/$projectId/docs/$branch/$'
+      preLoaderRoute: typeof ProjectProjectIdDocsBranchSplatIndexImport
       parentRoute: typeof ProjectProjectIdDocsImport
     }
   }
@@ -108,11 +109,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface ProjectProjectIdDocsRouteChildren {
-  ProjectProjectIdDocsIndexRoute: typeof ProjectProjectIdDocsIndexRoute
+  ProjectProjectIdDocsBranchSplatIndexRoute: typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
 
 const ProjectProjectIdDocsRouteChildren: ProjectProjectIdDocsRouteChildren = {
-  ProjectProjectIdDocsIndexRoute: ProjectProjectIdDocsIndexRoute,
+  ProjectProjectIdDocsBranchSplatIndexRoute:
+    ProjectProjectIdDocsBranchSplatIndexRoute,
 }
 
 const ProjectProjectIdDocsRouteWithChildren =
@@ -137,14 +139,15 @@ export interface FileRoutesByFullPath {
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
-  '/project/$projectId/docs/': typeof ProjectProjectIdDocsIndexRoute
+  '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRoute
+  '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
-  '/project/$projectId/docs': typeof ProjectProjectIdDocsIndexRoute
+  '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
 
 export interface FileRoutesById {
@@ -154,7 +157,7 @@ export interface FileRoutesById {
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
-  '/project/$projectId/docs/': typeof ProjectProjectIdDocsIndexRoute
+  '/project/$projectId/docs/$branch/$/': typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -165,9 +168,14 @@ export interface FileRouteTypes {
     | '/project/$projectId'
     | '/project/$projectId/docs'
     | '/project/$projectId/'
-    | '/project/$projectId/docs/'
+    | '/project/$projectId/docs/$branch/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/projects' | '/project/$projectId' | '/project/$projectId/docs'
+  to:
+    | '/'
+    | '/projects'
+    | '/project/$projectId/docs'
+    | '/project/$projectId'
+    | '/project/$projectId/docs/$branch/$'
   id:
     | '__root__'
     | '/'
@@ -175,7 +183,7 @@ export interface FileRouteTypes {
     | '/project/$projectId'
     | '/project/$projectId/docs'
     | '/project/$projectId/'
-    | '/project/$projectId/docs/'
+    | '/project/$projectId/docs/$branch/$/'
   fileRoutesById: FileRoutesById
 }
 
@@ -223,15 +231,15 @@ export const routeTree = rootRoute
       "filePath": "project/$projectId.docs.tsx",
       "parent": "/project/$projectId",
       "children": [
-        "/project/$projectId/docs/"
+        "/project/$projectId/docs/$branch/$/"
       ]
     },
     "/project/$projectId/": {
       "filePath": "project/$projectId.index.tsx",
       "parent": "/project/$projectId"
     },
-    "/project/$projectId/docs/": {
-      "filePath": "project/$projectId.docs/index.tsx",
+    "/project/$projectId/docs/$branch/$/": {
+      "filePath": "project/$projectId.docs/$branch.$/index.tsx",
       "parent": "/project/$projectId/docs"
     }
   }

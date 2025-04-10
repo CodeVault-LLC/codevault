@@ -1,8 +1,8 @@
 import { NotFound } from "@/components/not-found";
 import { ProjectPage } from "@/pages/Product";
 import { TemplatePage } from "@/pages/Template";
-import { getProjectById } from "@/products";
-import { MinervaPage } from "@/products/minerva";
+import { getProjectById } from "@/projects";
+import { MinervaPage } from "@/projects/minerva";
 import { IProject } from "@/types/project";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 

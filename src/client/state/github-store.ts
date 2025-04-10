@@ -29,7 +29,9 @@ type GithubStore = {
 export const useGithub = create<GithubStore>()((set) => ({
   schema: null,
   requestDocumentation: async (url: string) => {
-    const sessionStorage = window.sessionStorage.getItem("github-schema");
+    const sessionStorage = window.sessionStorage.getItem(
+      "github-schema-" + url
+    );
     if (sessionStorage) {
       const parsedData = githubSchema.parse(JSON.parse(sessionStorage));
       set({ schema: parsedData });
@@ -45,7 +47,10 @@ export const useGithub = create<GithubStore>()((set) => ({
     const parsedData = githubSchema.parse(response.data);
 
     set({ schema: parsedData });
-    window.sessionStorage.setItem("github-schema", JSON.stringify(parsedData));
+    window.sessionStorage.setItem(
+      "github-schema-" + url,
+      JSON.stringify(parsedData)
+    );
 
     return parsedData;
   },

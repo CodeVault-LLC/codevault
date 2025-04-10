@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DefaultWrapper } from "@/core/lib/wrappers/default-wrapper";
-import { projects } from "@/products";
+import { projects } from "@/projects";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 function RouteComponent() {

@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { IProject } from "@/types/project";
 import { Link } from "@tanstack/react-router";
-import { CheckIcon } from "lucide-react";
 
 interface ProjectProps {
   project: IProject;
@@ -40,21 +39,6 @@ export const ProjectPage: React.FC<ProjectProps> = ({ project }) => {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Unlock the Power of Our Platform
             </h2>
-            <ul className="grid gap-4">
-              {project.features.map((feature) => (
-                <li className="flex items-start gap-4">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    <CheckIcon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium">{feature.name}</h3>
-                    <p className="text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
           <div className="space-y-4">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium text-muted-foreground">

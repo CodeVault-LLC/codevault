@@ -12,7 +12,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useGithub } from "@/client/state/github-store";
-import { LoadingSpinner } from "../loader/loading-spinner";
 
 export const BranchSwitcher: React.FC = () => {
   const { schema } = useGithub();
@@ -42,7 +41,7 @@ export const BranchSwitcher: React.FC = () => {
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">Documentation</span>
                 <span className="dark:text-gray-300 text-sm">
-                  {selectedVersion ? selectedVersion : <LoadingSpinner />}
+                  {selectedVersion || "Loading..."}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto" />

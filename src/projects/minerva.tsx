@@ -35,7 +35,7 @@ export const Minerva: IProject = {
   github: {
     url: "https://github.com/CodeVault-LLC/minerva",
     documentationSource:
-      "https://raw.githubusercontent.com/CodeVault-LLC/graphql-generator/refs/heads/master/docs/schema.json",
+      "https://raw.githubusercontent.com/CodeVault-LLC/minerva/refs/heads/master/docs/schema.json",
   },
 };
 

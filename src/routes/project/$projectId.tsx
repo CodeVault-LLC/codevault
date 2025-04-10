@@ -1,5 +1,5 @@
 import { seo } from "@/lib/seo";
-import { getProjectById } from "@/products";
+import { getProjectById } from "@/projects";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 const ProductLayout: React.FC = () => {
