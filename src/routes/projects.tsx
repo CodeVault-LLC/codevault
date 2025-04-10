@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 function RouteComponent() {
   return (
-    <div className="grid grid-cols-4 grid-cols-3 xs:grid-cols-1 gap-4 w-full">
+    <div className="grid grid-cols-3 xs:grid-cols-1 gap-4 w-full">
       {projects.map((project) => (
         <div className="p-4 border rounded-md shadow-sm" key={project.id}>
           <img

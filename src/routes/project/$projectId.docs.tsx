@@ -16,7 +16,7 @@ import {
   createFileRoute,
   useLoaderData,
 } from "@tanstack/react-router";
-import { ShieldCheck, BugIcon } from "lucide-react";
+import { BugIcon } from "lucide-react";
 
 const Documentation: React.FC = () => {
   const { project }: { project: Project | null } = useLoaderData({
@@ -75,12 +75,13 @@ const Documentation: React.FC = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {social.issue ? (
-                        <ShieldCheck className="size-6" />
-                      ) : (
-                        social.icon
-                      )}
-                      <span>{social.name}</span>
+                      <Button
+                        variant="ghost"
+                        className="bg-transparent hover:bg-transparent gap-2"
+                      >
+                        {social.icon}
+                        {social.name}
+                      </Button>
                     </Link>
                   </Button>
                 </TooltipTrigger>
