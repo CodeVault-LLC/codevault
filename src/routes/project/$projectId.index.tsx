@@ -1,6 +1,5 @@
 import { NotFound } from "@/components/not-found";
 import { ProjectPage } from "@/pages/Product";
-import { TemplatePage } from "@/pages/Template";
 import { getProjectById } from "@/projects";
 import { MinervaPage } from "@/projects/minerva";
 import { IProject } from "@/types/project";
@@ -14,9 +13,6 @@ const RouteForm: React.FC = () => {
   if (!project) return <NotFound />;
 
   if (project.id === "minerva") return <MinervaPage />;
-
-  if (project.category === "template")
-    return <TemplatePage project={project} />;
 
   return <ProjectPage project={project} />;
 };

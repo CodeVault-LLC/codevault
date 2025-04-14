@@ -1,4 +1,6 @@
-import hljs from "highlight.js";
+import { shiki } from "@/client/shiki";
+import { Button } from "../ui/button";
+import React from "react";
 
 export const typographyComponents = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -50,25 +52,59 @@ export const typographyComponents = {
     />
   ),
   code: (props: React.HTMLAttributes<HTMLElement>) => {
+    const language = props.className?.match(/language-(\w+)/)?.[1];
+
     const codeString = typeof props.children === "string" ? props.children : "";
 
-    const highlighted = hljs.highlightAuto(codeString).value;
+    if (!language) {
+      return (
+        <code
+          {...props}
+          className="text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 rounded"
+          children={props.children}
+        />
+      );
+    }
+
+    const code = shiki.codeToHtml(codeString, {
+      lang: language,
+      theme: "github-dark",
+    });
 
     return (
       <code
         {...props}
         children={undefined}
-        className="hljs dark:text-white dark:bg-[#161b22] rounded px-1 py-0.5"
-        dangerouslySetInnerHTML={{ __html: highlighted }}
+        className="dark:text-white dark:bg-[#161b22] rounded"
+        dangerouslySetInnerHTML={{ __html: code }}
+        data-language={language}
       />
     );
   },
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      {...props}
-      className="dark:text-white dark:bg-[#161b22] rounded overflow-x-auto"
-    />
-  ),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pre: (props: any) => {
+    if (!props.children) {
+      return <pre {...props} />;
+    }
+
+    if (!React.isValidElement(props.children) || !props.children.props) {
+      return <pre {...props} />;
+    }
+
+    const language =
+      props.children.props.className?.match(/language-(\w+)/)?.[1];
+
+    return (
+      <pre {...props} className="dark:text-white dark:bg-[#161b22] rounded">
+        <div className="flex flex-row items-center border-b-2 font-mono p-1 px-2 dark:bg-zinc-800 rounded justify-between">
+          {language}
+          <Button variant="ghost">Copy</Button>
+        </div>
+
+        <div className="px-1">{props.children}</div>
+      </pre>
+    );
+  },
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       {...props}

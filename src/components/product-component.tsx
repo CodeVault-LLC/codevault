@@ -1,17 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import { Card } from "./ui/card";
-import { IProject, ReleasePhase } from "@/types/project";
-import { Badge } from "./ui/badge";
-import {
-  CircleIcon,
-  DoorOpenIcon,
-  GitForkIcon,
-  Github,
-  StarIcon,
-} from "lucide-react";
+import { IProject } from "@/types/project";
+import { DoorOpenIcon, GitForkIcon, Github, StarIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
 
 type ProductComponentProps = {
   product: IProject;
@@ -19,26 +9,6 @@ type ProductComponentProps = {
 
 const truncateText = (text: string, maxLength: number): string =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
-
-const BadgeComponent: React.FC<{ badge: string }> = ({ badge }) => (
-  <Badge
-    variant="outline"
-    className={cn(
-      "bg-background",
-      badge === "new" ? "border-green-600" : "border-gray-400"
-    )}
-  >
-    <CircleIcon
-      className={cn(
-        "h-3 w-3 -translate-x-1",
-        badge === "new"
-          ? "animate-pulse fill-green-300 text-green-300"
-          : "text-gray-400 fill-gray-600"
-      )}
-    />
-    {badge.charAt(0).toUpperCase() + badge.slice(1)}
-  </Badge>
-);
 
 const GitHubStats: React.FC = () => (
   <div className="flex flex-col items-end gap-4 text-sm text-muted-foreground">
@@ -65,11 +35,6 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
           <div>
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-bold">{product.name}</h3>
-              {product.badge && (
-                <div className="flex flex-wrap gap-2">
-                  <BadgeComponent badge={product.badge} />
-                </div>
-              )}
             </div>
 
             <p className="text-muted-foreground">
@@ -84,25 +49,6 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
           )}
         </div>
         <div className="mb-4 flex flex-row items-center justify-between gap-8">
-          {product.github ? (
-            <Link
-              to="/product/$productId"
-              params={{ productId: product.id }}
-              className="w-full"
-            >
-              <Button variant="outline" className="w-full">
-                Get Started
-              </Button>
-            </Link>
-          ) : (
-            <Button
-              variant="outline"
-              className="w-full"
-              disabled={product.release.phase !== ReleasePhase.stable}
-            >
-              Add to Cart
-            </Button>
-          )}
           {product.github?.url && product.github.url !== "Not Now!" && (
             <a
               href={product.github.url}

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Link, useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 export const DocsHeader: FC = () => {
   const { _splat, branch, projectId } = useParams({
@@ -30,6 +31,7 @@ export const DocsHeader: FC = () => {
               variant="link"
               className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
             >
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Project
             </Button>
           </Link>

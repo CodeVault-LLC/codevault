@@ -10,7 +10,6 @@ function RouteComponent() {
         {projects.map((project) => (
           <div className="p-4 border rounded-md shadow-sm" key={project.id}>
             <img
-              src={project.image}
               alt={project.name}
               className="w-full h-48 object-cover rounded-md mb-4"
             />
@@ -18,7 +17,7 @@ function RouteComponent() {
             <h2 className="text-xl font-semibold mb-2">{project.name}</h2>
             <p className="mb-4">{project.description}</p>
 
-            <Link to={`/project/${project.id}`}>
+            <Link to={"/project/$projectId"} params={{ projectId: project.id }}>
               <Button variant="outline" className="w-full">
                 Read more
               </Button>
