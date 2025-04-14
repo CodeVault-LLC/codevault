@@ -1,6 +1,7 @@
 import { shiki } from "@/client/shiki";
 import { Button } from "../ui/button";
 import React from "react";
+import { useTheme } from "../theme-provider";
 
 export const typographyComponents = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -52,6 +53,7 @@ export const typographyComponents = {
     />
   ),
   code: (props: React.HTMLAttributes<HTMLElement>) => {
+    const theme = useTheme();
     const language = props.className?.match(/language-(\w+)/)?.[1];
 
     const codeString = typeof props.children === "string" ? props.children : "";
@@ -68,7 +70,7 @@ export const typographyComponents = {
 
     const code = shiki.codeToHtml(codeString, {
       lang: language,
-      theme: "github-dark",
+      theme: theme?.theme === "dark" ? "github-dark" : "github-light",
     });
 
     return (
@@ -95,8 +97,11 @@ export const typographyComponents = {
       props.children.props.className?.match(/language-(\w+)/)?.[1];
 
     return (
-      <pre {...props} className="dark:text-white dark:bg-[#161b22] rounded">
-        <div className="flex flex-row items-center border-b-2 font-mono p-1 px-2 dark:bg-zinc-800 rounded justify-between">
+      <pre
+        {...props}
+        className="rounded dark:text-white dark:bg-[#161b22] bg-gray-100"
+      >
+        <div className="flex flex-row items-center border-b-2 font-mono p-1 px-2 dark:bg-zinc-800 bg-gray-200 rounded justify-between">
           {language}
           <Button
             variant="ghost"

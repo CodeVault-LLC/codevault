@@ -12,26 +12,26 @@ const Home: React.FC = () => {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               We hear you, Developers
             </h1>
-            <p className="text-lg md:text-xl font-medium text-blue-200">
+            <h4 className="text-lg md:text-xl font-medium dark:text-blue-200 text-blue-600">
               The people focused on advancing the future of software
-            </p>
+            </h4>
           </div>
-          <p className="text-gray-300 max-w-xl">
+          <p className="dark:text-gray-300 text-gray-800 max-w-xl">
             CodeVault is aspired to provide developers with useful tools and
             knowledge to help them in their journey. We are committed to
             delivering exceptional results, pushing the boundaries of
             creativity, and making a meaningful difference for our clients and
             their audiences.
           </p>
-          <p className="text-gray-300 max-w-xl">
+          <p className="dark:text-gray-300 text-gray-800 max-w-xl">
             We empower you to enhance your productivity, reduce the cost of your
             projects, and strengthen your knowledge.
           </p>
           <div className="flex space-x-4 mt-8">
-            <Link to="/projects" className="text-white">
+            <Link to="/projects">
               <Button
                 variant="outline"
-                className="bg-transparent text-white border-white hover:bg-white hover:text-black transition-colors"
+                className="bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-black transition-colors border-gray-300  hover:bg-gray-100 text-gray-800 dark:text-white"
               >
                 Explore our projects
               </Button>
