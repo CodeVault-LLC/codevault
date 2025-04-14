@@ -1,8 +1,6 @@
 import { ThemeSwitch } from "@/components/theme-switcher";
-import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { FC } from "react";
-import { GithubIcon } from "../brands/GithubIcon";
 
 export const DefaultHeader: FC = () => {
   return (
@@ -16,6 +14,7 @@ export const DefaultHeader: FC = () => {
       </div>
       <div className="flex items-center" />
       <div className="flex flex-row items-center justify-between gap-4">
+        {/*
         <a
           href="https://github.com/CodeVault-LLC"
           target="_blank"
@@ -29,6 +28,7 @@ export const DefaultHeader: FC = () => {
             <GithubIcon size={24} className="h-[1.2rem] w-[1.2rem]" />
           </Button>
         </a>
+        */}
 
         <ThemeSwitch />
       </div>

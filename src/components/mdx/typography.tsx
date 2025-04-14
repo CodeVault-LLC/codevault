@@ -98,7 +98,16 @@ export const typographyComponents = {
       <pre {...props} className="dark:text-white dark:bg-[#161b22] rounded">
         <div className="flex flex-row items-center border-b-2 font-mono p-1 px-2 dark:bg-zinc-800 rounded justify-between">
           {language}
-          <Button variant="ghost">Copy</Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                props.children.props.children as string
+              );
+            }}
+          >
+            Copy
+          </Button>
         </div>
 
         <div className="px-1">{props.children}</div>

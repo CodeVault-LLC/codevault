@@ -1,4 +1,8 @@
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+} from "@tanstack/react-router";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getAppConfig } from "@/configs/app";
@@ -11,6 +15,7 @@ export const RootPage: React.FC = () => {
       defaultTheme={getAppConfig("color_mode.default")}
       storageKey={getAppConfig("color_mode.storage_key")}
     >
+      <HeadContent />
       <TooltipProvider delayDuration={100}>
         <Outlet />
       </TooltipProvider>
