@@ -43,8 +43,18 @@ export const typographyComponents = {
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p {...props} className="text-gray-900 dark:text-white text-sm" />
   ),
-  li: (props: React.LiHTMLAttributes<HTMLLIElement>) => (
-    <li {...props} className="text-gray-900 dark:text-white text-base" />
+  li: (props: { children: { props: { children: string } }[] }) => {
+    return (
+      <li className="text-gray-900 dark:text-white text-sm">
+        {props.children[1]?.props?.children ?? props.children}
+      </li>
+    );
+  },
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul
+      {...props}
+      className="list-disc list-inside text-gray-900 dark:text-white"
+    />
   ),
   blockquote: (props: React.BlockquoteHTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
@@ -63,6 +73,9 @@ export const typographyComponents = {
         <code
           {...props}
           className="text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 rounded"
+          style={{
+            padding: "0.1rem 0.4rem",
+          }}
           children={props.children}
         />
       );
