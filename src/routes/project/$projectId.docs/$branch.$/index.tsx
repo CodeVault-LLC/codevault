@@ -7,6 +7,8 @@ import * as runtime from "react/jsx-runtime";
 import { useEffect, useState } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import { LoadingSpinner } from "@/core/loader/loading-spinner";
+import { DocLink } from "@/components/mdx/doclink";
+import remarkGfm from "remark-gfm";
 
 export const Route = createFileRoute("/project/$projectId/docs/$branch/$/")({
   component: RouteComponent,
@@ -33,8 +35,10 @@ function RouteComponent() {
       if (!mdxSource) return;
 
       const components = {
-        Alert: AlertMDX,
         ...typographyComponents,
+
+        Alert: AlertMDX,
+        DocLink: DocLink,
       };
 
       try {
@@ -42,7 +46,7 @@ function RouteComponent() {
           ...runtime,
           Fragment: runtime.Fragment,
           useMDXComponents: () => components,
-          remarkPlugins: [],
+          remarkPlugins: [remarkGfm],
           stylePropertyNameCase: "css",
           rehypePlugins: [],
         });

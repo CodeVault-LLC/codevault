@@ -22,7 +22,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { MinusIcon, PlusIcon } from "lucide-react";
-import { useParams } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 
 type TNavigationItem = {
   title: string;
@@ -37,7 +37,7 @@ type TNavigationItems = Array<{
 }>;
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { _splat } = useParams({
+  const { _splat, branch, projectId } = useParams({
     from: "/project/$projectId/docs/$branch/$/",
   });
   const { schema } = useGithub();
@@ -114,13 +114,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       {item.items?.length ? (
                         <CollapsibleContent>
                           <SidebarMenuSub>
-                            {item.items.map((item) => (
-                              <SidebarMenuSubItem key={item.title}>
+                            {item.items.map((childItem) => (
+                              <SidebarMenuSubItem key={childItem.title}>
                                 <SidebarMenuSubButton
                                   asChild
-                                  isActive={activeSubItem === item.url}
+                                  isActive={activeSubItem === childItem.url}
                                 >
-                                  <a href={item.url}>{item.title}</a>
+                                  <Link
+                                    to={"/project/$projectId/docs/$branch/$"}
+                                    params={{
+                                      branch,
+                                      projectId,
+                                      _splat: `${item.url}/${childItem.url}`,
+                                    }}
+                                  >
+                                    {childItem.title}
+                                  </Link>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
                             ))}
