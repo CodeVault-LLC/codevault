@@ -40,11 +40,12 @@ const Home: React.FC = () => {
         </div>
         <div className="relative hidden lg:block">
           <img
-            src="/placeholder.svg?height=600&width=600"
-            alt="Satellite in space"
+            src="/stock/people-working-together-laptops.avif?height=600&width=600"
+            alt="People working together"
+            loading="lazy"
             width={600}
             height={600}
-            className="object-cover"
+            className="object-cover rounded-lg"
           />
         </div>
       </section>

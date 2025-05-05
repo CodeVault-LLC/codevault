@@ -1,4 +1,5 @@
 import { NotFound } from "@/components/not-found";
+import { DefaultWrapper } from "@/core/lib/wrappers/default-wrapper";
 import { ProjectPage } from "@/pages/Product";
 import { getProjectById } from "@/projects";
 import { MinervaPage } from "@/projects/minerva";
@@ -14,7 +15,11 @@ const RouteForm: React.FC = () => {
 
   if (project.id === "minerva") return <MinervaPage />;
 
-  return <ProjectPage project={project} />;
+  return (
+    <DefaultWrapper project={project}>
+      <ProjectPage project={project} />
+    </DefaultWrapper>
+  );
 };
 
 export const Route = createFileRoute("/project/$projectId/")({
