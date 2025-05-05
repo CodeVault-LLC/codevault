@@ -1,7 +1,6 @@
 import { shiki } from "@/client/shiki";
 import { Button } from "../ui/button";
 import React from "react";
-import { useTheme } from "../theme-provider";
 
 export const typographyComponents = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -63,7 +62,9 @@ export const typographyComponents = {
     />
   ),
   code: (props: React.HTMLAttributes<HTMLElement>) => {
-    const theme = useTheme();
+    const root = window.document.documentElement;
+    const isDarkMode = root.classList.contains("dark");
+
     const language = props.className?.match(/language-(\w+)/)?.[1];
 
     const codeString = typeof props.children === "string" ? props.children : "";
@@ -83,7 +84,7 @@ export const typographyComponents = {
 
     const code = shiki.codeToHtml(codeString, {
       lang: language,
-      theme: theme?.theme === "dark" ? "github-dark" : "github-light",
+      theme: isDarkMode ? "github-dark" : "github-light",
     });
 
     return (
