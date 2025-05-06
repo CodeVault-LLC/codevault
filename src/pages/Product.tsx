@@ -1,12 +1,15 @@
 import { cn } from "@/lib/utils";
 import { IProject } from "@/types/project";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 interface ProjectProps {
   project: IProject;
 }
 
 export const ProjectPage: React.FC<ProjectProps> = ({ project }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="container mx-auto flex flex-1 flex-col items-center justify-center px-4 py-12 md:px-6 lg:py-24">
@@ -16,7 +19,7 @@ export const ProjectPage: React.FC<ProjectProps> = ({ project }) => {
               "bg-gradient-to-r bg-clip-text text-5xl font-bold tracking-tighter text-transparent sm:text-6xl md:text-7xl"
             )}
           >
-            {project.name}
+            {t("projects." + project.id + ".name")}
           </h1>
           <p className="max-w-[700px] text-muted-foreground md:text-xl">
             {project.description}

@@ -1,0 +1,45 @@
+{
+  "common": {
+    "read_more": "Read more"
+  },
+
+  "home": {
+    "title": "CodeVault",
+    "subtitle": "The people focused on advancing the future of software",
+    "description": "Codevault is aspired to provide developers with useful tools and knowledge to help them in their journey. We are comitted to delivering exceptional results, pushing the boundaries of creativity, and making a meaningful difference for our clients and their audiences.",
+    "explore": "Explore our projects",
+    "timeline": {
+      "title": "Timeline",
+      "items": {
+        "02.18.2024": {
+          "title": "Codevault on GitHub",
+          "description": "Codevault was launched on GitHub, marking the beginning of its journey. It quickly gained new repositories and projects, although they were not publicly available."
+        },
+        "05.23.2024": {
+          "title": "First Public Repository",
+          "description": "Logsync Node was Codevault's first public repository, trying to solve the problem of logging in Node.js applications. It was a simple yet effective solution, but limited to its teams understanding of Node.js. Maybe we may see a version 2 👀"
+        },
+        "05.05.2025": {
+          "title": "Codevault with its own domain",
+          "description": "Codevault was launched with its own domain, marking a new era for the project. It was now easier to find and access the projects, and the team was excited to share their work with the world."
+        }
+      }
+    }
+  },
+  "projects": {
+    "graphql-generator": {
+      "name": "GraphQL Generator",
+      "description": "GraphQL Generator is a powerful tool that simplifies the process of generating GraphQL schemas and resolvers. It allows developers to define their data models and automatically generates the necessary code, reducing boilerplate and improving productivity."
+    },
+    "manager": {
+      "name": "Manager",
+      "description": "Manager is a comprehensive personal management tool designed to connect all your data in one place. It allows you to manage your everyday tasks, projects and personal information efficiently. With its user-friendly interface and powerful features, Manager helps you stay organized and focused on what matters most."
+    }
+  },
+  "footer": {
+    "copyright": "All rights reserved.",
+    "terms_of_conditions": "Terms of Conditions",
+    "privacy_policy": "Privacy Policy",
+    "returns_refunds": "Returns & Refunds"
+  }
+}

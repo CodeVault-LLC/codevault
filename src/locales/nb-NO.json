@@ -1,0 +1,45 @@
+{
+  "common": {
+    "read_more": "Les mer"
+  },
+
+  "home": {
+    "title": "CodeVault",
+    "subtitle": "Folkene som fokuserer på å fremme fremtiden for programvare",
+    "description": "Codevault har som mål å gi utviklere nyttige verktøy og kunnskap for å hjelpe dem i deres reise. Vi er forpliktet til å levere eksepsjonelle resultater, presse grensene for kreativitet og gjøre en meningsfull forskjell for våre kunder og deres publikum.",
+    "explore": "Utforsk prosjektene våre",
+    "timeline": {
+      "title": "Tidslinje",
+      "items": {
+        "02.18.2024": {
+          "title": "Codevault på GitHub",
+          "description": "Codevault ble lansert på GitHub, noe som markerer starten på reisen. Det fikk raskt nye prosjekter, selv om de ikke var offentlig tilgjengelige."
+        },
+        "05.23.2024": {
+          "title": "Første offentlige repository",
+          "description": "Logsync Node var Codevault's første offentelige repository, som prøvde å løse problemer med dagens Node.js logging. Det var en enkel, men effektiv løsning, som uheldigvis var begrenset til teamets forståelse av Node.js. Kanskje vi kan se en versjon 2 👀"
+        },
+        "05.05.2025": {
+          "title": "Codevault med eget domene",
+          "description": "Codevault ble lansert med sitt eget domene, noe som markerer en ny æra for prosjektet. Det var nå lettere å finne og få tilgang til prosjektene, og teamet var begeistret for å dele arbeidet sitt med verden."
+        }
+      }
+    }
+  },
+  "projects": {
+    "graphql-generator": {
+      "title": "GraphQL Generator",
+      "description": "GraphQL Generator er et kraftig verktøy som forenkler prosessen med å generere GraphQL-skjemaer og resolvere. Det lar utviklere definere datamodellene sine og genererer automatisk den nødvendige koden, noe som reduserer boilerplate og forbedrer produktiviteten."
+    },
+    "manager": {
+      "name": "Manager",
+      "description": "Manager er et omfattende personlig administrasjonsverktøy designet for å koble all dataen din på ett sted. Det lar deg administrere hverdagsoppgavene dine, prosjektene og personlig informasjon effektivt. Med sitt brukervennlige grensesnitt og kraftige funksjoner hjelper Manager deg med å holde deg organisert og fokusert på det som betyr mest."
+    }
+  },
+  "footer": {
+    "copyright": "Alle rettigheter forbeholdt.",
+    "terms_of_conditions": "Vilkår og betingelser",
+    "privacy_policy": "Personvernerklæring",
+    "returns_refunds": "Returer og refusjoner"
+  }
+}
