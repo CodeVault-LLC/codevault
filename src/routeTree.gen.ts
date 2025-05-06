@@ -11,7 +11,10 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TermsConditionsImport } from './routes/terms-conditions'
+import { Route as ReturnsImport } from './routes/returns'
 import { Route as ProjectsImport } from './routes/projects'
+import { Route as PrivacyImport } from './routes/privacy'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProjectProjectIdImport } from './routes/project/$projectId'
 import { Route as ProjectProjectIdIndexImport } from './routes/project/$projectId.index'
@@ -20,9 +23,27 @@ import { Route as ProjectProjectIdDocsBranchSplatIndexImport } from './routes/pr
 
 // Create/Update Routes
 
+const TermsConditionsRoute = TermsConditionsImport.update({
+  id: '/terms-conditions',
+  path: '/terms-conditions',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ReturnsRoute = ReturnsImport.update({
+  id: '/returns',
+  path: '/returns',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProjectsRoute = ProjectsImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PrivacyRoute = PrivacyImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -68,11 +89,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyImport
+      parentRoute: typeof rootRoute
+    }
     '/projects': {
       id: '/projects'
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsImport
+      parentRoute: typeof rootRoute
+    }
+    '/returns': {
+      id: '/returns'
+      path: '/returns'
+      fullPath: '/returns'
+      preLoaderRoute: typeof ReturnsImport
+      parentRoute: typeof rootRoute
+    }
+    '/terms-conditions': {
+      id: '/terms-conditions'
+      path: '/terms-conditions'
+      fullPath: '/terms-conditions'
+      preLoaderRoute: typeof TermsConditionsImport
       parentRoute: typeof rootRoute
     }
     '/project/$projectId': {
@@ -135,7 +177,10 @@ const ProjectProjectIdRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/privacy': typeof PrivacyRoute
   '/projects': typeof ProjectsRoute
+  '/returns': typeof ReturnsRoute
+  '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
@@ -144,7 +189,10 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/privacy': typeof PrivacyRoute
   '/projects': typeof ProjectsRoute
+  '/returns': typeof ReturnsRoute
+  '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
@@ -153,7 +201,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/privacy': typeof PrivacyRoute
   '/projects': typeof ProjectsRoute
+  '/returns': typeof ReturnsRoute
+  '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
@@ -164,7 +215,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/privacy'
     | '/projects'
+    | '/returns'
+    | '/terms-conditions'
     | '/project/$projectId'
     | '/project/$projectId/docs'
     | '/project/$projectId/'
@@ -172,14 +226,20 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/privacy'
     | '/projects'
+    | '/returns'
+    | '/terms-conditions'
     | '/project/$projectId/docs'
     | '/project/$projectId'
     | '/project/$projectId/docs/$branch/$'
   id:
     | '__root__'
     | '/'
+    | '/privacy'
     | '/projects'
+    | '/returns'
+    | '/terms-conditions'
     | '/project/$projectId'
     | '/project/$projectId/docs'
     | '/project/$projectId/'
@@ -189,13 +249,19 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProjectsRoute: typeof ProjectsRoute
+  ReturnsRoute: typeof ReturnsRoute
+  TermsConditionsRoute: typeof TermsConditionsRoute
   ProjectProjectIdRoute: typeof ProjectProjectIdRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PrivacyRoute: PrivacyRoute,
   ProjectsRoute: ProjectsRoute,
+  ReturnsRoute: ReturnsRoute,
+  TermsConditionsRoute: TermsConditionsRoute,
   ProjectProjectIdRoute: ProjectProjectIdRouteWithChildren,
 }
 
@@ -210,15 +276,27 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/privacy",
         "/projects",
+        "/returns",
+        "/terms-conditions",
         "/project/$projectId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/privacy": {
+      "filePath": "privacy.tsx"
+    },
     "/projects": {
       "filePath": "projects.tsx"
+    },
+    "/returns": {
+      "filePath": "returns.tsx"
+    },
+    "/terms-conditions": {
+      "filePath": "terms-conditions.tsx"
     },
     "/project/$projectId": {
       "filePath": "project/$projectId.tsx",

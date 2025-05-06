@@ -45,7 +45,7 @@ export const Footer: React.FC = () => {
             <ul className="mt-8 flex flex-wrap justify-start gap-4 text-xs sm:mt-0 lg:justify-end">
               <li>
                 <Link
-                  to="/"
+                  to="/terms-conditions"
                   className="text-gray-500 transition hover:opacity-75 dark:text-gray-400"
                 >
                   Terms & Conditions
@@ -54,10 +54,19 @@ export const Footer: React.FC = () => {
 
               <li>
                 <Link
-                  to="/"
+                  to="/privacy"
                   className="text-gray-500 transition hover:opacity-75 dark:text-gray-400"
                 >
                   Privacy Policy
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/returns"
+                  className="text-gray-500 transition hover:opacity-75 dark:text-gray-400"
+                >
+                  Returns & Refunds
                 </Link>
               </li>
 
