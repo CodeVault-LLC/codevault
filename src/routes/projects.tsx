@@ -16,7 +16,7 @@ function RouteComponent() {
             className="rounded-2xl duration-300 overflow-hidden flex flex-col border"
           >
             <img
-              src={project.image || "/placeholder.png"}
+              src={"/placeholder.png"}
               alt={t(`projects.${project.id}.name` as const, {
                 defaultValue: "",
               })}

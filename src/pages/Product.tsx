@@ -19,7 +19,9 @@ export const ProjectPage: React.FC<ProjectProps> = ({ project }) => {
               "bg-gradient-to-r bg-clip-text text-5xl font-bold tracking-tighter text-transparent sm:text-6xl md:text-7xl"
             )}
           >
-            {t("projects." + project.id + ".name")}
+            {t("projects." + project.id + ".name", {
+              defaultValue: "",
+            })}
           </h1>
           <p className="max-w-[700px] text-muted-foreground md:text-xl">
             {project.description}
