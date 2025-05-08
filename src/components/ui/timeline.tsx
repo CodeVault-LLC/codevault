@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const timelineItemVariants = cva("relative flex flex-col gap-3", {
@@ -19,7 +19,7 @@ export interface TimelineItemProps
   extends VariantProps<typeof timelineItemVariants> {
   title: string;
   subtitle?: string;
-  period?: string;
+  period?: string | Date;
   description?: string;
   technologies?: string[];
   icon?: React.ReactNode;
@@ -39,6 +39,8 @@ export function TimelineItem({
   position,
   colorClass = "border-primary bg-background",
 }: TimelineItemProps) {
+  const userLanguage = navigator.language || "en-US";
+
   return (
     <div
       className={cn(timelineItemVariants({ position }), "pl-8 pb-12 last:pb-0")}
@@ -63,7 +65,13 @@ export function TimelineItem({
         <h3 className="text-lg sm:text-xl font-medium">{subtitle}</h3>
       )}
 
-      {period && <div className="text-sm text-muted-foreground">{period}</div>}
+      {period && (
+        <div className="text-sm text-muted-foreground">
+          {typeof period === "string"
+            ? period
+            : formatDate(period, userLanguage)}
+        </div>
+      )}
 
       {description && (
         <p className="text-sm sm:text-base text-muted-foreground">

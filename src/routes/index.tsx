@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     {
       title: t("home.timeline.items.02.18.2024.title"),
       description: t("home.timeline.items.02.18.2024.description"),
-      period: "2024-02-18",
+      period: new Date("2024-02-18"),
       colorClass: "border-primary bg-background", // customize this if needed
       icon: (
         <svg
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
     {
       title: t("home.timeline.items.05.23.2024.title"),
       description: t("home.timeline.items.05.23.2024.description"),
-      period: "2024-05-23",
+      period: new Date("2024-05-23"),
       colorClass: "border-border bg-background",
       icon: (
         <svg
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
       ),
     },
     {
-      period: "05.05.2025",
+      period: new Date("05.05.2025"),
       title: t("home.timeline.items.05.05.2025.title"),
       description: t("home.timeline.items.05.05.2025.description"),
       colorClass: "border-success bg-background",
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
         <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center mb-8">
           {t("home.timeline.title")}
         </h3>
-        <Timeline items={timelineItems} />;
+        <Timeline items={timelineItems} />
       </section>
     </DefaultWrapper>
   );
