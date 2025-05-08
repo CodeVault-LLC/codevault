@@ -3,7 +3,7 @@ import { useLocation } from "@tanstack/react-router";
 import { FC } from "react";
 import { DocumentationWrapper } from "./documentation-wrapper";
 import { DefaultHeader } from "@/core/header/header";
-import { Footer } from "@/components/footer";
+import { Footer } from "@/components/Footer";
 
 type TDefaultWrapper = {
   children: React.ReactNode;
