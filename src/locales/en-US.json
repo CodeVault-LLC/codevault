@@ -1,6 +1,9 @@
 {
   "common": {
-    "read_more": "Read more"
+    "read_more": "Read more",
+    "documentation": "Documentation",
+    "features": "Features",
+    "support": "Support"
   },
 
   "home": {
@@ -24,6 +27,10 @@
           "description": "Codevault was launched with its own domain, marking a new era for the project. It was now easier to find and access the projects, and the team was excited to share their work with the world."
         }
       }
+    },
+    "community": {
+      "title": "Be part of our network",
+      "description": "Engage, explore and evolve with like-minded creators and coders."
     }
   },
   "projects": {

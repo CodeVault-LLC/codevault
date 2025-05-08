@@ -1,6 +1,9 @@
 {
   "common": {
-    "read_more": "Les mer"
+    "read_more": "Les mer",
+    "documentation": "Dokumentasjon",
+    "features": "Funksjoner",
+    "support": "Support"
   },
 
   "home": {
@@ -23,7 +26,15 @@
           "title": "Codevault med eget domene",
           "description": "Codevault ble lansert med sitt eget domene, noe som markerer en ny æra for prosjektet. Det var nå lettere å finne og få tilgang til prosjektene, og teamet var begeistret for å dele arbeidet sitt med verden."
         }
+      },
+      "community": {
+        "title": "Vær en del av nettverket vårt",
+        "description": "Engasjer deg, utforsk og utvikle deg med likesinnede skapere og kodere."
       }
+    },
+    "community": {
+      "title": "Vær en del av nettverket vårt",
+      "description": "Engasjer deg, utforsk og utvikle deg med likesinnede skapere og kodere."
     }
   },
   "projects": {

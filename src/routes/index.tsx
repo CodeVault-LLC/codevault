@@ -101,6 +101,24 @@ const Home: React.FC = () => {
         </h3>
         <Timeline items={timelineItems} />
       </section>
+
+      <section className="relative">
+        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center mb-8">
+          {t("home.community.title")}
+        </h3>
+        <p className="dark:text-gray-300 text-gray-800 max-w-xl mx-auto text-center mb-8">
+          {t("home.community.description")}
+        </p>
+
+        <Link to="/" className="flex justify-center items-center space-x-2">
+          <Button
+            variant="outline"
+            className="bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-black transition-colors border-gray-300 hover:bg-gray-100 text-gray-800 dark:text-white"
+          >
+            Join
+          </Button>
+        </Link>
+      </section>
     </DefaultWrapper>
   );
 };

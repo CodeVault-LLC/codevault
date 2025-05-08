@@ -18,6 +18,7 @@ import { Route as PrivacyImport } from './routes/privacy'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProjectProjectIdImport } from './routes/project/$projectId'
 import { Route as ProjectProjectIdIndexImport } from './routes/project/$projectId.index'
+import { Route as ProjectProjectIdSupportImport } from './routes/project/$projectId.support'
 import { Route as ProjectProjectIdDocsImport } from './routes/project/$projectId.docs'
 import { Route as ProjectProjectIdDocsBranchSplatIndexImport } from './routes/project/$projectId.docs/$branch.$/index'
 
@@ -62,6 +63,12 @@ const ProjectProjectIdRoute = ProjectProjectIdImport.update({
 const ProjectProjectIdIndexRoute = ProjectProjectIdIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
+
+const ProjectProjectIdSupportRoute = ProjectProjectIdSupportImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => ProjectProjectIdRoute,
 } as any)
 
@@ -131,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdDocsImport
       parentRoute: typeof ProjectProjectIdImport
     }
+    '/project/$projectId/support': {
+      id: '/project/$projectId/support'
+      path: '/support'
+      fullPath: '/project/$projectId/support'
+      preLoaderRoute: typeof ProjectProjectIdSupportImport
+      parentRoute: typeof ProjectProjectIdImport
+    }
     '/project/$projectId/': {
       id: '/project/$projectId/'
       path: '/'
@@ -164,11 +178,13 @@ const ProjectProjectIdDocsRouteWithChildren =
 
 interface ProjectProjectIdRouteChildren {
   ProjectProjectIdDocsRoute: typeof ProjectProjectIdDocsRouteWithChildren
+  ProjectProjectIdSupportRoute: typeof ProjectProjectIdSupportRoute
   ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
 }
 
 const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
   ProjectProjectIdDocsRoute: ProjectProjectIdDocsRouteWithChildren,
+  ProjectProjectIdSupportRoute: ProjectProjectIdSupportRoute,
   ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
 }
 
@@ -183,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
+  '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
@@ -194,6 +211,7 @@ export interface FileRoutesByTo {
   '/returns': typeof ReturnsRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
+  '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
@@ -207,6 +225,7 @@ export interface FileRoutesById {
   '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
+  '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/docs/$branch/$/': typeof ProjectProjectIdDocsBranchSplatIndexRoute
 }
@@ -221,6 +240,7 @@ export interface FileRouteTypes {
     | '/terms-conditions'
     | '/project/$projectId'
     | '/project/$projectId/docs'
+    | '/project/$projectId/support'
     | '/project/$projectId/'
     | '/project/$projectId/docs/$branch/$'
   fileRoutesByTo: FileRoutesByTo
@@ -231,6 +251,7 @@ export interface FileRouteTypes {
     | '/returns'
     | '/terms-conditions'
     | '/project/$projectId/docs'
+    | '/project/$projectId/support'
     | '/project/$projectId'
     | '/project/$projectId/docs/$branch/$'
   id:
@@ -242,6 +263,7 @@ export interface FileRouteTypes {
     | '/terms-conditions'
     | '/project/$projectId'
     | '/project/$projectId/docs'
+    | '/project/$projectId/support'
     | '/project/$projectId/'
     | '/project/$projectId/docs/$branch/$/'
   fileRoutesById: FileRoutesById
@@ -302,6 +324,7 @@ export const routeTree = rootRoute
       "filePath": "project/$projectId.tsx",
       "children": [
         "/project/$projectId/docs",
+        "/project/$projectId/support",
         "/project/$projectId/"
       ]
     },
@@ -311,6 +334,10 @@ export const routeTree = rootRoute
       "children": [
         "/project/$projectId/docs/$branch/$/"
       ]
+    },
+    "/project/$projectId/support": {
+      "filePath": "project/$projectId.support.tsx",
+      "parent": "/project/$projectId"
     },
     "/project/$projectId/": {
       "filePath": "project/$projectId.index.tsx",
