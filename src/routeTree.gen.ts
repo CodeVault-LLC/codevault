@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TermsConditionsImport } from './routes/terms-conditions'
+import { Route as SupportImport } from './routes/support'
 import { Route as ReturnsImport } from './routes/returns'
 import { Route as ProjectsImport } from './routes/projects'
 import { Route as PrivacyImport } from './routes/privacy'
@@ -27,6 +28,12 @@ import { Route as ProjectProjectIdDocsBranchSplatIndexImport } from './routes/pr
 const TermsConditionsRoute = TermsConditionsImport.update({
   id: '/terms-conditions',
   path: '/terms-conditions',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SupportRoute = SupportImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -117,6 +124,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReturnsImport
       parentRoute: typeof rootRoute
     }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportImport
+      parentRoute: typeof rootRoute
+    }
     '/terms-conditions': {
       id: '/terms-conditions'
       path: '/terms-conditions'
@@ -196,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/projects': typeof ProjectsRoute
   '/returns': typeof ReturnsRoute
+  '/support': typeof SupportRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
@@ -209,6 +224,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/projects': typeof ProjectsRoute
   '/returns': typeof ReturnsRoute
+  '/support': typeof SupportRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
   '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
@@ -222,6 +238,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/projects': typeof ProjectsRoute
   '/returns': typeof ReturnsRoute
+  '/support': typeof SupportRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
@@ -237,6 +254,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/projects'
     | '/returns'
+    | '/support'
     | '/terms-conditions'
     | '/project/$projectId'
     | '/project/$projectId/docs'
@@ -249,6 +267,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/projects'
     | '/returns'
+    | '/support'
     | '/terms-conditions'
     | '/project/$projectId/docs'
     | '/project/$projectId/support'
@@ -260,6 +279,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/projects'
     | '/returns'
+    | '/support'
     | '/terms-conditions'
     | '/project/$projectId'
     | '/project/$projectId/docs'
@@ -274,6 +294,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ProjectsRoute: typeof ProjectsRoute
   ReturnsRoute: typeof ReturnsRoute
+  SupportRoute: typeof SupportRoute
   TermsConditionsRoute: typeof TermsConditionsRoute
   ProjectProjectIdRoute: typeof ProjectProjectIdRouteWithChildren
 }
@@ -283,6 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ProjectsRoute: ProjectsRoute,
   ReturnsRoute: ReturnsRoute,
+  SupportRoute: SupportRoute,
   TermsConditionsRoute: TermsConditionsRoute,
   ProjectProjectIdRoute: ProjectProjectIdRouteWithChildren,
 }
@@ -301,6 +323,7 @@ export const routeTree = rootRoute
         "/privacy",
         "/projects",
         "/returns",
+        "/support",
         "/terms-conditions",
         "/project/$projectId"
       ]
@@ -316,6 +339,9 @@ export const routeTree = rootRoute
     },
     "/returns": {
       "filePath": "returns.tsx"
+    },
+    "/support": {
+      "filePath": "support.tsx"
     },
     "/terms-conditions": {
       "filePath": "terms-conditions.tsx"

@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -80,4 +86,15 @@
   html {
     font-family: "Inter", sans-serif;
   }
+}
+
+@supports (background-image: linear-gradient(in lab, red, red)) {
+  .bg-linear-115 {
+    --tw-gradient-position: 115deg in oklab;
+  }
+}
+
+.bg-linear-115 {
+  --tw-gradient-position: 115deg;
+  background-image: linear-gradient(var(--tw-gradient-stops));
 }

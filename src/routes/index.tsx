@@ -58,7 +58,7 @@ const Home: React.FC = () => {
 
   return (
     <DefaultWrapper project={null}>
-      <section className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 px-6 py-12 md:px-12 lg:py-24">
+      <section className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 px-6 pb-12 md:px-12 lg:pb-24">
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
