@@ -1,32 +1,11 @@
-import {
-  createRootRouteWithContext,
-  HeadContent,
-  Outlet,
-} from "@tanstack/react-router";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/theme-provider";
-import { getAppConfig } from "@/configs/app";
-import { seo } from "@/lib/seo";
-import { QueryClient } from "@tanstack/react-query";
+import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import { TanStackDevtools } from "@tanstack/react-devtools"
 
-export const RootPage: React.FC = () => {
-  return (
-    <ThemeProvider
-      defaultTheme={getAppConfig("color_mode.default")}
-      storageKey={getAppConfig("color_mode.storage_key")}
-    >
-      <HeadContent />
-      <TooltipProvider delayDuration={100}>
-        <Outlet />
-      </TooltipProvider>
-    </ThemeProvider>
-  );
-};
+import "@/styles/globals.css";
+import { NotFound } from "@/core/pages/not-found";
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
-  component: RootPage,
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
@@ -34,30 +13,64 @@ export const Route = createRootRouteWithContext<{
       },
       {
         name: "viewport",
-        content: "width=device-width, initial-scale=1.0",
+        content: "width=device-width, initial-scale=1",
       },
-      ...seo({
-        title: "CodeVault | High Quality Products for Developers",
-        description:
-          "CodeVault is a perfect solution when in needs of products! It offers a wide range of products that are made by developers for developers.",
-        keywords:
-          "codevault,products,documentation,react,reactjs,typescript,open source,developers,rust,logs",
-      }),
+      {
+        name: "theme-color",
+        content: "#ffffff",
+      },
+      {
+        title: "CodeVault",
+      },
     ],
-    scripts: [
+    links: [
       {
-        src: "https://www.googletagmanager.com/gtag/js?id=G-8V6QQP5KVG",
-        async: true,
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
       },
       {
-        children: `
-      window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-8V6QQP5KVG');
-      `,
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
       },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "icon", href: "/favicon.ico" },
     ],
   }),
-});
+  errorComponent: () => <NotFound />,
+  notFoundComponent: () => <NotFound />,
+  shellComponent: RootDocument,
+})
+
+function RootDocument({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <TanStackDevtools
+          config={{
+            position: "bottom-right",
+          }}
+          plugins={[
+            {
+              name: "Tanstack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
+        <Scripts />
+      </body>
+    </html>
+  )
+}

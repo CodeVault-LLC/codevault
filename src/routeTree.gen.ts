@@ -8,91 +8,36 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as TermsConditionsImport } from './routes/terms-conditions'
-import { Route as SupportImport } from './routes/support'
-import { Route as ReturnsImport } from './routes/returns'
-import { Route as ProjectsImport } from './routes/projects'
-import { Route as PrivacyImport } from './routes/privacy'
-import { Route as IndexImport } from './routes/index'
-import { Route as ProjectProjectIdImport } from './routes/project/$projectId'
-import { Route as ProjectProjectIdIndexImport } from './routes/project/$projectId.index'
-import { Route as ProjectProjectIdSupportImport } from './routes/project/$projectId.support'
-import { Route as ProjectProjectIdDocsImport } from './routes/project/$projectId.docs'
-import { Route as ProjectProjectIdDocsBranchSplatIndexImport } from './routes/project/$projectId.docs/$branch.$/index'
-
-// Create/Update Routes
-
-const TermsConditionsRoute = TermsConditionsImport.update({
-  id: '/terms-conditions',
-  path: '/terms-conditions',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SupportRoute = SupportImport.update({
-  id: '/support',
-  path: '/support',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ReturnsRoute = ReturnsImport.update({
-  id: '/returns',
-  path: '/returns',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProjectsRoute = ProjectsImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PrivacyRoute = PrivacyImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 
-const ProjectProjectIdRoute = ProjectProjectIdImport.update({
-  id: '/project/$projectId',
-  path: '/project/$projectId',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProjectProjectIdIndexRoute = ProjectProjectIdIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProjectProjectIdRoute,
-} as any)
-
-const ProjectProjectIdSupportRoute = ProjectProjectIdSupportImport.update({
-  id: '/support',
-  path: '/support',
-  getParentRoute: () => ProjectProjectIdRoute,
-} as any)
-
-const ProjectProjectIdDocsRoute = ProjectProjectIdDocsImport.update({
-  id: '/docs',
-  path: '/docs',
-  getParentRoute: () => ProjectProjectIdRoute,
-} as any)
-
-const ProjectProjectIdDocsBranchSplatIndexRoute =
-  ProjectProjectIdDocsBranchSplatIndexImport.update({
-    id: '/$branch/$/',
-    path: '/$branch/$/',
-    getParentRoute: () => ProjectProjectIdDocsRoute,
-  } as any)
-
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/'
+  id: '__root__' | '/'
+  fileRoutesById: FileRoutesById
+}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
@@ -100,279 +45,24 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyImport
-      parentRoute: typeof rootRoute
-    }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsImport
-      parentRoute: typeof rootRoute
-    }
-    '/returns': {
-      id: '/returns'
-      path: '/returns'
-      fullPath: '/returns'
-      preLoaderRoute: typeof ReturnsImport
-      parentRoute: typeof rootRoute
-    }
-    '/support': {
-      id: '/support'
-      path: '/support'
-      fullPath: '/support'
-      preLoaderRoute: typeof SupportImport
-      parentRoute: typeof rootRoute
-    }
-    '/terms-conditions': {
-      id: '/terms-conditions'
-      path: '/terms-conditions'
-      fullPath: '/terms-conditions'
-      preLoaderRoute: typeof TermsConditionsImport
-      parentRoute: typeof rootRoute
-    }
-    '/project/$projectId': {
-      id: '/project/$projectId'
-      path: '/project/$projectId'
-      fullPath: '/project/$projectId'
-      preLoaderRoute: typeof ProjectProjectIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/project/$projectId/docs': {
-      id: '/project/$projectId/docs'
-      path: '/docs'
-      fullPath: '/project/$projectId/docs'
-      preLoaderRoute: typeof ProjectProjectIdDocsImport
-      parentRoute: typeof ProjectProjectIdImport
-    }
-    '/project/$projectId/support': {
-      id: '/project/$projectId/support'
-      path: '/support'
-      fullPath: '/project/$projectId/support'
-      preLoaderRoute: typeof ProjectProjectIdSupportImport
-      parentRoute: typeof ProjectProjectIdImport
-    }
-    '/project/$projectId/': {
-      id: '/project/$projectId/'
-      path: '/'
-      fullPath: '/project/$projectId/'
-      preLoaderRoute: typeof ProjectProjectIdIndexImport
-      parentRoute: typeof ProjectProjectIdImport
-    }
-    '/project/$projectId/docs/$branch/$/': {
-      id: '/project/$projectId/docs/$branch/$/'
-      path: '/$branch/$'
-      fullPath: '/project/$projectId/docs/$branch/$'
-      preLoaderRoute: typeof ProjectProjectIdDocsBranchSplatIndexImport
-      parentRoute: typeof ProjectProjectIdDocsImport
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
-}
-
-// Create and export the route tree
-
-interface ProjectProjectIdDocsRouteChildren {
-  ProjectProjectIdDocsBranchSplatIndexRoute: typeof ProjectProjectIdDocsBranchSplatIndexRoute
-}
-
-const ProjectProjectIdDocsRouteChildren: ProjectProjectIdDocsRouteChildren = {
-  ProjectProjectIdDocsBranchSplatIndexRoute:
-    ProjectProjectIdDocsBranchSplatIndexRoute,
-}
-
-const ProjectProjectIdDocsRouteWithChildren =
-  ProjectProjectIdDocsRoute._addFileChildren(ProjectProjectIdDocsRouteChildren)
-
-interface ProjectProjectIdRouteChildren {
-  ProjectProjectIdDocsRoute: typeof ProjectProjectIdDocsRouteWithChildren
-  ProjectProjectIdSupportRoute: typeof ProjectProjectIdSupportRoute
-  ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
-}
-
-const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
-  ProjectProjectIdDocsRoute: ProjectProjectIdDocsRouteWithChildren,
-  ProjectProjectIdSupportRoute: ProjectProjectIdSupportRoute,
-  ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
-}
-
-const ProjectProjectIdRouteWithChildren =
-  ProjectProjectIdRoute._addFileChildren(ProjectProjectIdRouteChildren)
-
-export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/privacy': typeof PrivacyRoute
-  '/projects': typeof ProjectsRoute
-  '/returns': typeof ReturnsRoute
-  '/support': typeof SupportRoute
-  '/terms-conditions': typeof TermsConditionsRoute
-  '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
-  '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
-  '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
-  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
-  '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/privacy': typeof PrivacyRoute
-  '/projects': typeof ProjectsRoute
-  '/returns': typeof ReturnsRoute
-  '/support': typeof SupportRoute
-  '/terms-conditions': typeof TermsConditionsRoute
-  '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
-  '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
-  '/project/$projectId': typeof ProjectProjectIdIndexRoute
-  '/project/$projectId/docs/$branch/$': typeof ProjectProjectIdDocsBranchSplatIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/privacy': typeof PrivacyRoute
-  '/projects': typeof ProjectsRoute
-  '/returns': typeof ReturnsRoute
-  '/support': typeof SupportRoute
-  '/terms-conditions': typeof TermsConditionsRoute
-  '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
-  '/project/$projectId/docs': typeof ProjectProjectIdDocsRouteWithChildren
-  '/project/$projectId/support': typeof ProjectProjectIdSupportRoute
-  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
-  '/project/$projectId/docs/$branch/$/': typeof ProjectProjectIdDocsBranchSplatIndexRoute
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/privacy'
-    | '/projects'
-    | '/returns'
-    | '/support'
-    | '/terms-conditions'
-    | '/project/$projectId'
-    | '/project/$projectId/docs'
-    | '/project/$projectId/support'
-    | '/project/$projectId/'
-    | '/project/$projectId/docs/$branch/$'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/privacy'
-    | '/projects'
-    | '/returns'
-    | '/support'
-    | '/terms-conditions'
-    | '/project/$projectId/docs'
-    | '/project/$projectId/support'
-    | '/project/$projectId'
-    | '/project/$projectId/docs/$branch/$'
-  id:
-    | '__root__'
-    | '/'
-    | '/privacy'
-    | '/projects'
-    | '/returns'
-    | '/support'
-    | '/terms-conditions'
-    | '/project/$projectId'
-    | '/project/$projectId/docs'
-    | '/project/$projectId/support'
-    | '/project/$projectId/'
-    | '/project/$projectId/docs/$branch/$/'
-  fileRoutesById: FileRoutesById
-}
-
-export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  PrivacyRoute: typeof PrivacyRoute
-  ProjectsRoute: typeof ProjectsRoute
-  ReturnsRoute: typeof ReturnsRoute
-  SupportRoute: typeof SupportRoute
-  TermsConditionsRoute: typeof TermsConditionsRoute
-  ProjectProjectIdRoute: typeof ProjectProjectIdRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PrivacyRoute: PrivacyRoute,
-  ProjectsRoute: ProjectsRoute,
-  ReturnsRoute: ReturnsRoute,
-  SupportRoute: SupportRoute,
-  TermsConditionsRoute: TermsConditionsRoute,
-  ProjectProjectIdRoute: ProjectProjectIdRouteWithChildren,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/privacy",
-        "/projects",
-        "/returns",
-        "/support",
-        "/terms-conditions",
-        "/project/$projectId"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/privacy": {
-      "filePath": "privacy.tsx"
-    },
-    "/projects": {
-      "filePath": "projects.tsx"
-    },
-    "/returns": {
-      "filePath": "returns.tsx"
-    },
-    "/support": {
-      "filePath": "support.tsx"
-    },
-    "/terms-conditions": {
-      "filePath": "terms-conditions.tsx"
-    },
-    "/project/$projectId": {
-      "filePath": "project/$projectId.tsx",
-      "children": [
-        "/project/$projectId/docs",
-        "/project/$projectId/support",
-        "/project/$projectId/"
-      ]
-    },
-    "/project/$projectId/docs": {
-      "filePath": "project/$projectId.docs.tsx",
-      "parent": "/project/$projectId",
-      "children": [
-        "/project/$projectId/docs/$branch/$/"
-      ]
-    },
-    "/project/$projectId/support": {
-      "filePath": "project/$projectId.support.tsx",
-      "parent": "/project/$projectId"
-    },
-    "/project/$projectId/": {
-      "filePath": "project/$projectId.index.tsx",
-      "parent": "/project/$projectId"
-    },
-    "/project/$projectId/docs/$branch/$/": {
-      "filePath": "project/$projectId.docs/$branch.$/index.tsx",
-      "parent": "/project/$projectId/docs"
-    }
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
   }
 }
-ROUTE_MANIFEST_END */

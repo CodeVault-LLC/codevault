@@ -1,22 +1,21 @@
-# Welcome to Codevault's main site.
+# TanStack Start + shadcn/ui
 
-This is codevault's marketing and documentation site. It is built using [Remix](https://remix.run/), a full-stack web framework for React.
+This is a template for a new TanStack Start project with React, TypeScript, and shadcn/ui.
 
-## Getting Started
+## Adding components
 
-To get started, clone this repository and run the following commands:
+To add components to your app, run the following command:
 
 ```bash
-npm install
-npm run dev
+npx shadcn@latest add button
 ```
 
-This will start the development server and you can start building your site.
+This will place the ui components in the `components` directory.
 
-## Contributing
+## Using components
 
-If you would like to contribute to this site, please open a pull request and we will review it as soon as possible.
+To use the components in your app, import them as follows:
 
-## License
-
-This site is licensed under the CodeVault license. See the [LICENSE](LICENSE) file for more information.
+```tsx
+import { Button } from "@/components/ui/button";
+```

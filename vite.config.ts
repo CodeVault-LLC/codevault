@@ -1,26 +1,12 @@
-import path from "path";
-import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
-import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
-import mdx from "@mdx-js/rollup";
+import { defineConfig } from "vite"
+import { devtools } from "@tanstack/devtools-vite"
+import { tanstackStart } from "@tanstack/react-start/plugin/vite"
+import viteReact from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
 
-export default defineConfig({
-  plugins: [
-    {
-      enforce: "pre",
-      ...mdx({}),
-    },
-    react(),
-    TanStackRouterVite(),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-    },
-  },
-  server: {
-    fs: {
-      cachedChecks: false,
-    },
-  },
-});
+const config = defineConfig({
+  resolve: { tsconfigPaths: true },
+  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
+})
+
+export default config
