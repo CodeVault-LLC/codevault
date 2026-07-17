@@ -180,8 +180,9 @@ export function WorldGlobe({ className }: { className?: string }) {
       const dy = e.clientY - s.lastPointer.y
       s.lastPointer.x = e.clientX
       s.lastPointer.y = e.clientY
-      // Sensitivity is tied to the current radius so dragging feels 1:1
-      const sensitivity = 2.2 / Math.max(120, s.r2)
+      // Sensitivity is tied to the current radius so dragging tracks the
+      // cursor closely instead of lagging behind it.
+      const sensitivity = 4.5 / Math.max(120, s.r2)
       s.userLon += dx * sensitivity
       s.userLat = Math.max(-1.2, Math.min(1.2, s.userLat - dy * sensitivity))
     }

@@ -11,12 +11,12 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "CodeVault — Tools for the people who build software",
+        title: "CodeVault — We point ourselves at tech, and see what happens",
       },
       {
         name: "description",
         content:
-          "CodeVault is a software platform for programmers. One place to review, ship, and observe the code that powers your company.",
+          "CodeVault isn't a product company. We run projects across everything in tech — trials, experiments, and the occasional small thing we push to GitHub. Built in the open, shared as they are.",
       },
     ],
   }),

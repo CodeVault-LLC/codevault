@@ -3,18 +3,22 @@ import { motion } from "framer-motion"
 import { Container } from "@/components/layout/container"
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
-const values = [
+const steps = [
   {
-    title: "Less ceremony",
-    body: "Code review, builds, deploys, and observability in one place — without a stack of vendors to manage.",
+    title: "Trial",
+    body: "We start by just trying it — a prototype, a spike, a weekend build. Something real enough to react to.",
   },
   {
-    title: "Respect for the craft",
-    body: "Tools that get out of the way, so the people writing the code can stay in flow.",
+    title: "Experience",
+    body: "Then we live with it. What's annoying, what's surprising, what actually matters only shows up once you use the thing.",
   },
   {
-    title: "A platform you can trust",
-    body: "Reproducible builds, immutable audit logs, and the option to run on your own infrastructure.",
+    title: "Adjustment",
+    body: "We change our minds freely. Most of what we learn arrives after the first version turns out to be wrong.",
+  },
+  {
+    title: "Result",
+    body: "Whatever we end up with, we share it — a tool, a write-up, or just a repo. Then we point ourselves at the next thing.",
   },
 ]
 
@@ -37,47 +41,51 @@ export function About() {
             variants={fadeUp}
             className="text-faded text-detail-xs font-medium uppercase"
           >
-            What we are working toward
+            How we work
           </motion.p>
           <motion.h2
             id="about-title"
             variants={fadeUp}
             className="mt-3 text-display-xl font-semibold text-balance"
           >
-            We are building the platform we always wanted as{" "}
-            <span className="font-serif font-normal italic">engineers</span>.
+            We treat everything as a{" "}
+            <span className="font-serif font-normal italic">project</span>.
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="mt-6 text-paragraph-l text-pretty text-muted-foreground"
           >
-            CodeVault started with a simple question: why does shipping a change
-            still feel this hard? We are a small team of programmers who have
-            spent our careers building developer tools, and we are here to make
-            the daily work of software teams calmer, faster, and more honest.
+            CodeVault isn't built around a product to sell. We're a small group
+            of people curious about too many things to pick just one — so we run
+            projects. We try something, live with it, adjust, and share what
+            comes out the other side. Sometimes it's useful. Sometimes it's just
+            interesting. Always, it's tech.
           </motion.p>
         </motion.div>
 
-        <motion.ul
+        <motion.ol
           variants={staggerContainer(0.1, 0.1)}
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
-          className="border-faded bg-faded mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border md:grid-cols-3"
+          className="border-faded bg-faded mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 md:grid-cols-4"
         >
-          {values.map((v) => (
+          {steps.map((s, i) => (
             <motion.li
-              key={v.title}
+              key={s.title}
               variants={fadeUp}
               className="bg-ivory-light p-7"
             >
-              <h3 className="text-display-xs font-semibold">{v.title}</h3>
+              <span className="text-faded text-detail-xs font-medium tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-2 text-display-xs font-semibold">{s.title}</h3>
               <p className="mt-3 text-paragraph-s text-pretty text-muted-foreground">
-                {v.body}
+                {s.body}
               </p>
             </motion.li>
           ))}
-        </motion.ul>
+        </motion.ol>
       </Container>
     </section>
   )

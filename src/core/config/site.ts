@@ -1,8 +1,8 @@
 export const site = {
   name: "CodeVault",
-  tagline: "Tools for the people who build software.",
+  tagline: "We point ourselves at tech, and see what happens.",
   description:
-    "CodeVault is a software platform that gives programmers one place to write, review, ship, and observe the code they care about.",
+    "CodeVault isn't a product company. We run projects across everything in tech — trials, experiments, and the occasional small thing we push to GitHub. Built in the open, shared as they are.",
   url: "https://codevault.dev",
 } as const
 
@@ -15,75 +15,74 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
   {
-    label: "Product",
-    description: "A single surface for the modern software team.",
+    label: "Projects",
+    description: "The things we're building, breaking, and learning from.",
     sections: [
       {
-        heading: "Workflows",
+        heading: "Recent",
         links: [
-          { label: "Code review", href: "#releases" },
-          { label: "Continuous integration", href: "#releases" },
-          { label: "Deploy previews", href: "#releases" },
-          { label: "Observability", href: "#releases" },
+          { label: "A weekend game", href: "#releases" },
+          { label: "The git-log CLI", href: "#releases" },
+          { label: "The plant-watering Pi", href: "#releases" },
+          { label: "All projects", href: "#releases" },
         ],
       },
       {
-        heading: "Foundations",
+        heading: "In the open",
         links: [
-          { label: "Security & compliance", href: "#about" },
-          { label: "Audit log", href: "#about" },
-          { label: "Self-hosted runners", href: "#about" },
+          { label: "GitHub", href: "#github" },
+          { label: "Experiments", href: "#releases" },
+          { label: "Changelog", href: "#releases" },
         ],
       },
     ],
   },
   {
-    label: "Solutions",
-    description: "Built for the shape of real engineering teams.",
+    label: "Fields",
+    description: "The corners of tech we've wandered into.",
     sections: [
       {
-        heading: "By team",
+        heading: "Software",
         links: [
-          { label: "Platform engineering", href: "#about" },
-          { label: "Infrastructure", href: "#about" },
-          { label: "Open source maintainers", href: "#about" },
+          { label: "Web & tools", href: "#about" },
+          { label: "Developer tooling", href: "#about" },
+          { label: "Open source", href: "#about" },
         ],
       },
       {
-        heading: "By stage",
+        heading: "Beyond the screen",
         links: [
-          { label: "Early-stage startups", href: "#about" },
-          { label: "Public companies", href: "#about" },
+          { label: "Hardware & tinkering", href: "#about" },
+          { label: "Games", href: "#about" },
         ],
       },
     ],
   },
   {
-    label: "Resources",
-    description: "Guides, references, and field notes.",
+    label: "Writing",
+    description: "Notes, write-ups, and the occasional deep dive.",
     sections: [
       {
         heading: "Read",
         links: [
-          { label: "Documentation", href: "#docs" },
-          { label: "Engineering blog", href: "#blog" },
+          { label: "Blog", href: "#blog" },
+          { label: "Project logs", href: "#releases" },
+          { label: "Notes", href: "#blog" },
           { label: "Changelog", href: "#releases" },
-          { label: "Status", href: "#status" },
         ],
       },
     ],
   },
   {
-    label: "Company",
-    description: "Who we are and what we are working toward.",
+    label: "About",
+    description: "Who we are and how we work.",
     sections: [
       {
-        heading: "About",
+        heading: "CodeVault",
         links: [
-          { label: "Our mission", href: "#about" },
-          { label: "Careers", href: "#careers" },
-          { label: "Press", href: "#press" },
-          { label: "Contact", href: "#contact" },
+          { label: "How we work", href: "#about" },
+          { label: "People", href: "#about" },
+          { label: "Get in touch", href: "#contact" },
         ],
       },
     ],
@@ -98,61 +97,55 @@ export const releases: {
   href: string
 }[] = [
   {
-    title: "Branching strategies, in CodeVault",
+    title: "Orbit — a tiny game we built in a weekend",
     description:
-      "A new branching model that gives every team a sensible default, without locking anyone in.",
+      "A browser game about keeping satellites from colliding. It does a few basic things, and we learned a lot shipping it.",
     date: "June 12, 2026",
-    category: "Release",
-    href: "#releases",
+    category: "Experiment",
+    href: "#github",
   },
   {
-    title: "Faster code review, with fewer interruptions",
+    title: "A CLI that turns your git log into a story",
     description:
-      "Reviewer suggestions, batched notifications, and a quieter inbox for the people reviewing your code.",
+      "We wanted our commit history to read better, so we made a small tool. Now it's on GitHub for anyone who wants it.",
     date: "May 28, 2026",
-    category: "Product update",
-    href: "#releases",
+    category: "Open source",
+    href: "#github",
   },
   {
-    title: "Self-hosted runners are now generally available",
+    title: "Teaching a Raspberry Pi to water our plants",
     description:
-      "Run your builds on your own hardware, in your own VPC, with the same primitives we use in production.",
+      "Hardware wasn't our field, so we made it one for a month. Sensors, a pump, and a lot of trial and error.",
     date: "May 9, 2026",
-    category: "Release",
-    href: "#releases",
+    category: "Project log",
+    href: "#github",
   },
 ]
 
 export const footerNav = {
-  Product: [
+  Projects: [
     { label: "Overview", href: "#about" },
-    { label: "Code review", href: "#releases" },
-    { label: "Continuous integration", href: "#releases" },
-    { label: "Deploy previews", href: "#releases" },
-    { label: "Observability", href: "#about" },
-    { label: "Security & compliance", href: "#about" },
-    { label: "Changelog", href: "#releases" },
-  ],
-  Resources: [
-    { label: "Documentation", href: "#docs" },
-    { label: "Engineering blog", href: "#blog" },
-    { label: "Customer stories", href: "#about" },
+    { label: "Recent projects", href: "#releases" },
+    { label: "Experiments", href: "#releases" },
     { label: "Open source", href: "#oss" },
-    { label: "Community", href: "#community" },
-    { label: "Status", href: "#status" },
+    { label: "GitHub", href: "#github" },
   ],
-  Company: [
-    { label: "About", href: "#about" },
-    { label: "Careers", href: "#careers" },
-    { label: "Press", href: "#press" },
+  Writing: [
+    { label: "Blog", href: "#blog" },
+    { label: "Project logs", href: "#releases" },
+    { label: "Notes", href: "#blog" },
+    { label: "Changelog", href: "#releases" },
+    { label: "Community", href: "#community" },
+  ],
+  About: [
+    { label: "How we work", href: "#about" },
+    { label: "People", href: "#about" },
+    { label: "Get in touch", href: "#contact" },
     { label: "Brand", href: "#brand" },
-    { label: "Contact", href: "#contact" },
   ],
   Legal: [
     { label: "Privacy", href: "#privacy" },
     { label: "Terms", href: "#terms" },
-    { label: "Security", href: "#security" },
-    { label: "DPA", href: "#dpa" },
     { label: "Cookies", href: "#cookies" },
   ],
 } as const

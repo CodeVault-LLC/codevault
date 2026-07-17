@@ -25,22 +25,22 @@ export function LatestReleases() {
               variants={fadeUp}
               className="text-faded text-detail-xs font-medium uppercase"
             >
-              Latest releases
+              Recent projects
             </motion.p>
             <motion.h2
               id="releases-title"
               variants={fadeUp}
               className="mt-3 max-w-xl text-display-l font-semibold text-balance"
             >
-              What we have shipped recently.
+              What we've been trying lately.
             </motion.h2>
           </div>
           <motion.a
             variants={fadeUp}
-            href="#releases"
+            href="#github"
             className="group inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors hover:text-foreground"
           >
-            View the full changelog
+            Everything on GitHub
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </motion.a>
         </motion.div>
@@ -71,7 +71,7 @@ export function LatestReleases() {
                 href={r.href}
                 className="mt-6 inline-flex items-center gap-1.5 text-paragraph-s font-medium underline-offset-4 group-hover:underline"
               >
-                Read announcement
+                Take a look
                 <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             </motion.li>

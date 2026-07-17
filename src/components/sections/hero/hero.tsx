@@ -33,18 +33,20 @@ export function Hero() {
             variants={fadeUp}
             className="mt-4 text-display-xxl font-semibold text-balance"
           >
-            Software is built by{" "}
-            <span className="font-serif font-normal italic">people</span>.
+            We point ourselves at{" "}
+            <span className="font-serif font-normal italic">tech</span>,
             <br />
-            We build the tools they deserve.
+            and see what happens.
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
             className="mx-auto mt-6 max-w-2xl text-paragraph-m text-pretty text-muted-foreground"
           >
-            CodeVault is a software platform for programmers — one place to
-            review, ship, and observe the code that powers your company.
+            We're not a product company. CodeVault runs projects — a trial, an
+            experience, an adjustment, a result. Some grow into real tools. Some
+            are just a small game we pushed to GitHub one afternoon. It's all
+            tech, and it's all in the open.
           </motion.p>
 
           <motion.div
@@ -55,7 +57,7 @@ export function Hero() {
               size="lg"
               render={
                 <a href="#releases">
-                  See what's new
+                  See what we're building
                   <ArrowRight />
                 </a>
               }
@@ -63,7 +65,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              render={<a href="#about">Read our mission</a>}
+              render={<a href="#about">What we're about</a>}
             />
           </motion.div>
         </motion.div>
