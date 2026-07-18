@@ -37,7 +37,7 @@ export function LatestReleases() {
           </div>
           <motion.a
             variants={fadeUp}
-            href="#github"
+            href="https://github.com/CodeVault-LLC"
             className="group inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors hover:text-foreground"
           >
             Everything on GitHub

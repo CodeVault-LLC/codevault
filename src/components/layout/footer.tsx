@@ -7,7 +7,7 @@ type SocialIcon = (props: { className?: string }) => React.ReactNode
 const socials: { label: string; href: string; icon: SocialIcon }[] = [
   {
     label: "GitHub",
-    href: "#github",
+    href: "https://github.com/CodeVault-LLC",
     icon: (p) => (
       <svg
         viewBox="0 0 24 24"

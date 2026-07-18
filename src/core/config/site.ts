@@ -30,7 +30,7 @@ export const mainNav: NavItem[] = [
       {
         heading: "In the open",
         links: [
-          { label: "GitHub", href: "#github" },
+          { label: "GitHub", href: "https://github.com/CodeVault-LLC" },
           { label: "Experiments", href: "/projects" },
           { label: "Changelog", href: "/projects/git-story" },
         ],
@@ -93,7 +93,7 @@ export const footerNav = {
     { label: "Orbit", href: "/projects/orbit" },
     { label: "git-story", href: "/projects/git-story" },
     { label: "The plant-watering Pi", href: "/projects/plant-pi" },
-    { label: "GitHub", href: "#github" },
+    { label: "GitHub", href: "https://github.com/CodeVault-LLC" },
   ],
   Writing: [
     { label: "Blog", href: "#blog" },

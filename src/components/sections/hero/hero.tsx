@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layout/container"
 import { WorldGlobe } from "@/components/sections/hero/world-globe"
 import { fadeUp, staggerContainer } from "@/core/lib/motion"
+import { Link } from "@tanstack/react-router"
 
 export function Hero() {
   const reduceMotion = useReducedMotion()
@@ -56,16 +57,16 @@ export function Hero() {
             <Button
               size="lg"
               render={
-                <a href="#releases">
+                <Link to="/projects">
                   See what we're building
                   <ArrowRight />
-                </a>
+                </Link>
               }
             />
             <Button
               size="lg"
               variant="outline"
-              render={<a href="#about">What we're about</a>}
+              render={<Link to="/about">What we're about</Link>}
             />
           </motion.div>
         </motion.div>
