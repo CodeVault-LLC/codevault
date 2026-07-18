@@ -56,6 +56,7 @@ export function Hero() {
           >
             <Button
               size="lg"
+              nativeButton={false}
               render={
                 <Link to="/projects">
                   See what we're building
@@ -66,6 +67,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
+              nativeButton={false}
               render={<Link to="/about">What we're about</Link>}
             />
           </motion.div>

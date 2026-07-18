@@ -67,7 +67,7 @@ export function ReportsTable({
           </p>
         </div>
 
-        <Button render={<Link to="/admin/deposit" />}>
+        <Button nativeButton={false} render={<Link to="/admin/deposit" />}>
           <FileUp data-icon="inline-start" />
           Deposit a report
         </Button>
@@ -98,6 +98,7 @@ export function ReportsTable({
               {filtered && (
                 <Button
                   variant="outline"
+                  nativeButton={false}
                   render={
                     <Link to="/admin/reports" search={{ q: "", page: 1 }} />
                   }

@@ -88,6 +88,7 @@ export function ReportFilterBar({
             variant="ghost"
             size="sm"
             className="ml-auto text-ui-xs"
+            nativeButton={false}
             render={
               <Link
                 to="/admin/reports"

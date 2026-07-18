@@ -69,7 +69,7 @@ function AdminIndexRoute() {
           </p>
         </div>
 
-        <Button render={<Link to="/admin/deposit" />}>
+        <Button nativeButton={false} render={<Link to="/admin/deposit" />}>
           <FileUp data-icon="inline-start" />
           Deposit a report
         </Button>

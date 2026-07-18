@@ -245,6 +245,7 @@ function AuditFilterBar({
           variant="ghost"
           size="sm"
           className="text-ui-xs"
+          nativeButton={false}
           render={<Link to="/admin/audit" search={{ page: 1 }} />}
         >
           <X className="size-3.5" aria-hidden />

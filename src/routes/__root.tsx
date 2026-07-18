@@ -54,7 +54,12 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    // Browser extensions (dark-mode toolbars, translators, password managers)
+    // stamp attributes onto <html>/<body> before React hydrates, which reads
+    // as a server/client mismatch. Suppression is one level deep — it covers
+    // these two elements' attributes only, so genuine mismatches inside the
+    // app still warn.
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta
           name="theme-color"
@@ -68,7 +73,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <TanStackDevtools
           config={{

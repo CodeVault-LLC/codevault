@@ -75,6 +75,7 @@ export function StatePanel({
             variant="outline"
             size="sm"
             className="w-full"
+            nativeButton={false}
             render={
               // A plain navigation out to the public record, so the operator
               // can see what a reader sees. `target` rather than a client
@@ -104,6 +105,7 @@ export function StatePanel({
               variant="outline"
               size="sm"
               className="w-full"
+              nativeButton={false}
               render={
                 <Link
                   to="/admin/deposit/$draftId"
