@@ -1,8 +1,14 @@
-import type { ReportDetail, ReportSummary } from "@/server/reports/types"
-
-export type ReportListProps = {
-  reports: ReportSummary[]
-}
+import type {
+  BrowseIndex,
+  FacetDimension,
+  FacetValue,
+  Facets,
+  ReportDetail,
+  ReportSummary,
+  SearchResults,
+} from "@/server/reports/types"
+import type { ReportSearch } from "@/core/reports/search-params"
+import type { TaggableReport } from "@/core/reports/highwire"
 
 export type ReportRowProps = {
   report: ReportSummary
@@ -10,6 +16,44 @@ export type ReportRowProps = {
 
 export type ReportRecordProps = {
   report: ReportDetail
+}
+
+export type SearchResultsViewProps = {
+  results: SearchResults
+  search: ReportSearch
+}
+
+export type SearchBarProps = {
+  search: ReportSearch
+  total: number
+}
+
+export type FacetRailProps = {
+  facets: Facets
+  search: ReportSearch
+}
+
+export type FacetGroupProps = {
+  dimension: FacetDimension
+  values: FacetValue[]
+  search: ReportSearch
+}
+
+export type PaginationProps = {
+  page: number
+  total: number
+}
+
+export type BrowseIndexProps = {
+  index: BrowseIndex
+}
+
+export type HighwireTagsProps = {
+  report: TaggableReport
+}
+
+export type CitationLinksProps = {
+  accessionId: string
 }
 
 export type MetadataRow = {

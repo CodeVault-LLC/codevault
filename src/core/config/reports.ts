@@ -7,6 +7,7 @@ import type {
   ReportStatus,
   TechnicalReviewType,
 } from "@/core/reports/types"
+import type { FacetDimension } from "@/core/reports/search-params"
 
 export const reportsArchive = {
   name: "Technical reports",
@@ -17,7 +18,26 @@ export const reportsArchive = {
   // Shown on a record whose document is deliberately withheld.
   metadataOnlyNotice:
     "The document for this record is not being distributed. The catalogue entry stands on its own.",
+
+  searchLabel: "Search the archive",
+  searchPlaceholder: "Title, abstract, keywords, full text",
+  // Distinct from `emptyListing`: an empty archive and an over-narrow query are
+  // different problems and the reader can only fix one of them.
+  emptySearch: "No records match those filters.",
+
+  browseTitle: "Browse",
+  browseDescription:
+    "The archive by year and by subject — every record within a couple of links from here.",
 } as const
+
+// The facet rail's headings, in the archive's own words.
+export const facetLabels: Record<FacetDimension, string> = {
+  year: "Year",
+  docType: "Type",
+  subject: "Subject",
+  project: "Project",
+  author: "Author",
+}
 
 export const docTypeLabels: Record<DocType, string> = {
   report: "Report",

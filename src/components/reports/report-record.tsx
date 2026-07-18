@@ -11,7 +11,9 @@ import {
   formatFileSize,
   formatPageCount,
 } from "./format"
+import { CitationLinks } from "./citation-links"
 import { Container } from "@/components/layout/container"
+import { HighwireTags } from "./highwire-tags"
 import { MetadataTable } from "./metadata-table"
 import { isFileServable } from "@/core/reports/access"
 
@@ -65,6 +67,12 @@ export function ReportRecord({ report }: ReportRecordProps) {
 
   return (
     <Container className="py-10 md:py-12">
+      {/* Hoisted into <head> by React during SSR — see the component for why
+          this is not a route `head` option (design §12). */}
+      {report.accessionId && (
+        <HighwireTags report={{ ...report, accessionId: report.accessionId }} />
+      )}
+
       <article className="max-w-3xl">
         <p className="text-faded font-mono text-detail-xs tracking-wide">
           {report.accessionId}
@@ -115,6 +123,12 @@ export function ReportRecord({ report }: ReportRecordProps) {
           </h2>
           <MetadataTable rows={rows} />
         </section>
+
+        {report.accessionId && (
+          <div className="mt-6">
+            <CitationLinks accessionId={report.accessionId} />
+          </div>
+        )}
       </article>
     </Container>
   )

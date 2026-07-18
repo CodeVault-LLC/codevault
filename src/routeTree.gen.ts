@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as EnrollRouteImport } from './routes/enroll'
@@ -17,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
 import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
 import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
 import { Route as ProjectsOrbitRouteImport } from './routes/projects.orbit'
@@ -28,7 +30,13 @@ import { Route as ProjectsPlantPiLogRouteImport } from './routes/projects.plant-
 import { Route as ApiIngestNotifyRouteImport } from './routes/api.ingest.notify'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as AdminDepositDraftIdRouteImport } from './routes/admin.deposit.$draftId'
+import { Route as ReportsAccessionIdCiteFormatRouteImport } from './routes/reports.$accessionId_.cite.$format'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -68,6 +76,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const ReportsBrowseRoute = ReportsBrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => ReportsRoute,
 } as any)
 const ReportsAccessionIdRoute = ReportsAccessionIdRouteImport.update({
   id: '/$accessionId',
@@ -125,6 +138,12 @@ const AdminDepositDraftIdRoute = AdminDepositDraftIdRouteImport.update({
   path: '/deposit/$draftId',
   getParentRoute: () => AdminRoute,
 } as any)
+const ReportsAccessionIdCiteFormatRoute =
+  ReportsAccessionIdCiteFormatRouteImport.update({
+    id: '/$accessionId_/cite/$format',
+    path: '/$accessionId/cite/$format',
+    getParentRoute: () => ReportsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -132,11 +151,13 @@ export interface FileRoutesByFullPath {
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/health': typeof ApiHealthRoute
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
+  '/reports/browse': typeof ReportsBrowseRoute
   '/admin/': typeof AdminIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
@@ -146,16 +167,19 @@ export interface FileRoutesByFullPath {
   '/projects/plant-pi/log': typeof ProjectsPlantPiLogRoute
   '/reports/$accessionId/download': typeof ReportsAccessionIdDownloadRoute
   '/admin/deposit/': typeof AdminDepositIndexRoute
+  '/reports/$accessionId/cite/$format': typeof ReportsAccessionIdCiteFormatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/health': typeof ApiHealthRoute
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
+  '/reports/browse': typeof ReportsBrowseRoute
   '/admin': typeof AdminIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/reports': typeof ReportsIndexRoute
@@ -165,6 +189,7 @@ export interface FileRoutesByTo {
   '/projects/plant-pi/log': typeof ProjectsPlantPiLogRoute
   '/reports/$accessionId/download': typeof ReportsAccessionIdDownloadRoute
   '/admin/deposit': typeof AdminDepositIndexRoute
+  '/reports/$accessionId/cite/$format': typeof ReportsAccessionIdCiteFormatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -173,11 +198,13 @@ export interface FileRoutesById {
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/health': typeof ApiHealthRoute
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
+  '/reports/browse': typeof ReportsBrowseRoute
   '/admin/': typeof AdminIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
@@ -187,6 +214,7 @@ export interface FileRoutesById {
   '/projects/plant-pi_/log': typeof ProjectsPlantPiLogRoute
   '/reports/$accessionId_/download': typeof ReportsAccessionIdDownloadRoute
   '/admin/deposit/': typeof AdminDepositIndexRoute
+  '/reports/$accessionId_/cite/$format': typeof ReportsAccessionIdCiteFormatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -196,11 +224,13 @@ export interface FileRouteTypes {
     | '/enroll'
     | '/login'
     | '/reports'
+    | '/sitemap.xml'
     | '/api/health'
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
     | '/reports/$accessionId'
+    | '/reports/browse'
     | '/admin/'
     | '/projects/'
     | '/reports/'
@@ -210,16 +240,19 @@ export interface FileRouteTypes {
     | '/projects/plant-pi/log'
     | '/reports/$accessionId/download'
     | '/admin/deposit/'
+    | '/reports/$accessionId/cite/$format'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/enroll'
     | '/login'
+    | '/sitemap.xml'
     | '/api/health'
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
     | '/reports/$accessionId'
+    | '/reports/browse'
     | '/admin'
     | '/projects'
     | '/reports'
@@ -229,6 +262,7 @@ export interface FileRouteTypes {
     | '/projects/plant-pi/log'
     | '/reports/$accessionId/download'
     | '/admin/deposit'
+    | '/reports/$accessionId/cite/$format'
   id:
     | '__root__'
     | '/'
@@ -236,11 +270,13 @@ export interface FileRouteTypes {
     | '/enroll'
     | '/login'
     | '/reports'
+    | '/sitemap.xml'
     | '/api/health'
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
     | '/reports/$accessionId'
+    | '/reports/browse'
     | '/admin/'
     | '/projects/'
     | '/reports/'
@@ -250,6 +286,7 @@ export interface FileRouteTypes {
     | '/projects/plant-pi_/log'
     | '/reports/$accessionId_/download'
     | '/admin/deposit/'
+    | '/reports/$accessionId_/cite/$format'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -258,6 +295,7 @@ export interface RootRouteChildren {
   EnrollRoute: typeof EnrollRoute
   LoginRoute: typeof LoginRoute
   ReportsRoute: typeof ReportsRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ProjectsGitStoryRoute: typeof ProjectsGitStoryRoute
   ProjectsOrbitRoute: typeof ProjectsOrbitRoute
@@ -270,6 +308,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reports': {
       id: '/reports'
       path: '/reports'
@@ -325,6 +370,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/reports/browse': {
+      id: '/reports/browse'
+      path: '/browse'
+      fullPath: '/reports/browse'
+      preLoaderRoute: typeof ReportsBrowseRouteImport
+      parentRoute: typeof ReportsRoute
     }
     '/reports/$accessionId': {
       id: '/reports/$accessionId'
@@ -403,6 +455,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDepositDraftIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/reports/$accessionId_/cite/$format': {
+      id: '/reports/$accessionId_/cite/$format'
+      path: '/$accessionId/cite/$format'
+      fullPath: '/reports/$accessionId/cite/$format'
+      preLoaderRoute: typeof ReportsAccessionIdCiteFormatRouteImport
+      parentRoute: typeof ReportsRoute
+    }
   }
 }
 
@@ -422,14 +481,18 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ReportsRouteChildren {
   ReportsAccessionIdRoute: typeof ReportsAccessionIdRoute
+  ReportsBrowseRoute: typeof ReportsBrowseRoute
   ReportsIndexRoute: typeof ReportsIndexRoute
   ReportsAccessionIdDownloadRoute: typeof ReportsAccessionIdDownloadRoute
+  ReportsAccessionIdCiteFormatRoute: typeof ReportsAccessionIdCiteFormatRoute
 }
 
 const ReportsRouteChildren: ReportsRouteChildren = {
   ReportsAccessionIdRoute: ReportsAccessionIdRoute,
+  ReportsBrowseRoute: ReportsBrowseRoute,
   ReportsIndexRoute: ReportsIndexRoute,
   ReportsAccessionIdDownloadRoute: ReportsAccessionIdDownloadRoute,
+  ReportsAccessionIdCiteFormatRoute: ReportsAccessionIdCiteFormatRoute,
 }
 
 const ReportsRouteWithChildren =
@@ -441,6 +504,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnrollRoute: EnrollRoute,
   LoginRoute: LoginRoute,
   ReportsRoute: ReportsRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiHealthRoute: ApiHealthRoute,
   ProjectsGitStoryRoute: ProjectsGitStoryRoute,
   ProjectsOrbitRoute: ProjectsOrbitRoute,
