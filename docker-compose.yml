@@ -1,0 +1,62 @@
+# Local development stack. `bun run dev:up` brings this up, applies migrations
+# and creates the buckets; `bun run dev:reset` throws it all away and rebuilds.
+#
+# Nothing here runs in production — production is managed Postgres plus
+# Cloudflare R2. The point of this file is parity, not portability.
+
+services:
+  postgres:
+    image: postgres:18.4-alpine
+    environment:
+      POSTGRES_USER: codevault
+      POSTGRES_PASSWORD: codevault
+      POSTGRES_DB: codevault
+    # 5433 on the host, so the stack never collides with a locally installed
+    # Postgres already holding 5432.
+    ports:
+      - "5433:5432"
+    # Postgres 18 moved PGDATA to a version-specific path and declares its
+    # volume at the parent directory. Mounting the pre-18 /var/lib/postgresql/data
+    # against an 18 image yields a silently non-persistent database.
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U codevault -d codevault"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  # S3-compatible storage standing in for R2.
+  #
+  # Not MinIO: minio/minio has been archived and read-only since 2026-04-24 and
+  # receives no security patches. Not LocalStack either — it has required an
+  # auth token to start since 2026-03-23 and its free tier is non-commercial.
+  seaweedfs:
+    image: chrislusf/seaweedfs:3.98
+    command: >
+      server
+      -dir=/data
+      -master.volumeSizeLimitMB=1024
+      -filer
+      -s3
+      -s3.port=8333
+      -s3.config=/etc/seaweedfs/s3.json
+    ports:
+      - "8333:8333" # S3 API
+      - "9333:9333" # master UI
+      - "8888:8888" # filer
+    volumes:
+      - seaweedfs-data:/data
+      - ./docker/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
+    # Probes the S3 gateway rather than the master, so "healthy" means the
+    # surface we actually talk to is serving. Explicit 127.0.0.1: SeaweedFS
+    # binds IPv4 only, and `localhost` resolves to ::1 first inside the image.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://127.0.0.1:8333/status"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgres-data:
+  seaweedfs-data:

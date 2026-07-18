@@ -1,0 +1,14 @@
+{
+  "identities": [
+    {
+      "name": "codevault",
+      "credentials": [
+        {
+          "accessKey": "codevault",
+          "secretKey": "codevaultsecret"
+        }
+      ],
+      "actions": ["Admin", "Read", "Write", "List"]
+    }
+  ]
+}
