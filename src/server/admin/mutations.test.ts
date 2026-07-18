@@ -419,19 +419,29 @@ describe("staging an accession id", () => {
       .values({ title: "A draft awaiting its identifier" })
       .returning({ id: reports.id })
 
-    const result = await updateReport(
-      { reportId: draft.id, patch: { requestedAccessionId: "CV-STD-0001" } },
-      ACTOR
-    )
+    // Run-unique, and deleted below. `requested_accession_id` is unique across
+    // the table, and this file's cleanup matches on `accession_id` — which a
+    // draft does not have — so a literal here would outlive the suite and
+    // collide with the next run.
+    const staged = `CV-M${Date.now().toString(36).toUpperCase().slice(-5)}-0001`
 
-    expect(result.ok).toBe(true)
+    try {
+      const result = await updateReport(
+        { reportId: draft.id, patch: { requestedAccessionId: staged } },
+        ACTOR
+      )
 
-    const [row] = await db
-      .select({ requested: reports.requestedAccessionId })
-      .from(reports)
-      .where(eq(reports.id, draft.id))
+      expect(result.ok).toBe(true)
 
-    expect(row.requested).toBe("CV-STD-0001")
+      const [row] = await db
+        .select({ requested: reports.requestedAccessionId })
+        .from(reports)
+        .where(eq(reports.id, draft.id))
+
+      expect(row.requested).toBe(staged)
+    } finally {
+      await db.delete(reports).where(eq(reports.id, draft.id))
+    }
   })
 
   it("refuses one on a published record, whose identifier is frozen", async () => {
