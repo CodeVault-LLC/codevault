@@ -1,7 +1,9 @@
 import type { CataloguingSectionProps } from "./types"
 import type { TechnicalReviewType } from "@/core/reports/types"
+import { ACCESSION_ID_HINT } from "@/core/reports/accession-id"
 import { TECHNICAL_REVIEW_TYPES } from "@/core/reports/vocabulary"
 import { Field } from "@/components/ui/field"
+import { findingsFor } from "@/core/reports/publish-gate"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { projects } from "@/core/config/projects"
@@ -18,8 +20,13 @@ import { technicalReviewLabels } from "@/core/config/reports"
  */
 export function CataloguingSection({
   fields,
+  gate,
+  accessionId,
+  isDraft,
   onChange,
 }: CataloguingSectionProps) {
+  const accessionFindings = findingsFor(gate, "accessionId")
+
   return (
     <div className="flex flex-col gap-5">
       <div className="grid gap-5 sm:grid-cols-2">
@@ -66,6 +73,42 @@ export function CataloguingSection({
           </Select>
         </Field>
       </div>
+
+      <Field
+        htmlFor="requestedAccessionId"
+        label="Accession ID"
+        // The identifier is the one thing about a record that can never be
+        // corrected later — it is embedded in the stored object's key and in
+        // every citation issued against it — so what blank means, and when the
+        // choice closes, are both stated here rather than discovered at
+        // publish.
+        description={
+          isDraft
+            ? `Leave blank to allocate CV-${new Date().getUTCFullYear()}-NNNN at publish. Set it only for a document that already has an identifier of its own — ${ACCESSION_ID_HINT} Frozen once published.`
+            : "Allocated at publish and permanent, including after withdrawal."
+        }
+        blockers={accessionFindings.blockers}
+      >
+        <Input
+          id="requestedAccessionId"
+          readOnly={!isDraft}
+          // Uncontrolled, like every other save-on-blur input here: a
+          // controlled value would fight the operator's cursor on each
+          // keystroke.
+          defaultValue={
+            isDraft ? (fields.requestedAccessionId ?? "") : (accessionId ?? "")
+          }
+          placeholder="CV-STD-0001"
+          onBlur={
+            isDraft
+              ? (event) =>
+                  onChange({
+                    requestedAccessionId: event.target.value.trim() || null,
+                  })
+              : undefined
+          }
+        />
+      </Field>
 
       <Field
         htmlFor="reportNumbers"

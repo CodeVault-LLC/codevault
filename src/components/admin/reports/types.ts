@@ -35,6 +35,7 @@ export type RecordPatch = {
   reportNumbers?: string[]
   license?: string | null
   doi?: string | null
+  requestedAccessionId?: string | null
   projectSlug?: string | null
   classification?: Classification | null
   dissemination?: Dissemination
@@ -60,5 +61,14 @@ export type RecordWorkspaceProps = {
 export type CataloguingSectionProps = {
   fields: RecordFields
   gate: GateResult
+  /**
+   * The allocated identifier, or null on a draft that has not been published.
+   *
+   * Separate from `fields.requestedAccessionId` because they are different
+   * facts: one is what the record *is* called and is frozen, the other is what
+   * a draft is *asking* to be called and is still editable.
+   */
+  accessionId: string | null
+  isDraft: boolean
   onChange: (patch: RecordPatch) => void
 }

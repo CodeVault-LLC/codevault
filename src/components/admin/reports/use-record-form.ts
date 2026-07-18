@@ -58,6 +58,7 @@ export function useRecordForm(initial: AdminReportDetail) {
     reportNumbers: report.reportNumbers,
     license: report.license,
     doi: report.doi,
+    requestedAccessionId: report.requestedAccessionId,
     projectSlug: report.projectSlug,
     classification: report.classification,
     dissemination: report.dissemination,

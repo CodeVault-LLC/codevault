@@ -62,6 +62,7 @@ export async function listDrafts(): Promise<DraftSummary[]> {
       fileSize: reports.fileSize,
       checksum: reports.checksum,
       pdfEmbeddedTitle: reports.pdfEmbeddedTitle,
+      requestedAccessionId: reports.requestedAccessionId,
 
       fulltext: sql<
         string | null

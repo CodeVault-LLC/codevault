@@ -102,6 +102,8 @@ export function RecordWorkspace({ detail, permissions }: RecordWorkspaceProps) {
                 <CataloguingSection
                   fields={fields}
                   gate={gate}
+                  accessionId={detail.report.accessionId}
+                  isDraft={detail.report.status === "draft"}
                   onChange={onChange}
                 />
               </CardContent>

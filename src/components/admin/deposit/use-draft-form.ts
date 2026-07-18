@@ -167,8 +167,12 @@ export function useDraftForm(reportId: string, initial: DraftView) {
         pdfEmbeddedTitle: file.pdfEmbeddedTitle,
         checksum: file.hasChecksum ? CHECKSUM_PRESENT : null,
         fulltext: file.hasSearchableText ? FULLTEXT_PRESENT : null,
+        // Not editable from the deposit form — the accession field lives on the
+        // record screen. Carried through anyway so this checklist agrees with
+        // the server's verdict on a draft that already has one staged.
+        requestedAccessionId: initial.report.requestedAccessionId,
       } satisfies GateCandidate),
-    [fields, file]
+    [fields, file, initial.report.requestedAccessionId]
   )
 
   return { fields, file, gate, saveState, update, applyReview, clearFile }

@@ -252,11 +252,14 @@ describe("a staged accession identifier", () => {
   const staged = (n: number) => `CV-${SERIES}-${String(n).padStart(4, "0")}`
 
   async function sequenceFor(year: number): Promise<number> {
-    const [row] = await db
+    const rows = await db
       .select({ lastValue: accessionSequence.lastValue })
       .from(accessionSequence)
       .where(eq(accessionSequence.year, year))
-    return row?.lastValue ?? 0
+
+    // No row means the counter has never been touched for this year, which is
+    // the state a manual publish must leave it in.
+    return rows.length === 0 ? 0 : rows[0].lastValue
   }
 
   it("is used verbatim", async () => {

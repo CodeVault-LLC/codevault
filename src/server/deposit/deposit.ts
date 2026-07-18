@@ -192,6 +192,7 @@ function toGateCandidate(row: typeof reports.$inferSelect): GateCandidate {
     checksum: row.checksum,
     fulltext: row.fulltext,
     pdfEmbeddedTitle: row.pdfEmbeddedTitle,
+    requestedAccessionId: row.requestedAccessionId,
   }
 }
 
