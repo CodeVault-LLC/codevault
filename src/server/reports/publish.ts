@@ -40,6 +40,7 @@ export function toGateCandidate(
     checksum: row.checksum,
     fulltext: row.fulltext,
     pdfEmbeddedTitle: row.pdfEmbeddedTitle,
+    requestedAccessionId: row.requestedAccessionId,
   }
 }
 

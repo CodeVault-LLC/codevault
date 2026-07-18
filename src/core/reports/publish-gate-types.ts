@@ -18,6 +18,13 @@ export type GateCandidate = {
   checksum: Uint8Array | null
   fulltext: string | null
   pdfEmbeddedTitle: string | null
+
+  /**
+   * The identifier the draft is asking to be published under, or null to let
+   * the counter allocate one. Only the *shape* is judged here — whether it is
+   * already taken is a database question, and the gate is pure.
+   */
+  requestedAccessionId: string | null
 }
 
 export type GateCode =
@@ -31,6 +38,7 @@ export type GateCode =
   | "no_file"
   | "no_checksum"
   | "no_searchable_text"
+  | "invalid_requested_accession_id"
 
 export type GateWarningCode = "over_scholar_size_limit" | "embedded_title_drift"
 
@@ -51,6 +59,7 @@ export type GateField =
   | "subjectCategory"
   | "keywords"
   | "classification"
+  | "accessionId"
   | "document"
 
 export type GateFinding = {

@@ -24,6 +24,7 @@ function candidate(overrides: Partial<GateCandidate> = {}): GateCandidate {
     checksum: new Uint8Array(32),
     fulltext: "extracted body text",
     pdfEmbeddedTitle: null,
+    requestedAccessionId: null,
     ...overrides,
   }
 }
@@ -134,5 +135,40 @@ describe("field anchoring", () => {
 
     expect(gate.publishable).toBe(true)
     expect(findingsFor(gate, "document").blockers).toEqual([])
+  })
+})
+
+describe("a staged accession identifier", () => {
+  it("does not block when absent — the counter will allocate", () => {
+    const gate = evaluatePublishGate(candidate({ requestedAccessionId: null }))
+
+    expect(gate.publishable).toBe(true)
+  })
+
+  it("does not block when well formed", () => {
+    const gate = evaluatePublishGate(
+      candidate({ requestedAccessionId: "CV-STD-0001" })
+    )
+
+    expect(gate.publishable).toBe(true)
+  })
+
+  it("blocks a malformed identifier, under its own field", () => {
+    const gate = evaluatePublishGate(candidate({ requestedAccessionId: "nope" }))
+
+    expect(gate.publishable).toBe(false)
+    expect(findingsFor(gate, "accessionId").blockers).toHaveLength(1)
+  })
+
+  // The counter owns the year namespace, and someone typing CV-2026-0005 has
+  // made a mistake that looks nothing like a malformed one.
+  it("blocks a reserved year series with a message that explains why", () => {
+    const gate = evaluatePublishGate(
+      candidate({ requestedAccessionId: "CV-2026-0005" })
+    )
+
+    expect(findingsFor(gate, "accessionId").blockers[0].message).toContain(
+      "allocated automatically"
+    )
   })
 })

@@ -4,6 +4,7 @@ import type {
   GateFinding,
   GateResult,
 } from "./publish-gate-types"
+import { accessionIdErrorMessage, parseAccessionId } from "./accession-id"
 
 // The publish gate (design §11).
 //
@@ -116,6 +117,21 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
       field: "keywords",
       message: `${record.keywords.length} keywords; at least ${MIN_KEYWORDS} are required.`,
     })
+  }
+
+  // Shape only. A taken identifier is caught by the uniqueness probe in the
+  // publish path, because answering that needs a database read and this
+  // function must stay pure enough to run in the browser.
+  if (record.requestedAccessionId !== null) {
+    const parsed = parseAccessionId(record.requestedAccessionId)
+
+    if (!parsed.ok) {
+      blockers.push({
+        code: "invalid_requested_accession_id",
+        field: "accessionId",
+        message: accessionIdErrorMessage(parsed.error),
+      })
+    }
   }
 
   // A metadata-only record is published deliberately without a served
