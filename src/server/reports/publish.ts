@@ -3,6 +3,7 @@ import { and, eq } from "drizzle-orm"
 import type { GateCandidate } from "@/core/reports/publish-gate-types"
 import type { PublishOutcome } from "./publish-types"
 import { allocateAccessionId } from "./accession"
+import { parseAccessionId } from "@/core/reports/accession-id"
 import { db } from "@/server/db/client"
 import { env } from "@/env/server"
 import { evaluatePublishGate } from "@/core/reports/publish-gate"
@@ -81,11 +82,42 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
     const gate = evaluatePublishGate(toGateCandidate(row))
     if (!gate.publishable) return { error: "gate_failed", gate } as const
 
-    // Reuse an identifier from an interrupted earlier attempt rather than
-    // allocating a second one.
-    const accessionId =
-      row.accessionId ??
-      (await allocateAccessionId(tx, new Date().getUTCFullYear()))
+    // Three sources, in order of authority:
+    //
+    //   1. An identifier this row already holds — an interrupted earlier
+    //      attempt got as far as committing one, and allocating a second would
+    //      burn a permanent identifier for nothing.
+    //   2. One the operator staged, for a document that arrived already known
+    //      by an identifier of its own.
+    //   3. The counter.
+    //
+    // Revalidated here rather than trusted from the form: a server function is
+    // a public endpoint reachable by direct POST regardless of which UI called
+    // it (design §7.6).
+    let accessionId = row.accessionId
+
+    if (!accessionId && row.requestedAccessionId) {
+      const parsed = parseAccessionId(row.requestedAccessionId)
+      if (!parsed.ok) return { error: "gate_failed", gate } as const
+
+      // The unique constraint would catch this too, but as a rolled-back
+      // transaction rather than an answer. Asking first means the operator is
+      // told which identifier clashed.
+      const taken = await tx
+        .select({ id: reports.id })
+        .from(reports)
+        .where(eq(reports.accessionId, parsed.value))
+        .limit(1)
+
+      if (taken.length > 0) return { error: "accession_taken" } as const
+
+      accessionId = parsed.value
+    }
+
+    accessionId ??= await allocateAccessionId(
+      tx,
+      new Date().getUTCFullYear()
+    )
 
     const quarantineKey = row.pdfKey
     const destinationKey = quarantineKey ? reportPdfKey(accessionId) : null
@@ -98,9 +130,11 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
       ? reportThumbKey(accessionId, thumbnailFormatFromKey(quarantineThumb))
       : null
 
+    // Cleared as the real column is set, so a published row has exactly one
+    // source of truth for what it is called.
     await tx
       .update(reports)
-      .set({ accessionId, updatedAt: new Date() })
+      .set({ accessionId, requestedAccessionId: null, updatedAt: new Date() })
       .where(eq(reports.id, reportId))
 
     return {

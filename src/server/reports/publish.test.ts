@@ -11,7 +11,7 @@ import { env } from "@/env/server"
 import { newQuarantineKey, reportPdfKey } from "@/server/storage/keys"
 import { objectStore } from "@/server/storage/object-store"
 import { publishReport } from "./publish"
-import { reports } from "@/server/db/schema"
+import { accessionSequence, reports } from "@/server/db/schema"
 
 const TITLE_TAG = `publish-test-${Date.now()}`
 
@@ -237,5 +237,102 @@ describe("publishing a complete draft", () => {
     expect(result.ok).toBe(true)
     if (!result.ok) return
     expect(result.accessionId).toBe("CV-1999-0001")
+  })
+})
+
+
+// A document that arrives already known by an identifier of its own — a
+// standard, a certification — must keep it. Publishing it under a counter
+// value would rename the thing the archive was asked to preserve.
+describe("a staged accession identifier", () => {
+  // Run-unique, for the same reason the titles and the document bytes are:
+  // accession IDs are unique across the whole table and are deliberately never
+  // released, so a fixture reusing a literal collides with its own last run.
+  const SERIES = `T${Date.now().toString(36).toUpperCase().slice(-5)}`
+  const staged = (n: number) => `CV-${SERIES}-${String(n).padStart(4, "0")}`
+
+  async function sequenceFor(year: number): Promise<number> {
+    const [row] = await db
+      .select({ lastValue: accessionSequence.lastValue })
+      .from(accessionSequence)
+      .where(eq(accessionSequence.year, year))
+    return row?.lastValue ?? 0
+  }
+
+  it("is used verbatim", async () => {
+    const { id } = await stageDraft({ requestedAccessionId: staged(1) })
+
+    const result = await publishReport(id)
+
+    expect(result).toMatchObject({ ok: true, accessionId: staged(1) })
+  })
+
+  it("is cleared once published, leaving one source of truth", async () => {
+    const { id } = await stageDraft({ requestedAccessionId: staged(2) })
+
+    await publishReport(id)
+    const [row] = await db.select().from(reports).where(eq(reports.id, id))
+
+    expect(row.accessionId).toBe(staged(2))
+    expect(row.requestedAccessionId).toBeNull()
+  })
+
+  it("leaves the counter unadvanced", async () => {
+    const year = new Date().getUTCFullYear()
+    const before = await sequenceFor(year)
+
+    const { id } = await stageDraft({ requestedAccessionId: staged(3) })
+    await publishReport(id)
+
+    expect(await sequenceFor(year)).toBe(before)
+  })
+
+  it("falls back to the counter when absent", async () => {
+    const { id } = await stageDraft({ requestedAccessionId: null })
+
+    const result = await publishReport(id)
+
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.accessionId).toMatch(
+      new RegExp(`^CV-${new Date().getUTCFullYear()}-\\d{4}$`)
+    )
+  })
+
+  it("is refused when a published record already holds it", async () => {
+    const first = await stageDraft({ requestedAccessionId: staged(9) })
+    await publishReport(first.id)
+
+    const second = await stageDraft({ requestedAccessionId: staged(9) })
+    const result = await publishReport(second.id)
+
+    expect(result).toEqual({ ok: false, reason: "accession_taken" })
+  })
+
+  it("leaves the losing draft a draft, with no identifier burned", async () => {
+    const first = await stageDraft({ requestedAccessionId: staged(10) })
+    await publishReport(first.id)
+
+    const second = await stageDraft({ requestedAccessionId: staged(10) })
+    await publishReport(second.id)
+    const [row] = await db
+      .select()
+      .from(reports)
+      .where(eq(reports.id, second.id))
+
+    expect(row.status).toBe("draft")
+    expect(row.accessionId).toBeNull()
+  })
+
+  // The gate checks shape before publish, but a value reaching the column by
+  // any other path must not become a live identifier.
+  it("refuses a malformed value rather than publishing under it", async () => {
+    const { id } = await stageDraft({ requestedAccessionId: "not-an-id" })
+
+    const result = await publishReport(id)
+
+    expect(result.ok).toBe(false)
+    if (result.ok) return
+    expect(result.reason).toBe("gate_failed")
   })
 })

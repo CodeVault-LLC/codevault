@@ -7,7 +7,7 @@ export type PublishSuccess = {
 
 export type PublishFailure = {
   ok: false
-  reason: "not_found" | "not_a_draft" | "gate_failed"
+  reason: "not_found" | "not_a_draft" | "gate_failed" | "accession_taken"
   gate?: GateResult
 }
 
