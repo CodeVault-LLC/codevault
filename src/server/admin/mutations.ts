@@ -62,6 +62,18 @@ export async function updateReport(
   const before = rows[0]
   const after = { ...before, ...input.patch }
 
+  // An accession ID is frozen the moment it is allocated, because it is
+  // embedded in the record's storage keys and in every citation already issued
+  // against it (design §4.5). Editing the staging column after publish could
+  // not move the record anyway — publish has already read it — so accepting the
+  // write would be a lie told to whoever typed it.
+  if (
+    input.patch.requestedAccessionId !== undefined &&
+    before.status !== "draft"
+  ) {
+    return { ok: false, reason: "accession_not_editable" }
+  }
+
   // Drafts are exempt: validation belongs at publish, not at save.
   if (before.status === "published" || before.status === "in_review") {
     const gate = evaluatePublishGate(toGateCandidate(after))

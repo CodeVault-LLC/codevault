@@ -1,9 +1,9 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "239791c9-50ef-4a59-b956-3e59317214ec",
+  "id": "3bf1470e-06f2-44db-9b4c-6f504598e9e0",
   "prevIds": [
-    "e64bf5ba-eb9f-44ff-8e3f-94085807b98b"
+    "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
     {
@@ -1341,6 +1341,19 @@
       "table": "reports"
     },
     {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "requested_accession_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "reports"
+    },
+    {
       "type": "report_status",
       "typeSchema": "public",
       "notNull": true,
@@ -2432,6 +2445,17 @@
       ],
       "nullsNotDistinct": false,
       "name": "reports_accession_id_key",
+      "schema": "public",
+      "table": "reports",
+      "entityType": "uniques"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "requested_accession_id"
+      ],
+      "nullsNotDistinct": false,
+      "name": "reports_requested_accession_id_key",
       "schema": "public",
       "table": "reports",
       "entityType": "uniques"

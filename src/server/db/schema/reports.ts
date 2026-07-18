@@ -36,6 +36,17 @@ export const reports = pgTable(
     // including after withdrawal.
     accessionId: text("accession_id").unique(),
 
+    // What a draft is asking to be published as, when the document already
+    // carries an identifier of its own — CV-STD-0001 rather than a number from
+    // the counter.
+    //
+    // Deliberately *not* written into `accession_id` while still a draft. The
+    // query layer treats a non-null accession ID as proof of publication
+    // (`reports/queries.ts`, HAS_ACCESSION), and staff listings have no other
+    // status predicate — so an early write there would surface drafts in staff
+    // search and facet counts. Publish moves the value across and clears this.
+    requestedAccessionId: text("requested_accession_id").unique(),
+
     status: reportStatusEnum("status").notNull().default("draft"),
 
     // Deliberately no default. An unset classification must be a decision the

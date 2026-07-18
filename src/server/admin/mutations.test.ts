@@ -408,3 +408,38 @@ afterAll(async () => {
     )
   }
 })
+
+// The identifier is the one field on a record that can never be corrected
+// later, so the boundary between "still choosable" and "frozen" is worth
+// asserting directly rather than inferring from the screen.
+describe("staging an accession id", () => {
+  it("accepts one on a draft", async () => {
+    const [draft] = await db
+      .insert(reports)
+      .values({ title: "A draft awaiting its identifier" })
+      .returning({ id: reports.id })
+
+    const result = await updateReport(
+      { reportId: draft.id, patch: { requestedAccessionId: "CV-STD-0001" } },
+      ACTOR
+    )
+
+    expect(result.ok).toBe(true)
+
+    const [row] = await db
+      .select({ requested: reports.requestedAccessionId })
+      .from(reports)
+      .where(eq(reports.id, draft.id))
+
+    expect(row.requested).toBe("CV-STD-0001")
+  })
+
+  it("refuses one on a published record, whose identifier is frozen", async () => {
+    const result = await updateReport(
+      { reportId, patch: { requestedAccessionId: "CV-STD-0002" } },
+      ACTOR
+    )
+
+    expect(result).toEqual({ ok: false, reason: "accession_not_editable" })
+  })
+})

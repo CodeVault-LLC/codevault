@@ -49,6 +49,10 @@ const fundingSchema = z.object({
  * different reason: those are state transitions, and each has its own operation
  * with its own guard and its own audit entry. An UPDATE that could set `status`
  * would be a way to publish or withdraw without passing through either.
+ *
+ * `requestedAccessionId` is here rather than there because it is a request, not
+ * a transition — it changes nothing public until publish reads it. `updateReport`
+ * still refuses it on anything already published, where the identifier is frozen.
  */
 export const updateReportSchema = z.object({
   reportId: z.uuid(),
@@ -75,6 +79,11 @@ export const updateReportSchema = z.object({
     license: z.string().max(100).nullish(),
     funding: z.array(fundingSchema).max(20).optional(),
     doi: z.string().max(200).nullish(),
+
+    // Shape is enforced by the publish gate rather than here, so a half-typed
+    // identifier still saves — the same reason a draft may hold an empty
+    // abstract. Publish is where an unusable value is refused.
+    requestedAccessionId: z.string().trim().max(20).nullish(),
   }),
 })
 

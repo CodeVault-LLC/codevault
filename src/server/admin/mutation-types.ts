@@ -15,6 +15,9 @@ export type MutationFailure =
   | "wrong_status"
   | "self_relation"
   | "unknown_relation"
+  // An accession ID was staged on a record that is no longer a draft, where the
+  // identifier is already frozen.
+  | "accession_not_editable"
 
 export type MutationResult =
   { ok: true } | { ok: false; reason: MutationFailure }
