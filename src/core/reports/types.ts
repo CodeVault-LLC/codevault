@@ -32,7 +32,8 @@ export type Funding = {
   type: string
 }
 
-// The accession identifier: CV-YYYY-NNNN. Allocated server-side at publish,
-// monotonic within the year, permanent, and never reused — including after
-// withdrawal (design §4.5).
-export type AccessionId = `CV-${number}-${string}`
+// The accession identifier: CV-<series>-NNNN. The series is a year when the
+// counter allocated it at publish, or a letter code such as STD when the
+// document arrived carrying an identifier of its own. Permanent once set, and
+// never reused — including after withdrawal (design §4.5).
+export type AccessionId = `CV-${string}-${string}`
