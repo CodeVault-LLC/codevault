@@ -1,7 +1,9 @@
 import { and, eq, isNull, lte, or, sql } from "drizzle-orm"
 import type { SQL } from "drizzle-orm"
 
+import type { Dissemination } from "@/core/reports/types"
 import type { Viewer } from "./types"
+import { isFileServable } from "@/core/reports/access"
 import { reports } from "@/server/db/schema"
 
 // Default deny, enforced here and nowhere else.
@@ -58,13 +60,15 @@ export function listableBy(viewer: Viewer): SQL {
  * Independent of record visibility: a `metadata_only` record is publicly
  * findable and citable while the document itself is withheld. This generalizes
  * "available on request" without a separate flag (design §4.3).
+ *
+ * The public rule lives in `@/core/reports/access` because the record page
+ * needs it too — to decide whether to render a download button. Sharing the
+ * implementation is what keeps the button and this endpoint from disagreeing.
  */
 export function canServeFile(
   viewer: Viewer,
-  report: { dissemination: string; embargoUntil: Date | null }
+  report: { dissemination: Dissemination; embargoUntil: Date | null }
 ): boolean {
   if (viewer.kind === "staff") return true
-  if (report.dissemination === "metadata_only") return false
-  if (report.embargoUntil && report.embargoUntil > new Date()) return false
-  return true
+  return isFileServable(report)
 }

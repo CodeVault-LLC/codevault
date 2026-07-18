@@ -17,6 +17,7 @@ import type { Viewer } from "./types"
 import { db } from "@/server/db/client"
 import { getReportByAccessionId, listReports } from "./queries"
 import { reports } from "@/server/db/schema"
+import { resolveDownloadUrl } from "./download"
 
 const ANONYMOUS: Viewer = { kind: "anonymous" }
 const STAFF: Viewer = { kind: "staff", userId: "test-staff" }
@@ -30,6 +31,7 @@ const INTERNAL_ID = id("INTERNAL")
 const UNLISTED_ID = id("UNLISTED")
 const EMBARGOED_ID = id("EMBARGOED")
 const DRAFT_ID = id("DRAFT")
+const METADATA_ONLY_ID = id("METADATA-ONLY")
 
 const base = {
   status: "published",
@@ -55,6 +57,13 @@ const FIXTURES: NewReportRow[] = [
     embargoUntil: new Date("2099-01-01"),
   },
   { ...base, accessionId: DRAFT_ID, status: "draft" },
+  {
+    ...base,
+    accessionId: METADATA_ONLY_ID,
+    dissemination: "metadata_only",
+    // Has a file on paper; the point is that it is still never served.
+    pdfKey: "reports/metadata-only/v1/report.pdf",
+  },
 ]
 
 const ALL_IDS = FIXTURES.map((f) => f.accessionId!)
@@ -125,6 +134,29 @@ describe("staff visibility", () => {
   it("can open an internal record page", async () => {
     const detail = await getReportByAccessionId(STAFF, INTERNAL_ID)
     expect(detail?.classification).toBe("internal")
+  })
+})
+
+describe("file download resolution", () => {
+  it("refuses an internal record", async () => {
+    expect(await resolveDownloadUrl(ANONYMOUS, INTERNAL_ID)).toBeNull()
+  })
+
+  it("refuses a metadata-only record even though it has a file", async () => {
+    // The record page is public and citable; the document is not served.
+    expect(await resolveDownloadUrl(ANONYMOUS, METADATA_ONLY_ID)).toBeNull()
+  })
+
+  it("refuses an embargoed record", async () => {
+    expect(await resolveDownloadUrl(ANONYMOUS, EMBARGOED_ID)).toBeNull()
+  })
+
+  it("refuses a draft", async () => {
+    expect(await resolveDownloadUrl(ANONYMOUS, DRAFT_ID)).toBeNull()
+  })
+
+  it("refuses a record with no file attached", async () => {
+    expect(await resolveDownloadUrl(ANONYMOUS, PUBLIC_ID)).toBeNull()
   })
 })
 
