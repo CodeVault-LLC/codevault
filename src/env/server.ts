@@ -39,4 +39,9 @@ export const env = createEnv({
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
+  // The Docker build has no credentials and needs none — it compiles, it does
+  // not connect. Only ever set during an image build; leaving it set at
+  // runtime would turn a missing variable into a crash deep in a request
+  // instead of a refusal to start.
+  skipValidation: process.env.SKIP_ENV_VALIDATION === "true",
 })
