@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router"
 import { ChevronsUpDown, LogOut } from "lucide-react"
 
 import type { NavItem } from "./types"
+import type { StaffRole } from "@/core/auth/permissions"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +28,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { LogoMark } from "@/components/brand/logo-mark"
-import { NAV_GROUPS } from "./nav-items"
+import { navGroupsFor } from "./nav-items"
 import { authClient } from "@/lib/auth-client"
 
 /**
@@ -38,8 +39,19 @@ function isActive(pathname: string, href: NonNullable<NavItem["href"]>) {
   return href === "/admin" ? pathname === "/admin" : pathname.startsWith(href)
 }
 
-export function AdminSidebar({ userName }: { userName: string }) {
+export function AdminSidebar({
+  userName,
+  role,
+}: {
+  userName: string
+  role: StaffRole
+}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+
+  // Computed per render rather than at module scope: the groups depend on the
+  // signed-in role, and a module-level constant would be shared across every
+  // request the server renders.
+  const groups = navGroupsFor(role)
 
   return (
     <Sidebar collapsible="icon">
@@ -64,7 +76,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
       </SidebarHeader>
 
       <SidebarContent>
-        {NAV_GROUPS.map((group) => (
+        {groups.map((group) => (
           <SidebarGroup key={group.label}>
             <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>

@@ -1,7 +1,7 @@
-import { and, eq, isNull, lte, or, sql } from "drizzle-orm"
+import { and, eq, inArray, isNull, lte, or, sql } from "drizzle-orm"
 import type { SQL } from "drizzle-orm"
 
-import type { Dissemination } from "@/core/reports/types"
+import type { AccessibleReport } from "@/core/reports/access"
 import type { Viewer } from "./types"
 import { isFileServable } from "@/core/reports/access"
 import { reports } from "@/server/db/schema"
@@ -19,10 +19,21 @@ import { reports } from "@/server/db/schema"
  * `classification = 'internal'` hides the record completely rather than
  * returning a forbidden response. Leaking the title of an internal report is
  * still a leak, and a 403 confirms the record exists (design §8.4).
+ *
+ * Withdrawn records are reachable, and that is the whole point of withdrawal
+ * being a state transition rather than a delete: a citation written against
+ * this identifier must keep resolving, to a tombstone rather than to a 404
+ * (design §4.4, §4.5). What it resolves to is the record page's business; that
+ * the row comes back at all is this predicate's.
+ *
+ * Every *other* condition still applies to a withdrawn record. An internal one
+ * stays invisible, and one withdrawn while still under embargo was never
+ * publicly reachable — surfacing a tombstone for it now would announce the
+ * existence of something that had never been announced.
  */
 function reachableByAnonymous(): SQL {
   return and(
-    eq(reports.status, "published"),
+    inArray(reports.status, ["published", "withdrawn"]),
     eq(reports.classification, "public"),
     // Embargo is evaluated lazily against now(), the way DSpace treats a policy
     // start date. No job flips rows, so there is no window where a cron failure
@@ -38,9 +49,18 @@ function reachableByAnonymous(): SQL {
  * Strictly narrower than reachability: a non-discoverable record is absent from
  * every listing but still resolves by direct link, which is what makes
  * "unlisted but citable" possible without a bespoke code path (design §4.2).
+ *
+ * A withdrawn record is narrowed out the same way, and by the same argument.
+ * It must not appear in search, browse, facet counts or the sitemap — an
+ * archive that keeps advertising what it has withdrawn has not withdrawn it —
+ * but the direct link above still resolves.
  */
 function listableByAnonymous(): SQL {
-  return and(reachableByAnonymous(), eq(reports.discoverable, true))!
+  return and(
+    reachableByAnonymous(),
+    eq(reports.status, "published"),
+    eq(reports.discoverable, true)
+  )!
 }
 
 /** Staff see every record, in every state. */
@@ -67,7 +87,7 @@ export function listableBy(viewer: Viewer): SQL {
  */
 export function canServeFile(
   viewer: Viewer,
-  report: { dissemination: Dissemination; embargoUntil: Date | null }
+  report: AccessibleReport
 ): boolean {
   if (viewer.kind === "staff") return true
   return isFileServable(report)

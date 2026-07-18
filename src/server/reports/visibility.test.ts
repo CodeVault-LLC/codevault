@@ -38,6 +38,8 @@ const UNLISTED_ID = id("UNLISTED")
 const EMBARGOED_ID = id("EMBARGOED")
 const DRAFT_ID = id("DRAFT")
 const METADATA_ONLY_ID = id("METADATA-ONLY")
+const WITHDRAWN_ID = id("WITHDRAWN")
+const INTERNAL_WITHDRAWN_ID = id("INTERNAL-WITHDRAWN")
 
 // A word that appears in every fixture's abstract and nowhere else in the
 // corpus, so a search for it returns exactly this run's records.
@@ -88,6 +90,26 @@ const FIXTURES: NewReportRow[] = [
     dissemination: "metadata_only",
     // Has a file on paper; the point is that it is still never served.
     pdfKey: "reports/metadata-only/v1/report.pdf",
+  },
+  {
+    ...base,
+    accessionId: WITHDRAWN_ID,
+    status: "withdrawn",
+    title: "Withdrawn but still cited",
+    withdrawnAt: new Date("2026-06-01"),
+    withdrawnReason: "Superseded by a corrected revision.",
+    // Still has its file. Withdrawal stops it being served; it does not delete
+    // the artifact (design §4.5).
+    pdfKey: "reports/withdrawn/v1/report.pdf",
+  },
+  {
+    ...base,
+    accessionId: INTERNAL_WITHDRAWN_ID,
+    status: "withdrawn",
+    classification: "internal",
+    title: "Internal and withdrawn",
+    withdrawnAt: new Date("2026-06-01"),
+    withdrawnReason: "Withdrawn.",
   },
 ]
 
@@ -162,6 +184,15 @@ describe("no internal record reaches a public artifact", () => {
 
     expect(index.years.map((y) => y.year)).not.toContain(INTERNAL_YEAR)
     expect(index.subjects.map((s) => s.slug)).not.toContain(INTERNAL_SUBJECT)
+  })
+
+  it("keeps a withdrawn internal record hidden", async () => {
+    // Withdrawal widens what is *reachable*; it must not widen what is
+    // classified. An internal record stays invisible in every state.
+    expect(
+      await getReportByAccessionId(ANONYMOUS, INTERNAL_WITHDRAWN_ID)
+    ).toBeNull()
+    expect(await anonymousListingIds()).not.toContain(INTERNAL_WITHDRAWN_ID)
   })
 
   it("is absent from the sitemap", async () => {
@@ -252,6 +283,54 @@ describe("anonymous visibility", () => {
 
     const direct = await getReportByAccessionId(ANONYMOUS, UNLISTED_ID)
     expect(direct?.accessionId).toBe(UNLISTED_ID)
+  })
+})
+
+describe("withdrawal is a tombstone, not a delete", () => {
+  // The point of the state transition: a citation written against this
+  // identifier has to keep resolving (design §4.4).
+  it("stays reachable by direct link", async () => {
+    const record = await getReportByAccessionId(ANONYMOUS, WITHDRAWN_ID)
+
+    expect(record?.accessionId).toBe(WITHDRAWN_ID)
+    expect(record?.status).toBe("withdrawn")
+    // The tombstone's own content — a reader arriving from a footnote has to be
+    // told why, not just shown a page.
+    expect(record?.withdrawnReason).toBe("Superseded by a corrected revision.")
+  })
+
+  it("keeps its bibliographic metadata intact", async () => {
+    // A tombstone carries the full citation, per DataCite guidance. Stripping
+    // the metadata would break the very citation the page exists to resolve.
+    const record = await getReportByAccessionId(ANONYMOUS, WITHDRAWN_ID)
+
+    expect(record?.title).toBe("Withdrawn but still cited")
+    expect(record?.authors).toHaveLength(1)
+  })
+
+  it("is gone from every listing", async () => {
+    // An archive that goes on advertising what it has withdrawn has not
+    // withdrawn it.
+    expect(await anonymousListingIds()).not.toContain(WITHDRAWN_ID)
+
+    const results = await anonymousSearch(MARKER)
+    expect(results.reports.map((row) => row.accessionId)).not.toContain(
+      WITHDRAWN_ID
+    )
+
+    const sitemap = (await sitemapEntries(ANONYMOUS)).map((e) => e.accessionId)
+    expect(sitemap).not.toContain(WITHDRAWN_ID)
+  })
+
+  it("cannot be found by searching its own title", async () => {
+    const results = await anonymousSearch("still cited")
+    expect(results.total).toBe(0)
+  })
+
+  it("stops serving its file", async () => {
+    // It still has one — withdrawal does not delete the artifact. It stops
+    // distributing it, which is the whole act.
+    expect(await resolveDownloadUrl(ANONYMOUS, WITHDRAWN_ID)).toBeNull()
   })
 })
 

@@ -8,19 +8,18 @@
 // absolute URL. NTRS ships `"https://ntrs.nasa.govundefined"` in production
 // from a template-string bug of exactly this shape (design §11).
 
+import type { AccessibleReport } from "./access"
 import type { CitableReport } from "./citation"
-import type { Dissemination } from "./types"
 import { isFileServable } from "./access"
 import { pdfUrl, recordUrl, toCslName } from "./citation"
 
 export type HighwireTag = { name: string; content: string }
 
-export type TaggableReport = CitableReport & {
-  dissemination: Dissemination
-  embargoUntil: Date | null
-  // Whether a file exists at all, independent of whether it may be served.
-  pdfKey: string | null
-}
+export type TaggableReport = CitableReport &
+  AccessibleReport & {
+    // Whether a file exists at all, independent of whether it may be served.
+    pdfKey: string | null
+  }
 
 /**
  * `citation_publication_date` wants `YYYY/MM/DD`, and accepts `YYYY` alone.

@@ -11,6 +11,8 @@ import {
   uuid,
 } from "drizzle-orm/pg-core"
 
+import { staffRoleEnum } from "./enums"
+
 // Better Auth's required tables.
 //
 // The property names here are load-bearing: the Drizzle adapter looks fields up
@@ -34,6 +36,24 @@ export const user = pgTable("user", {
   updatedAt: timestamp("updated_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
+
+  // Ours, not Better Auth's. The adapter is told about this table by model
+  // name and reads the fields it knows; columns it has never heard of are
+  // simply along for the ride.
+  //
+  // Defaults to the *lower* privilege. A column that defaulted to 'admin'
+  // would mean any future insert path that forgets to set a role mints a
+  // superuser, which is exactly the failure default-deny exists to prevent
+  // (design §2).
+  role: staffRoleEnum("role").notNull().default("staff"),
+
+  // Deactivation is a timestamp, not a boolean, and not a delete.
+  //
+  // Not a delete because the audit log names this account as the actor on
+  // everything it ever did, and those rows have to stay readable. Not a
+  // boolean because "when did they lose access" is a question worth being able
+  // to answer, and a boolean throws it away.
+  disabledAt: timestamp("disabled_at", { withTimezone: true }),
 })
 
 export const session = pgTable(

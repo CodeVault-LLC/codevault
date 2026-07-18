@@ -43,13 +43,13 @@ function useCurrentTitle(): string | null {
  * scale (globals.css). It is a scope class rather than a global token change
  * because the public site stays editorial — see design-rules.md §Surfaces.
  */
-export function AdminShell({ children, userName }: AdminShellProps) {
+export function AdminShell({ children, userName, role }: AdminShellProps) {
   const currentTitle = useCurrentTitle()
 
   return (
     <TooltipProvider delay={300}>
       <SidebarProvider className="admin-surface">
-        <AdminSidebar userName={userName} />
+        <AdminSidebar userName={userName} role={role} />
 
         <SidebarInset>
           <header className="sticky top-0 z-10 flex h-12 shrink-0 items-center gap-2 border-b bg-background/95 px-4 backdrop-blur supports-backdrop-filter:bg-background/70">

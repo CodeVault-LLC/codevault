@@ -15,6 +15,7 @@ import { CitationLinks } from "./citation-links"
 import { Container } from "@/components/layout/container"
 import { HighwireTags } from "./highwire-tags"
 import { MetadataTable } from "./metadata-table"
+import { Tombstone } from "./tombstone"
 import { isFileServable } from "@/core/reports/access"
 
 function joinOrNull(values: string[]): string | null {
@@ -26,6 +27,7 @@ function joinOrNull(values: string[]): string | null {
 // the front door: what people find, cite and link.
 export function ReportRecord({ report }: ReportRecordProps) {
   const servable = isFileServable(report)
+  const withdrawn = report.status === "withdrawn"
 
   const rows: MetadataRow[] = [
     {
@@ -68,8 +70,14 @@ export function ReportRecord({ report }: ReportRecordProps) {
   return (
     <Container className="py-10 md:py-12">
       {/* Hoisted into <head> by React during SSR — see the component for why
-          this is not a route `head` option (design §12). */}
-      {report.accessionId && (
+          this is not a route `head` option (design §12).
+
+          Suppressed on a withdrawn record. Highwire tags are how this page
+          offers itself to Google Scholar as a publication, and a withdrawn
+          report is precisely one the archive has stopped offering. The page
+          still resolves and still carries its citation; it just no longer
+          advertises itself for indexing. */}
+      {report.accessionId && !withdrawn && (
         <HighwireTags report={{ ...report, accessionId: report.accessionId }} />
       )}
 
@@ -86,7 +94,12 @@ export function ReportRecord({ report }: ReportRecordProps) {
           {formatAuthors(report.authors, 99)}
         </p>
 
-        {servable ? (
+        {withdrawn ? (
+          <Tombstone
+            withdrawnAt={report.withdrawnAt}
+            withdrawnReason={report.withdrawnReason}
+          />
+        ) : servable ? (
           <p className="mt-6">
             {/* A plain anchor, not a router Link: this is a document download,
                 and Scholar requires real <a href> GET links (design §12). */}

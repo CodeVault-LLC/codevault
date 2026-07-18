@@ -29,7 +29,7 @@ function AdminLayout() {
   const { staff } = Route.useRouteContext()
 
   return (
-    <AdminShell userName={staff.email}>
+    <AdminShell userName={staff.email} role={staff.role}>
       <Outlet />
     </AdminShell>
   )

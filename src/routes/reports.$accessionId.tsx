@@ -24,13 +24,25 @@ export const Route = createFileRoute("/reports/$accessionId")({
   head: ({ loaderData }) => {
     if (!loaderData) return {}
 
+    const withdrawn = loaderData.status === "withdrawn"
+
     return {
       meta: [
-        { title: `${loaderData.title} — ${site.name}` },
+        {
+          title: withdrawn
+            ? `Withdrawn: ${loaderData.title} — ${site.name}`
+            : `${loaderData.title} — ${site.name}`,
+        },
         { name: "description", content: loaderData.abstract.slice(0, 300) },
         // Enough of a citation for a human-facing share card. The Highwire
         // Press tags Google Scholar actually reads land in Phase 3 (design §12).
         { name: "author", content: formatAuthors(loaderData.authors, 99) },
+        // A tombstone must keep resolving — that is the whole reason
+        // withdrawal is a state transition and not a delete — but it should not
+        // go on competing in search results with reports the archive still
+        // stands behind. `follow` stays on so the links out of it are still
+        // walked.
+        ...(withdrawn ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],
     }
   },

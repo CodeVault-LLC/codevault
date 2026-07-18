@@ -56,6 +56,11 @@ export type CitationLinksProps = {
   accessionId: string
 }
 
+export type TombstoneProps = {
+  withdrawnAt: Date | null
+  withdrawnReason: string | null
+}
+
 export type MetadataRow = {
   label: string
   // Rendered as-is when a string; `null` rows are dropped rather than shown

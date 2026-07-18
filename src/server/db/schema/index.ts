@@ -2,6 +2,7 @@
 // and drizzle-kit both have a single entry point.
 
 export * from "./accession-sequence"
+export * from "./audit-log"
 export * from "./auth"
 export * from "./columns"
 export * from "./enums"

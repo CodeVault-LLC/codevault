@@ -1,4 +1,4 @@
-import type { Dissemination } from "./types"
+import type { Dissemination, ReportStatus } from "./types"
 
 // Whether a record's *file* may be served to the public, given that the record
 // itself is already reachable.
@@ -9,10 +9,23 @@ import type { Dissemination } from "./types"
 // implementation — the button and the endpoint cannot disagree.
 //
 // This is the anonymous rule. Staff bypass it upstream.
+
+export type AccessibleReport = {
+  status: ReportStatus
+  dissemination: Dissemination
+  embargoUntil: Date | null
+}
+
 export function isFileServable(
-  report: { dissemination: Dissemination; embargoUntil: Date | null },
+  report: AccessibleReport,
   now: Date = new Date()
 ): boolean {
+  // A withdrawn record stays reachable so its citations still resolve, but what
+  // they resolve to is a tombstone. Withdrawal is the act of ceasing to
+  // distribute the document, so continuing to serve it would undo the act
+  // (design §4.5).
+  if (report.status === "withdrawn") return false
+
   // A metadata-only record is publicly findable and citable while the document
   // is withheld (design §4.3).
   if (report.dissemination === "metadata_only") return false

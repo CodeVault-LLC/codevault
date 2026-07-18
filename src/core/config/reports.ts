@@ -19,6 +19,22 @@ export const reportsArchive = {
   metadataOnlyNotice:
     "The document for this record is not being distributed. The catalogue entry stands on its own.",
 
+  // The tombstone (design §4.5). A withdrawn record keeps its page and its
+  // identifier so that citations written against it still resolve; what they
+  // resolve to has to say plainly that the document is gone, carry the full
+  // citation, and show the identifier in a form both a person and a machine can
+  // read. That is DataCite's guidance for a tombstone and it is what this copy
+  // is for.
+  tombstone: {
+    heading: "This report has been withdrawn",
+    body: "The document is no longer distributed. This page remains so that citations to it still resolve, and the record below is preserved unchanged.",
+    reasonLabel: "Reason",
+    dateLabel: "Withdrawn",
+    // Shown when a record was withdrawn with no reason recorded. Should not
+    // happen — the withdrawal form requires one — but an older row might.
+    noReason: "No reason was recorded.",
+  },
+
   searchLabel: "Search the archive",
   searchPlaceholder: "Title, abstract, keywords, full text",
   // Distinct from `emptyListing`: an empty archive and an over-narrow query are

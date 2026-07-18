@@ -4,10 +4,13 @@
 
 import type {
   accessionSequence,
+  auditLog,
+  passkey,
   reportFiles,
   reportRelations,
   reports,
   subjectCategories,
+  user,
 } from "./schema"
 import type { db } from "./client"
 
@@ -29,3 +32,9 @@ export type SubjectCategoryRow = typeof subjectCategories.$inferSelect
 export type NewSubjectCategoryRow = typeof subjectCategories.$inferInsert
 
 export type AccessionSequenceRow = typeof accessionSequence.$inferSelect
+
+export type UserRow = typeof user.$inferSelect
+export type PasskeyRow = typeof passkey.$inferSelect
+
+export type AuditLogRow = typeof auditLog.$inferSelect
+export type NewAuditLogRow = typeof auditLog.$inferInsert

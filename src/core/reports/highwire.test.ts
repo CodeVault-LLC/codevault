@@ -14,6 +14,7 @@ const REPORT: TaggableReport = {
     { name: "Ada Lovelace" },
   ],
   docType: "report",
+  status: "published",
   publishedAt: "2026-03-04",
   keywords: ["telemetry", "irrigation"],
   reportNumbers: [],

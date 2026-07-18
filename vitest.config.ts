@@ -15,6 +15,19 @@ export default defineConfig(({ mode }) => ({
     environment: "node",
     include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
     env: loadEnv(mode, process.cwd(), ""),
+
+    // Test files run one at a time, not in parallel workers.
+    //
+    // These are integration tests against one shared database, and some of the
+    // state they touch is global by construction: the audit log is a single
+    // hash chain over every row, so a file that verifies it cannot run
+    // alongside a file that appends to it — the appends are not corruption, but
+    // a verification pass straddling them reads as though they were.
+    //
+    // The alternative is scoping verification to a segment, which would mean
+    // shaping a production API around a test's convenience. At a two-second
+    // suite, running in sequence is the cheaper honesty.
+    fileParallelism: false,
   },
   resolve: {
     alias: {
