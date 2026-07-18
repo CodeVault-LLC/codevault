@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 import { PUBLIC_VIEWER } from "@/server/reports/functions"
+import { legalNav } from "@/core/config/legal"
 import { recordUrl } from "@/core/reports/citation"
 import { site } from "@/core/config/site"
 import { sitemapEntries } from "@/server/reports/queries"
@@ -45,6 +46,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const urls = [
           urlEntry(`${base}/reports`),
           urlEntry(`${base}/reports/browse`),
+          ...legalNav.map((item) => urlEntry(`${base}${item.href}`)),
           ...entries.map((entry) =>
             urlEntry(recordUrl(entry.accessionId, base), entry.updatedAt)
           ),

@@ -1,6 +1,7 @@
 import { Container } from "@/components/layout/container"
 import { LogoMark } from "@/components/brand/logo-mark"
 import { footerNav, site } from "@/core/config/site"
+import { operatorLabel } from "@/core/config/legal"
 
 type SocialIcon = (props: { className?: string }) => React.ReactNode
 
@@ -116,20 +117,22 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-[#faf9f5]/10 pt-6 text-xs text-[#faf9f5]/50 md:flex-row md:items-center">
+          {/* The operator, not "{site.name}, Inc." — an Inc. is a US corporate
+              form, and no such company exists. See src/core/config/legal.ts. */}
           <p>
-            &copy; {new Date().getFullYear()} {site.name}, Inc. All rights
+            &copy; {new Date().getFullYear()} {operatorLabel()}. All rights
             reserved.
           </p>
           <div className="flex items-center gap-5">
             <a href="#status" className="hover:text-[#faf9f5]">
               All systems normal
             </a>
-            <a href="#sitemap" className="hover:text-[#faf9f5]">
+            <a href="/sitemap.xml" className="hover:text-[#faf9f5]">
               Sitemap
             </a>
-            <a href="#cookies" className="hover:text-[#faf9f5]">
-              Cookie preferences
-            </a>
+            {/* No "Cookie preferences" link: the only cookie is the session
+                one, which is strictly necessary and so has no preference to
+                set. A panel here would promise a control that cannot exist. */}
           </div>
         </div>
       </Container>

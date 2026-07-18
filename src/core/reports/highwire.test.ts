@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 import type { TaggableReport } from "./highwire"
 import { highwireTags } from "./highwire"
 
-const OPTIONS = { institution: "CodeVault", baseUrl: "https://codevault.dev" }
+const OPTIONS = { institution: "CodeVault", baseUrl: "https://codevault.no" }
 
 const REPORT: TaggableReport = {
   accessionId: "CV-2026-0042",
@@ -60,7 +60,7 @@ describe("Highwire Press tags", () => {
   it("emits a well-formed absolute citation_pdf_url", () => {
     const [url] = contentOf(REPORT, "citation_pdf_url")
 
-    expect(url).toBe("https://codevault.dev/reports/CV-2026-0042/download")
+    expect(url).toBe("https://codevault.no/reports/CV-2026-0042/download")
     expect(url).not.toContain("undefined")
     expect(() => new URL(url)).not.toThrow()
   })

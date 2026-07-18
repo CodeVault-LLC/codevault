@@ -3,7 +3,7 @@ export const site = {
   tagline: "We point ourselves at tech, and see what happens.",
   description:
     "CodeVault isn't a product company. We run projects across everything in tech — trials, experiments, and the occasional small thing we push to GitHub. Built in the open, shared as they are.",
-  url: "https://codevault.dev",
+  url: "https://codevault.no",
 } as const
 
 export type NavItem = {
@@ -109,8 +109,9 @@ export const footerNav = {
     { label: "Brand", href: "/about/brand" },
   ],
   Legal: [
-    { label: "Privacy", href: "#privacy" },
-    { label: "Terms", href: "#terms" },
-    { label: "Cookies", href: "#cookies" },
+    { label: "Privacy", href: "/legal/privacy" },
+    { label: "Terms", href: "/legal/terms" },
+    { label: "Cookies", href: "/legal/cookies" },
+    { label: "Security", href: "/legal/security" },
   ],
 } as const

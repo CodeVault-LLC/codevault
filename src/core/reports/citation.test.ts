@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 import type { CitableReport } from "./citation"
 import { pdfUrl, toBibtex, toCsl, toRis } from "./citation"
 
-const OPTIONS = { institution: "CodeVault", baseUrl: "https://codevault.dev" }
+const OPTIONS = { institution: "CodeVault", baseUrl: "https://codevault.no" }
 
 const REPORT: CitableReport = {
   accessionId: "CV-2026-0042",
@@ -50,14 +50,14 @@ describe("absolute URLs", () => {
   it("builds a well-formed absolute PDF URL", () => {
     const url = pdfUrl("CV-2026-0042", OPTIONS.baseUrl)
 
-    expect(url).toBe("https://codevault.dev/reports/CV-2026-0042/download")
+    expect(url).toBe("https://codevault.no/reports/CV-2026-0042/download")
     expect(() => new URL(url)).not.toThrow()
     expect(url).not.toContain("undefined")
   })
 
   it("does not double the slash when the base URL has a trailing one", () => {
-    expect(pdfUrl("CV-2026-0042", "https://codevault.dev/")).toBe(
-      "https://codevault.dev/reports/CV-2026-0042/download"
+    expect(pdfUrl("CV-2026-0042", "https://codevault.no/")).toBe(
+      "https://codevault.no/reports/CV-2026-0042/download"
     )
   })
 })

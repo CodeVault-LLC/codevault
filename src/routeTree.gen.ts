@@ -12,12 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as EnrollRouteImport } from './routes/enroll'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AboutIndexRouteImport } from './routes/about.index'
 import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
@@ -25,12 +27,17 @@ import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$access
 import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
 import { Route as ProjectsOrbitRouteImport } from './routes/projects.orbit'
 import { Route as ProjectsGitStoryRouteImport } from './routes/projects.git-story'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as LegalSecurityRouteImport } from './routes/legal.security'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
+import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
 import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AboutWhoWeAreRouteImport } from './routes/about.who-we-are'
 import { Route as AboutContactRouteImport } from './routes/about.contact'
 import { Route as AboutBrandRouteImport } from './routes/about.brand'
+import { Route as DotwellKnownSecurityDottxtRouteImport } from './routes/[.]well-known.security[.]txt'
 import { Route as AdminReportsIndexRouteImport } from './routes/admin.reports.index'
 import { Route as AdminDepositIndexRouteImport } from './routes/admin.deposit.index'
 import { Route as ReportsAccessionIdDownloadRouteImport } from './routes/reports.$accessionId_.download'
@@ -54,6 +61,11 @@ const ReportsRoute = ReportsRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnrollRoute = EnrollRouteImport.update({
@@ -85,6 +97,11 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LegalRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -121,6 +138,26 @@ const ProjectsGitStoryRoute = ProjectsGitStoryRouteImport.update({
   path: '/projects/git-story',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => LegalRoute,
+} as any)
+const LegalSecurityRoute = LegalSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => LegalRoute,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => LegalRoute,
+} as any)
+const LegalCookiesRoute = LegalCookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => LegalRoute,
+} as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: '/api/health',
   path: '/api/health',
@@ -151,6 +188,12 @@ const AboutBrandRoute = AboutBrandRouteImport.update({
   path: '/brand',
   getParentRoute: () => AboutRoute,
 } as any)
+const DotwellKnownSecurityDottxtRoute =
+  DotwellKnownSecurityDottxtRouteImport.update({
+    id: '/.well-known/security.txt',
+    path: '/.well-known/security.txt',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminReportsIndexRoute = AdminReportsIndexRouteImport.update({
   id: '/reports/',
   path: '/reports/',
@@ -204,15 +247,21 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/enroll': typeof EnrollRoute
+  '/legal': typeof LegalRouteWithChildren
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/about/brand': typeof AboutBrandRoute
   '/about/contact': typeof AboutContactRoute
   '/about/who-we-are': typeof AboutWhoWeAreRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/health': typeof ApiHealthRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/security': typeof LegalSecurityRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
@@ -220,6 +269,7 @@ export interface FileRoutesByFullPath {
   '/reports/browse': typeof ReportsBrowseRoute
   '/about/': typeof AboutIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/legal/': typeof LegalIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
   '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
@@ -237,12 +287,17 @@ export interface FileRoutesByTo {
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/about/brand': typeof AboutBrandRoute
   '/about/contact': typeof AboutContactRoute
   '/about/who-we-are': typeof AboutWhoWeAreRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/health': typeof ApiHealthRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/security': typeof LegalSecurityRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
@@ -250,6 +305,7 @@ export interface FileRoutesByTo {
   '/reports/browse': typeof ReportsBrowseRoute
   '/about': typeof AboutIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/legal': typeof LegalIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/reports': typeof ReportsIndexRoute
   '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
@@ -268,15 +324,21 @@ export interface FileRoutesById {
   '/about': typeof AboutRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/enroll': typeof EnrollRoute
+  '/legal': typeof LegalRouteWithChildren
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/about/brand': typeof AboutBrandRoute
   '/about/contact': typeof AboutContactRoute
   '/about/who-we-are': typeof AboutWhoWeAreRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/health': typeof ApiHealthRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/security': typeof LegalSecurityRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
@@ -284,6 +346,7 @@ export interface FileRoutesById {
   '/reports/browse': typeof ReportsBrowseRoute
   '/about/': typeof AboutIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/legal/': typeof LegalIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
   '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
@@ -303,15 +366,21 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/enroll'
+    | '/legal'
     | '/login'
     | '/reports'
     | '/sitemap.xml'
+    | '/.well-known/security.txt'
     | '/about/brand'
     | '/about/contact'
     | '/about/who-we-are'
     | '/admin/audit'
     | '/admin/users'
     | '/api/health'
+    | '/legal/cookies'
+    | '/legal/privacy'
+    | '/legal/security'
+    | '/legal/terms'
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
@@ -319,6 +388,7 @@ export interface FileRouteTypes {
     | '/reports/browse'
     | '/about/'
     | '/admin/'
+    | '/legal/'
     | '/projects/'
     | '/reports/'
     | '/admin/deposit/$draftId'
@@ -336,12 +406,17 @@ export interface FileRouteTypes {
     | '/enroll'
     | '/login'
     | '/sitemap.xml'
+    | '/.well-known/security.txt'
     | '/about/brand'
     | '/about/contact'
     | '/about/who-we-are'
     | '/admin/audit'
     | '/admin/users'
     | '/api/health'
+    | '/legal/cookies'
+    | '/legal/privacy'
+    | '/legal/security'
+    | '/legal/terms'
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
@@ -349,6 +424,7 @@ export interface FileRouteTypes {
     | '/reports/browse'
     | '/about'
     | '/admin'
+    | '/legal'
     | '/projects'
     | '/reports'
     | '/admin/deposit/$draftId'
@@ -366,15 +442,21 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/enroll'
+    | '/legal'
     | '/login'
     | '/reports'
     | '/sitemap.xml'
+    | '/.well-known/security.txt'
     | '/about/brand'
     | '/about/contact'
     | '/about/who-we-are'
     | '/admin/audit'
     | '/admin/users'
     | '/api/health'
+    | '/legal/cookies'
+    | '/legal/privacy'
+    | '/legal/security'
+    | '/legal/terms'
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
@@ -382,6 +464,7 @@ export interface FileRouteTypes {
     | '/reports/browse'
     | '/about/'
     | '/admin/'
+    | '/legal/'
     | '/projects/'
     | '/reports/'
     | '/admin/deposit/$draftId'
@@ -400,9 +483,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRouteWithChildren
   AdminRoute: typeof AdminRouteWithChildren
   EnrollRoute: typeof EnrollRoute
+  LegalRoute: typeof LegalRouteWithChildren
   LoginRoute: typeof LoginRoute
   ReportsRoute: typeof ReportsRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  DotwellKnownSecurityDottxtRoute: typeof DotwellKnownSecurityDottxtRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ProjectsGitStoryRoute: typeof ProjectsGitStoryRoute
   ProjectsOrbitRoute: typeof ProjectsOrbitRoute
@@ -434,6 +519,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/enroll': {
@@ -477,6 +569,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/projects/'
       preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/legal/': {
+      id: '/legal/'
+      path: '/'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof LegalRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -527,6 +626,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsGitStoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
+      parentRoute: typeof LegalRoute
+    }
+    '/legal/security': {
+      id: '/legal/security'
+      path: '/security'
+      fullPath: '/legal/security'
+      preLoaderRoute: typeof LegalSecurityRouteImport
+      parentRoute: typeof LegalRoute
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
+      parentRoute: typeof LegalRoute
+    }
+    '/legal/cookies': {
+      id: '/legal/cookies'
+      path: '/cookies'
+      fullPath: '/legal/cookies'
+      preLoaderRoute: typeof LegalCookiesRouteImport
+      parentRoute: typeof LegalRoute
+    }
     '/api/health': {
       id: '/api/health'
       path: '/api/health'
@@ -568,6 +695,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/about/brand'
       preLoaderRoute: typeof AboutBrandRouteImport
       parentRoute: typeof AboutRoute
+    }
+    '/.well-known/security.txt': {
+      id: '/.well-known/security.txt'
+      path: '/.well-known/security.txt'
+      fullPath: '/.well-known/security.txt'
+      preLoaderRoute: typeof DotwellKnownSecurityDottxtRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/reports/': {
       id: '/admin/reports/'
@@ -673,6 +807,24 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface LegalRouteChildren {
+  LegalCookiesRoute: typeof LegalCookiesRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalSecurityRoute: typeof LegalSecurityRoute
+  LegalTermsRoute: typeof LegalTermsRoute
+  LegalIndexRoute: typeof LegalIndexRoute
+}
+
+const LegalRouteChildren: LegalRouteChildren = {
+  LegalCookiesRoute: LegalCookiesRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalSecurityRoute: LegalSecurityRoute,
+  LegalTermsRoute: LegalTermsRoute,
+  LegalIndexRoute: LegalIndexRoute,
+}
+
+const LegalRouteWithChildren = LegalRoute._addFileChildren(LegalRouteChildren)
+
 interface ReportsRouteChildren {
   ReportsAccessionIdRoute: typeof ReportsAccessionIdRoute
   ReportsBrowseRoute: typeof ReportsBrowseRoute
@@ -697,9 +849,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRouteWithChildren,
   AdminRoute: AdminRouteWithChildren,
   EnrollRoute: EnrollRoute,
+  LegalRoute: LegalRouteWithChildren,
   LoginRoute: LoginRoute,
   ReportsRoute: ReportsRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  DotwellKnownSecurityDottxtRoute: DotwellKnownSecurityDottxtRoute,
   ApiHealthRoute: ApiHealthRoute,
   ProjectsGitStoryRoute: ProjectsGitStoryRoute,
   ProjectsOrbitRoute: ProjectsOrbitRoute,
