@@ -7,10 +7,24 @@ import { db } from "@/server/db/client"
 import { env } from "@/env/server"
 import { evaluatePublishGate } from "@/core/reports/publish-gate"
 import { objectStore } from "@/server/storage/object-store"
-import { reportPdfKey, servingBucket } from "@/server/storage/keys"
+import {
+  reportPdfKey,
+  reportThumbKey,
+  servingBucket,
+  thumbnailFormatFromKey,
+} from "@/server/storage/keys"
 import { reports } from "@/server/db/schema"
 
-function toGateCandidate(row: typeof reports.$inferSelect): GateCandidate {
+/**
+ * Exported so the dashboard's "needs attention" panel judges drafts through
+ * exactly the same adapter publish does. A second, parallel mapping is how the
+ * checklist and the gate would quietly drift apart.
+ */
+export function toGateCandidate(
+  // Only the gate's own columns, so a caller may select a narrow projection
+  // rather than dragging the whole row (and its TOASTed `fulltext`) along.
+  row: Pick<typeof reports.$inferSelect, keyof GateCandidate>
+): GateCandidate {
   return {
     title: row.title,
     abstract: row.abstract,
@@ -75,6 +89,14 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
     const quarantineKey = row.pdfKey
     const destinationKey = quarantineKey ? reportPdfKey(accessionId) : null
 
+    // The thumbnail travels the same path as the PDF. Its extension comes from
+    // the stored key rather than an assumption, because the render is only WebP
+    // when the host has `cwebp`.
+    const quarantineThumb = row.thumbKey
+    const destinationThumb = quarantineThumb
+      ? reportThumbKey(accessionId, thumbnailFormatFromKey(quarantineThumb))
+      : null
+
     await tx
       .update(reports)
       .set({ accessionId, updatedAt: new Date() })
@@ -85,6 +107,8 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
       accessionId,
       quarantineKey,
       destinationKey,
+      quarantineThumb,
+      destinationThumb,
       classification: row.classification!,
     } as const
   })
@@ -93,8 +117,14 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
     return { ok: false, reason: prepared.error, gate: prepared.gate }
   }
 
-  const { accessionId, quarantineKey, destinationKey, classification } =
-    prepared
+  const {
+    accessionId,
+    quarantineKey,
+    destinationKey,
+    quarantineThumb,
+    destinationThumb,
+    classification,
+  } = prepared
   const bucket = servingBucket(classification)
 
   // Step 2: copy into the serving bucket. Until this succeeds the file is not
@@ -106,6 +136,23 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
     )
   }
 
+  // The thumbnail is decoration, so a failure here must not cost a publish that
+  // has already moved the document. `thumb_key` is set below only if this
+  // succeeded, keeping the column an honest record of what is actually stored.
+  let storedThumbKey: string | null = null
+
+  if (quarantineThumb && destinationThumb) {
+    try {
+      await objectStore.copy(
+        { bucket: env.BUCKET_QUARANTINE, key: quarantineThumb },
+        { bucket, key: destinationThumb }
+      )
+      storedThumbKey = destinationThumb
+    } catch {
+      // Backfillable later from the stored PDF.
+    }
+  }
+
   // Step 3: flip status. Guarded on still being a draft so two concurrent
   // publishes cannot both report success.
   const published = await db
@@ -113,6 +160,7 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
     .set({
       status: "published",
       pdfKey: destinationKey,
+      thumbKey: storedThumbKey,
       publishedAt: new Date().toISOString().slice(0, 10),
       updatedAt: new Date(),
     })
@@ -123,9 +171,9 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
 
   // Best-effort. A leftover quarantine object is harmless and expires on the
   // bucket's 24h lifecycle rule; failing the publish over it would be worse.
-  if (quarantineKey) {
+  for (const key of [quarantineKey, quarantineThumb].filter(Boolean)) {
     await objectStore
-      .delete({ bucket: env.BUCKET_QUARANTINE, key: quarantineKey })
+      .delete({ bucket: env.BUCKET_QUARANTINE, key: key! })
       .catch(() => {})
   }
 

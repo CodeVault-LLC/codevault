@@ -1,24 +1,41 @@
 import type { DocType } from "@/core/reports/types"
 import type { MetadataFormProps } from "./types"
-import { CLASSIFICATIONS, DOC_TYPES } from "@/core/reports/vocabulary"
-import { classificationLabels, docTypeLabels } from "@/core/config/reports"
+import { DOC_TYPES } from "@/core/reports/vocabulary"
+import { Field } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Select } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { docTypeLabels } from "@/core/config/reports"
+import { findingsFor } from "@/core/reports/publish-gate"
 
-const fieldClass =
-  "border-faded focus-visible:ring-ring mt-1 w-full rounded-lg border bg-transparent px-3 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
+// Mirrors the gate's own threshold, for the live word count. Duplicated as a
+// display value only — the gate remains the thing that decides, and a drift
+// here would show a misleading counter, not let a thin abstract through.
+const MIN_ABSTRACT_WORDS = 75
 
-const labelClass = "text-detail-xs text-faded tracking-wide uppercase"
+function countWords(text: string): number {
+  const trimmed = text.trim()
+  return trimmed === "" ? 0 : trimmed.split(/\s+/).length
+}
 
-// Phase 1 edits only what §11 blocks publish on, plus the classification
-// controls. Deliberately one page with visible fields rather than a wizard that
-// hides them (design §8.2).
-export function MetadataForm({ draft, onChange }: MetadataFormProps) {
-  const report = draft.report
-
+/**
+ * Step 3: the metadata.
+ *
+ * Every field carries its own findings, anchored by the gate rather than
+ * re-derived here — see `GateField`. The checklist in the rail and the message
+ * under an input are two views of one verdict, so they cannot disagree about
+ * what is blocking publish.
+ */
+export function MetadataForm({ fields, gate, onChange }: MetadataFormProps) {
   // Authors are ordered and order is meaning, so this keeps them in sequence.
-  // Phase 1 edits them as "Name (Affiliation)" lines; the structured editor
-  // arrives with the dashboard proper in Phase 4.
-  const authorsText = report.authors
-    .map((a) => (a.affiliation ? `${a.name} (${a.affiliation})` : a.name))
+  // Edited as "Name (Affiliation)" lines for now; the structured editor arrives
+  // with the dashboard proper in Phase 4.
+  const authorsText = fields.authors
+    .map((author) =>
+      author.affiliation
+        ? `${author.name} (${author.affiliation})`
+        : author.name
+    )
     .join("\n")
 
   function parseAuthors(text: string) {
@@ -34,158 +51,119 @@ export function MetadataForm({ draft, onChange }: MetadataFormProps) {
       })
   }
 
-  return (
-    <section className="space-y-5">
-      <div>
-        <label className={labelClass} htmlFor="title">
-          Title
-        </label>
-        <input
-          id="title"
-          className={fieldClass}
-          defaultValue={report.title}
-          onBlur={(e) => onChange({ title: e.target.value })}
-        />
-      </div>
+  const abstractWords = countWords(fields.abstract)
 
-      <div>
-        <label className={labelClass} htmlFor="abstract">
-          Abstract
-        </label>
-        <textarea
+  return (
+    <>
+      <Field
+        htmlFor="title"
+        label="Title"
+        description="The document's own title, not the filename."
+        {...findingsFor(gate, "title")}
+      >
+        <Input
+          id="title"
+          defaultValue={fields.title}
+          onBlur={(event) => onChange({ title: event.target.value })}
+        />
+      </Field>
+
+      <Field
+        htmlFor="abstract"
+        label="Abstract"
+        description={
+          <>
+            There is no HTML reading view, so this is the only prose about this
+            report a search engine will ever see.{" "}
+            <span
+              className={
+                abstractWords >= MIN_ABSTRACT_WORDS
+                  ? "text-olive"
+                  : "text-foreground"
+              }
+            >
+              {abstractWords} of {MIN_ABSTRACT_WORDS} words.
+            </span>
+          </>
+        }
+        {...findingsFor(gate, "abstract")}
+      >
+        <Textarea
           id="abstract"
           rows={8}
-          className={fieldClass}
-          defaultValue={report.abstract}
-          onBlur={(e) => onChange({ abstract: e.target.value })}
+          defaultValue={fields.abstract}
+          onBlur={(event) => onChange({ abstract: event.target.value })}
         />
-        <p className="text-faded mt-1 text-detail-xs">
-          There is no HTML reading view, so this is the only prose about this
-          report a search engine will ever see. 75 words minimum.
-        </p>
-      </div>
+      </Field>
 
-      <div>
-        <label className={labelClass} htmlFor="authors">
-          Authors — one per line, as “Name (Affiliation)”
-        </label>
-        <textarea
+      <Field
+        htmlFor="authors"
+        label="Authors"
+        description="One per line, as “Name (Affiliation)”. Order is meaning — it is the credit order and it is preserved. At least one needs an affiliation."
+        {...findingsFor(gate, "authors")}
+      >
+        <Textarea
           id="authors"
           rows={3}
-          className={fieldClass}
           defaultValue={authorsText}
-          onBlur={(e) => onChange({ authors: parseAuthors(e.target.value) })}
+          onBlur={(event) =>
+            onChange({ authors: parseAuthors(event.target.value) })
+          }
         />
-        <p className="text-faded mt-1 text-detail-xs">
-          Order is meaning. At least one author needs an affiliation.
-        </p>
-      </div>
+      </Field>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label className={labelClass} htmlFor="docType">
-            Document type
-          </label>
-          <select
+        <Field htmlFor="docType" label="Document type">
+          <Select
             id="docType"
-            className={fieldClass}
-            defaultValue={report.docType}
-            onChange={(e) => onChange({ docType: e.target.value as DocType })}
+            defaultValue={fields.docType}
+            onChange={(event) =>
+              onChange({ docType: event.target.value as DocType })
+            }
           >
             {DOC_TYPES.map((type) => (
               <option key={type} value={type}>
                 {docTypeLabels[type]}
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
 
-        <div>
-          <label className={labelClass} htmlFor="subjectCategory">
-            Subject
-          </label>
-          <input
+        <Field
+          htmlFor="subjectCategory"
+          label="Subject"
+          description="One per record."
+          {...findingsFor(gate, "subjectCategory")}
+        >
+          <Input
             id="subjectCategory"
-            className={fieldClass}
-            defaultValue={report.subjectCategory ?? ""}
-            onBlur={(e) =>
-              onChange({ subjectCategory: e.target.value || null })
+            defaultValue={fields.subjectCategory ?? ""}
+            onBlur={(event) =>
+              onChange({ subjectCategory: event.target.value || null })
             }
           />
-        </div>
+        </Field>
       </div>
 
-      <div>
-        <label className={labelClass} htmlFor="keywords">
-          Keywords — comma separated, three or more
-        </label>
-        <input
+      <Field
+        htmlFor="keywords"
+        label="Keywords"
+        description="Comma separated. Three or more, and they are what someone browsing the archive will filter by."
+        {...findingsFor(gate, "keywords")}
+      >
+        <Input
           id="keywords"
-          className={fieldClass}
-          defaultValue={report.keywords.join(", ")}
-          onBlur={(e) =>
+          defaultValue={fields.keywords.join(", ")}
+          onBlur={(event) =>
             onChange({
-              keywords: e.target.value
+              keywords: event.target.value
                 .split(",")
-                .map((k) => k.trim())
+                .map((keyword) => keyword.trim())
                 .filter(Boolean),
             })
           }
         />
-      </div>
-
-      <fieldset className="border-faded rounded-lg border p-4">
-        <legend className={labelClass}>Classification</legend>
-
-        {/* No default and no pre-selected option: an unset classification must
-            be a decision the depositor is forced to make (design §2, §8.2). */}
-        <div className="mt-2 space-y-2">
-          {CLASSIFICATIONS.map((value) => (
-            <label
-              key={value}
-              className="flex items-center gap-2 text-paragraph-s"
-            >
-              <input
-                type="radio"
-                name="classification"
-                value={value}
-                defaultChecked={report.classification === value}
-                onChange={() => onChange({ classification: value })}
-              />
-              {classificationLabels[value]}
-            </label>
-          ))}
-        </div>
-
-        <p className="text-faded mt-3 text-detail-xs">
-          Internal hides the whole record from anonymous viewers — title,
-          abstract, and its existence.
-        </p>
-
-        <label className="mt-4 flex items-center gap-2 text-paragraph-s">
-          <input
-            type="checkbox"
-            defaultChecked={report.dissemination === "metadata_only"}
-            onChange={(e) =>
-              onChange({
-                dissemination: e.target.checked
-                  ? "metadata_only"
-                  : "document_and_metadata",
-              })
-            }
-          />
-          Metadata only — publish the record, withhold the document
-        </label>
-
-        <label className="mt-2 flex items-center gap-2 text-paragraph-s">
-          <input
-            type="checkbox"
-            defaultChecked={report.discoverable}
-            onChange={(e) => onChange({ discoverable: e.target.checked })}
-          />
-          Discoverable — appears in listings and search
-        </label>
-      </fieldset>
-    </section>
+      </Field>
+    </>
   )
 }

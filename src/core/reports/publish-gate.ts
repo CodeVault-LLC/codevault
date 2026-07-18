@@ -1,5 +1,6 @@
 import type {
   GateCandidate,
+  GateField,
   GateFinding,
   GateResult,
 } from "./publish-gate-types"
@@ -44,6 +45,7 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   if (record.classification === null) {
     blockers.push({
       code: "classification_unset",
+      field: "classification",
       message: "Choose a classification. There is no default.",
     })
   }
@@ -58,22 +60,36 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   if (abstractWords < MIN_ABSTRACT_WORDS && !record.abstractOverrideReason) {
     blockers.push({
       code: "abstract_too_short",
+      field: "abstract",
       message: `Abstract is ${abstractWords} words; ${MIN_ABSTRACT_WORDS} are required, or record a reason for the exception.`,
     })
   }
 
-  const placeholder =
-    findPlaceholder(record.title) ?? findPlaceholder(record.abstract)
-  if (placeholder) {
+  // Title and abstract are checked separately rather than coalesced, so the
+  // finding can name the field it actually came from. A placeholder in the
+  // abstract reported under the title is worse than no anchor at all.
+  const titlePlaceholder = findPlaceholder(record.title)
+  if (titlePlaceholder) {
     blockers.push({
       code: "placeholder_text",
-      message: `Placeholder text "${placeholder}" is still present.`,
+      field: "title",
+      message: `Placeholder text "${titlePlaceholder}" is still present.`,
+    })
+  }
+
+  const abstractPlaceholder = findPlaceholder(record.abstract)
+  if (abstractPlaceholder) {
+    blockers.push({
+      code: "placeholder_text",
+      field: "abstract",
+      message: `Placeholder text "${abstractPlaceholder}" is still present.`,
     })
   }
 
   if (FILENAME_SUFFIX.test(record.title.trim())) {
     blockers.push({
       code: "title_looks_like_filename",
+      field: "title",
       message: "The title is a filename. Use the document's actual title.",
     })
   }
@@ -81,6 +97,7 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   if (!record.authors.some((author) => author.affiliation?.trim())) {
     blockers.push({
       code: "no_author_with_affiliation",
+      field: "authors",
       message: "At least one author needs an affiliation.",
     })
   }
@@ -88,6 +105,7 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   if (!record.subjectCategory) {
     blockers.push({
       code: "subject_category_unset",
+      field: "subjectCategory",
       message: "Choose a subject category.",
     })
   }
@@ -95,6 +113,7 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   if (record.keywords.length < MIN_KEYWORDS) {
     blockers.push({
       code: "too_few_keywords",
+      field: "keywords",
       message: `${record.keywords.length} keywords; at least ${MIN_KEYWORDS} are required.`,
     })
   }
@@ -103,12 +122,17 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   // document, so the file requirements do not apply to it (design §4.3).
   if (record.dissemination !== "metadata_only") {
     if (!record.pdfKey) {
-      blockers.push({ code: "no_file", message: "No PDF has been attached." })
+      blockers.push({
+        code: "no_file",
+        field: "document",
+        message: "No PDF has been attached.",
+      })
     }
 
     if (!record.checksum) {
       blockers.push({
         code: "no_checksum",
+        field: "document",
         message: "The PDF has not been validated — no checksum is stored.",
       })
     }
@@ -118,6 +142,7 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
     if (!record.fulltext?.trim()) {
       blockers.push({
         code: "no_searchable_text",
+        field: "document",
         message:
           "No searchable text could be extracted. A scanned image will not be indexed.",
       })
@@ -127,6 +152,7 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
     if (record.fileSize && record.fileSize > SCHOLAR_SIZE_LIMIT_BYTES) {
       warnings.push({
         code: "over_scholar_size_limit",
+        field: "document",
         message: `${(record.fileSize / 1_000_000).toFixed(1)} MB exceeds Google Scholar's 5 MB limit; this record will not be indexed there.`,
       })
     }
@@ -142,9 +168,27 @@ export function evaluatePublishGate(record: GateCandidate): GateResult {
   ) {
     warnings.push({
       code: "embedded_title_drift",
+      field: "title",
       message: `The PDF's embedded title is "${record.pdfEmbeddedTitle}", which differs from the title entered.`,
     })
   }
 
   return { blockers, warnings, publishable: blockers.length === 0 }
+}
+
+/**
+ * Findings for one control, so a form field can render its own errors without
+ * knowing which codes belong to it.
+ *
+ * Blockers first: a field with both is showing something that stops publish and
+ * something that merely deserves a look, and that order is the useful one.
+ */
+export function findingsFor(
+  gate: GateResult,
+  field: GateField
+): { blockers: GateFinding[]; warnings: GateFinding[] } {
+  return {
+    blockers: gate.blockers.filter((finding) => finding.field === field),
+    warnings: gate.warnings.filter((finding) => finding.field === field),
+  }
 }

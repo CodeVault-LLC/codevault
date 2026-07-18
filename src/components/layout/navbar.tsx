@@ -80,7 +80,7 @@ export function Navbar() {
                       className={cn(
                         "group inline-flex items-center gap-1 px-3 py-2 font-serif text-[15px] underline-offset-[6px] transition-colors",
                         openIndex === i
-                          ? "text-foreground underline decoration-foreground/70"
+                          ? "text-foreground"
                           : "text-foreground/80 hover:text-foreground"
                       )}
                       aria-expanded={openIndex === i}

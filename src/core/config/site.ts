@@ -21,18 +21,18 @@ export const mainNav: NavItem[] = [
       {
         heading: "Recent",
         links: [
-          { label: "A weekend game", href: "#releases" },
-          { label: "The git-log CLI", href: "#releases" },
-          { label: "The plant-watering Pi", href: "#releases" },
-          { label: "All projects", href: "#releases" },
+          { label: "Orbit", href: "/projects/orbit" },
+          { label: "git-story", href: "/projects/git-story" },
+          { label: "The plant-watering Pi", href: "/projects/plant-pi" },
+          { label: "All projects", href: "/projects" },
         ],
       },
       {
         heading: "In the open",
         links: [
           { label: "GitHub", href: "#github" },
-          { label: "Experiments", href: "#releases" },
-          { label: "Changelog", href: "#releases" },
+          { label: "Experiments", href: "/projects" },
+          { label: "Changelog", href: "/projects/git-story" },
         ],
       },
     ],
@@ -102,7 +102,7 @@ export const releases: {
       "A browser game about keeping satellites from colliding. It does a few basic things, and we learned a lot shipping it.",
     date: "June 12, 2026",
     category: "Experiment",
-    href: "#github",
+    href: "/projects/orbit",
   },
   {
     title: "A CLI that turns your git log into a story",
@@ -110,7 +110,7 @@ export const releases: {
       "We wanted our commit history to read better, so we made a small tool. Now it's on GitHub for anyone who wants it.",
     date: "May 28, 2026",
     category: "Open source",
-    href: "#github",
+    href: "/projects/git-story",
   },
   {
     title: "Teaching a Raspberry Pi to water our plants",
@@ -118,16 +118,16 @@ export const releases: {
       "Hardware wasn't our field, so we made it one for a month. Sensors, a pump, and a lot of trial and error.",
     date: "May 9, 2026",
     category: "Project log",
-    href: "#github",
+    href: "/projects/plant-pi",
   },
 ]
 
 export const footerNav = {
   Projects: [
-    { label: "Overview", href: "#about" },
-    { label: "Recent projects", href: "#releases" },
-    { label: "Experiments", href: "#releases" },
-    { label: "Open source", href: "#oss" },
+    { label: "All projects", href: "/projects" },
+    { label: "Orbit", href: "/projects/orbit" },
+    { label: "git-story", href: "/projects/git-story" },
+    { label: "The plant-watering Pi", href: "/projects/plant-pi" },
     { label: "GitHub", href: "#github" },
   ],
   Writing: [

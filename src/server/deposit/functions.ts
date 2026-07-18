@@ -13,6 +13,7 @@ import {
   getDraft,
   saveDraft,
 } from "./deposit"
+import { deleteDraft, listDrafts } from "./drafts"
 import { publishReport } from "@/server/reports/publish"
 import { requireStaff } from "@/server/auth/middleware"
 
@@ -22,9 +23,26 @@ import { requireStaff } from "@/server/auth/middleware"
 // route rendered the UI, so the guard on /admin protects the view and this
 // protects the data (design §7.6).
 
+/**
+ * POST, and called from a button rather than a route loader.
+ *
+ * It writes a row, so the only thing that may trigger it is an explicit act of
+ * intent. A loader that created a draft would mint one on every visit, every
+ * refresh and every back-navigation, filling the table with rows nobody asked
+ * for and leaving no way to tell which of them was meant.
+ */
 export const createDraftFn = createServerFn({ method: "POST" })
   .middleware([requireStaff])
   .handler(() => createDraft())
+
+export const listDraftsFn = createServerFn({ method: "GET" })
+  .middleware([requireStaff])
+  .handler(() => listDrafts())
+
+export const deleteDraftFn = createServerFn({ method: "POST" })
+  .middleware([requireStaff])
+  .validator(reportIdSchema)
+  .handler(({ data }) => deleteDraft(data.reportId))
 
 export const beginUploadFn = createServerFn({ method: "POST" })
   .middleware([requireStaff])

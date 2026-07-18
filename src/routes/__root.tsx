@@ -2,8 +2,8 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 
-import "@/styles/globals.css";
-import { NotFound } from "@/core/pages/not-found";
+import "@/styles/globals.css"
+import { NotFound } from "@/core/pages/not-found"
 
 export const Route = createRootRoute({
   head: () => ({

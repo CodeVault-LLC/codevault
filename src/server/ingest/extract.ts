@@ -1,7 +1,6 @@
 import { extractText, getDocumentProxy, getMeta } from "unpdf"
 
-import type { ExtractedDocument, IngestResult } from "./types"
-import { createHash } from "node:crypto"
+import type { ExtractedCore, ExtractionResult } from "./types"
 
 // Robustness against malformed input is explicitly best-effort, so parsing runs
 // under a wall clock (design §9.2). A PDF crafted to make the parser spin must
@@ -43,12 +42,15 @@ function firstString(value: unknown): string | null {
  */
 export async function extractDocument(
   bytes: Uint8Array
-): Promise<IngestResult> {
-  // Both of these are read BEFORE parsing, and deliberately so: pdf.js takes
-  // ownership of the buffer it is handed and detaches it, after which
-  // `bytes.byteLength` reads 0 and the bytes are gone.
+): Promise<ExtractionResult> {
+  // Read BEFORE parsing, and deliberately so: pdf.js takes ownership of the
+  // buffer it is handed and detaches it, after which `bytes.byteLength` reads 0
+  // and the bytes are gone.
+  //
+  // The checksum is not computed here. It is taken over the *source* upload
+  // rather than the sanitized bytes this function receives — see
+  // `ExtractedDocument.checksum` for why that distinction matters.
   const byteSize = bytes.byteLength
-  const checksum = new Uint8Array(createHash("sha256").update(bytes).digest())
 
   let pageCount: number
   let fulltext: string | null = null
@@ -94,9 +96,8 @@ export async function extractDocument(
     }
   }
 
-  const document: ExtractedDocument = {
+  const document: ExtractedCore = {
     byteSize,
-    checksum,
     pageCount,
     embeddedTitle,
     embeddedAuthor,

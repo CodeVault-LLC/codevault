@@ -12,10 +12,45 @@ standards a change to the UI is held to.
    olive everywhere has no accent at all. Same for the serif-italic heading
    word: one per heading.
 3. **Editorial, not app-like.** We're closer to a well-set magazine page than a
-   SaaS dashboard. Favor reading rhythm over dense control panels.
+   SaaS dashboard. Favor reading rhythm over dense control panels. (This governs
+   the public site; `/admin` is exempt — see [Surfaces](#surfaces).)
 4. **Honest states.** Show real, in-progress, or unfinished things as what they
    are. Don't dress an experiment up as a shipped product (that's the brand —
    see [overview](./overview.md)).
+
+## Surfaces
+
+The principles above describe the **public surface**: the marketing site and the
+`/reports` archive. Those are read by people who did not ask to be here, and
+they are where the brand lives.
+
+`/admin` is a **different surface** and is deliberately exempt from principle 3.
+It is an internal tool used daily by people who already know what everything
+does, and the qualities that serve a reader — generous whitespace, editorial
+rhythm, fluid type — actively cost an operator scanning a table. So admin is
+dense, app-like, and unapologetically a dashboard.
+
+What that exemption covers, and nothing more:
+
+| | Public | Admin |
+| --- | --- | --- |
+| Typeface | Inter | IBM Plex Sans / Plex Mono |
+| Type scale | `text-display-*`, `text-paragraph-*` (fluid) | `text-ui-*` (fixed) |
+| Density | Editorial | Dense |
+| Navigation | Top bar | Sidebar |
+
+Everything else in this document still applies to admin — tokens, dark mode,
+responsiveness, accessibility, honest states, and the CodeVault voice.
+
+The switch is the `.admin-surface` class, applied once in `AdminShell` and
+defined in [`globals.css`](../src/styles/globals.css). It is a **scope class,
+not a global token change**, and that is the whole point: the public routes keep
+resolving the original tokens. If you find yourself editing `--font-sans` at
+`:root` to change how admin looks, you are about to restyle the marketing site
+by accident.
+
+Adding a third surface is a decision worth arguing about first — two is already
+a tax on anyone reading the CSS.
 
 ## Rules
 
@@ -24,9 +59,11 @@ standards a change to the UI is held to.
 - **Semantic tokens for structure**, named swatches only for deliberate brand
   moments — so dark mode and future re-themes keep working.
 - **Type scale for all text.** `text-display-*`, `text-paragraph-*`,
-  `text-detail-xs`. Don't set `font-size` by hand.
+  `text-detail-xs` on public routes; `text-ui-*` inside `/admin` (see
+  [Surfaces](#surfaces)). Don't set `font-size` by hand on either.
 - **Wrap content in `Container`.** Don't hand-roll max-widths and horizontal
-  padding.
+  padding. Admin is the exception — `AdminShell` owns its own widths, and a
+  `Container` inside it fights the sidebar for space.
 - **Reuse motion variants** from `motion.ts`. Standard easing `[0.22,1,0.36,1]`,
   ~0.4–0.6s. New bespoke animations need a reason.
 - **Reduced motion is not optional.** Every entrance/transform must degrade

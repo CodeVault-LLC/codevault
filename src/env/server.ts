@@ -29,6 +29,11 @@ export const env = createEnv({
     BUCKET_INTERNAL: z.string().min(1),
     BUCKET_QUARANTINE: z.string().min(1),
 
+    // Shared secret on the R2 event-notification sink (§9.1). Long because it
+    // is the only thing standing in front of an endpoint that runs a PDF
+    // sanitizer — there is no user session on a queue delivery.
+    INGEST_NOTIFY_SECRET: z.string().min(32),
+
     BETTER_AUTH_SECRET: z.string().min(32),
     BETTER_AUTH_URL: z.url(),
 

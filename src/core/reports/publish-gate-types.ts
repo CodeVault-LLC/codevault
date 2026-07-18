@@ -34,8 +34,28 @@ export type GateCode =
 
 export type GateWarningCode = "over_scholar_size_limit" | "embedded_title_drift"
 
+/**
+ * Which control a finding belongs under.
+ *
+ * The gate is the single authority on what blocks publish, and it is the only
+ * thing that knows *why*. Without this anchor the deposit form would have to
+ * re-derive the mapping from code to input, which is a second copy of the
+ * gate's judgement and would drift from it. `"document"` covers findings about
+ * the file itself, which has no form control — those surface on the upload
+ * panel instead.
+ */
+export type GateField =
+  | "title"
+  | "abstract"
+  | "authors"
+  | "subjectCategory"
+  | "keywords"
+  | "classification"
+  | "document"
+
 export type GateFinding = {
   code: GateCode | GateWarningCode
+  field: GateField
   message: string
 }
 

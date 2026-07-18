@@ -1,3 +1,5 @@
+import type { DuplicateRecord } from "@/server/ingest/types"
+
 export type UploadProgress = {
   loaded: number
   total: number
@@ -32,5 +34,14 @@ export type UploadState =
   | { phase: "idle" }
   | { phase: "uploading"; progress: UploadProgress }
   | { phase: "validating" }
-  | { phase: "failed"; message: string }
+  | {
+      phase: "failed"
+      message: string
+      /**
+       * Set when the rejection was a checksum collision, so the failure can
+       * offer a way to the record that already holds these bytes rather than
+       * just asserting one exists.
+       */
+      duplicateOf?: DuplicateRecord | null
+    }
   | { phase: "done" }

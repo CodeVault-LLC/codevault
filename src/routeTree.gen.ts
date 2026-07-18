@@ -9,38 +9,295 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as EnrollRouteImport } from './routes/enroll'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReportsIndexRouteImport } from './routes/reports.index'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
+import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
+import { Route as ProjectsOrbitRouteImport } from './routes/projects.orbit'
+import { Route as ProjectsGitStoryRouteImport } from './routes/projects.git-story'
+import { Route as ApiHealthRouteImport } from './routes/api.health'
+import { Route as AdminDepositIndexRouteImport } from './routes/admin.deposit.index'
+import { Route as ReportsAccessionIdDownloadRouteImport } from './routes/reports.$accessionId_.download'
+import { Route as ProjectsPlantPiLogRouteImport } from './routes/projects.plant-pi_.log'
+import { Route as ApiIngestNotifyRouteImport } from './routes/api.ingest.notify'
+import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
+import { Route as AdminDepositDraftIdRouteImport } from './routes/admin.deposit.$draftId'
 
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnrollRoute = EnrollRouteImport.update({
+  id: '/enroll',
+  path: '/enroll',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportsIndexRoute = ReportsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ReportsAccessionIdRoute = ReportsAccessionIdRouteImport.update({
+  id: '/$accessionId',
+  path: '/$accessionId',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ProjectsPlantPiRoute = ProjectsPlantPiRouteImport.update({
+  id: '/projects/plant-pi',
+  path: '/projects/plant-pi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsOrbitRoute = ProjectsOrbitRouteImport.update({
+  id: '/projects/orbit',
+  path: '/projects/orbit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsGitStoryRoute = ProjectsGitStoryRouteImport.update({
+  id: '/projects/git-story',
+  path: '/projects/git-story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDepositIndexRoute = AdminDepositIndexRouteImport.update({
+  id: '/deposit/',
+  path: '/deposit/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ReportsAccessionIdDownloadRoute =
+  ReportsAccessionIdDownloadRouteImport.update({
+    id: '/$accessionId_/download',
+    path: '/$accessionId/download',
+    getParentRoute: () => ReportsRoute,
+  } as any)
+const ProjectsPlantPiLogRoute = ProjectsPlantPiLogRouteImport.update({
+  id: '/projects/plant-pi_/log',
+  path: '/projects/plant-pi/log',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIngestNotifyRoute = ApiIngestNotifyRouteImport.update({
+  id: '/api/ingest/notify',
+  path: '/api/ingest/notify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDepositDraftIdRoute = AdminDepositDraftIdRouteImport.update({
+  id: '/deposit/$draftId',
+  path: '/deposit/$draftId',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/enroll': typeof EnrollRoute
+  '/login': typeof LoginRoute
+  '/reports': typeof ReportsRouteWithChildren
+  '/api/health': typeof ApiHealthRoute
+  '/projects/git-story': typeof ProjectsGitStoryRoute
+  '/projects/orbit': typeof ProjectsOrbitRoute
+  '/projects/plant-pi': typeof ProjectsPlantPiRoute
+  '/reports/$accessionId': typeof ReportsAccessionIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/reports/': typeof ReportsIndexRoute
+  '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/ingest/notify': typeof ApiIngestNotifyRoute
+  '/projects/plant-pi/log': typeof ProjectsPlantPiLogRoute
+  '/reports/$accessionId/download': typeof ReportsAccessionIdDownloadRoute
+  '/admin/deposit/': typeof AdminDepositIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/enroll': typeof EnrollRoute
+  '/login': typeof LoginRoute
+  '/api/health': typeof ApiHealthRoute
+  '/projects/git-story': typeof ProjectsGitStoryRoute
+  '/projects/orbit': typeof ProjectsOrbitRoute
+  '/projects/plant-pi': typeof ProjectsPlantPiRoute
+  '/reports/$accessionId': typeof ReportsAccessionIdRoute
+  '/admin': typeof AdminIndexRoute
+  '/projects': typeof ProjectsIndexRoute
+  '/reports': typeof ReportsIndexRoute
+  '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/ingest/notify': typeof ApiIngestNotifyRoute
+  '/projects/plant-pi/log': typeof ProjectsPlantPiLogRoute
+  '/reports/$accessionId/download': typeof ReportsAccessionIdDownloadRoute
+  '/admin/deposit': typeof AdminDepositIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/enroll': typeof EnrollRoute
+  '/login': typeof LoginRoute
+  '/reports': typeof ReportsRouteWithChildren
+  '/api/health': typeof ApiHealthRoute
+  '/projects/git-story': typeof ProjectsGitStoryRoute
+  '/projects/orbit': typeof ProjectsOrbitRoute
+  '/projects/plant-pi': typeof ProjectsPlantPiRoute
+  '/reports/$accessionId': typeof ReportsAccessionIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/reports/': typeof ReportsIndexRoute
+  '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/ingest/notify': typeof ApiIngestNotifyRoute
+  '/projects/plant-pi_/log': typeof ProjectsPlantPiLogRoute
+  '/reports/$accessionId_/download': typeof ReportsAccessionIdDownloadRoute
+  '/admin/deposit/': typeof AdminDepositIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/enroll'
+    | '/login'
+    | '/reports'
+    | '/api/health'
+    | '/projects/git-story'
+    | '/projects/orbit'
+    | '/projects/plant-pi'
+    | '/reports/$accessionId'
+    | '/admin/'
+    | '/projects/'
+    | '/reports/'
+    | '/admin/deposit/$draftId'
+    | '/api/auth/$'
+    | '/api/ingest/notify'
+    | '/projects/plant-pi/log'
+    | '/reports/$accessionId/download'
+    | '/admin/deposit/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/enroll'
+    | '/login'
+    | '/api/health'
+    | '/projects/git-story'
+    | '/projects/orbit'
+    | '/projects/plant-pi'
+    | '/reports/$accessionId'
+    | '/admin'
+    | '/projects'
+    | '/reports'
+    | '/admin/deposit/$draftId'
+    | '/api/auth/$'
+    | '/api/ingest/notify'
+    | '/projects/plant-pi/log'
+    | '/reports/$accessionId/download'
+    | '/admin/deposit'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/enroll'
+    | '/login'
+    | '/reports'
+    | '/api/health'
+    | '/projects/git-story'
+    | '/projects/orbit'
+    | '/projects/plant-pi'
+    | '/reports/$accessionId'
+    | '/admin/'
+    | '/projects/'
+    | '/reports/'
+    | '/admin/deposit/$draftId'
+    | '/api/auth/$'
+    | '/api/ingest/notify'
+    | '/projects/plant-pi_/log'
+    | '/reports/$accessionId_/download'
+    | '/admin/deposit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  EnrollRoute: typeof EnrollRoute
+  LoginRoute: typeof LoginRoute
+  ReportsRoute: typeof ReportsRouteWithChildren
+  ApiHealthRoute: typeof ApiHealthRoute
+  ProjectsGitStoryRoute: typeof ProjectsGitStoryRoute
+  ProjectsOrbitRoute: typeof ProjectsOrbitRoute
+  ProjectsPlantPiRoute: typeof ProjectsPlantPiRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiIngestNotifyRoute: typeof ApiIngestNotifyRoute
+  ProjectsPlantPiLogRoute: typeof ProjectsPlantPiLogRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enroll': {
+      id: '/enroll'
+      path: '/enroll'
+      fullPath: '/enroll'
+      preLoaderRoute: typeof EnrollRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +305,161 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports/': {
+      id: '/reports/'
+      path: '/'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof ReportsIndexRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/reports/$accessionId': {
+      id: '/reports/$accessionId'
+      path: '/$accessionId'
+      fullPath: '/reports/$accessionId'
+      preLoaderRoute: typeof ReportsAccessionIdRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/projects/plant-pi': {
+      id: '/projects/plant-pi'
+      path: '/projects/plant-pi'
+      fullPath: '/projects/plant-pi'
+      preLoaderRoute: typeof ProjectsPlantPiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/orbit': {
+      id: '/projects/orbit'
+      path: '/projects/orbit'
+      fullPath: '/projects/orbit'
+      preLoaderRoute: typeof ProjectsOrbitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/git-story': {
+      id: '/projects/git-story'
+      path: '/projects/git-story'
+      fullPath: '/projects/git-story'
+      preLoaderRoute: typeof ProjectsGitStoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/deposit/': {
+      id: '/admin/deposit/'
+      path: '/deposit'
+      fullPath: '/admin/deposit/'
+      preLoaderRoute: typeof AdminDepositIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/reports/$accessionId_/download': {
+      id: '/reports/$accessionId_/download'
+      path: '/$accessionId/download'
+      fullPath: '/reports/$accessionId/download'
+      preLoaderRoute: typeof ReportsAccessionIdDownloadRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/projects/plant-pi_/log': {
+      id: '/projects/plant-pi_/log'
+      path: '/projects/plant-pi/log'
+      fullPath: '/projects/plant-pi/log'
+      preLoaderRoute: typeof ProjectsPlantPiLogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ingest/notify': {
+      id: '/api/ingest/notify'
+      path: '/api/ingest/notify'
+      fullPath: '/api/ingest/notify'
+      preLoaderRoute: typeof ApiIngestNotifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/deposit/$draftId': {
+      id: '/admin/deposit/$draftId'
+      path: '/deposit/$draftId'
+      fullPath: '/admin/deposit/$draftId'
+      preLoaderRoute: typeof AdminDepositDraftIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminDepositDraftIdRoute: typeof AdminDepositDraftIdRoute
+  AdminDepositIndexRoute: typeof AdminDepositIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminDepositDraftIdRoute: AdminDepositDraftIdRoute,
+  AdminDepositIndexRoute: AdminDepositIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface ReportsRouteChildren {
+  ReportsAccessionIdRoute: typeof ReportsAccessionIdRoute
+  ReportsIndexRoute: typeof ReportsIndexRoute
+  ReportsAccessionIdDownloadRoute: typeof ReportsAccessionIdDownloadRoute
+}
+
+const ReportsRouteChildren: ReportsRouteChildren = {
+  ReportsAccessionIdRoute: ReportsAccessionIdRoute,
+  ReportsIndexRoute: ReportsIndexRoute,
+  ReportsAccessionIdDownloadRoute: ReportsAccessionIdDownloadRoute,
+}
+
+const ReportsRouteWithChildren =
+  ReportsRoute._addFileChildren(ReportsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  EnrollRoute: EnrollRoute,
+  LoginRoute: LoginRoute,
+  ReportsRoute: ReportsRouteWithChildren,
+  ApiHealthRoute: ApiHealthRoute,
+  ProjectsGitStoryRoute: ProjectsGitStoryRoute,
+  ProjectsOrbitRoute: ProjectsOrbitRoute,
+  ProjectsPlantPiRoute: ProjectsPlantPiRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiIngestNotifyRoute: ApiIngestNotifyRoute,
+  ProjectsPlantPiLogRoute: ProjectsPlantPiLogRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }
