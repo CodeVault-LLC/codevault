@@ -19,12 +19,14 @@
     "storage:bootstrap": "bun run scripts/storage-bootstrap.ts",
     "dev:up": "docker compose up -d --wait && bun run db:migrate && bun run storage:bootstrap",
     "dev:down": "docker compose down",
-    "dev:reset": "docker compose down -v && bun run dev:up"
+    "dev:reset": "docker compose down -v && bun run dev:up",
+    "admin:provision": "bun run scripts/admin-provision.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.984.0",
     "@aws-sdk/s3-request-presigner": "3.984.0",
     "@base-ui/react": "^1.6.0",
+    "@better-auth/passkey": "1.6.23",
     "@fontsource-variable/inter": "^5.2.8",
     "@t3-oss/env-core": "0.13.11",
     "@tailwindcss/vite": "^4",

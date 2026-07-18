@@ -1,5 +1,7 @@
 import { createCsrfMiddleware, createStart } from "@tanstack/react-start"
 
+import { sessionMiddleware } from "@/server/auth/middleware"
+
 // Global middleware registration.
 //
 // Every `createServerFn` is a same-origin RPC endpoint reachable by direct HTTP
@@ -23,5 +25,10 @@ const csrfMiddleware = createCsrfMiddleware({
 })
 
 export const startInstance = createStart(() => ({
-  requestMiddleware: [csrfMiddleware],
+  // Session resolution runs for every request so `context.staff` is available
+  // to any server function that asks for it. It only *resolves* — refusing is
+  // `requireStaff`'s job, attached per function, because plenty of server
+  // functions here are legitimately public (the reports listing, the record
+  // page).
+  requestMiddleware: [csrfMiddleware, sessionMiddleware],
 }))
