@@ -51,11 +51,15 @@ export interface ObjectStore {
   list: (bucket: string, prefix: string) => Promise<ListedObject[]>
 
   /**
-   * Copy then delete. Publishing moves a file out of quarantine into its
-   * serving bucket, and exposing that as one operation keeps callers from
-   * leaving a copy behind in quarantine by forgetting the second half.
+   * Copy without removing the source.
+   *
+   * Deliberately not a `move`. Publishing copies out of quarantine, commits the
+   * database, and only then deletes the source — so a crash between the copy
+   * and the commit is retryable rather than leaving the source gone and the
+   * record unpublishable. Copying twice is harmless; losing the original is
+   * not. Stray quarantine objects expire on the bucket's 24h lifecycle rule.
    */
-  move: (from: ObjectRef, to: ObjectRef) => Promise<void>
+  copy: (from: ObjectRef, to: ObjectRef) => Promise<void>
 
   presignUpload: (input: PresignUploadInput) => Promise<string>
   presignDownload: (input: PresignDownloadInput) => Promise<string>

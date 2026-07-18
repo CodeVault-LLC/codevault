@@ -56,6 +56,11 @@ export const reports = pgTable(
 
     title: text("title").notNull().default(""),
     abstract: text("abstract").notNull().default(""),
+    // Sometimes the truthful abstract really is thin. NTRS's own escape hatch
+    // is a curated note saying so. An exception is allowed, but it costs a
+    // recorded reason rather than being an unbounded word-count wall
+    // (design §4.7).
+    abstractOverrideReason: text("abstract_override_reason"),
     authors: jsonb("authors").$type<Author[]>().notNull().default([]),
 
     docType: docTypeEnum("doc_type").notNull().default("report"),

@@ -1,0 +1,1 @@
+ALTER TABLE "reports" ADD COLUMN "abstract_override_reason" text;

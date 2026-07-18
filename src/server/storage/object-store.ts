@@ -91,16 +91,13 @@ export const objectStore: ObjectStore = {
     return objects
   },
 
-  async move(from: ObjectRef, to: ObjectRef) {
+  async copy(from: ObjectRef, to: ObjectRef) {
     await s3.send(
       new CopyObjectCommand({
         Bucket: to.bucket,
         Key: to.key,
         CopySource: `${from.bucket}/${from.key}`,
       })
-    )
-    await s3.send(
-      new DeleteObjectCommand({ Bucket: from.bucket, Key: from.key })
     )
   },
 
