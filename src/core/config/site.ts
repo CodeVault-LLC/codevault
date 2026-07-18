@@ -38,51 +38,16 @@ export const mainNav: NavItem[] = [
     ],
   },
   {
-    label: "Fields",
-    description: "The corners of tech we've wandered into.",
-    sections: [
-      {
-        heading: "Software",
-        links: [
-          { label: "Web & tools", href: "#about" },
-          { label: "Developer tooling", href: "#about" },
-          { label: "Open source", href: "#about" },
-        ],
-      },
-      {
-        heading: "Beyond the screen",
-        links: [
-          { label: "Hardware & tinkering", href: "#about" },
-          { label: "Games", href: "#about" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Writing",
-    description: "Notes, write-ups, and the occasional deep dive.",
-    sections: [
-      {
-        heading: "Read",
-        links: [
-          { label: "Blog", href: "#blog" },
-          { label: "Project logs", href: "#releases" },
-          { label: "Notes", href: "#blog" },
-          { label: "Changelog", href: "#releases" },
-        ],
-      },
-    ],
-  },
-  {
     label: "About",
     description: "Who we are and how we work.",
     sections: [
       {
         heading: "CodeVault",
         links: [
-          { label: "How we work", href: "#about" },
-          { label: "People", href: "#about" },
-          { label: "Get in touch", href: "#contact" },
+          { label: "How we work", href: "/about" },
+          { label: "Who we are", href: "/about/who-we-are" },
+          { label: "Get in touch", href: "/about/contact" },
+          { label: "Brand", href: "/about/brand" },
         ],
       },
     ],
@@ -138,10 +103,10 @@ export const footerNav = {
     { label: "Community", href: "#community" },
   ],
   About: [
-    { label: "How we work", href: "#about" },
-    { label: "People", href: "#about" },
-    { label: "Get in touch", href: "#contact" },
-    { label: "Brand", href: "#brand" },
+    { label: "How we work", href: "/about" },
+    { label: "Who we are", href: "/about/who-we-are" },
+    { label: "Get in touch", href: "/about/contact" },
+    { label: "Brand", href: "/about/brand" },
   ],
   Legal: [
     { label: "Privacy", href: "#privacy" },

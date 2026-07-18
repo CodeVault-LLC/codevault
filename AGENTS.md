@@ -37,8 +37,14 @@ company. Full context: [`docs/overview.md`](./docs/overview.md).
    `useReducedMotion()`.
 5. **Keep the voice.** Plain, understated, curious, never promotional. Avoid
    product-company language ("platform," "solution," "get started," "sign up").
-6. **Responsive, accessible, dark-mode-safe.** All three are part of "done."
-7. **Never hand-edit generated files** (`src/routeTree.gen.ts`).
+6. **Say less.** This is the rule that gets broken most. Detail is not the same
+   as quality — a reader who opened "Get in touch" wants the address, not an
+   essay about our correspondence philosophy. Cut to what the page is actually
+   for. **Not every heading needs a description**, and a section that only
+   works because it's padded out should be shorter or gone. One good sentence
+   beats three that circle it. Silence is often the right answer.
+7. **Responsive, accessible, dark-mode-safe.** All three are part of "done."
+8. **Never hand-edit generated files** (`src/routeTree.gen.ts`).
 
 ## Working agreement
 

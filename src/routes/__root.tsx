@@ -15,15 +15,17 @@ export const Route = createRootRoute({
         name: "viewport",
         content: "width=device-width, initial-scale=1",
       },
-      {
-        name: "theme-color",
-        content: "#ffffff",
-      },
+      // theme-color is deliberately absent here: head() de-duplicates meta by
+      // name, so the two media-scoped variants would collapse into one. They
+      // are rendered directly in RootDocument's <head> instead.
       {
         title: "CodeVault",
       },
     ],
     links: [
+      // Browsers that support it take the SVG and get the mark at any size;
+      // the PNGs and .ico below are the fallback for the ones that don't.
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       {
         rel: "apple-touch-icon",
         sizes: "180x180",
@@ -54,6 +56,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="#faf9f5"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="#1f1e1d"
+        />
         <HeadContent />
       </head>
       <body>

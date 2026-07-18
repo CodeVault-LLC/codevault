@@ -20,7 +20,8 @@
     "dev:up": "docker compose up -d --wait && bun run db:migrate && bun run storage:bootstrap",
     "dev:down": "docker compose down",
     "dev:reset": "docker compose down -v && bun run dev:up",
-    "admin:provision": "bun run scripts/admin-provision.ts"
+    "admin:provision": "bun run scripts/admin-provision.ts",
+    "brand:assets": "bun run scripts/brand-assets.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.984.0",

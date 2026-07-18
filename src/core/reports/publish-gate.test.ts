@@ -154,7 +154,9 @@ describe("a staged accession identifier", () => {
   })
 
   it("blocks a malformed identifier, under its own field", () => {
-    const gate = evaluatePublishGate(candidate({ requestedAccessionId: "nope" }))
+    const gate = evaluatePublishGate(
+      candidate({ requestedAccessionId: "nope" })
+    )
 
     expect(gate.publishable).toBe(false)
     expect(findingsFor(gate, "accessionId").blockers).toHaveLength(1)

@@ -24,8 +24,7 @@ const YEAR_SERIES = /^\d{4}$/
 export type AccessionIdError = "malformed" | "reserved_series"
 
 export type AccessionIdResult =
-  | { ok: true; value: string }
-  | { ok: false; error: AccessionIdError }
+  { ok: true; value: string } | { ok: false; error: AccessionIdError }
 
 /** Shown under the input, and in the malformed error. */
 export const ACCESSION_ID_HINT =

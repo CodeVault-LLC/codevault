@@ -2,25 +2,8 @@ import { motion } from "framer-motion"
 
 import { Container } from "@/components/layout/container"
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
-
-const steps = [
-  {
-    title: "Trial",
-    body: "We start by just trying it — a prototype, a spike, a weekend build. Something real enough to react to.",
-  },
-  {
-    title: "Experience",
-    body: "Then we live with it. What's annoying, what's surprising, what actually matters only shows up once you use the thing.",
-  },
-  {
-    title: "Adjustment",
-    body: "We change our minds freely. Most of what we learn arrives after the first version turns out to be wrong.",
-  },
-  {
-    title: "Result",
-    body: "Whatever we end up with, we share it — a tool, a write-up, or just a repo. Then we point ourselves at the next thing.",
-  },
-]
+// Shared with /about, which renders the same four steps with `detail` expanded.
+import { projectLoop as steps } from "@/core/config/about"
 
 export function About() {
   return (

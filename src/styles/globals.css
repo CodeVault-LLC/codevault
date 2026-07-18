@@ -263,8 +263,15 @@
   .text-faded {
     color: color-mix(in srgb, var(--foreground) 60%, transparent);
   }
+  /* Both derive from `--border` rather than a literal so they flip in dark mode.
+     The light-mode value is unchanged — `--border` *is* #1414131a at :root. */
   .border-faded {
-    border-color: #1414131a;
+    border-color: var(--border);
+  }
+  /* The fill behind the `gap-px` divider trick (design-system.md §Spacing):
+     a grid with `bg-faded` + `gap-px` shows this through the gaps as hairlines. */
+  .bg-faded {
+    background-color: var(--border);
   }
   .bg-ivory-light {
     background-color: var(--ivory-light);

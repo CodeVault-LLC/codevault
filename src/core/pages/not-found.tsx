@@ -1,6 +1,8 @@
 import type { FC } from "react"
 import { motion } from "framer-motion"
 
+import { Scout } from "@/components/brand/scout"
+
 export const NotFound: FC = () => {
   return (
     <div className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-6">
@@ -69,6 +71,16 @@ export const NotFound: FC = () => {
         transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         className="relative text-center"
       >
+        {/* Scout, sent to a page that isn't there */}
+        <motion.div
+          className="mb-6 flex justify-center text-foreground/70"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Scout className="size-20" />
+        </motion.div>
+
         {/* 404 number */}
         <motion.div
           className="mb-6 leading-none font-semibold tracking-tighter text-primary/90"

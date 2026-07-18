@@ -35,6 +35,17 @@ export const reportsArchive = {
     noReason: "No reason was recorded.",
   },
 
+  // The archive's own chrome. Two destinations, plus the way back out. The
+  // labels are catalogue words, not site words: you are looking at records,
+  // and `Browse` is the shelf-walk. The exit is named for where it goes rather
+  // than printed as a URL — a bare domain is a string, not a label.
+  nav: {
+    records: "Records",
+    browse: "Browse",
+    exit: "CodeVault",
+    exitLabel: "Leave the archive for the main CodeVault site",
+  },
+
   searchLabel: "Search the archive",
   searchPlaceholder: "Title, abstract, keywords, full text",
   // Distinct from `emptyListing`: an empty archive and an over-narrow query are

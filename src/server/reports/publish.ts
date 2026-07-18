@@ -114,10 +114,7 @@ export async function publishReport(reportId: string): Promise<PublishOutcome> {
       accessionId = parsed.value
     }
 
-    accessionId ??= await allocateAccessionId(
-      tx,
-      new Date().getUTCFullYear()
-    )
+    accessionId ??= await allocateAccessionId(tx, new Date().getUTCFullYear())
 
     const quarantineKey = row.pdfKey
     const destinationKey = quarantineKey ? reportPdfKey(accessionId) : null

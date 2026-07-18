@@ -14,10 +14,12 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as EnrollRouteImport } from './routes/enroll'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AboutIndexRouteImport } from './routes/about.index'
 import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
 import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
 import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
@@ -26,6 +28,9 @@ import { Route as ProjectsGitStoryRouteImport } from './routes/projects.git-stor
 import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AboutWhoWeAreRouteImport } from './routes/about.who-we-are'
+import { Route as AboutContactRouteImport } from './routes/about.contact'
+import { Route as AboutBrandRouteImport } from './routes/about.brand'
 import { Route as AdminReportsIndexRouteImport } from './routes/admin.reports.index'
 import { Route as AdminDepositIndexRouteImport } from './routes/admin.deposit.index'
 import { Route as ReportsAccessionIdDownloadRouteImport } from './routes/reports.$accessionId_.download'
@@ -61,6 +66,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -80,6 +90,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const AboutIndexRoute = AboutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AboutRoute,
 } as any)
 const ReportsBrowseRoute = ReportsBrowseRouteImport.update({
   id: '/browse',
@@ -120,6 +135,21 @@ const AdminAuditRoute = AdminAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
   getParentRoute: () => AdminRoute,
+} as any)
+const AboutWhoWeAreRoute = AboutWhoWeAreRouteImport.update({
+  id: '/who-we-are',
+  path: '/who-we-are',
+  getParentRoute: () => AboutRoute,
+} as any)
+const AboutContactRoute = AboutContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => AboutRoute,
+} as any)
+const AboutBrandRoute = AboutBrandRouteImport.update({
+  id: '/brand',
+  path: '/brand',
+  getParentRoute: () => AboutRoute,
 } as any)
 const AdminReportsIndexRoute = AdminReportsIndexRouteImport.update({
   id: '/reports/',
@@ -171,11 +201,15 @@ const ReportsAccessionIdCiteFormatRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/about/brand': typeof AboutBrandRoute
+  '/about/contact': typeof AboutContactRoute
+  '/about/who-we-are': typeof AboutWhoWeAreRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/health': typeof ApiHealthRoute
@@ -184,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
+  '/about/': typeof AboutIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
@@ -202,6 +237,9 @@ export interface FileRoutesByTo {
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/about/brand': typeof AboutBrandRoute
+  '/about/contact': typeof AboutContactRoute
+  '/about/who-we-are': typeof AboutWhoWeAreRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/health': typeof ApiHealthRoute
@@ -210,6 +248,7 @@ export interface FileRoutesByTo {
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
+  '/about': typeof AboutIndexRoute
   '/admin': typeof AdminIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/reports': typeof ReportsIndexRoute
@@ -226,11 +265,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/about/brand': typeof AboutBrandRoute
+  '/about/contact': typeof AboutContactRoute
+  '/about/who-we-are': typeof AboutWhoWeAreRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/health': typeof ApiHealthRoute
@@ -239,6 +282,7 @@ export interface FileRoutesById {
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
+  '/about/': typeof AboutIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
@@ -256,11 +300,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/admin'
     | '/enroll'
     | '/login'
     | '/reports'
     | '/sitemap.xml'
+    | '/about/brand'
+    | '/about/contact'
+    | '/about/who-we-are'
     | '/admin/audit'
     | '/admin/users'
     | '/api/health'
@@ -269,6 +317,7 @@ export interface FileRouteTypes {
     | '/projects/plant-pi'
     | '/reports/$accessionId'
     | '/reports/browse'
+    | '/about/'
     | '/admin/'
     | '/projects/'
     | '/reports/'
@@ -287,6 +336,9 @@ export interface FileRouteTypes {
     | '/enroll'
     | '/login'
     | '/sitemap.xml'
+    | '/about/brand'
+    | '/about/contact'
+    | '/about/who-we-are'
     | '/admin/audit'
     | '/admin/users'
     | '/api/health'
@@ -295,6 +347,7 @@ export interface FileRouteTypes {
     | '/projects/plant-pi'
     | '/reports/$accessionId'
     | '/reports/browse'
+    | '/about'
     | '/admin'
     | '/projects'
     | '/reports'
@@ -310,11 +363,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/admin'
     | '/enroll'
     | '/login'
     | '/reports'
     | '/sitemap.xml'
+    | '/about/brand'
+    | '/about/contact'
+    | '/about/who-we-are'
     | '/admin/audit'
     | '/admin/users'
     | '/api/health'
@@ -323,6 +380,7 @@ export interface FileRouteTypes {
     | '/projects/plant-pi'
     | '/reports/$accessionId'
     | '/reports/browse'
+    | '/about/'
     | '/admin/'
     | '/projects/'
     | '/reports/'
@@ -339,6 +397,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRouteWithChildren
   AdminRoute: typeof AdminRouteWithChildren
   EnrollRoute: typeof EnrollRoute
   LoginRoute: typeof LoginRoute
@@ -391,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -418,6 +484,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/about/': {
+      id: '/about/'
+      path: '/'
+      fullPath: '/about/'
+      preLoaderRoute: typeof AboutIndexRouteImport
+      parentRoute: typeof AboutRoute
     }
     '/reports/browse': {
       id: '/reports/browse'
@@ -474,6 +547,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/audit'
       preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/about/who-we-are': {
+      id: '/about/who-we-are'
+      path: '/who-we-are'
+      fullPath: '/about/who-we-are'
+      preLoaderRoute: typeof AboutWhoWeAreRouteImport
+      parentRoute: typeof AboutRoute
+    }
+    '/about/contact': {
+      id: '/about/contact'
+      path: '/contact'
+      fullPath: '/about/contact'
+      preLoaderRoute: typeof AboutContactRouteImport
+      parentRoute: typeof AboutRoute
+    }
+    '/about/brand': {
+      id: '/about/brand'
+      path: '/brand'
+      fullPath: '/about/brand'
+      preLoaderRoute: typeof AboutBrandRouteImport
+      parentRoute: typeof AboutRoute
     }
     '/admin/reports/': {
       id: '/admin/reports/'
@@ -541,6 +635,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AboutRouteChildren {
+  AboutBrandRoute: typeof AboutBrandRoute
+  AboutContactRoute: typeof AboutContactRoute
+  AboutWhoWeAreRoute: typeof AboutWhoWeAreRoute
+  AboutIndexRoute: typeof AboutIndexRoute
+}
+
+const AboutRouteChildren: AboutRouteChildren = {
+  AboutBrandRoute: AboutBrandRoute,
+  AboutContactRoute: AboutContactRoute,
+  AboutWhoWeAreRoute: AboutWhoWeAreRoute,
+  AboutIndexRoute: AboutIndexRoute,
+}
+
+const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
+
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -584,6 +694,7 @@ const ReportsRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRouteWithChildren,
   AdminRoute: AdminRouteWithChildren,
   EnrollRoute: EnrollRoute,
   LoginRoute: LoginRoute,

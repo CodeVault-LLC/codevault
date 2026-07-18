@@ -240,7 +240,6 @@ describe("publishing a complete draft", () => {
   })
 })
 
-
 // A document that arrives already known by an identifier of its own — a
 // standard, a certification — must keep it. Publishing it under a counter
 // value would rename the thing the archive was asked to preserve.

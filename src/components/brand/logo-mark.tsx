@@ -1,35 +1,36 @@
 import { cn } from "@/lib/utils"
 import { site } from "@/core/config/site"
+import { LogoGlyph } from "@/components/brand/logo-glyph"
 
 type LogoMarkProps = {
   className?: string
   withWordmark?: boolean
+  variant?: "mark" | "badge"
 }
 
-export function LogoMark({ className, withWordmark = true }: LogoMarkProps) {
+/**
+ * The horizontal lockup: aperture plus wordmark. Hovering turns the aperture a
+ * quarter turn — one step of the loop — which lands back on its own symmetry.
+ */
+export function LogoMark({
+  className,
+  withWordmark = true,
+  variant = "mark",
+}: LogoMarkProps) {
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <svg
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="size-6"
-        aria-hidden
-      >
-        <rect
-          x="2"
-          y="2"
-          width="28"
-          height="28"
-          rx="7"
-          className="fill-foreground"
-        />
-        <path d="M11 22V10h2.6v9.6H19V22H11Z" className="fill-background" />
-        <path d="M21 10h2.6v12H21V10Z" className="fill-background" />
-        <circle cx="25" cy="11.4" r="1.4" className="fill-background" />
-      </svg>
+    <div className={cn("group flex items-center gap-2", className)}>
+      <LogoGlyph
+        variant={variant}
+        className={cn(
+          "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          "group-hover:rotate-90",
+          "motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
+        )}
+      />
       {withWordmark && (
-        <span className="text-[15px] font-semibold tracking-tight">
+        // Optical size: the wordmark is set to sit with the glyph, not with the
+        // body copy, so it stays off the fluid type scale.
+        <span className="text-[15px] font-semibold tracking-[-0.01em]">
           {site.name}
         </span>
       )}
