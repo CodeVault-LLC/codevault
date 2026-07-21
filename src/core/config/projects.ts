@@ -1,12 +1,15 @@
 // Structured content for the mock Project pages. Content lives in config (see
-// docs/code-rules.md); the three detail views render this same model in three
-// deliberately different styles. User-facing strings belong here — page
-// components own only structure and presentation.
+// docs/code-rules.md); the detail views render this same model in deliberately
+// different styles. User-facing strings belong here — page components own only
+// structure and presentation.
+//
+// Seamark carries more material than this model holds (detectors, pipeline
+// stages, a worked case); that lives alongside it in `seamark.ts`.
 
 export type ProjectStatus = "Shipped" | "In progress" | "Paused"
 
 // Which detail treatment renders this project.
-export type ProjectStyle = "dossier" | "journal" | "readme"
+export type ProjectStyle = "dossier" | "journal" | "readme" | "chart"
 
 export type LoopPhase = "Trial" | "Experience" | "Adjustment" | "Result"
 
@@ -34,6 +37,18 @@ export type Fact = {
   value: string
 }
 
+// Where a project ends up once it leaves here — the channel it's out in the
+// world through, plus a point on the hero globe to hang it off.
+//
+// `lon`/`lat` are placement, not a claim: we don't know where a project's users
+// are, and the label deliberately says how it's reachable rather than naming a
+// place. Omit `reach` and the project simply gets no node on the globe.
+export type Reach = {
+  label: string
+  lon: number
+  lat: number
+}
+
 export type Project = {
   slug: string
   style: ProjectStyle
@@ -43,6 +58,8 @@ export type Project = {
   summary: string
   status: ProjectStatus
   field: string
+  // Optional node on the hero globe. See `Reach`.
+  reach?: Reach
   // Ordered metadata shown in the facts panel / telemetry rail.
   facts: Fact[]
   stack: string[]
@@ -64,6 +81,7 @@ export const projects: Project[] = [
       "A browser game about keeping a sky full of satellites from colliding — built over one long weekend.",
     status: "Shipped",
     field: "Games",
+    reach: { label: "In the browser", lon: -122.42, lat: 37.77 },
     facts: [
       { label: "Designation", value: "ORB-01" },
       { label: "Status", value: "Shipped" },
@@ -147,6 +165,7 @@ export const projects: Project[] = [
       "A month of teaching a Raspberry Pi to keep our office plants alive. Hardware wasn't our field, so we made it one for a while.",
     status: "Paused",
     field: "Hardware & tinkering",
+    reach: { label: "On a shelf, on GitHub", lon: 151.21, lat: -33.87 },
     facts: [
       { label: "Status", value: "Paused" },
       { label: "Field", value: "Hardware & tinkering" },
@@ -246,6 +265,7 @@ export const projects: Project[] = [
       "A command-line tool that reads your git log and tells it back to you as a readable narrative instead of a wall of hashes.",
     status: "In progress",
     field: "Developer tooling",
+    reach: { label: "On npm", lon: 77.59, lat: 12.97 },
     facts: [
       { label: "Status", value: "In progress" },
       { label: "Field", value: "Developer tooling" },
@@ -316,7 +336,132 @@ export const projects: Project[] = [
       "It's marked in progress on purpose. There's an obvious next step — grouping by intent rather than by file — and we'd rather ship it honest and unfinished than pretend v0.4 is the end.",
     ],
   },
+  {
+    slug: "seamark",
+    style: "chart",
+    name: "Seamark",
+    accent: "sense",
+    summary:
+      "Reading a month of public AIS traffic across the North Sea and Skagerrak to find the few tracks that stop making sense near a shipping lane or a seabed cable — and putting them in front of a person.",
+    status: "In progress",
+    field: "Maritime domain awareness",
+    reach: { label: "Watching the Skagerrak", lon: 9.5, lat: 58.2 },
+    facts: [
+      { label: "Designation", value: "SMK-01" },
+      { label: "Status", value: "In progress" },
+      { label: "Field", value: "Maritime domain awareness" },
+      { label: "Trial began", value: "2026-06-24" },
+      { label: "Area", value: "North Sea · Skagerrak" },
+      { label: "Input", value: "Kystverket open AIS" },
+      { label: "Messages / day", value: "3.8 M" },
+      { label: "Tracks / day", value: "11,400" },
+      { label: "Cases / day", value: "23" },
+      { label: "Detectors", value: "6" },
+      { label: "Crew", value: "3" },
+      { label: "License", value: "MIT" },
+    ],
+    stack: [
+      "TypeScript",
+      "Rust (NMEA decoder)",
+      "PostgreSQL + PostGIS",
+      "DuckDB",
+      "Kystverket open AIS",
+    ],
+    links: [
+      {
+        label: "github.com/codevault/seamark",
+        href: "/projects/seamark",
+        kind: "repo",
+      },
+      {
+        label: "Detector notes and confounders",
+        href: "/projects/seamark",
+        kind: "writeup",
+      },
+    ],
+    loop: [
+      {
+        phase: "Trial",
+        body: "AIS is public, high-volume and famously unreliable, which made it the kind of dataset we wanted to sit with. The trial was narrow on purpose: one month of Norwegian coastal traffic, one question — can a machine pick out the handful of tracks a person should look at near a cable corridor?",
+      },
+      {
+        phase: "Experience",
+        body: "The first version found hundreds of anomalies a day, and it was right about almost none of them. Nearly every transmission gap was a receiver we could not hear from, and nearly every loitering vessel was fishing. An alert list nobody can finish is the same as no alert list.",
+      },
+      {
+        phase: "Adjustment",
+        body: "So we stopped tuning detectors and started modelling the absence of data — a per-cell reception model, so a gap is scored against how likely we were to have heard anything there at all. Then we capped the queue at what one person can actually read in a shift, and made every case explain itself in under two minutes.",
+      },
+      {
+        phase: "Result",
+        body: "Twenty-three cases a day instead of hundreds, roughly six in ten of which an analyst thinks were worth surfacing. It is not a watch floor and it does not decide anything. It reads a very noisy broadcast, ranks what it cannot explain, and stops — which turned out to be the hard part.",
+      },
+    ],
+    log: [
+      {
+        date: "2026-06-24",
+        title: "First decode",
+        tag: "trial",
+        body: "Kystverket's feed into a Rust NMEA decoder and straight into Postgres. Four hours of traffic, and the first surprise: 8% of sentences are malformed, and the malformed rate varies by receiver in a way that turns out to be useful later.",
+      },
+      {
+        date: "2026-06-28",
+        title: "Everything is an anomaly",
+        tag: "setback",
+        body: "Naive gap and loitering rules over one day produced 640 alerts. We read a hundred of them by hand. Six were interesting. The rest were coverage holes and trawlers doing their jobs.",
+      },
+      {
+        date: "2026-07-02",
+        title: "Modelling what we cannot hear",
+        tag: "note",
+        body: "Built a reception model per grid cell from historical message density and receiver uptime, so a gap is scored against the probability of hearing anything there at all. Alerts fell by two thirds overnight and the ones left got better.",
+      },
+      {
+        date: "2026-07-06",
+        title: "Corridors, not coordinates",
+        tag: "note",
+        body: "Charted cable and pipeline corridors as PostGIS polygons. Behaviour only gets scored where it means something — the same slow circle is unremarkable offshore and worth a look over SK-2.",
+      },
+      {
+        date: "2026-07-09",
+        title: "The queue gets a ceiling",
+        tag: "note",
+        body: "Cut the queue to 25 cases per shift, ranked. Not a confidence threshold — a stated capacity. A list longer than the person reading it is a list with an invisible cutoff instead of an honest one.",
+      },
+      {
+        date: "2026-07-14",
+        title: "SMK-2026-0714-018",
+        tag: "note",
+        body: "The first case where three detectors fired independently on one track over a cable corridor. Still the case we use to explain what the whole thing is for.",
+      },
+      {
+        date: "2026-07-17",
+        title: "Two analysts, sixty cases, blind",
+        tag: "note",
+        body: "Agreement of 0.71. Where they disagreed was almost entirely rendezvous and route deviation — which is a fair description of the two detectors we trust least.",
+      },
+    ],
+    notes: [
+      "The useful work was not detection. It was modelling the shape of our own ignorance: which cells we can hear, when, and how confidently. Once a gap was scored against the odds of hearing anything at all, most of the noise stopped being noise and started being coverage — which is a thing you can state plainly instead of alerting on.",
+      "We kept a person in the middle because the last step is a judgement about context, and the system does not have the context. It knows a vessel slowed and went quiet over a cable. It does not know the sea state that hour, or that this operator always bunkers here. Handing that call to a threshold would produce answers, and we would have no way of knowing they were wrong.",
+      "It stays in progress. There is an obvious next input — SAR imagery, to see the vessels that never transmit at all — and until that exists, the honest description of this project is a system that is good at noticing when the one sensor it has has stopped telling it anything.",
+    ],
+  },
 ]
+
+// Where the work is made. The one point on the hero globe that isn't a
+// placement choice.
+export const home = {
+  label: "Made here",
+  place: "Norway",
+  lon: 10.75,
+  lat: 59.91,
+} as const
+
+// Projects that have declared a `reach`, in config order.
+export function reachingProjects(): (Project & { reach: Reach })[] {
+  return projects.filter((p): p is Project & { reach: Reach } => !!p.reach)
+}
 
 // Typed slug → route path, so router `Link`s stay type-safe against the
 // generated route tree instead of passing a widened string.
@@ -324,6 +469,7 @@ export const projectPaths = {
   orbit: "/projects/orbit",
   "plant-pi": "/projects/plant-pi",
   "git-story": "/projects/git-story",
+  seamark: "/projects/seamark",
 } as const
 
 export type ProjectSlug = keyof typeof projectPaths

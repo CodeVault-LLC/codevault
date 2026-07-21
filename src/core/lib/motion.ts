@@ -43,3 +43,8 @@ export const staggerContainer = (stagger = 0.08, delay = 0): Variants => ({
 })
 
 export const viewportOnce = { once: true, amount: 0.25 } as const
+
+// Same thing for blocks taller than the viewport, where waiting for a quarter
+// of the element to be visible means a screen of nothing while the reader
+// scrolls. Reveals as soon as the block's leading edge crosses in.
+export const viewportEdge = { once: true, amount: 0 } as const
