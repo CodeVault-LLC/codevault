@@ -48,6 +48,37 @@ export const legal = {
     href: "mailto:codevault@gmail.com",
   },
 
+  /**
+   * The security-research half of the practice: where vulnerability reports
+   * arrive, and the key they can be encrypted to.
+   *
+   * Both are null because neither exists yet, and the rule at the top of this
+   * file applies with more force here than anywhere else in it. A published
+   * security contact that bounces is worse than none — it absorbs a report
+   * that would otherwise have gone somewhere that works. A fingerprint naming
+   * no published key is a verification step that always fails, and a reporter
+   * who fails it concludes the site is abandoned.
+   *
+   * `contact` → `"security@codevault.no"` once the mailbox is live, per
+   * docs/mail.md. Until then `/.well-known/security.txt` falls back to
+   * `legal.contact`, which is a working address today.
+   *
+   * `pgpFingerprint` → the 40 hex characters, no spaces, once the key exists
+   * *and* `public/.well-known/openpgp.asc` is actually published, per
+   * docs/pgp.md. The `Encryption:` line is emitted only when this is set,
+   * because RFC 9116 readers treat that URL as fetchable and a 404 there is a
+   * worse signal than the field's absence.
+   *
+   * `policyPath` points at the published page. The controlled disclosure
+   * documents live in the sibling `documents` repository, not here.
+   */
+  security: {
+    contact: null as string | null,
+    pgpFingerprint: null as string | null,
+    policyPath: "/legal/security",
+    keyPath: "/.well-known/openpgp.asc",
+  },
+
   /** Norway's data protection authority — where a complaint goes. */
   supervisoryAuthority: {
     name: "Datatilsynet",
@@ -107,6 +138,21 @@ export function operatorLabel(): string {
   }
 
   return legal.operator.name
+}
+
+/**
+ * Where a vulnerability report should be sent.
+ *
+ * The dedicated address once it exists, the general contact until then. Every
+ * surface that publishes a security address reads this, so the day the mailbox
+ * goes live is a one-line change rather than a search for every copy.
+ */
+export function securityContactHref(): string {
+  if (legal.security.contact) {
+    return `mailto:${legal.security.contact}`
+  }
+
+  return legal.contact.href
 }
 
 /** The cluster's own sub-navigation, shown at the top of every legal page. */

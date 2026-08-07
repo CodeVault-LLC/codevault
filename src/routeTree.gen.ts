@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SiteDotwebmanifestRouteImport } from './routes/site[.]webmanifest'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LegalRouteImport } from './routes/legal'
@@ -53,6 +55,16 @@ import { Route as ReportsAccessionIdCiteFormatRouteImport } from './routes/repor
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteDotwebmanifestRoute = SiteDotwebmanifestRouteImport.update({
+  id: '/site.webmanifest',
+  path: '/site.webmanifest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -262,6 +274,8 @@ export interface FileRoutesByFullPath {
   '/legal': typeof LegalRouteWithChildren
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/about/brand': typeof AboutBrandRoute
@@ -300,6 +314,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/enroll': typeof EnrollRoute
   '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/about/brand': typeof AboutBrandRoute
@@ -343,6 +359,8 @@ export interface FileRoutesById {
   '/legal': typeof LegalRouteWithChildren
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/about/brand': typeof AboutBrandRoute
@@ -387,6 +405,8 @@ export interface FileRouteTypes {
     | '/legal'
     | '/login'
     | '/reports'
+    | '/robots.txt'
+    | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
     | '/about/brand'
@@ -425,6 +445,8 @@ export interface FileRouteTypes {
     | '/'
     | '/enroll'
     | '/login'
+    | '/robots.txt'
+    | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
     | '/about/brand'
@@ -467,6 +489,8 @@ export interface FileRouteTypes {
     | '/legal'
     | '/login'
     | '/reports'
+    | '/robots.txt'
+    | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
     | '/about/brand'
@@ -510,6 +534,8 @@ export interface RootRouteChildren {
   LegalRoute: typeof LegalRouteWithChildren
   LoginRoute: typeof LoginRoute
   ReportsRoute: typeof ReportsRouteWithChildren
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SiteDotwebmanifestRoute: typeof SiteDotwebmanifestRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DotwellKnownSecurityDottxtRoute: typeof DotwellKnownSecurityDottxtRoute
   ApiHealthRoute: typeof ApiHealthRoute
@@ -531,6 +557,20 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/site.webmanifest': {
+      id: '/site.webmanifest'
+      path: '/site.webmanifest'
+      fullPath: '/site.webmanifest'
+      preLoaderRoute: typeof SiteDotwebmanifestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -892,6 +932,8 @@ const rootRouteChildren: RootRouteChildren = {
   LegalRoute: LegalRouteWithChildren,
   LoginRoute: LoginRoute,
   ReportsRoute: ReportsRouteWithChildren,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SiteDotwebmanifestRoute: SiteDotwebmanifestRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   DotwellKnownSecurityDottxtRoute: DotwellKnownSecurityDottxtRoute,
   ApiHealthRoute: ApiHealthRoute,

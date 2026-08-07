@@ -3,18 +3,17 @@ import { createFileRoute } from "@tanstack/react-router"
 import { BrowseIndexView } from "@/components/reports/browse-index"
 import { fetchBrowseIndex } from "@/server/reports/functions"
 import { reportsArchive } from "@/core/config/reports"
-import { site } from "@/core/config/site"
+import { seo } from "@/core/lib/seo"
 
 export const Route = createFileRoute("/reports/browse")({
   loader: () => fetchBrowseIndex(),
   component: BrowseRoute,
-  head: () => ({
-    meta: [
-      { title: `${reportsArchive.browseTitle} — ${reportsArchive.name}` },
-      { name: "description", content: reportsArchive.browseDescription },
-      { name: "og:site_name", content: site.name },
-    ],
-  }),
+  head: () =>
+    seo({
+      title: `${reportsArchive.browseTitle} — ${reportsArchive.name}`,
+      description: reportsArchive.browseDescription,
+      path: "/reports/browse",
+    }),
 })
 
 function BrowseRoute() {

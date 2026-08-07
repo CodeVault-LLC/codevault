@@ -177,6 +177,36 @@ In Cloudflare → SSL/TLS, set encryption mode to **Full**. Then add a redirect
 rule sending `www.codevault.no` to `codevault.no` so there is one canonical
 origin — session cookies and the RP ID both assume it.
 
+### Security headers: what the app sets, and what is left for the edge
+
+The app sets CSP, `X-Content-Type-Options`, `Referrer-Policy`,
+`X-Frame-Options`, `Permissions-Policy` and the two `Cross-Origin-*` headers on
+every response it renders — see
+[`src/server/http/security-headers.ts`](../src/server/http/security-headers.ts).
+`Strict-Transport-Security` is set there too, but only when `NODE_ENV` is
+`production` **and** the request arrives with `X-Forwarded-Proto: https`, which
+is what the tunnel sends.
+
+Two gaps that only the edge can close:
+
+1. **Static assets bypass the middleware.** Fonts, icons and the stock images
+   are served straight off disk by Nitro and never pass through the request
+   chain. Nothing above protects an immutable PNG, but a scanner will report
+   the absence. If that matters, add the headers as a Cloudflare Transform
+   Rule on `/assets/*`, `/fonts/*` and `/stock/*`.
+
+2. **CSP still allows inline script.** `script-src` carries `'unsafe-inline'`
+   because TanStack Start inlines its hydration payload. The framework can
+   nonce those tags via `router.options.ssr.nonce`, but the nonce has to be
+   minted per request and reach `getRouter()`, which takes no arguments today.
+   Until that is threaded through, the policy does not stop injected inline
+   script — it only limits what injected script can reach. Tightening this is
+   the single highest-value change left in this file.
+
+HSTS is deliberately `max-age=31536000` with **no** `includeSubDomains` and
+**no** `preload`. Preloading is close to irreversible, and the app domain may
+yet grow a subdomain that is not ours to pin.
+
 ---
 
 ## Step 5 — Production environment file

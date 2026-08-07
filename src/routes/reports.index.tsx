@@ -7,6 +7,7 @@ import {
 import { SearchResultsView } from "@/components/reports/search-results"
 import { fetchReportSearch } from "@/server/reports/functions"
 import { reportsArchive } from "@/core/config/reports"
+import { seo } from "@/core/lib/seo"
 import { site } from "@/core/config/site"
 
 export const Route = createFileRoute("/reports/")({
@@ -23,12 +24,16 @@ export const Route = createFileRoute("/reports/")({
   // (design §12).
   loader: ({ deps }) => fetchReportSearch({ data: deps }),
   component: ReportsIndexRoute,
-  head: () => ({
-    meta: [
-      { title: `${reportsArchive.name} — ${site.name}` },
-      { name: "description", content: reportsArchive.description },
-    ],
-  }),
+  // The canonical is the bare listing, deliberately. `stripSearchParams` above
+  // already keeps a defaulted URL clean, but a faceted one (`?q=…&page=3`) is
+  // a view of the archive rather than a page of its own, and pointing every
+  // one of them at /reports is what stops them competing with each other.
+  head: () =>
+    seo({
+      title: `${reportsArchive.name} — ${site.name}`,
+      description: reportsArchive.description,
+      path: "/reports",
+    }),
 })
 
 function ReportsIndexRoute() {

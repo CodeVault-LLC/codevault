@@ -139,9 +139,21 @@ export function toCsl(
   }
 }
 
+/**
+ * The record's canonical site-relative path.
+ *
+ * Split out of `recordUrl` because the head tags need the path and the
+ * citation formats need the absolute URL, and two places writing
+ * `/reports/${id}` is one place too many — see `pdfUrl` below for the bug this
+ * shape produces when it drifts.
+ */
+export function recordPath(accessionId: string): string {
+  return `/reports/${accessionId}`
+}
+
 /** The record's canonical absolute URL — the thing a citation points at. */
 export function recordUrl(accessionId: string, baseUrl: string): string {
-  return `${baseUrl.replace(/\/+$/, "")}/reports/${accessionId}`
+  return `${baseUrl.replace(/\/+$/, "")}${recordPath(accessionId)}`
 }
 
 /**

@@ -4,6 +4,8 @@ import { NotFound } from "@/core/pages/not-found"
 import { ReportRecord } from "@/components/reports/report-record"
 import { fetchPublicReport } from "@/server/reports/functions"
 import { formatAuthors } from "@/components/reports/format"
+import { recordPath } from "@/core/reports/citation"
+import { seo } from "@/core/lib/seo"
 import { site } from "@/core/config/site"
 
 export const Route = createFileRoute("/reports/$accessionId")({
@@ -21,19 +23,29 @@ export const Route = createFileRoute("/reports/$accessionId")({
   },
   component: ReportRecordRoute,
   notFoundComponent: () => <NotFound />,
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) return {}
 
     const withdrawn = loaderData.status === "withdrawn"
 
+    // `article` rather than the default `website`: a record has authors and a
+    // publication date, and unfurlers that distinguish the two show them.
+    const base = seo({
+      title: withdrawn
+        ? `Withdrawn: ${loaderData.title} — ${site.name}`
+        : `${loaderData.title} — ${site.name}`,
+      description: loaderData.abstract.slice(0, 300),
+      // From the route param, not the loaded row: the column is nullable
+      // because drafts have no accession ID, and the param is the one value
+      // guaranteed to be the address the reader actually asked for.
+      path: recordPath(params.accessionId),
+      type: "article",
+    })
+
     return {
+      ...base,
       meta: [
-        {
-          title: withdrawn
-            ? `Withdrawn: ${loaderData.title} — ${site.name}`
-            : `${loaderData.title} — ${site.name}`,
-        },
-        { name: "description", content: loaderData.abstract.slice(0, 300) },
+        ...base.meta,
         // Enough of a citation for a human-facing share card. The Highwire
         // Press tags Google Scholar actually reads land in Phase 3 (design §12).
         { name: "author", content: formatAuthors(loaderData.authors, 99) },

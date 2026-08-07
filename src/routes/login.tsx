@@ -28,7 +28,16 @@ export const Route = createFileRoute("/login")({
     if (staff) throw redirect({ to: "/admin" })
   },
   component: LoginRoute,
-  head: () => ({ meta: [{ title: "Sign in — CodeVault" }] }),
+  head: () => ({
+    meta: [
+      { title: "Sign in — CodeVault" },
+      // Same reasoning as /enroll and /admin. `robots.txt` already asks
+      // crawlers not to fetch this, but a disallowed URL can still be indexed
+      // from an inbound link — the directive that actually keeps it out of
+      // results is this one, and it is only read if the page is fetched.
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
 })
 
 function LoginRoute() {

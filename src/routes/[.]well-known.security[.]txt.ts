@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { legal } from "@/core/config/legal"
+import { legal, securityContactHref } from "@/core/config/legal"
 import { site } from "@/core/config/site"
 
 // `/.well-known/security.txt` per RFC 9116.
@@ -35,10 +35,19 @@ export const Route = createFileRoute("/.well-known/security.txt")({
       GET: () => {
         const base = site.url.replace(/\/+$/, "")
 
+        // `Encryption` is emitted only once a fingerprint is recorded, which
+        // `legal.security` treats as the signal that the key file is actually
+        // published. RFC 9116 readers fetch that URL; pointing them at a 404
+        // is a worse signal than not offering encryption at all.
+        const encryption = legal.security.pgpFingerprint
+          ? [`Encryption: ${base}${legal.security.keyPath}`]
+          : []
+
         const body = [
-          `Contact: ${legal.contact.href}`,
+          `Contact: ${securityContactHref()}`,
           `Expires: ${expiresAt(legal.effective)}`,
-          `Policy: ${base}/legal/security`,
+          ...encryption,
+          `Policy: ${base}${legal.security.policyPath}`,
           `Canonical: ${base}/.well-known/security.txt`,
           "Preferred-Languages: en, no",
           "",

@@ -5,21 +5,17 @@ import { Footer } from "@/components/layout/footer"
 import { Hero } from "@/components/sections/hero/hero"
 import { LatestReleases } from "@/components/sections/latest-releases"
 import { About } from "@/components/sections/about"
+import { seo } from "@/core/lib/seo"
+import { site } from "@/core/config/site"
 
 export const Route = createFileRoute("/")({
   component: HomePage,
-  head: () => ({
-    meta: [
-      {
-        title: "CodeVault — We point ourselves at tech, and see what happens",
-      },
-      {
-        name: "description",
-        content:
-          "CodeVault isn't a product company. We run projects across everything in tech — trials, experiments, and the occasional small thing we push to GitHub. Built in the open, shared as they are.",
-      },
-    ],
-  }),
+  head: () =>
+    seo({
+      title: `${site.name} — ${site.tagline.replace(/\.$/, "")}`,
+      description: site.description,
+      path: "/",
+    }),
 })
 
 function HomePage() {

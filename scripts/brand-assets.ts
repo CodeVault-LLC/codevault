@@ -132,3 +132,88 @@ const icoParts = [16, 32, 48].map((s) => {
 })
 execFileSync("magick", [...icoParts, join(PUBLIC, "favicon.ico")])
 console.log("  favicon.ico (16/32/48)")
+
+// --- The social card --------------------------------------------------------
+//
+// 1200×630 is the aspect every Open Graph consumer crops toward, and the one
+// size where a card renders as a wide banner rather than a thumbnail. It lives
+// here rather than in a design file because it is the mark plus two strings
+// that already exist in `src/core/config/site.ts`; a hand-exported PNG would go
+// stale the first time either changed.
+//
+// Two passes, because neither tool does both halves well: rsvg-convert draws
+// the plate and the aperture, then magick sets the type. The type is set with
+// the Inter TTF that ships in `public/fonts` rather than a font-family name —
+// librsvg resolves families through fontconfig, so an SVG asking for "Inter"
+// renders in whatever the machine happens to have, and the card would look
+// different on every developer's laptop.
+
+const OG = { w: 1200, h: 630 }
+const INTER = join(PUBLIC, "fonts", "Inter-VariableFont_opsz,wght.ttf")
+
+// Kept in sync by hand with `site.name`/`site.tagline` — this script is a Node
+// build tool and importing the app's config would drag in the Vite aliases.
+const OG_WORDMARK = "CodeVault"
+const OG_TAGLINE = "We point ourselves at tech, and see what happens."
+const OG_DOMAIN = "codevault.no"
+
+const ogPlate = `<svg xmlns="http://www.w3.org/2000/svg" width="${OG.w}" height="${OG.h}" viewBox="0 0 ${OG.w} ${OG.h}">
+  <rect width="${OG.w}" height="${OG.h}" fill="${SLATE}"/>
+  <g transform="translate(88 88) scale(3)" fill="${IVORY}" stroke="${IVORY}" stroke-width="1.6" stroke-linejoin="round">
+    <g transform="translate(16 16)">
+      ${[0, 90, 180, 270]
+        .map((a) => `<path transform="rotate(${a})" d="${BLADE}"/>`)
+        .join("\n      ")}
+    </g>
+  </g>
+  <rect x="88" y="512" width="120" height="2" fill="${IVORY}" opacity="0.28"/>
+</svg>
+`
+
+const ogPlatePath = join(TMP, "og-plate.svg")
+const ogFlatPath = join(TMP, "og-plate.png")
+writeFileSync(ogPlatePath, ogPlate)
+execFileSync("rsvg-convert", [
+  "-w",
+  String(OG.w),
+  "-h",
+  String(OG.h),
+  ogPlatePath,
+  "-o",
+  ogFlatPath,
+])
+
+// `-annotate` offsets are from the NorthWest gravity corner, so every y below
+// is a top edge rather than a baseline — easier to keep on the 88px margin.
+execFileSync("magick", [
+  ogFlatPath,
+  "-font",
+  INTER,
+  "-gravity",
+  "NorthWest",
+  "-fill",
+  IVORY,
+  "-pointsize",
+  "96",
+  "-annotate",
+  "+88+286",
+  OG_WORDMARK,
+  // The tagline is the quieter of the two lines, so it drops to ~65% rather
+  // than changing color — a second ivory would read as a third brand tone.
+  "-fill",
+  `${IVORY}A6`,
+  "-pointsize",
+  "38",
+  "-annotate",
+  "+88+412",
+  OG_TAGLINE,
+  "-fill",
+  `${IVORY}73`,
+  "-pointsize",
+  "26",
+  "-annotate",
+  "+88+544",
+  OG_DOMAIN,
+  join(PUBLIC, "og-image.png"),
+])
+console.log(`  og-image.png (${OG.w}×${OG.h})`)

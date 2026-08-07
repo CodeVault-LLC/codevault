@@ -1,5 +1,6 @@
 import { createCsrfMiddleware, createStart } from "@tanstack/react-start"
 
+import { securityHeaders } from "@/server/http/security-headers"
 import { sessionMiddleware } from "@/server/auth/middleware"
 
 // Global middleware registration.
@@ -25,10 +26,14 @@ const csrfMiddleware = createCsrfMiddleware({
 })
 
 export const startInstance = createStart(() => ({
+  // Order matters. `securityHeaders` is first because it decorates whatever
+  // response comes back out of the chain, and that has to include the ones
+  // CSRF rejects — a 403 is still a document a browser renders.
+  //
   // Session resolution runs for every request so `context.staff` is available
   // to any server function that asks for it. It only *resolves* — refusing is
   // `requireStaff`'s job, attached per function, because plenty of server
   // functions here are legitimately public (the reports listing, the record
   // page).
-  requestMiddleware: [csrfMiddleware, sessionMiddleware],
+  requestMiddleware: [securityHeaders, csrfMiddleware, sessionMiddleware],
 }))
