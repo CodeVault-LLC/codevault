@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 
-import { Meter } from "@/components/projects/seamark/meter"
+import { Meter } from "@/components/projects/meter"
 import { detectors } from "@/core/config/seamark"
 import { fadeUp, staggerContainer, viewportEdge } from "@/core/lib/motion"
 

@@ -4,8 +4,9 @@ import { viewportOnce } from "@/core/lib/motion"
 import { cn } from "@/lib/utils"
 
 /**
- * A horizontal proportion bar, used by the detector rail and the pipeline
- * funnel. Deliberately plain: a hairline track and a filled span, no gradient,
+ * A horizontal proportion bar, shared by the project pages that draw one —
+ * Seamark's detector rail and pipeline funnel, TeX's build ladder and timing
+ * table. Deliberately plain: a hairline track and a filled span, no gradient,
  * no rounded cap trickery. It reads as a measurement, not a chart.
  *
  * `value` is 0–1. Under reduced motion the bar is simply drawn at its final

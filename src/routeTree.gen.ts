@@ -24,6 +24,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AboutIndexRouteImport } from './routes/about.index'
 import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
 import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
+import { Route as ProjectsTexRouteImport } from './routes/projects.tex'
 import { Route as ProjectsSeamarkRouteImport } from './routes/projects.seamark'
 import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
 import { Route as ProjectsOrbitRouteImport } from './routes/projects.orbit'
@@ -123,6 +124,11 @@ const ReportsAccessionIdRoute = ReportsAccessionIdRouteImport.update({
   id: '/$accessionId',
   path: '/$accessionId',
   getParentRoute: () => ReportsRoute,
+} as any)
+const ProjectsTexRoute = ProjectsTexRouteImport.update({
+  id: '/projects/tex',
+  path: '/projects/tex',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsSeamarkRoute = ProjectsSeamarkRouteImport.update({
   id: '/projects/seamark',
@@ -272,6 +278,7 @@ export interface FileRoutesByFullPath {
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/projects/seamark': typeof ProjectsSeamarkRoute
+  '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
   '/about/': typeof AboutIndexRoute
@@ -309,6 +316,7 @@ export interface FileRoutesByTo {
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/projects/seamark': typeof ProjectsSeamarkRoute
+  '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
   '/about': typeof AboutIndexRoute
@@ -351,6 +359,7 @@ export interface FileRoutesById {
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
   '/projects/seamark': typeof ProjectsSeamarkRoute
+  '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
   '/about/': typeof AboutIndexRoute
@@ -394,6 +403,7 @@ export interface FileRouteTypes {
     | '/projects/orbit'
     | '/projects/plant-pi'
     | '/projects/seamark'
+    | '/projects/tex'
     | '/reports/$accessionId'
     | '/reports/browse'
     | '/about/'
@@ -431,6 +441,7 @@ export interface FileRouteTypes {
     | '/projects/orbit'
     | '/projects/plant-pi'
     | '/projects/seamark'
+    | '/projects/tex'
     | '/reports/$accessionId'
     | '/reports/browse'
     | '/about'
@@ -472,6 +483,7 @@ export interface FileRouteTypes {
     | '/projects/orbit'
     | '/projects/plant-pi'
     | '/projects/seamark'
+    | '/projects/tex'
     | '/reports/$accessionId'
     | '/reports/browse'
     | '/about/'
@@ -505,6 +517,7 @@ export interface RootRouteChildren {
   ProjectsOrbitRoute: typeof ProjectsOrbitRoute
   ProjectsPlantPiRoute: typeof ProjectsPlantPiRoute
   ProjectsSeamarkRoute: typeof ProjectsSeamarkRoute
+  ProjectsTexRoute: typeof ProjectsTexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiIngestNotifyRoute: typeof ApiIngestNotifyRoute
@@ -617,6 +630,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reports/$accessionId'
       preLoaderRoute: typeof ReportsAccessionIdRouteImport
       parentRoute: typeof ReportsRoute
+    }
+    '/projects/tex': {
+      id: '/projects/tex'
+      path: '/projects/tex'
+      fullPath: '/projects/tex'
+      preLoaderRoute: typeof ProjectsTexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/projects/seamark': {
       id: '/projects/seamark'
@@ -879,6 +899,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsOrbitRoute: ProjectsOrbitRoute,
   ProjectsPlantPiRoute: ProjectsPlantPiRoute,
   ProjectsSeamarkRoute: ProjectsSeamarkRoute,
+  ProjectsTexRoute: ProjectsTexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiIngestNotifyRoute: ApiIngestNotifyRoute,

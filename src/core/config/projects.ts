@@ -3,13 +3,15 @@
 // different styles. User-facing strings belong here — page components own only
 // structure and presentation.
 //
-// Seamark carries more material than this model holds (detectors, pipeline
-// stages, a worked case); that lives alongside it in `seamark.ts`.
+// Seamark and TeX carry more material than this model holds (detectors,
+// pipeline stages, a worked case; build steps, diagnostics, a benchmark
+// corpus); that lives alongside it in `seamark.ts` and `tex.ts`.
 
 export type ProjectStatus = "Shipped" | "In progress" | "Paused"
 
 // Which detail treatment renders this project.
-export type ProjectStyle = "dossier" | "journal" | "readme" | "chart"
+export type ProjectStyle =
+  "dossier" | "journal" | "readme" | "chart" | "specimen"
 
 export type LoopPhase = "Trial" | "Experience" | "Adjustment" | "Result"
 
@@ -447,6 +449,131 @@ export const projects: Project[] = [
       "It stays in progress. There is an obvious next input — SAR imagery, to see the vessels that never transmit at all — and until that exists, the honest description of this project is a system that is good at noticing when the one sensor it has has stopped telling it anything.",
     ],
   },
+  {
+    slug: "tex",
+    style: "specimen",
+    name: "TeX",
+    accent: "readable",
+    summary:
+      "An editor for LaTeX that parses the document instead of matching text, rebuilds only what a save could have changed, and says what went wrong in a sentence rather than a transcript.",
+    status: "In progress",
+    field: "Authoring & typesetting tools",
+    reach: { label: "Wherever a deadline is", lon: 8.54, lat: 47.37 },
+    facts: [
+      { label: "Designation", value: "TEX-01" },
+      { label: "Status", value: "In progress" },
+      { label: "Field", value: "Authoring & typesetting tools" },
+      { label: "Trial began", value: "2026-03-02" },
+      { label: "Latest", value: "v0.5.0" },
+      { label: "Engines driven", value: "4" },
+      { label: "Cold → save", value: "41.2 s → 0.91 s" },
+      { label: "Diagnostic rules", value: "191" },
+      { label: "Benchmark corpus", value: "12 documents" },
+      { label: "Platforms", value: "macOS · Linux" },
+      { label: "Crew", value: "3" },
+      { label: "License", value: "MIT" },
+    ],
+    stack: [
+      "Rust (build daemon)",
+      "TypeScript",
+      "Tauri 2",
+      "CodeMirror 6",
+      "tree-sitter-latex",
+      "MuPDF",
+      "TeX Live 2025 · Tectonic",
+    ],
+    links: [
+      {
+        label: "github.com/lukasolsen/TeX",
+        href: "https://github.com/lukasolsen/TeX",
+        kind: "repo",
+      },
+      {
+        label: "Build pipeline notes",
+        href: "/projects/tex",
+        kind: "writeup",
+      },
+    ],
+    loop: [
+      {
+        phase: "Trial",
+        body: "One of us was writing a thesis and losing whole afternoons to a compile-and-scroll loop, so we built the smallest thing that could be wrong: a text pane, a PDF pane, and a shell-out to pdfTeX. It took forty-one seconds to tell us what we already knew.",
+      },
+      {
+        phase: "Experience",
+        body: "Speed turned out not to be one problem. Some of it was the engine, some of it was rebuilding forty-one unchanged figures every time, and a surprising amount of it was the twenty seconds a person spends finding the real error in a log. Fixing only the first would have left the loop roughly as long.",
+      },
+      {
+        phase: "Adjustment",
+        body: "So we stopped optimising the compile and started modelling the document — a parse on every keystroke, a content-addressed build graph, and a translation layer over the log. The cache we shipped first keyed on timestamps, served a stale PDF, and had to be thrown away; the replacement hashes every input including the engine binary.",
+      },
+      {
+        phase: "Result",
+        body: "A save on a 182-page thesis now shows the corrected page in under a second, and the problem list has two lines in it instead of two thousand nine hundred. It is v0.5.0, it is honest about what it does not do, and it is the tool we write in.",
+      },
+    ],
+    log: [
+      {
+        date: "2026-03-02",
+        title: "A text pane and a PDF pane",
+        tag: "trial",
+        body: "CodeMirror, a shell-out to pdfTeX, and a viewer that reloaded the whole file. 41 seconds per save on the thesis. Useful only as a thing to be annoyed by, which was the point.",
+      },
+      {
+        date: "2026-03-11",
+        title: "Regex was never going to work",
+        tag: "setback",
+        body: "Three weeks of features built on pattern matching, and every one of them was wrong inside a \\newcommand. Threw out the lot and put tree-sitter underneath. Everything since depends on that week.",
+      },
+      {
+        date: "2026-03-24",
+        title: "The cache served a stale PDF",
+        tag: "setback",
+        body: "Keyed on modification time. A file restored from git kept its old mtime, the build was skipped, and someone read a page that no longer existed in the source. Worst bug of the project — a wrong answer delivered fast.",
+      },
+      {
+        date: "2026-04-06",
+        title: "Content-addressed builds",
+        tag: "note",
+        body: "Rewrote the cache to hash every input: sources, class files, images, fonts, the engine binary, the flags. Slower to key, impossible to fool. No stale output since.",
+      },
+      {
+        date: "2026-04-19",
+        title: "Reading the log so you don't have to",
+        tag: "note",
+        body: "First forty diagnostic rules, written by pasting a year of our own build logs into a file and translating them by hand. Tedious, unglamorous, and the change people noticed most.",
+      },
+      {
+        date: "2026-05-02",
+        title: "Knowing when to stop",
+        tag: "note",
+        body: "Hash the .aux files after each pass and rerun only when they moved. Four in five builds settle in two passes; we had been running three unconditionally, like everyone else.",
+      },
+      {
+        date: "2026-05-20",
+        title: "Under a second on the thesis",
+        tag: "note",
+        body: "Standalone figures cached separately, one page re-rastered instead of the document. 912 ms from ⌘S to the corrected page. The loop stopped being something you leave the desk for.",
+      },
+      {
+        date: "2026-06-14",
+        title: "Both directions",
+        tag: "note",
+        body: "SyncTeX wired properly: click the page to move the caret, move the caret to move the page. It had been half-working for a month and half-working was worse than not.",
+      },
+      {
+        date: "2026-07-08",
+        title: "v0.5.0",
+        tag: "shipped",
+        body: "First build we handed to people outside the project. macOS and Linux, MIT, no installer worth the name yet. Twelve documents in the benchmark corpus and a list of what it can't do that we mean.",
+      },
+    ],
+    notes: [
+      "The interesting work was not making the compiler faster — we never touched it, and could not have. It was working out how much of a build is not the compiler: unchanged figures, unnecessary passes, and the twenty seconds a person spends reading a transcript that was addressed to a printer in 1978.",
+      "The stale-PDF bug is the one we tell people about. A slow tool wastes your afternoon; a tool that is confidently wrong wastes your afternoon and then costs you the trust you need to use it at all. Everything about the current cache — hashing the engine binary, pinning the distribution, refusing to run without the sandbox — is a reaction to one bad Tuesday in March.",
+      "It stays in progress. The obvious next thing is a language server, so the model that already knows where every label lives can be used by editors that are not this one. Until then the honest description is a good editor for people who already know LaTeX, which is a smaller claim than we would like and the only one we can currently make.",
+    ],
+  },
 ]
 
 // Where the work is made. The one point on the hero globe that isn't a
@@ -470,6 +597,7 @@ export const projectPaths = {
   "plant-pi": "/projects/plant-pi",
   "git-story": "/projects/git-story",
   seamark: "/projects/seamark",
+  tex: "/projects/tex",
 } as const
 
 export type ProjectSlug = keyof typeof projectPaths
