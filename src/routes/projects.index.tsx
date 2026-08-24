@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 import { ProjectsIndex } from "@/components/projects/projects-index"
+import { projectsPage } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
 
 export const Route = createFileRoute("/projects/")({
@@ -8,8 +9,7 @@ export const Route = createFileRoute("/projects/")({
   head: () =>
     seo({
       title: "Projects — CodeVault",
-      description:
-        "A running list of CodeVault projects — some shipped, some paused, some still moving. Each one is a trial we lived with and reacted to.",
+      description: projectsPage.metaDescription,
       path: "/projects",
     }),
 })

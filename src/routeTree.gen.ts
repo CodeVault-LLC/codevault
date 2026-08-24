@@ -28,6 +28,7 @@ import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
 import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
 import { Route as ProjectsTexRouteImport } from './routes/projects.tex'
 import { Route as ProjectsSeamarkRouteImport } from './routes/projects.seamark'
+import { Route as ProjectsSandboxRouteImport } from './routes/projects.sandbox'
 import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
 import { Route as ProjectsOrbitRouteImport } from './routes/projects.orbit'
 import { Route as ProjectsGitStoryRouteImport } from './routes/projects.git-story'
@@ -145,6 +146,11 @@ const ProjectsTexRoute = ProjectsTexRouteImport.update({
 const ProjectsSeamarkRoute = ProjectsSeamarkRouteImport.update({
   id: '/projects/seamark',
   path: '/projects/seamark',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSandboxRoute = ProjectsSandboxRouteImport.update({
+  id: '/projects/sandbox',
+  path: '/projects/sandbox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsPlantPiRoute = ProjectsPlantPiRouteImport.update({
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
+  '/projects/sandbox': typeof ProjectsSandboxRoute
   '/projects/seamark': typeof ProjectsSeamarkRoute
   '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
@@ -331,6 +338,7 @@ export interface FileRoutesByTo {
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
+  '/projects/sandbox': typeof ProjectsSandboxRoute
   '/projects/seamark': typeof ProjectsSeamarkRoute
   '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
@@ -376,6 +384,7 @@ export interface FileRoutesById {
   '/projects/git-story': typeof ProjectsGitStoryRoute
   '/projects/orbit': typeof ProjectsOrbitRoute
   '/projects/plant-pi': typeof ProjectsPlantPiRoute
+  '/projects/sandbox': typeof ProjectsSandboxRoute
   '/projects/seamark': typeof ProjectsSeamarkRoute
   '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
@@ -422,6 +431,7 @@ export interface FileRouteTypes {
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
+    | '/projects/sandbox'
     | '/projects/seamark'
     | '/projects/tex'
     | '/reports/$accessionId'
@@ -462,6 +472,7 @@ export interface FileRouteTypes {
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
+    | '/projects/sandbox'
     | '/projects/seamark'
     | '/projects/tex'
     | '/reports/$accessionId'
@@ -506,6 +517,7 @@ export interface FileRouteTypes {
     | '/projects/git-story'
     | '/projects/orbit'
     | '/projects/plant-pi'
+    | '/projects/sandbox'
     | '/projects/seamark'
     | '/projects/tex'
     | '/reports/$accessionId'
@@ -542,6 +554,7 @@ export interface RootRouteChildren {
   ProjectsGitStoryRoute: typeof ProjectsGitStoryRoute
   ProjectsOrbitRoute: typeof ProjectsOrbitRoute
   ProjectsPlantPiRoute: typeof ProjectsPlantPiRoute
+  ProjectsSandboxRoute: typeof ProjectsSandboxRoute
   ProjectsSeamarkRoute: typeof ProjectsSeamarkRoute
   ProjectsTexRoute: typeof ProjectsTexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
@@ -683,6 +696,13 @@ declare module '@tanstack/react-router' {
       path: '/projects/seamark'
       fullPath: '/projects/seamark'
       preLoaderRoute: typeof ProjectsSeamarkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/sandbox': {
+      id: '/projects/sandbox'
+      path: '/projects/sandbox'
+      fullPath: '/projects/sandbox'
+      preLoaderRoute: typeof ProjectsSandboxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/plant-pi': {
@@ -940,6 +960,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsGitStoryRoute: ProjectsGitStoryRoute,
   ProjectsOrbitRoute: ProjectsOrbitRoute,
   ProjectsPlantPiRoute: ProjectsPlantPiRoute,
+  ProjectsSandboxRoute: ProjectsSandboxRoute,
   ProjectsSeamarkRoute: ProjectsSeamarkRoute,
   ProjectsTexRoute: ProjectsTexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,

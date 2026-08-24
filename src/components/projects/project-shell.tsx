@@ -12,7 +12,7 @@ export function ProjectShell({
   className?: string
 }) {
   return (
-    <div className="flex min-h-svh flex-col bg-ivory-light text-foreground">
+    <div className="flex min-h-svh flex-col bg-background text-foreground">
       <Navbar />
       <main className={cn("flex-1", className)}>{children}</main>
       <Footer />

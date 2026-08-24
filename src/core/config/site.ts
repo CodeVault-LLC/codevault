@@ -27,6 +27,45 @@ export const site = {
   ogImage: "/og-image.png",
 } as const
 
+export const projectsPage = {
+  title: "Projects",
+  introduction: "What we've tried, what changed, and what came out of it.",
+  metaDescription:
+    "CodeVault projects, shared with the work, changes, and limits left intact.",
+  visuals: {
+    orbit: {
+      signal: "Near miss",
+      measure: "Closing distance",
+    },
+    "plant-pi": {
+      reading: "Soil moisture",
+      pump: "Pump",
+      reservoir: "Reservoir",
+    },
+    "git-story": {
+      input: "Git log",
+      output: "The story",
+    },
+    seamark: {
+      field: "Observed tracks",
+      signal: "Review this track",
+    },
+    tex: {
+      source: "Source",
+      page: "Page",
+      heading: "A smaller rebuild",
+      body: "The editor parses the document before it decides what to compile.",
+      emphasis: "Save only what changed.",
+    },
+    sandbox: {
+      host: "Host",
+      guest: "QEMU guest",
+      network: "Restricted network",
+      run: "Disposable run",
+    },
+  },
+} as const
+
 export type NavItem = {
   label: string
   href?: string
@@ -42,9 +81,9 @@ export const mainNav: NavItem[] = [
       {
         heading: "Recent",
         links: [
+          { label: "Sandbox", href: "/projects/sandbox" },
           { label: "Orbit", href: "/projects/orbit" },
           { label: "git-story", href: "/projects/git-story" },
-          { label: "The plant-watering Pi", href: "/projects/plant-pi" },
           { label: "All projects", href: "/projects" },
         ],
       },
@@ -83,6 +122,14 @@ export const releases: {
   href: string
 }[] = [
   {
+    title: "A guest shell for work that should not touch the host",
+    description:
+      "A QEMU sandbox for AI-assisted security work, with deny-by-default networking and the unfinished boundaries shown plainly.",
+    date: "August 22, 2026",
+    category: "Security project",
+    href: "/projects/sandbox",
+  },
+  {
     title: "Orbit — a tiny game we built in a weekend",
     description:
       "A browser game about keeping satellites from colliding. It does a few basic things, and we learned a lot shipping it.",
@@ -98,19 +145,12 @@ export const releases: {
     category: "Open source",
     href: "/projects/git-story",
   },
-  {
-    title: "Teaching a Raspberry Pi to water our plants",
-    description:
-      "Hardware wasn't our field, so we made it one for a month. Sensors, a pump, and a lot of trial and error.",
-    date: "May 9, 2026",
-    category: "Project log",
-    href: "/projects/plant-pi",
-  },
 ]
 
 export const footerNav = {
   Projects: [
     { label: "All projects", href: "/projects" },
+    { label: "Sandbox", href: "/projects/sandbox" },
     { label: "Orbit", href: "/projects/orbit" },
     { label: "git-story", href: "/projects/git-story" },
     { label: "The plant-watering Pi", href: "/projects/plant-pi" },

@@ -11,7 +11,7 @@ export type ProjectStatus = "Shipped" | "In progress" | "Paused"
 
 // Which detail treatment renders this project.
 export type ProjectStyle =
-  "dossier" | "journal" | "readme" | "chart" | "specimen"
+  "dossier" | "journal" | "readme" | "chart" | "specimen" | "containment"
 
 export type LoopPhase = "Trial" | "Experience" | "Adjustment" | "Result"
 
@@ -574,6 +574,90 @@ export const projects: Project[] = [
       "It stays in progress. The obvious next thing is a language server, so the model that already knows where every label lives can be used by editors that are not this one. Until then the honest description is a good editor for people who already know LaTeX, which is a smaller claim than we would like and the only one we can currently make.",
     ],
   },
+  {
+    slug: "sandbox",
+    style: "containment",
+    name: "Sandbox",
+    accent: "contained",
+    summary:
+      "A disposable QEMU environment for AI-assisted vulnerability scanning, where the model gets a real guest shell without getting the host.",
+    status: "In progress",
+    field: "Security engineering",
+    facts: [
+      { label: "Isolation", value: "QEMU guest" },
+      { label: "Default network", value: "None" },
+      { label: "Frame limit", value: "8 MiB" },
+      { label: "License", value: "Apache-2.0" },
+    ],
+    stack: [
+      "Rust 1.85+",
+      "QEMU",
+      "qcow2 overlays",
+      "virtio serial",
+      "JSONL evidence",
+      "Tokio",
+    ],
+    links: [
+      {
+        label: "github.com/CodeVault-LLC/sandbox",
+        href: "https://github.com/CodeVault-LLC/sandbox",
+        kind: "repo",
+      },
+      {
+        label: "Read the security model",
+        href: "https://github.com/CodeVault-LLC/sandbox/blob/main/docs/security-model.md",
+        kind: "writeup",
+      },
+    ],
+    loop: [
+      {
+        phase: "Trial",
+        body: "We wanted AI-assisted security work to happen in a real operating system without handing model-issued commands to the host shell. The smallest credible trial was a typed Rust controller, a QEMU guest, and a management channel that did not need guest networking.",
+      },
+      {
+        phase: "Experience",
+        body: "Once a command ran, output, artifacts, paths, resource use, networking, and cleanup all became untrusted inputs. We stopped asking whether a command could run. We started asking which boundaries still held afterward.",
+      },
+      {
+        phase: "Adjustment",
+        body: "Policy moved outside the guest and outside the model's control. Base images became verified and read-only, every run received a fresh copy-on-write overlay, unsupported network modes failed closed, and the guest shell moved onto virtio serial instead of IP.",
+      },
+      {
+        phase: "Result",
+        body: "A useful deny-by-default core for benign development and controlled evaluation. It is not ready for unrestricted hostile malware: outer worker containment, complete network enforcement, stronger resource controls, immutable audit, and operational approval still have to exist around it.",
+      },
+    ],
+    log: [
+      {
+        date: "2026-08-21",
+        title: "The boundary comes first",
+        tag: "trial",
+        body: "Started with one invariant: model-issued command text never reaches a host shell. The controller constructs typed QEMU arguments and sends work through a framed guest protocol.",
+      },
+      {
+        date: "2026-08-21",
+        title: "Networking fails closed",
+        tag: "note",
+        body: "The default profile gives the guest no NIC. Scoped and controlled Internet modes return an error until an enforcement backend exists; they never fall back to ordinary NAT.",
+      },
+      {
+        date: "2026-08-21",
+        title: "The disk disappears",
+        tag: "note",
+        body: "Each session writes to a unique qcow2 overlay over a verified read-only image. Destroying the session removes the overlay while separately exported evidence remains available.",
+      },
+      {
+        date: "2026-08-22",
+        title: "A useful core, not a safety claim",
+        tag: "in progress",
+        body: "The current review found two control areas implemented, nine partial, and six missing. Host-level containment and operational governance remain release gates for hostile workloads.",
+      },
+    ],
+    notes: [
+      "The shell still works with no guest network device and no automatic access to the host's home directory, credentials, clipboard, devices, or sockets.",
+      "The page keeps the incomplete controls visible because they are part of the project, not footnotes. A sandbox that hides its residual risk is less useful than a smaller one that tells you exactly where its boundary ends.",
+    ],
+  },
 ]
 
 // Where the work is made. The one point on the hero globe that isn't a
@@ -598,6 +682,7 @@ export const projectPaths = {
   "git-story": "/projects/git-story",
   seamark: "/projects/seamark",
   tex: "/projects/tex",
+  sandbox: "/projects/sandbox",
 } as const
 
 export type ProjectSlug = keyof typeof projectPaths
