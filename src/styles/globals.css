@@ -223,25 +223,25 @@
     font-size: var(--text-display-m);
     line-height: 1.1;
     letter-spacing: -0.015em;
-    font-weight: 600;
+    font-weight: var(--tw-font-weight, 600);
   }
   .text-display-l {
     font-size: var(--text-display-l);
     line-height: 1.1;
     letter-spacing: -0.02em;
-    font-weight: 600;
+    font-weight: var(--tw-font-weight, 600);
   }
   .text-display-xl {
     font-size: var(--text-display-xl);
     line-height: 1.05;
     letter-spacing: -0.025em;
-    font-weight: 600;
+    font-weight: var(--tw-font-weight, 600);
   }
   .text-display-xxl {
     font-size: var(--text-display-xxl);
     line-height: 1.05;
     letter-spacing: -0.03em;
-    font-weight: 600;
+    font-weight: var(--tw-font-weight, 600);
   }
   .text-paragraph-s {
     font-size: var(--text-paragraph-s);
@@ -344,4 +344,63 @@
 
   font-family: var(--font-sans);
   font-size: var(--text-ui-base);
+}
+
+/* Research reading scale: compact supporting text, scoped to these pages. */
+.research-surface {
+  --text-paragraph-s: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --text-paragraph-m: 1rem;
+  --text-display-l: clamp(2.375rem, 1.9rem + 2vw, 3.5rem);
+  --severity-critical: #c62828;
+  --severity-high: #a64700;
+  --severity-medium: #806100;
+  --severity-low: #287344;
+  --severity-info: #2463a1;
+}
+
+.research-surface h1 {
+  font-weight: 400;
+}
+.research-surface .text-paragraph-m {
+  line-height: 1.6;
+}
+
+/* Severity colors are independent of the brand's clay action/error accent.
+   Amber is darker on paper so medium-severity text remains readable. */
+.dark .research-surface {
+  --severity-critical: #ff7474;
+  --severity-high: #ffad66;
+  --severity-medium: #e9cb56;
+  --severity-low: #79d69c;
+  --severity-info: #86baff;
+}
+.research-surface .research-severity {
+  color: var(--severity-color, var(--muted-foreground));
+  font-weight: 600;
+}
+.research-surface .research-severity[data-severity="Critical"] {
+  --severity-color: var(--severity-critical);
+  font-weight: 700;
+}
+.research-severity[data-severity="High"] {
+  --severity-color: var(--severity-high);
+}
+.research-severity[data-severity="Medium"] {
+  --severity-color: var(--severity-medium);
+}
+.research-severity[data-severity="Low"] {
+  --severity-color: var(--severity-low);
+}
+.research-severity[data-severity="Info"] {
+  --severity-color: var(--severity-info);
+}
+
+/* Long-form pages share a reading rhythm without changing compact UI copy. */
+.editorial-prose p,
+.editorial-prose li {
+  line-height: 1.7;
+}
+.editorial-prose h2,
+.editorial-prose h3 {
+  scroll-margin-top: 9rem;
 }

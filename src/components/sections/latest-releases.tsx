@@ -1,8 +1,9 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 
 import { Container } from "@/components/layout/container"
-import { releases } from "@/core/config/site"
+import { homePage, releases } from "@/core/config/site"
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
 export function LatestReleases() {
@@ -10,7 +11,7 @@ export function LatestReleases() {
     <section
       id="releases"
       aria-labelledby="releases-title"
-      className="border-faded border-y bg-ivory-medium py-20 md:py-28"
+      className="border-faded border-y bg-secondary py-20 md:py-28"
     >
       <Container>
         <motion.div
@@ -18,31 +19,24 @@ export function LatestReleases() {
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
-          className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
+          className="flex items-end justify-between gap-8"
         >
-          <div>
-            <motion.p
-              variants={fadeUp}
-              className="text-faded text-detail-xs font-medium uppercase"
-            >
-              Recent projects
-            </motion.p>
-            <motion.h2
-              id="releases-title"
-              variants={fadeUp}
-              className="mt-3 max-w-xl text-display-l font-semibold text-balance"
-            >
-              What we've been trying lately.
-            </motion.h2>
-          </div>
-          <motion.a
+          <motion.h2
+            id="releases-title"
             variants={fadeUp}
-            href="https://github.com/CodeVault-LLC"
-            className="group inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors hover:text-foreground"
+            className="text-display-l text-balance"
           >
-            Everything on GitHub
-            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </motion.a>
+            {homePage.recent.title}
+          </motion.h2>
+          <motion.div variants={fadeUp} className="hidden sm:block">
+            <Link
+              to="/projects"
+              className="group inline-flex min-h-11 items-center gap-2 text-paragraph-s text-muted-foreground transition-colors hover:text-foreground focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+            >
+              {homePage.recent.action}
+              <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" />
+            </Link>
+          </motion.div>
         </motion.div>
 
         <motion.ul
@@ -50,33 +44,36 @@ export function LatestReleases() {
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
-          className="border-faded bg-faded mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border md:grid-cols-3"
+          className="border-faded mt-10 border-t"
         >
           {releases.map((r) => (
             <motion.li
               key={r.title}
               variants={fadeUp}
-              className="group flex flex-col bg-oat p-7 transition-colors hover:bg-[#dcd2bd]"
+              className="border-faded border-b"
             >
-              <p className="text-faded text-detail-xs font-medium uppercase">
-                {r.category} · {r.date}
-              </p>
-              <h3 className="mt-3 text-display-s font-semibold text-balance">
-                {r.title}
-              </h3>
-              <p className="mt-3 grow text-paragraph-s text-foreground/75">
-                {r.description}
-              </p>
               <a
                 href={r.href}
-                className="mt-6 inline-flex items-center gap-1.5 text-paragraph-s font-medium underline-offset-4 group-hover:underline"
+                className="group grid min-h-28 items-center gap-3 py-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset md:grid-cols-12 md:gap-6 md:py-8"
               >
-                Take a look
-                <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <time className="text-detail-xs text-muted-foreground md:col-span-3">
+                  {r.date}
+                </time>
+                <h3 className="text-display-m text-balance md:col-span-8">
+                  {r.title}
+                </h3>
+                <ArrowRight className="size-5 text-muted-foreground transition-[translate,color] duration-200 group-hover:translate-x-1 group-hover:text-foreground motion-reduce:transition-none md:col-span-1 md:justify-self-end" />
               </a>
             </motion.li>
           ))}
         </motion.ul>
+        <Link
+          to="/projects"
+          className="group mt-7 inline-flex min-h-11 items-center gap-2 text-paragraph-s text-muted-foreground transition-colors hover:text-foreground focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none sm:hidden"
+        >
+          {homePage.recent.action}
+          <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" />
+        </Link>
       </Container>
     </section>
   )

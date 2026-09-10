@@ -1,93 +1,55 @@
 import { Link, useRouterState } from "@tanstack/react-router"
-import { motion, useReducedMotion } from "framer-motion"
-import { useEffect, useRef } from "react"
 
 import { Container } from "@/components/layout/container"
 import { LogoGlyph } from "@/components/brand/logo-glyph"
 import { cn } from "@/lib/utils"
 import { legalNav } from "@/core/config/legal"
+import { legalPresentation } from "@/core/config/site"
 
-/**
- * Sub-navigation for the /legal cluster, rendered once by the layout route.
- *
- * Deliberately the same furniture as `AboutNav` — someone who arrives here
- * from the footer should recognise where they are without re-learning the
- * page. Five labels don't fit a phone, so the row scrolls with a fade on the
- * right edge and the active tab is scrolled into view on arrival.
- */
 export function LegalNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const reduceMotion = useReducedMotion() ?? false
-  const activeRef = useRef<HTMLAnchorElement | null>(null)
-
-  // Trailing slashes aside, /legal must not match /legal/privacy.
   const currentHref = pathname.replace(/\/$/, "")
 
-  useEffect(() => {
-    activeRef.current?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "nearest",
-      inline: "nearest",
-    })
-  }, [currentHref, reduceMotion])
-
   return (
-    <div className="border-faded relative border-b">
+    <header className="sticky top-0 z-40 border-b border-border bg-background">
       <Container>
-        <nav aria-label="Legal">
-          <ul className="-mx-6 flex scrollbar-none items-center gap-1 overflow-x-auto px-6">
-            <li className="mr-1 flex shrink-0 items-center gap-1">
-              <Link
-                to="/"
-                aria-label="CodeVault home"
-                className="group inline-flex items-center rounded-sm px-2 py-4 text-foreground/60 transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
-              >
-                <LogoGlyph className="size-5 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-90 motion-reduce:transition-none motion-reduce:group-hover:rotate-0" />
-              </Link>
-              <span aria-hidden className="h-4 w-px bg-border" />
-            </li>
-
-            {legalNav.map((item) => {
-              const current = currentHref === item.href
-
-              return (
-                <li key={item.href} className="shrink-0">
-                  <Link
-                    to={item.href}
-                    ref={current ? activeRef : undefined}
-                    aria-current={current ? "page" : undefined}
-                    className={cn(
-                      "relative inline-block rounded-sm px-3 py-4 text-sm whitespace-nowrap transition-colors outline-none",
-                      "focus-visible:ring-2 focus-visible:ring-ring/50",
-                      current
-                        ? "text-foreground"
-                        : "text-foreground/60 hover:text-foreground"
-                    )}
-                  >
-                    {item.label}
-
-                    {current && (
-                      <motion.span
-                        aria-hidden
-                        layoutId={
-                          reduceMotion ? undefined : "legal-nav-indicator"
-                        }
-                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute inset-x-3 bottom-0 h-px bg-foreground"
-                      />
-                    )}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </nav>
+        <div className="flex flex-col sm:min-h-20 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+          <Link
+            to="/"
+            aria-label={legalPresentation.homeLabel}
+            className="flex min-h-16 w-fit items-center gap-3 text-display-xs font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <LogoGlyph aria-hidden="true" className="size-6" />
+            {legalPresentation.home}
+          </Link>
+          <nav
+            aria-label={legalPresentation.navigation}
+            className="-mx-6 min-w-0 overflow-x-auto px-6 sm:mx-0 sm:px-0"
+          >
+            <ul className="flex min-w-max items-center justify-between gap-2 sm:gap-6">
+              {legalNav.map((item) => {
+                const current = currentHref === item.href
+                return (
+                  <li key={item.href}>
+                    <Link
+                      to={item.href}
+                      aria-current={current ? "page" : undefined}
+                      className={cn(
+                        "relative flex min-h-12 items-center border-b-2 text-paragraph-s transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-20",
+                        current
+                          ? "border-olive text-foreground"
+                          : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+        </div>
       </Container>
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-linear-to-l from-background to-transparent sm:hidden"
-      />
-    </div>
+    </header>
   )
 }

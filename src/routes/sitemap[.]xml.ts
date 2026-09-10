@@ -5,7 +5,7 @@ import { aboutNav } from "@/core/config/about"
 import { legalNav } from "@/core/config/legal"
 import { projectPaths } from "@/core/config/projects"
 import { recordUrl } from "@/core/reports/citation"
-import { site } from "@/core/config/site"
+import { researchFindings, researchPage, site } from "@/core/config/site"
 import { sitemapEntries } from "@/server/reports/queries"
 
 // `sitemap.xml`, generated from the same query layer as every other listing
@@ -65,6 +65,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         // canonical the homepage advertises.
         const pagePaths = [
           ...EXTRA_PATHS,
+          researchPage.path,
+          ...researchFindings.map((finding) => finding.path),
           ...aboutNav.map((item) => item.href),
           ...Object.values(projectPaths),
           ...legalNav.map((item) => item.href),

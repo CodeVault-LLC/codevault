@@ -19,11 +19,13 @@ import { Route as EnrollRouteImport } from './routes/enroll'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResearchIndexRouteImport } from './routes/research.index'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AboutIndexRouteImport } from './routes/about.index'
+import { Route as ResearchSlugRouteImport } from './routes/research.$slug'
 import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
 import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
 import { Route as ProjectsTexRouteImport } from './routes/projects.tex'
@@ -103,6 +105,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchIndexRoute = ResearchIndexRouteImport.update({
+  id: '/research/',
+  path: '/research/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportsIndexRoute = ReportsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -127,6 +134,11 @@ const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AboutRoute,
+} as any)
+const ResearchSlugRoute = ResearchSlugRouteImport.update({
+  id: '/research/$slug',
+  path: '/research/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsBrowseRoute = ReportsBrowseRouteImport.update({
   id: '/browse',
@@ -302,11 +314,13 @@ export interface FileRoutesByFullPath {
   '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
+  '/research/$slug': typeof ResearchSlugRoute
   '/about/': typeof AboutIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
+  '/research/': typeof ResearchIndexRoute
   '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
   '/admin/reports/$reportId': typeof AdminReportsReportIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -343,11 +357,13 @@ export interface FileRoutesByTo {
   '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
+  '/research/$slug': typeof ResearchSlugRoute
   '/about': typeof AboutIndexRoute
   '/admin': typeof AdminIndexRoute
   '/legal': typeof LegalIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/reports': typeof ReportsIndexRoute
+  '/research': typeof ResearchIndexRoute
   '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
   '/admin/reports/$reportId': typeof AdminReportsReportIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -389,11 +405,13 @@ export interface FileRoutesById {
   '/projects/tex': typeof ProjectsTexRoute
   '/reports/$accessionId': typeof ReportsAccessionIdRoute
   '/reports/browse': typeof ReportsBrowseRoute
+  '/research/$slug': typeof ResearchSlugRoute
   '/about/': typeof AboutIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/reports/': typeof ReportsIndexRoute
+  '/research/': typeof ResearchIndexRoute
   '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
   '/admin/reports/$reportId': typeof AdminReportsReportIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -436,11 +454,13 @@ export interface FileRouteTypes {
     | '/projects/tex'
     | '/reports/$accessionId'
     | '/reports/browse'
+    | '/research/$slug'
     | '/about/'
     | '/admin/'
     | '/legal/'
     | '/projects/'
     | '/reports/'
+    | '/research/'
     | '/admin/deposit/$draftId'
     | '/admin/reports/$reportId'
     | '/api/auth/$'
@@ -477,11 +497,13 @@ export interface FileRouteTypes {
     | '/projects/tex'
     | '/reports/$accessionId'
     | '/reports/browse'
+    | '/research/$slug'
     | '/about'
     | '/admin'
     | '/legal'
     | '/projects'
     | '/reports'
+    | '/research'
     | '/admin/deposit/$draftId'
     | '/admin/reports/$reportId'
     | '/api/auth/$'
@@ -522,11 +544,13 @@ export interface FileRouteTypes {
     | '/projects/tex'
     | '/reports/$accessionId'
     | '/reports/browse'
+    | '/research/$slug'
     | '/about/'
     | '/admin/'
     | '/legal/'
     | '/projects/'
     | '/reports/'
+    | '/research/'
     | '/admin/deposit/$draftId'
     | '/admin/reports/$reportId'
     | '/api/auth/$'
@@ -557,7 +581,9 @@ export interface RootRouteChildren {
   ProjectsSandboxRoute: typeof ProjectsSandboxRoute
   ProjectsSeamarkRoute: typeof ProjectsSeamarkRoute
   ProjectsTexRoute: typeof ProjectsTexRoute
+  ResearchSlugRoute: typeof ResearchSlugRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ResearchIndexRoute: typeof ResearchIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiIngestNotifyRoute: typeof ApiIngestNotifyRoute
   ProjectsPlantPiLogRoute: typeof ProjectsPlantPiLogRoute
@@ -635,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research/': {
+      id: '/research/'
+      path: '/research'
+      fullPath: '/research/'
+      preLoaderRoute: typeof ResearchIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reports/': {
       id: '/reports/'
       path: '/'
@@ -669,6 +702,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/about/'
       preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof AboutRoute
+    }
+    '/research/$slug': {
+      id: '/research/$slug'
+      path: '/research/$slug'
+      fullPath: '/research/$slug'
+      preLoaderRoute: typeof ResearchSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/reports/browse': {
       id: '/reports/browse'
@@ -963,7 +1003,9 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsSandboxRoute: ProjectsSandboxRoute,
   ProjectsSeamarkRoute: ProjectsSeamarkRoute,
   ProjectsTexRoute: ProjectsTexRoute,
+  ResearchSlugRoute: ResearchSlugRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  ResearchIndexRoute: ResearchIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiIngestNotifyRoute: ApiIngestNotifyRoute,
   ProjectsPlantPiLogRoute: ProjectsPlantPiLogRoute,

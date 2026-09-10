@@ -1,4 +1,4 @@
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 import { cn } from "@/lib/utils"
@@ -29,34 +29,32 @@ export function AboutSection({
   children,
   className,
 }: AboutSectionProps) {
+  const reduceMotion = useReducedMotion()
   const headingId = `section-${index}`
 
   return (
     <motion.section
       aria-labelledby={headingId}
       variants={staggerContainer(0.08)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportOnce}
       className={cn("border-faded border-t pt-10 md:pt-14", className)}
     >
-      <div className="grid gap-5 md:grid-cols-[7rem_1fr] md:gap-12">
+      <div className="grid gap-5 md:grid-cols-[1fr_2fr] md:gap-16">
         <motion.div
-          variants={fadeUp}
+          variants={reduceMotion ? undefined : fadeUp}
           className="flex items-baseline gap-3 md:flex-col md:gap-1.5"
         >
-          <span className="text-faded font-mono text-detail-xs tabular-nums">
-            {index}
-          </span>
-          <span className="text-faded text-detail-xs font-medium uppercase">
+          <span className="text-paragraph-s text-muted-foreground">
             {label}
           </span>
         </motion.div>
 
-        <div className="max-w-2xl">
+        <div className="editorial-prose max-w-2xl">
           <motion.h2
             id={headingId}
-            variants={fadeUp}
+            variants={reduceMotion ? undefined : fadeUp}
             className="text-display-m font-semibold text-balance"
           >
             {title}
@@ -65,7 +63,7 @@ export function AboutSection({
           {body?.map((paragraph) => (
             <motion.p
               key={paragraph}
-              variants={fadeUp}
+              variants={reduceMotion ? undefined : fadeUp}
               className="mt-5 text-paragraph-m text-pretty text-muted-foreground"
             >
               {paragraph}

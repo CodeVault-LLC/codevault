@@ -34,16 +34,16 @@ export function Contact() {
       <Container className="pb-20 md:pb-28">
         <motion.ul
           variants={staggerContainer(0.1, 0.05)}
-          initial="hidden"
+          initial={false}
           whileInView="show"
           viewport={viewportOnce}
-          className="grid gap-4 md:grid-cols-2"
+          className="grid gap-10 border-t border-border pt-8 md:grid-cols-2 md:gap-16"
         >
           {contact.channels.map((channel) => (
             <motion.li
               key={channel.kind}
               variants={fadeUp}
-              className="border-faded flex flex-col rounded-2xl border p-7 transition-colors hover:bg-muted/60 md:p-8"
+              className="flex min-w-0 flex-col py-2"
             >
               <span className="text-faded flex items-center gap-2 text-detail-xs font-medium uppercase">
                 {channel.kind === "email" ? (
@@ -59,12 +59,12 @@ export function Contact() {
               ) : (
                 <a
                   href={channel.href}
-                  className="group mt-4 inline-flex w-fit items-baseline gap-1.5 text-display-s font-medium transition-colors outline-none hover:text-foreground/70 focus-visible:ring-2 focus-visible:ring-ring/50"
+                  className="group mt-4 inline-flex w-fit items-baseline gap-1.5 text-display-s font-medium break-words transition-colors outline-none hover:text-foreground/70 focus-visible:ring-2 focus-visible:ring-ring/50"
                 >
                   <span className="border-b border-transparent transition-colors group-hover:border-foreground/30">
                     {channel.value}
                   </span>
-                  <ArrowUpRight className="size-4 shrink-0 self-center transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="size-4 shrink-0 self-center transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none" />
                 </a>
               )}
 
@@ -77,7 +77,7 @@ export function Contact() {
 
         <motion.p
           variants={fadeUp}
-          initial="hidden"
+          initial={false}
           whileInView="show"
           viewport={viewportOnce}
           className="text-faded mt-8 max-w-lg text-paragraph-s text-pretty"
@@ -126,7 +126,7 @@ function EmailValue({ value, href }: { value: string; href: string }) {
     <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
       <a
         href={href}
-        className="group inline-flex w-fit items-baseline text-display-s font-medium transition-colors outline-none hover:text-foreground/70 focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="group inline-flex w-fit items-baseline text-display-s font-medium break-words transition-colors outline-none hover:text-foreground/70 focus-visible:ring-2 focus-visible:ring-ring/50"
       >
         <span className="border-b border-transparent transition-colors group-hover:border-foreground/30">
           {value}
@@ -143,18 +143,12 @@ function EmailValue({ value, href }: { value: string; href: string }) {
             // the address is visible and selectable either way.
             .catch(() => undefined)
         }}
-        className="border-faded text-faded inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-detail-xs transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="border-faded text-faded inline-flex min-h-11 items-center gap-1.5 rounded-md border px-2 py-1 text-detail-xs transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
       >
-        <motion.span
-          key={copied ? "copied" : "idle"}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center gap-1.5"
-        >
+        <span className="inline-flex items-center gap-1.5">
           {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
           {copied ? "Copied" : "Copy"}
-        </motion.span>
+        </span>
       </button>
 
       {/* Announced politely so the confirmation isn't only a colour/icon change. */}

@@ -21,7 +21,9 @@ export function WhoWeAre() {
           page is about how the work happens, not who is in the room. */}
       <Plate
         bleed
+        priority
         src="/stock/hands-desk-laptops-overhead.avif"
+        srcSet="/stock/hands-desk-laptops-overhead-small.webp 800w, /stock/hands-desk-laptops-overhead.avif 2000w"
         alt="A wooden table seen from above, covered with laptops, notebooks, cables and cups, with several pairs of hands working."
         aspect="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
       />
@@ -37,6 +39,7 @@ export function WhoWeAre() {
           attribution not required. */}
       <Plate
         src="/stock/circuit-board-macro.avif"
+        srcSet="/stock/circuit-board-macro-small.webp 800w, /stock/circuit-board-macro.avif 2000w"
         alt="A close, shallow-focus photograph of a circuit board, its components receding out of focus."
         aspect="aspect-[16/10] md:aspect-[21/9]"
         caption="Hardware wasn't our field, so we made it one for a month."

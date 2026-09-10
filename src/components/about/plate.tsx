@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils"
 type PlateProps = {
   src: string
   alt: string
+  srcSet?: string
+  priority?: boolean
   /** Shown under the image. Editorial, not a description — `alt` does that. */
   caption?: string
   /** Spans the viewport instead of sitting inside the container measure. */
@@ -35,6 +37,8 @@ type PlateProps = {
 export function Plate({
   src,
   alt,
+  srcSet,
+  priority = false,
   caption,
   bleed = false,
   aspect = "aspect-[16/9]",
@@ -56,14 +60,19 @@ export function Plate({
       ref={frameRef}
       className={cn(
         "overflow-hidden bg-ivory-dark",
-        !bleed && "border-faded rounded-2xl border",
+        !bleed && "border-faded border",
         className
       )}
     >
       <motion.img
         src={src}
         alt={alt}
-        loading="lazy"
+        srcSet={srcSet}
+        sizes={
+          bleed ? "100vw" : "(min-width: 1152px) 1104px, calc(100vw - 48px)"
+        }
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : undefined}
         decoding="async"
         style={reduceMotion ? undefined : { y, scale: 1.12 }}
         className={cn("w-full object-cover", aspect)}
@@ -74,7 +83,7 @@ export function Plate({
   return (
     <motion.figure
       variants={fadeIn}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportOnce}
     >

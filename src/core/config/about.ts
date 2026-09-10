@@ -41,19 +41,19 @@ export type AboutSection = {
 export const projectLoop: { title: string; body: string }[] = [
   {
     title: "Trial",
-    body: "We start by just trying it — a prototype, a spike, a weekend build. Something real enough to react to.",
+    body: "Build something real enough to react to.",
   },
   {
     title: "Experience",
-    body: "Then we live with it. What's annoying, what's surprising, what actually matters only shows up once you use the thing.",
+    body: "Use it until the interesting problems show up.",
   },
   {
     title: "Adjustment",
-    body: "We change our minds freely. Most of what we learn arrives after the first version turns out to be wrong.",
+    body: "Change the idea when the evidence changes.",
   },
   {
     title: "Result",
-    body: "Whatever we end up with, we share it — a tool, a write-up, or just a repo. Then we point ourselves at the next thing.",
+    body: "Share the tool, write-up, repository, or dead end.",
   },
 ]
 

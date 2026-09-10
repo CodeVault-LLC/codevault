@@ -11,7 +11,7 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
 const reveal = {
   variants: staggerContainer(0.08, 0.05),
-  initial: "hidden",
+  initial: false,
   whileInView: "show",
   viewport: viewportOnce,
 } as const

@@ -24,7 +24,9 @@ export function AboutIndex() {
           symmetry looking out at something, which is the logo. */}
       <Plate
         bleed
+        priority
         src="/stock/aperture-earth-from-orbit-window.avif"
+        srcSet="/stock/aperture-earth-from-orbit-window-small.webp 800w, /stock/aperture-earth-from-orbit-window.avif 2000w"
         alt="The cupola of a spacecraft, its windows arranged in a ring around a central pane, looking down at the Earth below."
         aspect="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
       />
@@ -36,16 +38,16 @@ export function AboutIndex() {
           <AboutSection {...loop}>
             <motion.ol
               variants={staggerContainer(0.08, 0.1)}
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
-              className="border-faded bg-faded mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2"
+              className="mt-10 grid grid-cols-1 gap-x-10 sm:grid-cols-2"
             >
               {projectLoop.map((step, i) => (
                 <motion.li
                   key={step.title}
                   variants={fadeUp}
-                  className="bg-background p-6"
+                  className="border-t border-border py-6"
                 >
                   <span className="text-faded font-mono text-detail-xs tabular-nums">
                     {String(i + 1).padStart(2, "0")}
@@ -69,6 +71,7 @@ export function AboutIndex() {
           attribution not required. */}
       <Plate
         src="/stock/valley-road-morning-light.avif"
+        srcSet="/stock/valley-road-morning-light-small.webp 800w, /stock/valley-road-morning-light.avif 2000w"
         alt="A single road winding through green hills at sunrise, with low cloud sitting in the valley."
         aspect="aspect-[16/10] md:aspect-[21/9]"
       />
