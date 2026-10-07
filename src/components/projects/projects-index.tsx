@@ -1,102 +1,133 @@
-import { Link } from "@tanstack/react-router"
-
+import { useState } from "react"
+import { Search } from "lucide-react"
+import { TextReveal } from "@/components/editorial/text-reveal"
 import { Container } from "@/components/layout/container"
 import { ProjectShell } from "@/components/projects/project-shell"
-import { ProjectVisual } from "@/components/projects/project-visuals"
-import { projectPath, projects } from "@/core/config/projects"
+import { ProjectCard } from "@/components/projects/project-card"
+import { getProject, projects } from "@/core/config/projects"
 import { projectsPage } from "@/core/config/site"
-import { cn } from "@/lib/utils"
 
-/*
-THESIS: Projects are bodies of work, not equal items in a product grid.
-OWN-WORLD: Ivory editorial ground, slate ink, olive notation, square visual
-fields, and project-specific diagrams with no card chrome.
-STORY: The reader sees what each project is and one visual expression of the
-work before choosing what to open.
-FIRST VIEWPORT: A compact split introduction followed by Orbit and the opening
-of Plant Pi, each pairing text with a substantial visual field.
-FORM: Project chapters, the delegated choice from seed ce4e42ae.
-FINISH: The page is checked at desktop and mobile widths; its diagrams are
-code-native, so there are no shipping raster assets to track.
-*/
+const fields = Array.from(new Set(projects.map((project) => project.field)))
+const statuses = Array.from(new Set(projects.map((project) => project.status)))
+
 export function ProjectsIndex() {
+  const [query, setQuery] = useState("")
+  const [field, setField] = useState("")
+  const [status, setStatus] = useState("")
+  const filtered = projects.filter(
+    (project) =>
+      (!field || project.field === field) &&
+      (!status || project.status === status) &&
+      `${project.name} ${project.summary} ${project.field}`
+        .toLowerCase()
+        .includes(query.trim().toLowerCase())
+  )
+  const reset = () => {
+    setQuery("")
+    setField("")
+    setStatus("")
+  }
+
   return (
     <ProjectShell>
-      <section
-        aria-labelledby="projects-title"
-        className="border-faded border-b"
-        data-impeccable-seed="ce4e42ae"
-      >
-        <Container className="grid min-w-0 gap-10 py-20 md:grid-cols-2 md:items-end md:py-28">
-          <h1
-            id="projects-title"
-            className="text-display-xxl font-medium text-balance"
-          >
-            {projectsPage.title}
-          </h1>
-          <p className="max-w-md text-paragraph-l text-pretty text-foreground/75 md:justify-self-end">
-            {projectsPage.introduction}
-          </p>
+      <section aria-labelledby="projects-title">
+        <Container className="pt-14 pb-14 md:pt-24 md:pb-20">
+          <div className="grid items-start gap-8 md:grid-cols-[1.3fr_1fr] md:gap-20">
+            <h1 id="projects-title" className="text-display-xxl font-medium">
+              <TextReveal text={projectsPage.title} />
+            </h1>
+            <p className="max-w-md pb-2 text-paragraph-l text-pretty text-muted-foreground">
+              {projectsPage.introduction}
+            </p>
+          </div>
         </Container>
       </section>
-
-      <ul className="border-faded min-w-0 overflow-hidden border-b">
-        {projects.map((project, index) => {
-          const visualFirst = index % 2 === 1
-
-          return (
-            <li
-              key={project.slug}
-              className="border-faded min-w-0 overflow-hidden border-t first:border-t-0"
+      <Container>
+        <ProjectCard
+          project={getProject(projectsPage.featuredSlug)!}
+          featured
+        />
+      </Container>
+      <section aria-labelledby="project-index-title" className="section-space">
+        <Container>
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <h2 id="project-index-title" className="text-display-l font-normal">
+              {projectsPage.collection}
+            </h2>
+            <p
+              role="status"
+              aria-live="polite"
+              className="font-mono text-detail-xs text-muted-foreground"
             >
-              <Container className="min-w-0 px-0 sm:px-6">
-                <article
-                  aria-labelledby={`project-${project.slug}`}
-                  className={cn(
-                    "grid min-h-[32rem] min-w-0",
-                    visualFirst
-                      ? "lg:grid-cols-[minmax(0,1.55fr)_minmax(18rem,0.72fr)]"
-                      : "lg:grid-cols-[minmax(18rem,0.72fr)_minmax(0,1.55fr)]"
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "flex min-w-0 flex-col justify-center px-6 py-14 sm:px-0 sm:py-20 lg:px-10 lg:py-24",
-                      visualFirst && "lg:order-2"
-                    )}
-                  >
-                    <h2
-                      id={`project-${project.slug}`}
-                      className="text-display-l font-medium text-balance"
-                    >
-                      <Link
-                        to={projectPath(project.slug)}
-                        className="transition-colors outline-none hover:text-olive focus-visible:text-olive focus-visible:ring-2 focus-visible:ring-ring/50"
-                      >
-                        {project.name}
-                      </Link>
-                    </h2>
-                    <p className="mt-6 max-w-sm text-paragraph-m text-pretty text-foreground/70">
-                      {project.summary}
-                    </p>
-                  </div>
-
-                  <Link
-                    to={projectPath(project.slug)}
-                    aria-label={project.name}
-                    className={cn(
-                      "group/visual border-faded min-h-80 min-w-0 overflow-hidden border-t outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset sm:min-h-96 lg:min-h-full lg:border-t-0 lg:border-l",
-                      visualFirst && "lg:order-1 lg:border-r lg:border-l-0"
-                    )}
-                  >
-                    <ProjectVisual project={project} />
-                  </Link>
-                </article>
-              </Container>
-            </li>
-          )
-        })}
-      </ul>
+              {filtered.length} / {projects.length} {projectsPage.countLabel}
+            </p>
+          </div>
+          <div className="mt-8 grid gap-4 border-y border-border py-5 md:grid-cols-[1.5fr_1fr_1fr]">
+            <div className="relative">
+              <Search
+                aria-hidden="true"
+                className="pointer-events-none absolute top-3.5 left-3 size-4 text-muted-foreground"
+              />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                aria-label={projectsPage.searchLabel}
+                placeholder={projectsPage.searchPlaceholder}
+                className="focus-ring min-h-11 w-full bg-secondary py-2 pr-3 pl-10 text-paragraph-s placeholder:text-muted-foreground"
+              />
+            </div>
+            <select
+              value={field}
+              onChange={(event) => setField(event.target.value)}
+              aria-label={projectsPage.fieldLabel}
+              className="focus-ring min-h-11 min-w-0 bg-background px-3 text-paragraph-s"
+            >
+              <option value="">{projectsPage.allFields}</option>
+              {fields.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+            <select
+              value={status}
+              onChange={(event) => setStatus(event.target.value)}
+              aria-label={projectsPage.statusLabel}
+              className="focus-ring min-h-11 min-w-0 bg-background px-3 text-paragraph-s"
+            >
+              <option value="">{projectsPage.allStatuses}</option>
+              {statuses.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </div>
+          {filtered.length ? (
+            <ul className="mt-10 grid gap-x-8 gap-y-14 md:grid-cols-2 lg:gap-x-12 lg:gap-y-20">
+              {filtered.map((project) => (
+                <li key={project.slug}>
+                  <ProjectCard project={project} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="py-20">
+              <p className="text-paragraph-m text-muted-foreground">
+                {projectsPage.empty}
+              </p>
+              <button
+                type="button"
+                onClick={reset}
+                className="editorial-link mt-5"
+              >
+                {projectsPage.reset}
+              </button>
+            </div>
+          )}
+        </Container>
+      </section>
     </ProjectShell>
   )
 }

@@ -9,7 +9,7 @@ import { CITATION_FORMATS } from "@/core/reports/citation-formats"
 export function CitationLinks({ accessionId }: CitationLinksProps) {
   return (
     <p className="text-faded flex flex-wrap items-baseline gap-x-4 gap-y-1 text-detail-xs">
-      <span className="tracking-wide uppercase">Cite</span>
+      <span className="tracking-wide">Cite</span>
       {CITATION_FORMATS.map((format) => (
         <a
           key={format.slug}

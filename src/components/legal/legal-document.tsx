@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 
 type LegalDocumentProps = {
   page: {
+    updated?: string
     eyebrow: string
     heading: { before: string; accent: string; after?: string }
     lede: string
@@ -65,7 +66,7 @@ export function LegalDocument({ page, children }: LegalDocumentProps) {
           >
             <h1
               id="page-title"
-              className="text-display-xl font-normal text-balance"
+              className="text-display-xxl font-normal text-balance"
             >
               {page.heading.before}
               <span className="font-serif font-normal italic">
@@ -78,20 +79,20 @@ export function LegalDocument({ page, children }: LegalDocumentProps) {
             </p>
             <p className="mt-6 text-paragraph-s text-muted-foreground">
               {legalPresentation.updated}{" "}
-              <time dateTime={legal.effective}>
+              <time dateTime={page.updated ?? legal.effective}>
                 {new Intl.DateTimeFormat("en-GB", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
                   timeZone: "UTC",
-                }).format(new Date(legal.effective))}
+                }).format(new Date(page.updated ?? legal.effective))}
               </time>
             </p>
           </header>
           <aside className="mt-10 lg:mt-12">
             <nav
               aria-label={legalPresentation.contents}
-              className="sticky top-24 hidden lg:block"
+              className="sticky top-28 hidden lg:block"
             >
               <p className="mb-4 text-paragraph-s font-medium">
                 {legalPresentation.contents}

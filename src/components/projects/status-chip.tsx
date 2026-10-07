@@ -20,7 +20,7 @@ export function StatusChip({
     <span
       className={cn(
         "border-faded inline-flex items-center gap-2 rounded-full border px-3 py-1",
-        "text-faded text-detail-xs font-medium uppercase",
+        "text-faded text-detail-xs font-medium",
         className
       )}
     >

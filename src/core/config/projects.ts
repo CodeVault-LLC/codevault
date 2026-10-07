@@ -95,14 +95,7 @@ export const projects: Project[] = [
       { label: "License", value: "MIT" },
     ],
     stack: ["TypeScript", "Canvas 2D", "Vite", "Web Audio"],
-    links: [
-      { label: "Play in the browser", href: "/projects/orbit", kind: "demo" },
-      {
-        label: "github.com/codevault/orbit",
-        href: "/projects/orbit",
-        kind: "repo",
-      },
-    ],
+    links: [],
     loop: [
       {
         phase: "Trial",
@@ -185,11 +178,6 @@ export const projects: Project[] = [
       "A relay we were slightly afraid of",
     ],
     links: [
-      {
-        label: "github.com/codevault/plant-pi",
-        href: "/projects/plant-pi",
-        kind: "repo",
-      },
       {
         label: "Read the full log",
         href: "/projects/plant-pi/log",
@@ -279,13 +267,8 @@ export const projects: Project[] = [
     stack: ["TypeScript", "Node 20", "simple-git", "Commander"],
     links: [
       {
-        label: "github.com/codevault/git-story",
-        href: "/projects/git-story",
-        kind: "repo",
-      },
-      {
         label: "Read the design notes",
-        href: "/projects/git-story",
+        href: "/projects/git-story#design-notes",
         kind: "writeup",
       },
     ],
@@ -371,13 +354,8 @@ export const projects: Project[] = [
     ],
     links: [
       {
-        label: "github.com/codevault/seamark",
-        href: "/projects/seamark",
-        kind: "repo",
-      },
-      {
         label: "Detector notes and confounders",
-        href: "/projects/seamark",
+        href: "/projects/seamark#section-04",
         kind: "writeup",
       },
     ],
@@ -490,7 +468,7 @@ export const projects: Project[] = [
       },
       {
         label: "Build pipeline notes",
-        href: "/projects/tex",
+        href: "/projects/tex#section-04",
         kind: "writeup",
       },
     ],

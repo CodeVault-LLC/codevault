@@ -89,7 +89,7 @@ export function TrackPlate() {
           aria-labelledby="track-plate-title track-plate-desc"
         >
           <title id="track-plate-title">
-            Chart plate of case {workedCase.id}
+            {`Chart plate of case ${workedCase.id}`}
           </title>
           <desc id="track-plate-desc">
             A vessel track crossing a seabed cable corridor from the north-west.
@@ -146,7 +146,7 @@ export function TrackPlate() {
           <text
             x="646"
             y="44"
-            className="fill-current font-mono text-detail-xs text-foreground/50 uppercase"
+            className="fill-current font-mono text-detail-xs text-foreground/50"
           >
             Cable corridor SK-2
           </text>
@@ -244,7 +244,7 @@ export function TrackPlate() {
         </svg>
       </div>
 
-      <figcaption className="text-faded mt-4 font-mono text-detail-xs uppercase">
+      <figcaption className="text-faded mt-4 font-mono text-detail-xs">
         {workedCase.id} · {workedCase.area} · score{" "}
         {workedCase.score.toFixed(2)}
         {/* The plate keeps its scale on a narrow screen, so say that it moves

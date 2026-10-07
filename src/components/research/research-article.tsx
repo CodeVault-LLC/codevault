@@ -21,11 +21,11 @@ export function ResearchArticle({ finding }: { finding: ResearchFinding }) {
             <ArrowLeft aria-hidden="true" className="size-3.5" />
             {page.backLabel}
           </Link>
-          <header className="mx-auto mt-12 max-w-4xl text-center md:mt-16">
-            <h1 className="text-display-m font-medium text-balance">
+          <header className="mt-12 max-w-5xl md:mt-20">
+            <h1 className="text-display-xl font-normal text-balance">
               {finding.title}
             </h1>
-            <div className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-paragraph-s text-muted-foreground">
+            <div className="mt-7 flex flex-wrap justify-start gap-x-5 gap-y-2 text-paragraph-s text-muted-foreground">
               <span>{finding.author}</span>
               <time dateTime={finding.reportDate}>{finding.dateLabel}</time>
               <span className="font-mono">{finding.report}</span>
@@ -36,10 +36,10 @@ export function ResearchArticle({ finding }: { finding: ResearchFinding }) {
                 {finding.severity} · {finding.score}
               </span>
             </div>
-            <p className="mx-auto mt-8 max-w-2xl text-paragraph-m text-muted-foreground">
+            <p className="mt-8 max-w-3xl text-paragraph-l text-muted-foreground">
               {finding.introduction}
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-5">
+            <div className="mt-8 flex flex-wrap items-center justify-start gap-5">
               <a href={finding.pdf} download className={researchButton}>
                 <Download aria-hidden="true" className="size-4" />
                 {page.shortPdfLabel}
@@ -54,7 +54,7 @@ export function ResearchArticle({ finding }: { finding: ResearchFinding }) {
             <div className="editorial-prose max-w-3xl min-w-0 space-y-12">
               {finding.sections.map((section) => (
                 <section key={section.id} aria-labelledby={section.id}>
-                  <h2 id={section.id} className="text-display-xs font-medium">
+                  <h2 id={section.id} className="text-display-m font-normal">
                     {section.title}
                   </h2>
                   {section.paragraphs.map((paragraph) => (
@@ -68,7 +68,7 @@ export function ResearchArticle({ finding }: { finding: ResearchFinding }) {
                 </section>
               ))}
               <section aria-labelledby="timeline-title">
-                <h2 id="timeline-title" className="text-display-xs font-medium">
+                <h2 id="timeline-title" className="text-display-m font-normal">
                   {page.timelineTitle}
                 </h2>
                 <ol className="mt-4">

@@ -60,8 +60,6 @@ Copy rules of thumb:
 
 Site-wide copy and structure are config-driven in
 [`src/core/config/site.ts`](../src/core/config/site.ts): the tagline, nav labels
-(Projects / Fields / Writing / About), the "Recent projects" cards, and the
-footer. The homepage sections that carry the story are `hero`, `latest-releases`
-(rendered as "Recent projects"), and `about` (the four-step loop) under
+(Projects / Research / About / Archive), selected projects, and the footer. The homepage sections that carry the story are `hero`, `latest-releases`, `research`, and `about` (the four-step loop) under
 [`src/components/sections/`](../src/components/sections). Change the message in
 those places, not in one-off strings scattered across components.

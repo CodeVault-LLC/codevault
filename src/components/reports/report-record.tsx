@@ -68,7 +68,7 @@ export function ReportRecord({ report }: ReportRecordProps) {
   ]
 
   return (
-    <Container className="py-10 md:py-12">
+    <Container className="py-14 md:py-20">
       {/* Hoisted into <head> by React during SSR — see the component for why
           this is not a route `head` option (design §12).
 
@@ -86,7 +86,7 @@ export function ReportRecord({ report }: ReportRecordProps) {
           {report.accessionId}
         </p>
 
-        <h1 className="mt-2 text-display-m font-semibold text-balance">
+        <h1 className="mt-5 text-display-l font-normal text-balance">
           {report.title}
         </h1>
 
@@ -121,7 +121,7 @@ export function ReportRecord({ report }: ReportRecordProps) {
 
         {report.abstract && (
           <section className="mt-10">
-            <h2 className="text-faded text-detail-xs tracking-wide uppercase">
+            <h2 className="text-faded text-detail-xs tracking-wide">
               Abstract
             </h2>
             <p className="mt-3 text-paragraph-s text-pretty">
@@ -131,7 +131,7 @@ export function ReportRecord({ report }: ReportRecordProps) {
         )}
 
         <section className="mt-10">
-          <h2 className="text-faded mb-3 text-detail-xs tracking-wide uppercase">
+          <h2 className="text-faded mb-3 text-detail-xs tracking-wide">
             Record
           </h2>
           <MetadataTable rows={rows} />

@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { ArrowLeft, ArrowUpRight, Sprout } from "lucide-react"
+import { ArrowUpRight, Sprout } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
+import { ProjectIntro } from "@/components/projects/project-intro"
 import { ProjectShell } from "@/components/projects/project-shell"
-import { StatusChip } from "@/components/projects/status-chip"
 import { getProject, nextProject, projectPath } from "@/core/config/projects"
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
@@ -18,59 +18,9 @@ export function PlantPiPage() {
   const selectedLog = project.log.slice(0, 3)
 
   return (
-    <ProjectShell className="bg-ivory-light">
+    <ProjectShell>
       <article>
-        {/* Hero */}
-        <Container className="py-16 md:py-24">
-          <motion.div
-            variants={staggerContainer(0.09)}
-            initial="hidden"
-            whileInView="show"
-            viewport={viewportOnce}
-            className="max-w-3xl"
-          >
-            <motion.div variants={fadeUp}>
-              <Link
-                to="/projects"
-                className="text-faded inline-flex items-center gap-1.5 text-sm transition-colors hover:text-foreground"
-              >
-                <ArrowLeft className="size-4" />
-                All projects
-              </Link>
-            </motion.div>
-            <motion.p
-              variants={fadeUp}
-              className="text-faded mt-10 text-detail-xs font-medium uppercase"
-            >
-              Field journal · Hardware
-            </motion.p>
-            <motion.h1
-              variants={fadeUp}
-              className="mt-4 text-display-xl font-semibold text-balance"
-            >
-              A month spent keeping three plants{" "}
-              <span className="font-serif font-normal italic">
-                {project.accent}
-              </span>
-              .
-            </motion.h1>
-            <motion.p
-              variants={fadeUp}
-              className="mt-6 text-paragraph-l text-pretty text-muted-foreground"
-            >
-              {project.summary}
-            </motion.p>
-            <motion.div
-              variants={fadeUp}
-              className="mt-8 flex flex-wrap items-center gap-3"
-            >
-              <StatusChip status={project.status} />
-              <span className="text-faded text-detail-xs font-medium uppercase">
-                {project.field}
-              </span>
-            </motion.div>
-          </motion.div>
-        </Container>
+        <ProjectIntro project={project} />
 
         {/* Facts strip */}
         <section className="border-faded border-y bg-ivory-medium">
@@ -78,7 +28,7 @@ export function PlantPiPage() {
             <dl className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
               {project.facts.map((fact) => (
                 <div key={fact.label}>
-                  <dt className="text-faded text-detail-xs font-medium uppercase">
+                  <dt className="text-faded text-detail-xs font-medium">
                     {fact.label}
                   </dt>
                   <dd className="mt-1.5 text-paragraph-s font-medium">
@@ -95,7 +45,7 @@ export function PlantPiPage() {
           <div className="mx-auto max-w-2xl">
             <motion.h2
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
               className="text-display-m font-semibold text-balance"
@@ -104,14 +54,14 @@ export function PlantPiPage() {
             </motion.h2>
             <motion.div
               variants={staggerContainer(0.08)}
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
               className="mt-10 flex flex-col gap-10"
             >
               {project.loop.map((step) => (
                 <motion.div key={step.phase} variants={fadeUp}>
-                  <h3 className="text-faded text-detail-xs font-medium uppercase">
+                  <h3 className="text-faded text-detail-xs font-medium">
                     {step.phase}
                   </h3>
                   <p className="mt-2 text-paragraph-m text-pretty text-foreground/85">
@@ -135,7 +85,7 @@ export function PlantPiPage() {
             <div className="mx-auto max-w-2xl">
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <p className="text-faded text-detail-xs font-medium uppercase">
+                  <p className="text-faded text-detail-xs font-medium">
                     From the log
                   </p>
                   <h2 className="mt-3 text-display-m font-semibold text-balance">
@@ -146,7 +96,7 @@ export function PlantPiPage() {
 
               <motion.ol
                 variants={staggerContainer(0.09)}
-                initial="hidden"
+                initial={false}
                 whileInView="show"
                 viewport={viewportOnce}
                 className="mt-10 flex flex-col gap-4"
@@ -155,12 +105,14 @@ export function PlantPiPage() {
                   <motion.li
                     key={entry.date}
                     variants={fadeUp}
-                    className="border-faded rounded-2xl border bg-oat p-6 md:p-7"
+                    className="border-faded border bg-oat p-6 md:p-7"
                   >
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <time className="text-sm font-medium">{entry.date}</time>
+                      <time className="text-paragraph-s font-medium">
+                        {entry.date}
+                      </time>
                       {entry.tag && (
-                        <span className="text-faded text-detail-xs font-medium uppercase">
+                        <span className="text-faded text-detail-xs font-medium">
                           · {entry.tag}
                         </span>
                       )}
@@ -189,7 +141,7 @@ export function PlantPiPage() {
         {/* Notes */}
         <Container className="py-16 md:py-20">
           <div className="mx-auto max-w-2xl">
-            <p className="text-faded text-detail-xs font-medium uppercase">
+            <p className="text-faded text-detail-xs font-medium">
               What we took from it
             </p>
             <div className="mt-6 flex flex-col gap-5">
@@ -213,7 +165,7 @@ export function PlantPiPage() {
               className="group flex items-center justify-between gap-6 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <div>
-                <p className="text-faded text-detail-xs font-medium uppercase">
+                <p className="text-faded text-detail-xs font-medium">
                   Next project · {next.field}
                 </p>
                 <p className="mt-2 text-display-m font-semibold">{next.name}</p>
@@ -231,7 +183,7 @@ export function PlantPiPage() {
 function Snapshot({ caption }: { caption: string }) {
   return (
     <figure className="mt-12">
-      <div className="border-faded flex aspect-[16/9] items-center justify-center rounded-2xl border border-dashed bg-oat/60">
+      <div className="border-faded flex aspect-[16/9] items-center justify-center border border-dashed bg-oat/60">
         <Sprout className="size-8 text-olive" aria-hidden />
       </div>
       <figcaption className="text-faded mt-3 font-mono text-detail-xs">

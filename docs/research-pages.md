@@ -25,24 +25,19 @@ Unknown slugs return not found. Article metadata uses the entry's title, summary
 and path. The [sitemap](../src/routes/sitemap%5B.%5Dxml.ts) includes the index and
 every finding path from the same config. A new finding needs no additional route.
 
-Keep the `Research` link in `mainNav`. The site's full footer lists research under
-`Writing` in `footerNav`. Research pages use the shared `Navbar` and a compact
-[`ResearchShell`](../src/components/research/research-shell.tsx) footer.
+Keep the `Research` link in `navigation.links`. Research uses the same Navbar
+and Footer as the other public pages. The index opens with an editorial title,
+an illustrated featured finding, and a publication list. The feature links
+straight to its article; PDF and advisory links remain available in the list.
 
-The hero uses [`mountain.jpg`](../public/research/mountain.jpg), copied unchanged
-from the user-requested `/v2` asset at `http://127.0.0.1:3000/images/mountain.jpg`.
-Set it through `researchPage.image`; do not infer a location from the image.
-Its minimum height is 34rem on mobile and `min(76svh, 48rem)` on desktop.
-Keep directional shading light enough to preserve the environment. Use plain
-sans-serif headings, shared `Container` spacing, and thin dividers. The scoped
-[`research-surface` styles](../src/styles/globals.css) use 38–56px hero headings,
-16px body, and 14–15px secondary text. Plain severity text uses scoped tokens
-with dark variants: critical bold red, high orange, medium readable amber,
-low green, and info blue, without badges or icons.
+Use the shared public type scale and Container. Severity text uses scoped
+tokens with dark variants: critical red, high orange, medium readable amber,
+low green, and info blue. Keep facts, dates, scores, and source attribution
+unchanged when adjusting presentation.
 
-Place article facts on the right at desktop widths and in two columns above the
-body on mobile. Keep PDF and advisory links in the article header, with the source
-note after the timeline. Preserve dark mode, visible focus, and static content.
+Articles use a left-aligned title and introduction, with a narrow metadata
+rail beside the body on desktop. On mobile the rail follows the article.
+Keep PDF and advisory links in the header and the source note after the timeline.
 
 Run the [required checks](./code-rules.md#verification). Inspect the index, article,
 unknown-slug response, and PDF download in the running app. Check mobile and

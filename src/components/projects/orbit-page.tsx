@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
+import { ProjectIntro } from "@/components/projects/project-intro"
 import { ProjectShell } from "@/components/projects/project-shell"
-import { StatusChip } from "@/components/projects/status-chip"
 import { getProject, nextProject, projectPath } from "@/core/config/projects"
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
@@ -18,59 +18,7 @@ export function OrbitPage() {
   return (
     <ProjectShell>
       <article>
-        {/* Hero */}
-        <section className="border-faded border-b">
-          <Container className="py-16 md:py-20">
-            <motion.div
-              variants={staggerContainer(0.08)}
-              initial="hidden"
-              whileInView="show"
-              viewport={viewportOnce}
-            >
-              <motion.div variants={fadeUp}>
-                <Link
-                  to="/projects"
-                  className="text-faded inline-flex items-center gap-1.5 font-mono text-detail-xs uppercase transition-colors hover:text-foreground"
-                >
-                  <ArrowLeft className="size-3.5" />
-                  All projects
-                </Link>
-              </motion.div>
-              <motion.p
-                variants={fadeUp}
-                className="text-faded mt-8 font-mono text-detail-xs uppercase"
-              >
-                Mission dossier · ORB-01
-              </motion.p>
-              <motion.h1
-                variants={fadeUp}
-                className="mt-4 text-display-xxl font-semibold"
-              >
-                {project.name}
-              </motion.h1>
-              <motion.p
-                variants={fadeUp}
-                className="mt-5 max-w-2xl text-paragraph-l text-pretty text-muted-foreground"
-              >
-                A game about keeping a sky full of satellites from letting their
-                orbits{" "}
-                <span className="font-serif font-normal italic">
-                  {project.accent}
-                </span>
-                .
-              </motion.p>
-              <motion.div
-                variants={fadeUp}
-                className="mt-7 flex flex-wrap items-center gap-3"
-              >
-                <StatusChip status={project.status} />
-                <span className="text-faded font-mono text-detail-xs uppercase">
-                  {project.field}
-                </span>
-              </motion.div>
-            </motion.div>
-          </Container>
-        </section>
+        <ProjectIntro project={project} />
 
         {/* Body: content + telemetry rail */}
         <Container className="grid grid-cols-1 gap-12 py-16 md:py-20 lg:grid-cols-[1fr_18rem] lg:gap-16">
@@ -79,14 +27,14 @@ export function OrbitPage() {
               <p className="text-paragraph-m text-pretty text-muted-foreground">
                 {project.summary}
               </p>
-              <ol className="border-faded bg-faded mt-8 flex flex-col gap-px overflow-hidden rounded-2xl border">
+              <ol className="border-faded bg-faded mt-8 flex flex-col gap-px overflow-hidden border">
                 {project.loop.map((step, i) => (
                   <li key={step.phase} className="bg-ivory-light p-6 md:p-7">
                     <div className="flex items-baseline gap-3">
                       <span className="text-faded font-mono text-detail-xs tabular-nums">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="font-mono text-detail-xs font-medium uppercase">
+                      <h3 className="font-mono text-detail-xs font-medium">
                         {step.phase}
                       </h3>
                     </div>
@@ -104,14 +52,14 @@ export function OrbitPage() {
                   <li key={entry.date} className="relative pb-8 last:pb-0">
                     <span
                       aria-hidden
-                      className="absolute top-1.5 -left-[1.6875rem] size-2 rounded-full bg-olive ring-4 ring-ivory-light"
+                      className="absolute top-1.5 -left-[1.6875rem] size-2 rounded-full bg-olive ring-4 ring-background"
                     />
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <time className="text-faded font-mono text-detail-xs tabular-nums">
                         {entry.date}
                       </time>
                       {entry.tag && (
-                        <span className="text-faded font-mono text-detail-xs uppercase">
+                        <span className="text-faded font-mono text-detail-xs">
                           {entry.tag}
                         </span>
                       )}
@@ -143,17 +91,15 @@ export function OrbitPage() {
 
           {/* Telemetry rail */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="border-faded rounded-2xl border p-6">
-              <h2 className="text-faded font-mono text-detail-xs uppercase">
-                Telemetry
-              </h2>
+            <div className="border-faded border p-6">
+              <h2 className="text-faded font-mono text-detail-xs">Telemetry</h2>
               <dl className="mt-4 flex flex-col gap-3">
                 {project.facts.map((fact) => (
                   <div
                     key={fact.label}
                     className="border-faded flex items-baseline justify-between gap-4 border-b pb-3 last:border-b-0 last:pb-0"
                   >
-                    <dt className="text-faded font-mono text-detail-xs uppercase">
+                    <dt className="text-faded font-mono text-detail-xs">
                       {fact.label}
                     </dt>
                     <dd className="font-mono text-detail-xs tabular-nums">
@@ -163,7 +109,7 @@ export function OrbitPage() {
                 ))}
               </dl>
 
-              <h2 className="text-faded mt-6 font-mono text-detail-xs uppercase">
+              <h2 className="text-faded mt-6 font-mono text-detail-xs">
                 Payload
               </h2>
               <ul className="mt-4 flex flex-wrap gap-2">
@@ -216,7 +162,7 @@ function Section({
   return (
     <motion.section
       variants={staggerContainer(0.08)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportOnce}
     >
@@ -227,9 +173,7 @@ function Section({
         <span className="text-faded font-mono text-detail-xs tabular-nums">
           {index}
         </span>
-        <h2 className="font-mono text-detail-xs font-medium uppercase">
-          {title}
-        </h2>
+        <h2 className="font-mono text-detail-xs font-medium">{title}</h2>
       </motion.div>
       <motion.div variants={fadeUp} className="mt-6">
         {children}
@@ -255,7 +199,7 @@ function NextDossier({
           className="group flex items-center justify-between gap-6 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
         >
           <div>
-            <p className="text-faded font-mono text-detail-xs uppercase">
+            <p className="text-faded font-mono text-detail-xs">
               Next dossier · {field}
             </p>
             <p className="mt-2 text-display-m font-semibold">{name}</p>

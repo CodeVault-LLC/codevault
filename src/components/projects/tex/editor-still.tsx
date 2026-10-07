@@ -28,10 +28,10 @@ export function EditorStill() {
         {/* Chrome. Deliberately thin — a title bar with buttons on it would be
             drawing an application, and this is drawing a document. */}
         <div className="border-faded flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b bg-ivory-medium px-5 py-3">
-          <p className="font-mono text-detail-xs tracking-wider uppercase">
+          <p className="font-mono text-detail-xs tracking-wider">
             {editorStill.file}
           </p>
-          <p className="text-faded font-mono text-detail-xs uppercase">
+          <p className="text-faded font-mono text-detail-xs">
             root {editorStill.root} · pdfTeX
           </p>
         </div>
@@ -40,7 +40,7 @@ export function EditorStill() {
           {/* Source */}
           <motion.ol
             variants={staggerContainer(0.03)}
-            initial="hidden"
+            initial={false}
             whileInView="show"
             viewport={viewportEdge}
             className="overflow-x-auto py-4"
@@ -84,7 +84,7 @@ export function EditorStill() {
           {/* The two things the editor is saying about the file right now. */}
           <aside className="border-faded flex flex-col gap-6 border-t p-5 lg:border-t-0 lg:border-l">
             <div>
-              <p className="text-faded font-mono text-detail-xs uppercase">
+              <p className="text-faded font-mono text-detail-xs">
                 Under the caret
               </p>
               <p className="mt-3 font-serif text-display-xs">
@@ -96,7 +96,7 @@ export function EditorStill() {
             </div>
 
             <div className="border-faded border-t pt-5">
-              <p className="text-faded font-mono text-detail-xs uppercase">
+              <p className="text-faded font-mono text-detail-xs">
                 Problems · {editorStill.problems.length}
               </p>
               <ul className="mt-3 flex flex-col gap-3">
@@ -104,7 +104,7 @@ export function EditorStill() {
                   <li key={problem.line}>
                     <p
                       className={cn(
-                        "font-mono text-detail-xs uppercase tabular-nums",
+                        "font-mono text-detail-xs tabular-nums",
                         severityTone[problem.severity]
                       )}
                     >

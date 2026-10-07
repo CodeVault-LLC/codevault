@@ -26,7 +26,7 @@ export function DiagnosticTable() {
   return (
     <motion.ol
       variants={staggerContainer(0.07)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportEdge}
       className="border-faded bg-faded flex flex-col gap-px overflow-hidden rounded-2xl border"
@@ -38,7 +38,7 @@ export function DiagnosticTable() {
           className="bg-faded grid grid-cols-1 gap-px md:grid-cols-2"
         >
           <div className="bg-ivory-medium p-5 md:p-6">
-            <p className="text-faded font-mono text-detail-xs uppercase">
+            <p className="text-faded font-mono text-detail-xs">
               What the log says
             </p>
             <pre className="mt-3 overflow-x-auto font-mono text-detail-xs text-foreground/70">
@@ -49,7 +49,7 @@ export function DiagnosticTable() {
           <div className="bg-ivory-light p-5 md:p-6">
             <p
               className={cn(
-                "font-mono text-detail-xs uppercase",
+                "font-mono text-detail-xs",
                 toneBySeverity[d.severity]
               )}
             >

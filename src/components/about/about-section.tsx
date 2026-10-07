@@ -23,7 +23,6 @@ type AboutSectionProps = {
  */
 export function AboutSection({
   index,
-  label,
   title,
   body,
   children,
@@ -41,21 +40,12 @@ export function AboutSection({
       viewport={viewportOnce}
       className={cn("border-faded border-t pt-10 md:pt-14", className)}
     >
-      <div className="grid gap-5 md:grid-cols-[1fr_2fr] md:gap-16">
-        <motion.div
-          variants={reduceMotion ? undefined : fadeUp}
-          className="flex items-baseline gap-3 md:flex-col md:gap-1.5"
-        >
-          <span className="text-paragraph-s text-muted-foreground">
-            {label}
-          </span>
-        </motion.div>
-
-        <div className="editorial-prose max-w-2xl">
+      <div className="md:ml-auto md:w-2/3">
+        <div className="editorial-prose max-w-2xl min-w-0">
           <motion.h2
             id={headingId}
             variants={reduceMotion ? undefined : fadeUp}
-            className="text-display-m font-semibold text-balance"
+            className="text-display-l font-normal text-balance"
           >
             {title}
           </motion.h2>

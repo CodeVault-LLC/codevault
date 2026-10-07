@@ -17,7 +17,7 @@ export function MetadataTable({ rows }: MetadataTableProps) {
           key={row.label}
           className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-[12rem_1fr] sm:gap-6"
         >
-          <dt className="text-faded text-detail-xs tracking-wide uppercase">
+          <dt className="text-faded text-detail-xs tracking-wide">
             {row.label}
           </dt>
           <dd

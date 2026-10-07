@@ -1,14 +1,11 @@
-import { motion } from "framer-motion"
-
 import { AboutFooterLinks } from "@/components/about/about-footer-links"
 import { AboutHero } from "@/components/about/about-hero"
 import { AboutSection } from "@/components/about/about-section"
 import { Container } from "@/components/layout/container"
-import { Plate } from "@/components/about/plate"
 import { aboutIndex, projectLoop } from "@/core/config/about"
-import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
+import { homePage, site } from "@/core/config/site"
 
-const [stance, loop, range, open] = aboutIndex.sections
+const [stance, , range, open] = aboutIndex.sections
 
 export function AboutIndex() {
   return (
@@ -18,82 +15,64 @@ export function AboutIndex() {
         heading={aboutIndex.heading}
         lede={aboutIndex.lede}
       />
-
-      {/* Unsplash photo-1446776877081-d282a0f896e2 — Unsplash License,
-          attribution not required. Chosen for the rhyme: windows in radial
-          symmetry looking out at something, which is the logo. */}
-      <Plate
-        bleed
-        priority
-        src="/stock/aperture-earth-from-orbit-window.avif"
-        srcSet="/stock/aperture-earth-from-orbit-window-small.webp 800w, /stock/aperture-earth-from-orbit-window.avif 2000w"
-        alt="The cupola of a spacecraft, its windows arranged in a ring around a central pane, looking down at the Earth below."
-        aspect="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
-      />
-
-      <Container className="py-20 md:py-28">
-        <div className="flex flex-col gap-14 md:gap-20">
-          <AboutSection {...stance} />
-
-          <AboutSection {...loop}>
-            <motion.ol
-              variants={staggerContainer(0.08, 0.1)}
-              initial={false}
-              whileInView="show"
-              viewport={viewportOnce}
-              className="mt-10 grid grid-cols-1 gap-x-10 sm:grid-cols-2"
-            >
-              {projectLoop.map((step, i) => (
-                <motion.li
-                  key={step.title}
-                  variants={fadeUp}
-                  className="border-t border-border py-6"
-                >
-                  <span className="text-faded font-mono text-detail-xs tabular-nums">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-2 text-display-xs font-semibold">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-paragraph-s text-pretty text-muted-foreground">
-                    {step.body}
-                  </p>
-                </motion.li>
-              ))}
-            </motion.ol>
-          </AboutSection>
-
-          <AboutSection {...range} />
+      <Container className="pb-20 md:pb-28">
+        <div className="grid overflow-hidden bg-secondary lg:grid-cols-2">
+          <img
+            src={site.presentation.aboutImage.src}
+            srcSet={site.presentation.aboutImage.srcSet}
+            alt={site.presentation.aboutImage.alt}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            width={2000}
+            height={1333}
+            fetchPriority="high"
+            className="h-full min-h-72 w-full object-cover"
+          />
+          <div className="flex flex-col justify-center p-8 md:p-14">
+            <h2 className="text-display-l font-normal text-balance">
+              {stance.title}
+            </h2>
+            {stance.body?.map((paragraph) => (
+              <p
+                key={paragraph}
+                className="mt-5 text-paragraph-m text-pretty text-muted-foreground"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
       </Container>
-
-      {/* Unsplash photo-1470071459604-3b5ec3a7fe05 — Unsplash License,
-          attribution not required. */}
-      <Plate
-        src="/stock/valley-road-morning-light.avif"
-        srcSet="/stock/valley-road-morning-light-small.webp 800w, /stock/valley-road-morning-light.avif 2000w"
-        alt="A single road winding through green hills at sunrise, with low cloud sitting in the valley."
-        aspect="aspect-[16/10] md:aspect-[21/9]"
-      />
-
-      <Container className="py-20 md:py-28">
+      <section
+        aria-labelledby="loop-title"
+        className="border-y border-border bg-secondary py-16 md:py-24"
+      >
+        <Container>
+          <h2
+            id="loop-title"
+            className="max-w-2xl text-display-xl font-normal text-balance"
+          >
+            {homePage.process.title}
+          </h2>
+          <ol className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            {projectLoop.map((step) => (
+              <li
+                key={step.title}
+                className="border-t border-foreground/25 pt-5"
+              >
+                <h3 className="text-display-m font-normal">{step.title}</h3>
+                <p className="mt-4 max-w-xs text-paragraph-m text-muted-foreground">
+                  {step.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+      <Container className="space-y-16 py-20 md:space-y-24 md:py-28">
+        <AboutSection {...range} />
         <AboutSection {...open} />
       </Container>
-
-      <AboutFooterLinks
-        links={[
-          {
-            label: "Who we are",
-            href: "/about/who-we-are",
-            description: "How we think about the work.",
-          },
-          {
-            label: "Projects",
-            href: "/projects",
-            description: "What we're building and breaking.",
-          },
-        ]}
-      />
+      <AboutFooterLinks links={site.presentation.aboutNext} />
     </>
   )
 }

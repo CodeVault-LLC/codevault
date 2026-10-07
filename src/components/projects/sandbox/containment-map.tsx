@@ -100,7 +100,7 @@ export function ContainmentMap() {
                 )}
               >
                 <span>
-                  <span className="block font-mono text-detail-xs text-muted-foreground uppercase">
+                  <span className="block font-mono text-detail-xs text-muted-foreground">
                     {boundary.label}
                   </span>
                   <span className="mt-1 block text-paragraph-s font-medium">
@@ -127,7 +127,7 @@ export function ContainmentMap() {
         className="border-t border-background/20 pt-6 lg:col-start-2"
         aria-live="polite"
       >
-        <p className="flex items-center gap-2 font-mono text-detail-xs text-background/70 uppercase">
+        <p className="flex items-center gap-2 font-mono text-detail-xs text-background/70">
           <ActiveIcon className="size-3.5" aria-hidden="true" />
           {meta.label}
         </p>

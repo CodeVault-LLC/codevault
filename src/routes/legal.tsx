@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router"
 
-import { LegalFooter } from "@/components/legal/legal-footer"
+import { Footer } from "@/components/layout/footer"
 import { LegalNav } from "@/components/legal/legal-nav"
 
 export const Route = createFileRoute("/legal")({
@@ -11,10 +11,10 @@ function LegalLayout() {
   return (
     <>
       <LegalNav />
-      <main>
+      <main id="main-content">
         <Outlet />
       </main>
-      <LegalFooter />
+      <Footer />
     </>
   )
 }

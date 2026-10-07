@@ -9,6 +9,9 @@ export const legalPresentation = {
   contents: "On this page",
   updated: "Last updated",
   contact: "Questions?",
+  themeStorageTitle: "Your color preference",
+  themeStorage:
+    "If you choose a light or dark theme, we save that choice in your browser as codevault-theme. It stays on your device, is not sent to us, and can be removed by clearing this site's browser data.",
   backToTop: "Back to top",
   image: {
     src: "/legal/fjord.webp",
@@ -40,7 +43,35 @@ export const legalPresentation = {
 } as const
 
 export const site = {
-  presentation: { aboutNavigation: "About", next: "Continue exploring" },
+  presentation: {
+    home: "CodeVault home",
+    aboutNavigation: "About",
+    next: "Related pages",
+    aboutImage: {
+      src: "/stock/aperture-earth-from-orbit-window.avif",
+      srcSet:
+        "/stock/aperture-earth-from-orbit-window-small.webp 800w, /stock/aperture-earth-from-orbit-window.avif 2000w",
+      alt: "A spacecraft cupola, its windows arranged around a view of Earth.",
+    },
+    aboutNext: [
+      {
+        label: "Who we are",
+        href: "/about/who-we-are",
+        description: "How we think about the work.",
+      },
+      {
+        label: "Projects",
+        href: "/projects",
+        description: "What we're building and breaking.",
+      },
+    ],
+    notFound: {
+      code: "404",
+      title: "Page not found",
+      description: "This page may have moved or been removed.",
+      action: "Back to home",
+    },
+  },
   name: "CodeVault",
   tagline: "We point ourselves at tech, and see what happens.",
   description:
@@ -69,25 +100,77 @@ export const site = {
   ogImage: "/og-image.png",
 } as const
 
+export const navigation = {
+  label: "Main navigation",
+  home: "CodeVault home",
+  open: "Open navigation",
+  close: "Close navigation",
+  contact: "Get in touch",
+  skip: "Skip to content",
+  theme: "Switch color theme",
+  footer: "Elsewhere in CodeVault",
+  copyright: "All rights reserved.",
+  sitemap: "Sitemap",
+  links: [
+    { label: "Projects", href: "/projects" },
+    { label: "Research", href: "/research" },
+    { label: "About", href: "/about" },
+    { label: "Archive", href: "/reports" },
+  ],
+} as const
+
 export const homePage = {
   hero: {
-    heading: {
-      before: "We point ourselves at ",
-      accent: "tech",
-      after: ", and see what happens.",
-    },
+    title: "Security starts",
+    titleAccent: "with curiosity.",
     introduction:
-      "Small projects across tech, shared with the wrong turns and loose ends left in.",
-    action: "Browse the projects",
+      "We look closely at the systems we depend on. Then build, test, and share what we learn.",
+    action: "Explore our research",
+    secondaryAction: "Meet the projects",
+    world: {
+      title: "A closer look at a connected world",
+      description:
+        "An architectural illustration of connected devices, a research lab, and a protected system. Signals travel between them as a boundary surrounds the central structure.",
+      pause: "Pause animation",
+      play: "Play animation",
+      reducedMotion: "Animation paused for reduced motion",
+      viewsLabel: "Explore the security illustration",
+      captionLabel: "Inside the illustration",
+      views: [
+        {
+          label: "Follow the signal",
+          caption: "Every connection tells a story.",
+        },
+        {
+          label: "Question the boundary",
+          caption: "Look closely at what keeps systems apart.",
+        },
+        {
+          label: "Share the understanding",
+          caption: "Turn what we learn into something others can use.",
+        },
+      ],
+    },
   },
   recent: {
-    title: "Recent projects",
+    title: "Selected projects",
     action: "See every project",
+    featured: "Latest project",
+    read: "Explore the project",
+    selected: ["sandbox", "orbit", "tex"],
+  },
+  research: {
+    title: "Security research",
+    description: "Look deeper. Leave things safer.",
+    action: "Explore the research",
+    featured: "From the research desk",
+    read: "Read the finding",
   },
   process: {
-    title: "Try it. Live with it. Change it. Share it.",
-    introduction: "Each project follows the same loose loop.",
-    action: "How we work",
+    title: "Curiosity is a practice.",
+    introduction:
+      "Small projects. Open questions. Something learned along the way.",
+    action: "About CodeVault",
   },
 } as const
 
@@ -96,6 +179,21 @@ export const projectsPage = {
   introduction: "What we've tried, what changed, and what came out of it.",
   metaDescription:
     "CodeVault projects, shared with the work, changes, and limits left intact.",
+  featured: "In focus",
+  featuredSlug: "sandbox",
+  collection: "The project index",
+  allFields: "All fields",
+  allStatuses: "Every status",
+  fieldLabel: "Filter by field",
+  statusLabel: "Filter by status",
+  searchLabel: "Search projects",
+  searchPlaceholder: "Find something interesting",
+  empty: "No projects match these filters.",
+  reset: "Clear filters",
+  countLabel: "projects",
+  read: "Explore the project",
+  back: "All projects",
+  record: "Project record",
   visuals: {
     orbit: {
       signal: "Near miss",
@@ -130,77 +228,6 @@ export const projectsPage = {
   },
 } as const
 
-export type NavItem = {
-  label: string
-  href?: string
-  description?: string
-  sections?: { heading: string; links: { label: string; href: string }[] }[]
-}
-
-export const mainNav: NavItem[] = [
-  { label: "Research", href: "/research" },
-  {
-    label: "Projects",
-    description: "The things we're building, breaking, and learning from.",
-    sections: [
-      {
-        heading: "Recent",
-        links: [
-          { label: "Sandbox", href: "/projects/sandbox" },
-          { label: "Orbit", href: "/projects/orbit" },
-          { label: "git-story", href: "/projects/git-story" },
-          { label: "All projects", href: "/projects" },
-        ],
-      },
-      {
-        heading: "In the open",
-        links: [
-          { label: "GitHub", href: "https://github.com/CodeVault-LLC" },
-          { label: "Experiments", href: "/projects" },
-          { label: "Changelog", href: "/projects/git-story" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "About",
-    description: "Who we are and how we work.",
-    sections: [
-      {
-        heading: "CodeVault",
-        links: [
-          { label: "How we work", href: "/about" },
-          { label: "Who we are", href: "/about/who-we-are" },
-          { label: "Get in touch", href: "/about/contact" },
-          { label: "Brand", href: "/about/brand" },
-        ],
-      },
-    ],
-  },
-]
-
-export const releases: {
-  title: string
-  date: string
-  href: string
-}[] = [
-  {
-    title: "A guest shell for work that should not touch the host",
-    date: "August 22, 2026",
-    href: "/projects/sandbox",
-  },
-  {
-    title: "Orbit, a tiny game built in a weekend",
-    date: "June 12, 2026",
-    href: "/projects/orbit",
-  },
-  {
-    title: "A CLI that turns your git log into a story",
-    date: "May 28, 2026",
-    href: "/projects/git-story",
-  },
-]
-
 export const footerNav = {
   Projects: [
     { label: "All projects", href: "/projects" },
@@ -214,11 +241,6 @@ export const footerNav = {
     { label: "Security research", href: "/research" },
     { label: "Hummingbird finding", href: "/research/hummingbird" },
     { label: "Reports archive", href: "/reports" },
-    { label: "Blog", href: "#blog" },
-    { label: "Project logs", href: "#releases" },
-    { label: "Notes", href: "#blog" },
-    { label: "Changelog", href: "#releases" },
-    { label: "Community", href: "#community" },
   ],
   About: [
     { label: "How we work", href: "/about" },
@@ -235,6 +257,7 @@ export const footerNav = {
 } as const
 
 export const researchPage = {
+  featured: "Latest finding",
   path: "/research",
   title: "Security research",
   image: "/research/mountain.webp",
@@ -253,7 +276,7 @@ export const researchPage = {
     "Independent vulnerability research by CodeVault, with documented findings, controlled validation, and remediation guidance.",
   findingsTitle: "Published research",
   readFinding: "Read the finding",
-  approachTitle: "Understand. Verify. Report.",
+  approachTitle: "Research process",
   approach:
     "We trace defects through source code, verify their impact in isolated environments, and report the evidence with clear remediation guidance.",
   methods: [

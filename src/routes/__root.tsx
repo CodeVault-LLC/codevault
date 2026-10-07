@@ -2,6 +2,8 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 
+import { MotionConfig } from "framer-motion"
+
 import "@/styles/globals.css"
 import { NotFound } from "@/core/pages/not-found"
 
@@ -71,10 +73,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           media="(prefers-color-scheme: dark)"
           content="#1f1e1d"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try { const theme = localStorage.getItem("codevault-theme"); document.documentElement.classList.toggle("dark", theme === "dark" || (!theme && matchMedia("(prefers-color-scheme: dark)").matches)); } catch { document.documentElement.classList.toggle("dark", matchMedia("(prefers-color-scheme: dark)").matches); }`,
+          }}
+        />
         <HeadContent />
       </head>
       <body suppressHydrationWarning>
-        {children}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
         <TanStackDevtools
           config={{
             position: "bottom-right",

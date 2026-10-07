@@ -76,13 +76,15 @@
   /* Anthropic fluid type scale */
   --text-display-xs: clamp(1.125rem, 1.087rem + 0.163vw, 1.25rem);
   --text-display-s: clamp(1.25rem, 1.173rem + 0.327vw, 1.5rem);
-  --text-display-m: clamp(1.75rem, 1.673rem + 0.327vw, 2rem);
-  --text-display-l: clamp(2rem, 1.694rem + 1.306vw, 3rem);
-  --text-display-xl: clamp(2.5rem, 2.041rem + 1.959vw, 4rem);
-  --text-display-xxl: clamp(3rem, 2.388rem + 2.612vw, 5rem);
-  --text-paragraph-s: clamp(1rem, 0.962rem + 0.163vw, 1.125rem);
-  --text-paragraph-m: clamp(1.125rem, 1.087rem + 0.163vw, 1.25rem);
-  --text-paragraph-l: clamp(1.375rem, 1.337rem + 0.163vw, 1.5rem);
+  --text-display-m: clamp(1.375rem, 1.2rem + 0.4vw, 1.625rem);
+  --text-display-l: clamp(1.5rem, 1.2rem + 0.9vw, 2rem);
+  --text-display-xl: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem);
+  --text-display-xxl: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
+  --text-paragraph-s: clamp(0.9375rem, 0.9rem + 0.12vw, 1rem);
+  --text-paragraph-m: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --text-paragraph-l: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-caption: 0.875rem;
+  --text-navigation: 0.9375rem;
   --text-detail-xs: clamp(0.6875rem, 0.668rem + 0.082vw, 0.75rem);
 
   /* Admin type scale. Fixed steps, not fluid: a dashboard is read at a desk at
@@ -348,9 +350,6 @@
 
 /* Research reading scale: compact supporting text, scoped to these pages. */
 .research-surface {
-  --text-paragraph-s: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
-  --text-paragraph-m: 1rem;
-  --text-display-l: clamp(2.375rem, 1.9rem + 2vw, 3.5rem);
   --severity-critical: #c62828;
   --severity-high: #a64700;
   --severity-medium: #806100;
@@ -403,4 +402,444 @@
 .editorial-prose h2,
 .editorial-prose h3 {
   scroll-margin-top: 9rem;
+}
+
+/* Public editorial system. Display sizes remain token based; admin keeps its
+   separate UI scale. */
+@theme inline {
+  --text-display-hero: clamp(3rem, 1.75rem + 4.5vw, 6rem);
+}
+
+@layer utilities {
+  .text-display-hero {
+    font-size: var(--text-display-hero);
+    line-height: 0.98;
+    letter-spacing: -0.065em;
+  }
+}
+
+@layer components {
+  .focus-ring {
+    @apply outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current;
+  }
+  .eyebrow {
+    @apply text-caption text-muted-foreground;
+  }
+  .editorial-link {
+    @apply inline-flex min-h-11 items-center justify-between gap-5 border-b border-foreground/30 pb-1 text-paragraph-s text-foreground transition-colors hover:border-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current;
+  }
+  .editorial-button {
+    @apply inline-flex min-h-11 items-center justify-center gap-6 rounded-sm bg-foreground px-5 py-3 text-paragraph-s text-background transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground;
+  }
+  .section-space {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+  .nav-link {
+    @apply relative inline-flex min-h-11 items-center text-navigation text-muted-foreground transition-colors hover:text-foreground;
+  }
+  .nav-link::after {
+    content: "";
+    @apply absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-foreground transition-transform;
+  }
+  .nav-link:hover::after,
+  .nav-link-current::after {
+    scale: 1 1;
+  }
+  .nav-link-current {
+    color: var(--foreground);
+  }
+  .skip-link {
+    @apply absolute top-3 left-6 z-50 -translate-y-24 bg-foreground px-5 py-3 text-paragraph-s text-background focus:translate-y-0;
+  }
+  .project-surface {
+    --card: var(--secondary);
+  }
+  .project-surface .bg-ivory-medium {
+    background-color: var(--secondary);
+  }
+  .project-surface .bg-ivory-light {
+    background-color: var(--background);
+  }
+  .project-surface .bg-oat {
+    background-color: var(--secondary);
+  }
+}
+
+html {
+  scroll-padding-top: 5.5rem;
+}
+.dark {
+  color-scheme: dark;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The homepage is an intentionally light editorial surface, independent of a
+   saved theme. Other routes retain the visitor's preference. */
+.home-surface {
+  color-scheme: light;
+  --background: var(--ivory-light);
+  --foreground: var(--slate-dark);
+  --card: var(--ivory-light);
+  --card-foreground: var(--slate-dark);
+  --primary: var(--slate-dark);
+  --primary-foreground: var(--ivory-light);
+  --secondary: var(--ivory-medium);
+  --secondary-foreground: var(--slate-dark);
+  --muted: var(--ivory-medium);
+  --muted-foreground: var(--slate-light);
+  --border: color-mix(in srgb, var(--slate-dark) 15%, transparent);
+  --ring: color-mix(in srgb, var(--slate-dark) 40%, transparent);
+}
+.security-hero {
+  --text-display-hero: clamp(2.9rem, 1.4rem + 4.2vw, 5.4rem);
+}
+.security-hero .text-display-hero {
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+}
+.security-hero .font-serif {
+  letter-spacing: -0.065em;
+}
+.security-world-stage {
+  position: relative;
+  overflow: hidden;
+  background: var(--ivory-medium);
+  isolation: isolate;
+}
+.security-world-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--slate-dark);
+}
+.world-plate-caption {
+  position: absolute;
+  left: 1.75rem;
+  bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: var(--text-caption);
+  color: var(--slate-light);
+}
+.world-block {
+  stroke: var(--slate-medium);
+  stroke-width: 0.85;
+}
+.world-face-top {
+  fill: var(--ivory-light);
+}
+.world-face-left {
+  fill: var(--ivory-dark);
+}
+.world-face-right {
+  fill: var(--oat);
+}
+.world-block-olive .world-face-top {
+  fill: color-mix(in srgb, var(--olive) 55%, var(--ivory-light));
+}
+.world-block-olive .world-face-left {
+  fill: color-mix(in srgb, var(--olive) 70%, var(--ivory-light));
+}
+.world-block-olive .world-face-right {
+  fill: var(--olive);
+}
+.world-block-ink .world-face-top {
+  fill: var(--slate-light);
+}
+.world-block-ink .world-face-left {
+  fill: var(--slate-medium);
+}
+.world-block-ink .world-face-right {
+  fill: var(--slate-dark);
+}
+.world-shadow {
+  fill: var(--slate-dark);
+  opacity: 0.07;
+}
+.world-grid {
+  stroke: var(--slate-dark);
+  stroke-width: 0.45;
+  opacity: 0.12;
+}
+.world-terrain {
+  stroke: var(--slate-light);
+  stroke-width: 0.65;
+  opacity: 0.15;
+}
+.world-orbit {
+  stroke: var(--olive);
+  stroke-width: 0.8;
+  opacity: 0.3;
+}
+.world-orbit-outer {
+  stroke-dasharray: 2 9;
+  opacity: 0.4;
+}
+.world-ink-line {
+  stroke: var(--slate-medium);
+  stroke-width: 1.2;
+}
+.world-hatching {
+  stroke: var(--slate-medium);
+  stroke-width: 0.65;
+  opacity: 0.65;
+}
+.world-core-flute {
+  stroke: var(--slate-medium);
+  stroke-width: 0.75;
+  opacity: 0.8;
+}
+.world-screen-line {
+  stroke: var(--ivory-light);
+  stroke-width: 1.2;
+}
+.world-status,
+.world-signal {
+  fill: var(--olive);
+}
+.world-signal {
+  stroke: var(--ivory-light);
+  stroke-width: 1;
+}
+.world-route-bed {
+  stroke: var(--ivory-light);
+  stroke-width: 5;
+}
+.world-route {
+  stroke: var(--olive);
+  stroke-width: 1.25;
+  opacity: 0.65;
+}
+.world-tree {
+  fill: color-mix(in srgb, var(--olive) 20%, var(--ivory-medium));
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.world-tree-vein {
+  stroke: var(--olive);
+  stroke-width: 0.7;
+}
+.world-beacon-ring {
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.world-boundary-line {
+  stroke: var(--olive);
+  stroke-width: 0.9;
+  opacity: 0.65;
+}
+.world-boundary-latitude {
+  stroke: var(--olive);
+  stroke-width: 0.8;
+  opacity: 0.35;
+}
+.world-scan {
+  stroke: var(--olive);
+  stroke-width: 1.4;
+  opacity: 0.65;
+  stroke-dasharray: 4 5;
+}
+.world-paper {
+  fill: var(--ivory-light);
+  stroke: var(--slate-medium);
+  stroke-width: 0.8;
+}
+.world-coordinate {
+  stroke: var(--slate-light);
+  stroke-width: 0.7;
+  opacity: 0.5;
+}
+.world-devices,
+.world-lab,
+.world-record,
+.world-core,
+.world-connections,
+.world-boundary {
+  transition: opacity 700ms ease;
+}
+.security-world-stage[data-view="1"] .world-devices,
+.security-world-stage[data-view="1"] .world-lab,
+.security-world-stage[data-view="1"] .world-record {
+  opacity: 0.28;
+}
+.security-world-stage[data-view="1"] .world-boundary-line {
+  stroke-width: 1.5;
+  opacity: 1;
+}
+.security-world-stage[data-view="2"] .world-devices,
+.security-world-stage[data-view="2"] .world-boundary {
+  opacity: 0.2;
+}
+.security-world-stage[data-view="2"] .world-core {
+  opacity: 0.4;
+}
+.world-toolbar {
+  display: flex;
+  align-items: stretch;
+  background: var(--ivory-dark);
+  border-top: 1px solid var(--border);
+}
+.world-view-controls {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, 1fr);
+}
+.world-view-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.75rem;
+  text-align: left;
+  font-size: var(--text-paragraph-s);
+  color: var(--slate-light);
+  border-right: 1px solid var(--border);
+  border-top: 2px solid transparent;
+  margin-top: -1px;
+  cursor: pointer;
+  transition:
+    background 200ms,
+    color 200ms,
+    border-color 200ms;
+}
+.world-view-button:hover {
+  background: var(--ivory-medium);
+  color: var(--slate-dark);
+}
+.world-view-active {
+  background: var(--ivory-medium);
+  border-top-color: var(--olive);
+  color: var(--slate-dark);
+}
+.world-view-button svg {
+  opacity: 0.4;
+  transition:
+    transform 200ms,
+    opacity 200ms;
+}
+.world-view-active svg {
+  opacity: 1;
+  transform: rotate(-45deg);
+}
+.world-pause {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+.world-pause:hover {
+  background: var(--ivory-medium);
+}
+.home-projects .bg-slate-dark {
+  background: var(--ivory-medium);
+  color: var(--slate-dark);
+}
+.home-projects .text-ivory-light\/70 {
+  color: var(--slate-light);
+}
+.home-projects article > a {
+  height: 15rem;
+}
+.home-projects article > div {
+  flex: 1;
+}
+.home-projects article {
+  display: flex;
+  flex-direction: column;
+}
+.home-projects article .editorial-link {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+.home-footer {
+  background: var(--ivory-light);
+  color: var(--slate-dark);
+}
+.home-footer .text-ivory-light\/55,
+.home-footer .text-ivory-light\/60 {
+  color: var(--slate-light);
+}
+.home-footer .text-ivory-light\/85 {
+  color: var(--slate-medium);
+}
+.home-footer .border-ivory-light\/20 {
+  border-color: var(--border);
+}
+.home-footer a:hover {
+  color: var(--slate-dark);
+}
+@media (max-width: 767px) {
+  .security-world-art {
+    width: 150%;
+    max-width: none;
+    margin-left: -25%;
+  }
+  .world-plate-caption {
+    left: 1rem;
+    bottom: 1rem;
+    font-size: var(--text-caption);
+  }
+  .world-toolbar {
+    position: relative;
+    padding-right: 2.75rem;
+  }
+  .world-view-controls {
+    grid-template-columns: 1fr;
+  }
+  .world-view-button {
+    padding: 0.8rem 1rem;
+    border-top: 0;
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+  .world-view-active {
+    box-shadow: inset 2px 0 var(--olive);
+  }
+  .world-pause {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    min-width: 2.75rem;
+  }
+  .home-projects article > a {
+    height: 16rem;
+  }
+}
+
+/* Each view reframes the same world. The boundary view lifts the system's cap
+   to make its separate layers visible; all transitions are user initiated. */
+.world-focus {
+  transform-origin: 600px 290px;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.world-core-crown {
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.security-world-stage[data-view="1"] .world-focus {
+  transform: translateY(20px) scale(1.15);
+}
+.security-world-stage[data-view="1"] .world-core-crown {
+  transform: translateY(-24px);
+}
+.security-world-stage[data-view="2"] .world-focus {
+  transform: translate(-30px, -40px) scale(1.12);
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-focus,
+  .world-core-crown {
+    transform: none !important;
+  }
 }

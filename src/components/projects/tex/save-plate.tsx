@@ -129,7 +129,7 @@ export function SavePlate() {
           aria-labelledby="save-plate-title save-plate-desc"
         >
           <title id="save-plate-title">
-            Timeline of one save, {buildTotalMs} milliseconds end to end
+            {`Timeline of one save, ${buildTotalMs} milliseconds end to end`}
           </title>
           <desc id="save-plate-desc">
             Two time tracks. The upper track covers the whole save to scale:{" "}
@@ -166,7 +166,7 @@ export function SavePlate() {
           <text
             x={X0}
             y="20"
-            className="fill-current font-mono text-detail-xs text-foreground/40 uppercase"
+            className="fill-current font-mono text-detail-xs text-foreground/40"
           >
             Milliseconds from ⌘S
           </text>
@@ -201,7 +201,7 @@ export function SavePlate() {
           <motion.text
             x={X0}
             y="160"
-            className="fill-current font-mono text-detail-xs text-foreground/40 uppercase"
+            className="fill-current font-mono text-detail-xs text-foreground/40"
             {...appear(0.75)}
           >
             The {restMs} ms that is not the engine, expanded
@@ -265,7 +265,7 @@ export function SavePlate() {
         </svg>
       </div>
 
-      <figcaption className="text-faded mt-4 font-mono text-detail-xs uppercase">
+      <figcaption className="text-faded mt-4 font-mono text-detail-xs">
         One save · 182-page thesis · {buildTotalMs} ms end to end · olive is
         restored, not run
         {/* The plate keeps its scale on a narrow screen, so say that it moves

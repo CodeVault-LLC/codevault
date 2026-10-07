@@ -15,7 +15,7 @@ export function ReportRow({ report }: ReportRowProps) {
       <Link
         to="/reports/$accessionId"
         params={{ accessionId: report.accessionId! }}
-        className="group block rounded-sm px-2 py-4 transition-colors hover:bg-ivory-medium/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:hover:bg-white/5"
+        className="group block rounded-sm px-2 py-7 transition-colors hover:bg-ivory-medium/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:hover:bg-white/5"
       >
         <div className="text-faded flex items-baseline gap-3 font-mono text-detail-xs">
           <span>{report.accessionId}</span>
@@ -23,7 +23,7 @@ export function ReportRow({ report }: ReportRowProps) {
           <span>{docTypeLabels[report.docType]}</span>
         </div>
 
-        <h2 className="mt-1 text-paragraph-s font-medium text-pretty group-hover:underline">
+        <h2 className="mt-3 text-display-s font-normal text-pretty group-hover:underline">
           {report.title}
         </h2>
 

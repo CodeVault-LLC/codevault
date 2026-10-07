@@ -28,9 +28,7 @@ export function LogoMark({
         )}
       />
       {withWordmark && (
-        // Optical size: the wordmark is set to sit with the glyph, not with the
-        // body copy, so it stays off the fluid type scale.
-        <span className="text-[15px] font-semibold tracking-[-0.01em]">
+        <span className="text-display-xs font-semibold tracking-tight">
           {site.name}
         </span>
       )}

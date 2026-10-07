@@ -1,4 +1,5 @@
 import { LegalDocument, LegalSection } from "@/components/legal/legal-document"
+import { legalPresentation } from "@/core/config/site"
 import { legal, legalPages } from "@/core/config/legal"
 
 /**
@@ -15,8 +16,7 @@ export function Cookies() {
       <LegalSection id="what" title="What we set">
         <p>
           One cookie, and only after you sign in to a staff account. If you are
-          reading the public site, <strong>nothing is stored</strong> on your
-          device by us.
+          reading the public site, no cookie is set.
         </p>
 
         <div className="mt-6 overflow-x-auto">
@@ -27,7 +27,7 @@ export function Cookies() {
                   <th
                     key={heading}
                     scope="col"
-                    className="text-faded pr-4 pb-3 text-detail-xs font-medium uppercase"
+                    className="text-faded pr-4 pb-3 text-detail-xs font-medium"
                   >
                     {heading}
                   </th>
@@ -56,6 +56,13 @@ export function Cookies() {
           <code className="font-mono text-detail-xs">__Secure-</code> prefix and
           sent only over HTTPS.
         </p>
+      </LegalSection>
+
+      <LegalSection
+        id="color-preference"
+        title={legalPresentation.themeStorageTitle}
+      >
+        <p>{legalPresentation.themeStorage}</p>
       </LegalSection>
 
       <LegalSection id="no-banner" title="Why there is no banner">

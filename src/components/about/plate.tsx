@@ -69,7 +69,9 @@ export function Plate({
         alt={alt}
         srcSet={srcSet}
         sizes={
-          bleed ? "100vw" : "(min-width: 1152px) 1104px, calc(100vw - 48px)"
+          bleed
+            ? "100vw"
+            : "(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), (min-width: 768px) calc(100vw - 80px), calc(100vw - 48px)"
         }
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : undefined}

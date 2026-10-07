@@ -13,12 +13,12 @@ import { reportsArchive } from "@/core/config/reports"
 // search — the same URLs the facet rail produces.
 export function BrowseIndexView({ index }: BrowseIndexProps) {
   return (
-    <Container className="py-10 md:py-12">
+    <Container className="py-14 md:py-20">
       <header className="max-w-2xl">
-        <h1 className="text-display-m font-semibold text-balance">
+        <h1 className="text-display-xxl font-normal text-balance">
           {reportsArchive.browseTitle}
         </h1>
-        <p className="text-faded mt-3 text-paragraph-s text-pretty">
+        <p className="mt-6 max-w-xl text-paragraph-m text-pretty text-muted-foreground">
           {reportsArchive.browseDescription}
         </p>
         <p className="text-faded mt-3 font-mono text-detail-xs">
@@ -27,9 +27,7 @@ export function BrowseIndexView({ index }: BrowseIndexProps) {
       </header>
 
       <section className="mt-10">
-        <h2 className="text-faded text-detail-xs tracking-wide uppercase">
-          By year
-        </h2>
+        <h2 className="text-faded text-detail-xs tracking-wide">By year</h2>
         <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
           {index.years.map((year) => (
             <li key={year.year}>
@@ -49,9 +47,7 @@ export function BrowseIndexView({ index }: BrowseIndexProps) {
       </section>
 
       <section className="mt-10">
-        <h2 className="text-faded text-detail-xs tracking-wide uppercase">
-          By subject
-        </h2>
+        <h2 className="text-faded text-detail-xs tracking-wide">By subject</h2>
         <ul className="border-faded mt-4 border-t">
           {index.subjects.map((subject) => (
             <li key={subject.slug} className="border-faded border-b">

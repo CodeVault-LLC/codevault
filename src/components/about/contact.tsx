@@ -45,7 +45,7 @@ export function Contact() {
               variants={fadeUp}
               className="flex min-w-0 flex-col py-2"
             >
-              <span className="text-faded flex items-center gap-2 text-detail-xs font-medium uppercase">
+              <span className="text-faded flex items-center gap-2 text-detail-xs font-medium">
                 {channel.kind === "email" ? (
                   <Mail className="size-3.5" />
                 ) : (

@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router"
 
+import { Footer } from "@/components/layout/footer"
 import { AboutNav } from "@/components/about/about-nav"
 
 export const Route = createFileRoute("/about")({
@@ -10,9 +11,10 @@ function AboutLayout() {
   return (
     <>
       <AboutNav />
-      <main>
+      <main id="main-content">
         <Outlet />
       </main>
+      <Footer />
     </>
   )
 }

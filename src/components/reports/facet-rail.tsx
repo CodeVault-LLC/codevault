@@ -50,7 +50,7 @@ function FacetGroup({ dimension, values, search }: FacetGroupProps) {
 
   return (
     <section>
-      <h2 className="text-faded text-detail-xs tracking-wide uppercase">
+      <h2 className="text-faded text-detail-xs tracking-wide">
         {facetLabels[dimension]}
       </h2>
 

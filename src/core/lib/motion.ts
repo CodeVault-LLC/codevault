@@ -48,3 +48,34 @@ export const viewportOnce = { once: true, amount: 0.25 } as const
 // of the element to be visible means a screen of nothing while the reader
 // scrolls. Reveals as soon as the block's leading edge crosses in.
 export const viewportEdge = { once: true, amount: 0 } as const
+
+// Hero letters settle individually; section words lift through a quiet mask.
+// The fade variant is used sparingly for short supporting headings.
+export const textTransitions = {
+  letters: {
+    keyframes: {
+      opacity: [0, 1],
+      y: ["0.35em", "0em"],
+      filter: ["blur(6px)", "blur(0px)"],
+    },
+    duration: 0.85,
+    stagger: 0.028,
+  },
+  words: {
+    keyframes: { y: ["110%", "0%"], opacity: [0, 1] },
+    duration: 0.7,
+    stagger: 0.07,
+  },
+  fade: {
+    keyframes: { opacity: [0.15, 1], filter: ["blur(3px)", "blur(0px)"] },
+    duration: 0.9,
+    stagger: 0.1,
+  },
+}
+
+// Slow, coordinated motion for the homepage's architectural illustration.
+export const securityWorldMotion = {
+  signalSeconds: 10,
+  scanSeconds: 4,
+  parallax: 12,
+} as const

@@ -1,138 +1,162 @@
-import { cn } from "@/lib/utils"
 import { Link } from "@tanstack/react-router"
-import { ArrowRight, ArrowUpRight, Download } from "lucide-react"
+import { ArrowUpRight, Download } from "lucide-react"
+import { TextReveal } from "@/components/editorial/text-reveal"
 import { Container } from "@/components/layout/container"
-import {
-  ResearchShell,
-  researchLink,
-} from "@/components/research/research-shell"
+import { ContourField } from "@/components/editorial/contour-field"
+import { ResearchShell } from "@/components/research/research-shell"
 import { researchFindings, researchPage as page } from "@/core/config/site"
 
 export function ResearchIndex() {
+  const featured = researchFindings[0]
   return (
     <ResearchShell>
-      <section
-        aria-labelledby="research-title"
-        className="relative isolate overflow-hidden bg-slate-dark text-ivory-light"
-      >
-        <img
-          src={page.image}
-          srcSet={page.imageSrcSet}
-          sizes="100vw"
-          alt=""
-          fetchPriority="high"
-          className="absolute inset-0 -z-20 size-full object-cover object-center"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-linear-to-r from-slate-dark/75 via-slate-dark/60 to-slate-dark/50 md:via-slate-dark/35 md:to-slate-dark/10"
-        />
-        <Container className="flex min-h-[34rem] flex-col justify-center py-16 md:min-h-[min(76svh,48rem)] md:py-24">
-          <h1
-            id="research-title"
-            className="max-w-xl text-display-l font-normal text-balance"
-          >
-            {page.title}
-          </h1>
-          <p className="mt-5 max-w-md text-paragraph-m text-pretty text-ivory-light/90">
-            {page.introduction}
-          </p>
-          <a
-            href="#findings"
-            className="mt-7 inline-flex min-h-10 w-fit items-center gap-6 bg-ivory-light px-4 py-2 text-paragraph-s font-medium text-slate-dark transition-colors hover:bg-ivory-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory-light"
-          >
-            {page.exploreLabel}
-            <ArrowRight aria-hidden="true" className="size-4" />
-          </a>
+      <section aria-labelledby="research-title">
+        <Container className="pt-14 pb-16 md:pt-24 md:pb-20">
+          <div className="grid items-start gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-20">
+            <h1
+              id="research-title"
+              className="text-display-xxl font-medium text-balance"
+            >
+              <TextReveal text={page.title} />
+            </h1>
+            <p className="max-w-lg pb-2 text-paragraph-l text-pretty text-muted-foreground">
+              {page.introduction}
+            </p>
+          </div>
         </Container>
       </section>
+      <Container>
+        <article className="grid grid-cols-1 bg-secondary lg:grid-cols-[1.2fr_1fr]">
+          <Link
+            to="/research/$slug"
+            params={{ slug: featured.slug }}
+            aria-label={featured.title}
+            className="focus-ring relative isolate flex min-h-80 items-center justify-center overflow-hidden bg-slate-dark text-ivory-light md:min-h-[30rem]"
+          >
+            <ContourField className="absolute inset-0 -z-10 scale-150 text-ivory-light/55" />
+            <div className="flex size-40 items-center justify-center rounded-full border border-ivory-light/40 bg-slate-dark md:size-52">
+              <span className="font-mono text-display-s">
+                {featured.report}
+              </span>
+            </div>
+          </Link>
+          <div className="flex min-w-0 flex-col justify-center p-6 md:p-12">
+            <h2 className="text-display-l font-normal text-balance [overflow-wrap:anywhere]">
+              <Link
+                to="/research/$slug"
+                params={{ slug: featured.slug }}
+                className="focus-ring underline-offset-8 hover:underline"
+              >
+                {featured.title}
+              </Link>
+            </h2>
+            <p className="mt-5 text-paragraph-m text-pretty text-muted-foreground">
+              {featured.summary}
+            </p>
+            <Link
+              to="/research/$slug"
+              params={{ slug: featured.slug }}
+              className="editorial-link mt-8 w-fit"
+            >
+              {page.readFinding}
+              <ArrowUpRight aria-hidden="true" className="size-4" />
+            </Link>
+          </div>
+        </article>
+      </Container>
       <section
         id="findings"
         aria-labelledby="findings-title"
-        className="scroll-mt-24"
+        className="section-space"
       >
-        <Container className="py-12 md:py-16">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 id="findings-title" className="text-display-s font-medium">
+        <Container>
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <h2 id="findings-title" className="text-display-l font-normal">
               {page.findingsTitle}
             </h2>
-            <span className="text-paragraph-s text-muted-foreground">
-              {page.independentLabel}
-            </span>
           </div>
-          <ul className="mt-6 border-t border-border">
+          <ul className="mt-9 border-t border-border">
             {researchFindings.map((finding) => (
               <li
                 key={finding.slug}
-                className="grid gap-5 border-b border-border py-7 md:grid-cols-[10rem_minmax(0,1fr)_auto] md:gap-9"
+                className="grid gap-7 border-b border-border py-9 md:grid-cols-[10rem_1fr] lg:grid-cols-[11rem_1fr_12rem] lg:gap-12"
               >
-                <div className="flex flex-wrap items-baseline gap-3 text-paragraph-s text-muted-foreground md:flex-col md:gap-2">
-                  <span className="font-mono text-foreground">
-                    {finding.report}
-                  </span>
+                <div className="flex flex-wrap gap-x-5 gap-y-2 text-paragraph-s text-muted-foreground md:flex-col">
                   <time dateTime={finding.reportDate}>{finding.dateLabel}</time>
-                  <span
-                    className="research-severity"
-                    data-severity={finding.severity}
-                  >
-                    {finding.severity} · {finding.score}
+                  <span className="font-mono text-detail-xs">
+                    {finding.report}
                   </span>
                 </div>
                 <article>
-                  <h3 className="max-w-xl text-display-xs font-medium text-balance">
+                  <h3 className="max-w-2xl text-display-m font-normal text-balance">
                     <Link
                       to="/research/$slug"
                       params={{ slug: finding.slug }}
-                      className="hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                      className="focus-ring underline-offset-4 hover:underline"
                     >
                       {finding.title}
                     </Link>
                   </h3>
-                  <p className="mt-3 max-w-xl text-paragraph-s text-muted-foreground">
+                  <p className="mt-4 max-w-xl text-paragraph-s text-muted-foreground">
                     {finding.summary}
                   </p>
-                  <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-                    <Link
-                      to="/research/$slug"
-                      params={{ slug: finding.slug }}
-                      className={researchLink}
-                    >
-                      {page.readFinding}
-                      <ArrowRight aria-hidden="true" className="size-3.5" />
-                    </Link>
-                    <a href={finding.pdf} download className={researchLink}>
-                      {page.shortPdfLabel}
-                      <Download aria-hidden="true" className="size-3.5" />
-                    </a>
-                  </div>
+                  <a
+                    href={finding.pdf}
+                    download
+                    className="editorial-link mt-5"
+                  >
+                    {page.shortPdfLabel}
+                    <Download aria-hidden="true" className="size-4" />
+                  </a>
                 </article>
-                <a
-                  href={finding.advisory}
-                  data-severity={finding.severity}
-                  className="research-severity inline-flex h-fit w-fit items-center gap-2 text-paragraph-s underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-                >
-                  {finding.cve}
-                  <ArrowUpRight aria-hidden="true" className="size-3.5" />
-                </a>
+                <div className="flex flex-col items-start gap-3 md:col-start-2 lg:col-auto">
+                  <span
+                    className="research-severity text-paragraph-s"
+                    data-severity={finding.severity}
+                  >
+                    {finding.severity} · {finding.score}
+                  </span>
+                  <a
+                    href={finding.advisory}
+                    className="focus-ring inline-flex items-center gap-2 font-mono text-detail-xs underline underline-offset-4"
+                  >
+                    {finding.cve}
+                    <ArrowUpRight aria-hidden="true" className="size-3" />
+                  </a>
+                </div>
               </li>
             ))}
           </ul>
         </Container>
       </section>
-      <section aria-labelledby="approach-title" className="bg-muted/50">
-        <Container className="grid gap-6 py-10 md:grid-cols-[1fr_2fr] md:gap-16 md:py-12">
-          <h2 id="approach-title" className="text-display-s font-normal">
+      <section
+        aria-labelledby="approach-title"
+        className="border-t border-border bg-secondary py-16 md:py-24"
+      >
+        <Container>
+          <h2
+            id="approach-title"
+            className="text-display-xl font-normal text-balance"
+          >
             {page.approachTitle}
           </h2>
-          <div>
-            <p className="max-w-2xl text-paragraph-m text-muted-foreground">
-              {page.approach}
-            </p>
-            <Link to="/about/contact" className={cn(researchLink, "mt-5")}>
-              {page.contactLabel}
-              <ArrowUpRight aria-hidden="true" className="size-4" />
-            </Link>
-          </div>
+          <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-12">
+            {page.methods.map((method) => (
+              <li
+                key={method.title}
+                className="border-t border-foreground/25 pt-5"
+              >
+                <h3 className="text-display-s font-medium">{method.title}</h3>
+                <p className="mt-4 text-paragraph-s text-pretty text-muted-foreground">
+                  {method.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+          <Link to="/about/contact" className="editorial-link mt-10">
+            {page.contactLabel}
+            <ArrowUpRight aria-hidden="true" className="size-4" />
+          </Link>
         </Container>
       </section>
     </ResearchShell>

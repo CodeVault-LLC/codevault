@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router"
 
+import { Footer } from "@/components/layout/footer"
 import { ReportsNavbar } from "@/components/reports/reports-navbar"
 
 // The archive's layout branch. `__root.tsx` renders a bare <Outlet/> with no
@@ -12,11 +13,12 @@ export const Route = createFileRoute("/reports")({
 
 function ReportsLayout() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <ReportsNavbar />
-      <main>
+      <main id="main-content" className="flex-1">
         <Outlet />
       </main>
+      <Footer />
     </div>
   )
 }

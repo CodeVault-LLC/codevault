@@ -33,7 +33,7 @@ export function RunDeck() {
               setCopied(false)
             }}
             className={cn(
-              "min-w-fit border-r border-border px-5 py-3.5 font-mono text-detail-xs uppercase transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-inset",
+              "min-w-fit border-r border-border px-5 py-3.5 font-mono text-detail-xs transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-inset",
               example.id === active.id
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:bg-background hover:text-foreground"
@@ -57,7 +57,7 @@ export function RunDeck() {
 
           <div className="mt-8 min-w-0 overflow-hidden rounded-xl bg-foreground text-background">
             <div className="flex items-center justify-between border-b border-background/15 px-4 py-2.5">
-              <span className="font-mono text-detail-xs text-background/70 uppercase">
+              <span className="font-mono text-detail-xs text-background/70">
                 Example command
               </span>
               <button
@@ -100,7 +100,7 @@ export function RunDeck() {
                   <h4 className="text-paragraph-s font-medium">
                     {stage.label}
                   </h4>
-                  <span className="font-mono text-detail-xs text-muted-foreground uppercase">
+                  <span className="font-mono text-detail-xs text-muted-foreground">
                     {stage.boundary}
                   </span>
                 </div>

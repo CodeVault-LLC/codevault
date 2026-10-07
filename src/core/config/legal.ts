@@ -165,6 +165,7 @@ export const legalNav: { label: string; href: string }[] = [
 ]
 
 type PageCopy = {
+  updated?: string
   eyebrow: string
   heading: Heading
   lede: string
@@ -198,9 +199,10 @@ export const legalPages: Record<
       "The terms you read codevault.no under: the archive, intellectual property, acceptable use, and governing law.",
   },
   cookies: {
+    updated: "2026-09-23",
     eyebrow: "Legal",
     heading: { before: "Cookies, ", accent: "briefly" },
-    lede: "One cookie, and only if you sign in. There's no banner because there's nothing to consent to.",
+    lede: "One sign-in cookie, and a color preference saved only if you choose one.",
     description:
       "The cookies CodeVault sets, what they do, and why there is no consent banner.",
   },

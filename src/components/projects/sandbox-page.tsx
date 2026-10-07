@@ -1,16 +1,9 @@
 import { Link } from "@tanstack/react-router"
-import { motion, useReducedMotion } from "framer-motion"
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowUpRight,
-  HardDrive,
-  Network,
-  ShieldCheck,
-  Terminal,
-} from "lucide-react"
+import { motion } from "framer-motion"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
+import { ProjectIntro } from "@/components/projects/project-intro"
 import { ProjectShell } from "@/components/projects/project-shell"
 import { ContainmentMap } from "@/components/projects/sandbox/containment-map"
 import { NetworkRange } from "@/components/projects/sandbox/network-range"
@@ -28,79 +21,11 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
 const project = getProject("sandbox")!
 
-function HeroBoundary() {
-  const layers = [
-    {
-      label: "AI request",
-      detail: "untrusted text",
-      icon: Terminal,
-      tone: "text-destructive",
-    },
-    {
-      label: "Rust controller",
-      detail: "host-owned policy",
-      icon: ShieldCheck,
-      tone: "text-olive",
-    },
-    {
-      label: "QEMU guest",
-      detail: "disposable execution",
-      icon: HardDrive,
-      tone: "text-foreground",
-    },
-  ] as const
-
-  return (
-    <div className="relative mx-auto w-full max-w-lg">
-      <div className="absolute inset-y-8 left-7 w-px bg-border sm:left-9" />
-      <ol className="relative space-y-3">
-        {layers.map((layer) => {
-          const Icon = layer.icon
-
-          return (
-            <li
-              key={layer.label}
-              className="grid grid-cols-[auto_1fr] items-center gap-4"
-            >
-              <span className="relative z-10 flex size-14 items-center justify-center rounded-xl border border-border bg-background sm:size-18">
-                <Icon className={"size-5 " + layer.tone} aria-hidden="true" />
-              </span>
-              <div className="rounded-xl border border-border bg-background p-4 sm:p-5">
-                <p className="text-paragraph-s font-medium">{layer.label}</p>
-                <p className="mt-1 font-mono text-detail-xs text-muted-foreground uppercase">
-                  {layer.detail}
-                </p>
-              </div>
-            </li>
-          )
-        })}
-      </ol>
-
-      <div className="mt-3 ml-18 rounded-xl border border-dashed border-border bg-secondary p-4 sm:ml-22 sm:p-5">
-        <div className="flex items-center gap-3">
-          <Network
-            className="size-4 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <p className="font-mono text-detail-xs text-muted-foreground uppercase">
-            Default path to the Internet
-          </p>
-          <span className="ml-auto font-mono text-detail-xs text-foreground uppercase">
-            None
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function SectionHeading({ title, body }: { title: string; body: string }) {
-  const reduceMotion = useReducedMotion()
-
   return (
     <motion.div
       variants={staggerContainer(0.07)}
-      initial={reduceMotion ? "show" : "hidden"}
+      initial={false}
       whileInView="show"
       viewport={viewportOnce}
       className="max-w-3xl"
@@ -122,61 +47,13 @@ function SectionHeading({ title, body }: { title: string; body: string }) {
 }
 
 export function SandboxPage() {
-  const reduceMotion = useReducedMotion()
   const next = nextProject(project.slug)
 
   return (
     <ProjectShell className="bg-background">
       <article>
-        <section className="relative overflow-hidden border-b border-border">
-          <Container className="py-12 md:py-18 lg:py-24">
-            <motion.div
-              variants={staggerContainer(0.07)}
-              initial={reduceMotion ? "show" : "hidden"}
-              whileInView="show"
-              viewport={viewportOnce}
-            >
-              <motion.div variants={fadeUp} className="flex items-center">
-                <Link
-                  to="/projects"
-                  className="inline-flex items-center gap-1.5 font-mono text-detail-xs text-muted-foreground uppercase transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
-                >
-                  <ArrowLeft className="size-3.5" aria-hidden="true" />
-                  All projects
-                </Link>
-              </motion.div>
-
-              <div className="mt-12 grid items-center gap-14 lg:grid-cols-[minmax(0,1.03fr)_minmax(0,0.97fr)] lg:gap-18">
-                <div>
-                  <motion.h1
-                    variants={fadeUp}
-                    className="text-display-xxl font-semibold text-balance"
-                  >
-                    Sandbox
-                  </motion.h1>
-                  <motion.p
-                    variants={fadeUp}
-                    className="mt-5 max-w-xl text-display-s text-pretty text-foreground/85"
-                  >
-                    Give the model a real{" "}
-                    <span className="font-serif font-normal italic">shell</span>
-                    . Keep the host out of reach.
-                  </motion.p>
-                  <motion.p
-                    variants={fadeUp}
-                    className="mt-6 max-w-2xl text-paragraph-l text-pretty text-muted-foreground"
-                  >
-                    {sandboxIntro.lede}
-                  </motion.p>
-                </div>
-
-                <motion.div variants={fadeUp}>
-                  <HeroBoundary />
-                </motion.div>
-              </div>
-            </motion.div>
-          </Container>
-
+        <ProjectIntro project={project} introduction={sandboxIntro.lede} />
+        <section>
           <div className="border-t border-border bg-secondary">
             <Container>
               <p className="max-w-4xl border-l border-destructive py-5 pl-5 text-paragraph-s text-pretty text-foreground">
@@ -193,7 +70,7 @@ export function SandboxPage() {
                     key={figure.label}
                     className="border-b border-border py-5 pr-4 last:border-b-0 sm:border-r sm:border-b-0 sm:py-6 sm:pl-5 sm:first:pl-0 sm:last:border-r-0"
                   >
-                    <dt className="font-mono text-detail-xs text-muted-foreground uppercase">
+                    <dt className="font-mono text-detail-xs text-muted-foreground">
                       {figure.label}
                     </dt>
                     <dd className="mt-2 text-display-s font-semibold tabular-nums">
@@ -208,7 +85,7 @@ export function SandboxPage() {
 
         <nav
           aria-label="Sandbox presentation"
-          className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85"
+          className="sticky top-16 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85 lg:top-[4.25rem]"
         >
           <Container>
             <ol className="flex overflow-x-auto">
@@ -216,7 +93,7 @@ export function SandboxPage() {
                 <li key={section.id} className="shrink-0">
                   <a
                     href={"#" + section.id}
-                    className="block px-4 py-3 font-mono text-detail-xs text-muted-foreground uppercase transition-colors outline-none first:pl-0 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-inset"
+                    className="block px-4 py-3 font-mono text-detail-xs text-muted-foreground transition-colors outline-none first:pl-0 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-inset"
                   >
                     {section.label}
                   </a>
@@ -261,7 +138,7 @@ export function SandboxPage() {
             />
             <motion.div
               variants={fadeUp}
-              initial={reduceMotion ? "show" : "hidden"}
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
               className="mt-12"
@@ -313,10 +190,10 @@ export function SandboxPage() {
               body={sandboxPage.roadmap.body}
             />
 
-            <ol className="bg-faded mt-14 grid gap-px overflow-hidden rounded-2xl md:grid-cols-2">
+            <ol className="bg-faded mt-14 grid gap-px overflow-hidden md:grid-cols-2">
               {sandboxRoadmap.map((step, index) => (
                 <li key={step.gate} className="bg-background p-6 md:p-8">
-                  <span className="font-mono text-detail-xs text-muted-foreground uppercase">
+                  <span className="font-mono text-detail-xs text-muted-foreground">
                     {step.gate}
                   </span>
                   <h3 className="mt-7 text-display-s font-semibold">
@@ -365,7 +242,7 @@ export function SandboxPage() {
               </div>
 
               <div className="border-t border-background/20 pt-7 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
-                <p className="font-mono text-detail-xs text-background/70 uppercase">
+                <p className="font-mono text-detail-xs text-background/70">
                   Next project
                 </p>
                 <Link

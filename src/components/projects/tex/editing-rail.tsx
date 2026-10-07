@@ -17,7 +17,7 @@ export function EditingRail() {
   return (
     <motion.ol
       variants={staggerContainer(0.07)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportEdge}
       className="flex flex-col"
@@ -40,7 +40,7 @@ export function EditingRail() {
             </div>
 
             <div className="border-faded border-l pl-5 md:pl-6">
-              <p className="text-faded font-mono text-detail-xs uppercase">
+              <p className="text-faded font-mono text-detail-xs">
                 Why it exists
               </p>
               <p className="mt-2 text-paragraph-s text-pretty text-muted-foreground">

@@ -33,7 +33,7 @@ export function ChartSection({
     <motion.section
       aria-labelledby={id}
       variants={staggerContainer(0.08)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportEdge}
       className={cn("scroll-mt-24", className)}
@@ -52,7 +52,7 @@ export function ChartSection({
           </h2>
         </div>
         {bearing && (
-          <span className="text-faded hidden shrink-0 font-mono text-detail-xs uppercase tabular-nums sm:inline">
+          <span className="text-faded hidden shrink-0 font-mono text-detail-xs tabular-nums sm:inline">
             {bearing}
           </span>
         )}

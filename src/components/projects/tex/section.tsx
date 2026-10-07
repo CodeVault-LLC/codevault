@@ -35,7 +35,7 @@ export function SpecimenSection({
     <motion.section
       aria-labelledby={id}
       variants={staggerContainer(0.08)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportEdge}
       className={cn(
@@ -52,7 +52,7 @@ export function SpecimenSection({
         className="text-faded hidden font-mono text-detail-xs tabular-nums lg:sticky lg:top-28 lg:block lg:self-start lg:pt-5"
       >
         <p>{index}</p>
-        {measure && <p className="mt-2 uppercase">{measure}</p>}
+        {measure && <p className="mt-2">{measure}</p>}
       </motion.div>
 
       <div>

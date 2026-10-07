@@ -14,7 +14,12 @@ export function ProjectShell({
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">
       <Navbar />
-      <main className={cn("flex-1", className)}>{children}</main>
+      <main
+        id="main-content"
+        className={cn("project-surface flex-1", className)}
+      >
+        {children}
+      </main>
       <Footer />
     </div>
   )

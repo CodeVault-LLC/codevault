@@ -18,13 +18,11 @@ import { cn } from "@/lib/utils"
 export function BuildLadder() {
   return (
     <figure>
-      <p className="text-faded font-mono text-detail-xs uppercase">
-        {build.reference}
-      </p>
+      <p className="text-faded font-mono text-detail-xs">{build.reference}</p>
 
       <motion.ol
         variants={staggerContainer(0.07)}
-        initial="hidden"
+        initial={false}
         whileInView="show"
         viewport={viewportEdge}
         className="border-faded mt-5 flex flex-col border-l"
@@ -53,7 +51,7 @@ export function BuildLadder() {
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="text-display-xs font-semibold">{step.name}</h3>
                   {step.cached && (
-                    <span className="font-mono text-detail-xs text-olive uppercase">
+                    <span className="font-mono text-detail-xs text-olive">
                       restored
                     </span>
                   )}
@@ -79,7 +77,7 @@ export function BuildLadder() {
       </motion.ol>
 
       <div className="border-faded mt-2 flex flex-wrap items-baseline justify-between gap-4 border-t pt-5">
-        <p className="font-mono text-detail-xs tracking-wider uppercase">
+        <p className="font-mono text-detail-xs tracking-wider">
           Save to corrected page
         </p>
         <p className="text-display-m font-semibold tabular-nums">

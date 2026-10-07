@@ -68,7 +68,7 @@ export function NetworkRange() {
                   >
                     {mode.label}
                   </span>
-                  <span className="mt-1 hidden font-mono text-detail-xs text-muted-foreground uppercase sm:block">
+                  <span className="mt-1 hidden font-mono text-detail-xs text-muted-foreground sm:block">
                     {statusMeta[mode.status].label}
                   </span>
                 </button>
@@ -77,7 +77,7 @@ export function NetworkRange() {
           </div>
         </div>
 
-        <div className="mt-12 grid grid-cols-4 border-y border-border py-3 font-mono text-detail-xs text-muted-foreground uppercase">
+        <div className="mt-12 grid grid-cols-4 border-y border-border py-3 font-mono text-detail-xs text-muted-foreground">
           <span className="text-left">Guest</span>
           <span className="text-center">Sinks</span>
           <span className="text-center">Targets</span>
@@ -90,7 +90,7 @@ export function NetworkRange() {
       </div>
 
       <div className="border-t border-border pt-6" aria-live="polite">
-        <p className="flex items-center gap-2 font-mono text-detail-xs text-foreground uppercase">
+        <p className="flex items-center gap-2 font-mono text-detail-xs text-foreground">
           <ActiveIcon
             className={cn(
               "size-4",

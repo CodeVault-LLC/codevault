@@ -16,7 +16,7 @@ export function StageFunnel() {
   return (
     <motion.ol
       variants={staggerContainer(0.07)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportEdge}
       className="flex flex-col"

@@ -16,12 +16,12 @@ export function SearchResultsView({ results, search }: SearchResultsViewProps) {
   const filtered = hasActiveFilters(search)
 
   return (
-    <Container className="py-10 md:py-12">
+    <Container className="py-14 md:py-20">
       <header className="max-w-2xl">
-        <h1 className="text-display-m font-semibold text-balance">
+        <h1 className="text-display-xxl font-normal text-balance">
           {reportsArchive.name}
         </h1>
-        <p className="text-faded mt-3 text-paragraph-s text-pretty">
+        <p className="mt-6 max-w-xl text-paragraph-m text-pretty text-muted-foreground">
           {reportsArchive.description}
         </p>
       </header>

@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
+import { ProjectIntro } from "@/components/projects/project-intro"
 import { ProjectShell } from "@/components/projects/project-shell"
-import { StatusChip } from "@/components/projects/status-chip"
 import { getProject, nextProject, projectPath } from "@/core/config/projects"
 import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
 
@@ -35,55 +35,15 @@ export function GitStoryPage() {
   return (
     <ProjectShell>
       <article>
-        {/* Hero */}
-        <Container className="py-16 md:py-20">
-          <motion.div
-            variants={staggerContainer(0.08)}
-            initial="hidden"
-            whileInView="show"
-            viewport={viewportOnce}
-            className="max-w-3xl"
-          >
-            <motion.div variants={fadeUp}>
-              <Link
-                to="/projects"
-                className="text-faded inline-flex items-center gap-1.5 font-mono text-detail-xs uppercase transition-colors hover:text-foreground"
-              >
-                <ArrowLeft className="size-3.5" />
-                All projects
-              </Link>
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              className="mt-8 flex flex-wrap items-center gap-3"
-            >
-              <h1 className="font-mono text-display-xl font-semibold">
-                {project.name}
-              </h1>
-              <span className="border-faded rounded-full border px-2.5 py-1 font-mono text-detail-xs">
-                v0.4.1
-              </span>
-              <StatusChip status={project.status} />
-            </motion.div>
-            <motion.p
-              variants={fadeUp}
-              className="mt-5 text-paragraph-l text-pretty text-muted-foreground"
-            >
-              A CLI that reads your git log and tells it back as a readable{" "}
-              <span className="font-serif font-normal italic">
-                {project.accent}
-              </span>{" "}
-              — not a wall of hashes.
-            </motion.p>
-          </motion.div>
-
+        <ProjectIntro project={project} />
+        <Container className="py-12 md:py-16">
           {/* Install terminal */}
           <motion.div
             variants={fadeUp}
-            initial="hidden"
+            initial={false}
             whileInView="show"
             viewport={viewportOnce}
-            className="mt-10 max-w-3xl"
+            className="mx-auto max-w-3xl"
           >
             <Terminal label="install">
               <Line prompt>npm i -g git-story</Line>
@@ -99,25 +59,25 @@ export function GitStoryPage() {
           <Container className="py-14 md:py-16">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
               <div>
-                <h2 className="text-faded font-mono text-detail-xs uppercase">
-                  Spec
-                </h2>
+                <h2 className="text-faded font-mono text-detail-xs">Spec</h2>
                 <dl className="mt-4">
                   {project.facts.map((fact) => (
                     <div
                       key={fact.label}
                       className="border-faded flex items-baseline justify-between gap-4 border-b py-2.5 last:border-b-0"
                     >
-                      <dt className="text-faded font-mono text-detail-xs uppercase">
+                      <dt className="text-faded font-mono text-detail-xs">
                         {fact.label}
                       </dt>
-                      <dd className="font-mono text-sm">{fact.value}</dd>
+                      <dd className="font-mono text-paragraph-s">
+                        {fact.value}
+                      </dd>
                     </div>
                   ))}
                 </dl>
               </div>
               <div>
-                <h2 className="text-faded font-mono text-detail-xs uppercase">
+                <h2 className="text-faded font-mono text-detail-xs">
                   Built with
                 </h2>
                 <ul className="mt-4 flex flex-wrap gap-2">
@@ -131,7 +91,7 @@ export function GitStoryPage() {
                   ))}
                 </ul>
 
-                <h2 className="text-faded mt-8 font-mono text-detail-xs uppercase">
+                <h2 className="text-faded mt-8 font-mono text-detail-xs">
                   Links
                 </h2>
                 <div className="mt-4 flex flex-col gap-2.5">
@@ -154,12 +114,12 @@ export function GitStoryPage() {
         {/* Usage */}
         <Container className="py-16 md:py-20">
           <div className="max-w-3xl">
-            <h2 className="text-faded font-mono text-detail-xs font-medium uppercase">
+            <h2 className="text-faded font-mono text-detail-xs font-medium">
               Usage
             </h2>
             <motion.ul
               variants={staggerContainer(0.08)}
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
               className="mt-5 flex flex-col gap-4"
@@ -180,12 +140,15 @@ export function GitStoryPage() {
         <section className="border-faded border-t">
           <Container className="py-16 md:py-20">
             <div className="max-w-3xl">
-              <h2 className="text-display-m font-semibold text-balance">
+              <h2
+                id="design-notes"
+                className="scroll-mt-28 text-display-m font-semibold text-balance"
+              >
                 Why it exists.
               </h2>
               <motion.div
                 variants={staggerContainer(0.08)}
-                initial="hidden"
+                initial={false}
                 whileInView="show"
                 viewport={viewportOnce}
                 className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2"
@@ -200,7 +163,7 @@ export function GitStoryPage() {
                       <span className="text-faded font-mono text-detail-xs tabular-nums">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="font-mono text-detail-xs font-medium uppercase">
+                      <h3 className="font-mono text-detail-xs font-medium">
                         {step.phase}
                       </h3>
                     </div>
@@ -218,12 +181,12 @@ export function GitStoryPage() {
         <section className="border-faded border-t bg-ivory-medium">
           <Container className="py-16 md:py-20">
             <div className="max-w-3xl">
-              <h2 className="text-faded font-mono text-detail-xs font-medium uppercase">
+              <h2 className="text-faded font-mono text-detail-xs font-medium">
                 Changelog
               </h2>
               <motion.ol
                 variants={staggerContainer(0.08)}
-                initial="hidden"
+                initial={false}
                 whileInView="show"
                 viewport={viewportOnce}
                 className="mt-6 flex flex-col"
@@ -238,7 +201,7 @@ export function GitStoryPage() {
                       {entry.date}
                     </time>
                     <div>
-                      <h3 className="font-mono text-sm font-medium">
+                      <h3 className="font-mono text-paragraph-s font-medium">
                         {entry.title}
                       </h3>
                       <p className="mt-1.5 text-paragraph-s text-pretty text-muted-foreground">
@@ -255,7 +218,7 @@ export function GitStoryPage() {
         {/* Notes */}
         <Container className="py-16 md:py-20">
           <div className="max-w-3xl">
-            <h2 className="text-faded font-mono text-detail-xs font-medium uppercase">
+            <h2 className="text-faded font-mono text-detail-xs font-medium">
               Notes
             </h2>
             <div className="mt-6 flex flex-col gap-5">
@@ -279,7 +242,7 @@ export function GitStoryPage() {
               className="group flex items-center justify-between gap-6 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <div>
-                <p className="text-faded font-mono text-detail-xs uppercase">
+                <p className="text-faded font-mono text-detail-xs">
                   Next project · {next.field}
                 </p>
                 <p className="mt-2 text-display-m font-semibold">{next.name}</p>
@@ -302,18 +265,20 @@ function Terminal({
   children: React.ReactNode
 }) {
   return (
-    <div className="border-faded overflow-hidden rounded-xl border bg-slate-dark">
+    <div className="border-faded overflow-hidden border bg-slate-dark">
       <div className="flex items-center gap-2 border-b border-ivory-light/10 px-4 py-2.5">
         <span className="size-2.5 rounded-full bg-ivory-light/20" aria-hidden />
         <span className="size-2.5 rounded-full bg-ivory-light/20" aria-hidden />
         <span className="size-2.5 rounded-full bg-ivory-light/20" aria-hidden />
         {label && (
-          <span className="ml-2 font-mono text-detail-xs text-ivory-light/40 uppercase">
+          <span className="ml-2 font-mono text-detail-xs text-ivory-light/40">
             {label}
           </span>
         )}
       </div>
-      <div className="overflow-x-auto p-4 font-mono text-sm">{children}</div>
+      <div className="overflow-x-auto p-4 font-mono text-paragraph-s">
+        {children}
+      </div>
     </div>
   )
 }

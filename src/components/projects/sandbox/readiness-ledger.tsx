@@ -78,9 +78,7 @@ export function ReadinessLedger() {
                   )}
                   aria-hidden="true"
                 />
-                <span className="font-mono text-detail-xs uppercase">
-                  {group.status}
-                </span>
+                <span className="font-mono text-detail-xs">{group.status}</span>
               </span>
               <span className="mt-3 block text-display-m font-semibold tabular-nums">
                 {group.count}
@@ -103,7 +101,7 @@ export function ReadinessLedger() {
               )}
               aria-hidden="true"
             />
-            <span className="font-mono text-detail-xs uppercase">
+            <span className="font-mono text-detail-xs">
               {active.status} · {active.count} control areas
             </span>
           </p>

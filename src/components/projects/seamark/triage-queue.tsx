@@ -28,17 +28,17 @@ export function TriageQueue() {
     <figure>
       <div className="border-faded overflow-hidden rounded-2xl border">
         <div className="border-faded flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b bg-ivory-medium px-5 py-3">
-          <p className="font-mono text-detail-xs tracking-wider uppercase">
+          <p className="font-mono text-detail-xs tracking-wider">
             Shift queue · 14 July
           </p>
-          <p className="text-faded font-mono text-detail-xs uppercase tabular-nums">
+          <p className="text-faded font-mono text-detail-xs tabular-nums">
             23 open · capacity 25
           </p>
         </div>
 
         <motion.ul
           variants={staggerContainer(0.06)}
-          initial="hidden"
+          initial={false}
           whileInView="show"
           viewport={viewportEdge}
           className="bg-faded flex flex-col gap-px"
@@ -81,7 +81,7 @@ export function TriageQueue() {
                   </p>
                 </div>
 
-                <p className="flex items-center gap-2 font-mono text-detail-xs uppercase md:justify-end">
+                <p className="flex items-center gap-2 font-mono text-detail-xs md:justify-end">
                   <span
                     aria-hidden
                     className={cn(

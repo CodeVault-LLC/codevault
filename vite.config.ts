@@ -7,6 +7,13 @@ import { nitro } from "nitro/vite"
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  // Keep Start's server entry and middleware together through Nitro's second
+  // bundling pass. Split SSR chunks can initialize shared helpers out of order.
+  environments: {
+    ssr: {
+      build: { rolldownOptions: { output: { codeSplitting: false } } },
+    },
+  },
   plugins: [
     devtools(),
     tailwindcss(),

@@ -33,13 +33,13 @@ export function TimingTable() {
           <thead>
             <tr className="border-faded border-b bg-ivory-medium">
               <th scope="col" className="px-5 py-3">
-                <span className="font-mono text-detail-xs tracking-wider uppercase">
+                <span className="font-mono text-detail-xs tracking-wider">
                   Document
                 </span>
               </th>
               {COLUMNS.map((column) => (
                 <th key={column.key} scope="col" className="w-40 px-5 py-3">
-                  <span className="block font-mono text-detail-xs tracking-wider uppercase">
+                  <span className="block font-mono text-detail-xs tracking-wider">
                     {column.label}
                   </span>
                   <span className="text-faded block font-mono text-detail-xs">
@@ -52,7 +52,7 @@ export function TimingTable() {
 
           <motion.tbody
             variants={staggerContainer(0.06)}
-            initial="hidden"
+            initial={false}
             whileInView="show"
             viewport={viewportEdge}
           >

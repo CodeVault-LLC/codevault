@@ -67,10 +67,10 @@ export function Brand() {
             title={brand.scout.title}
             body={brand.scout.body}
           >
-            <div className="border-faded mt-8 flex items-end justify-center gap-10 rounded-2xl border bg-muted px-6 py-12 sm:gap-16">
-              <Scout className="size-10 text-foreground/80" />
-              <Scout className="size-16 text-foreground/80" />
-              <Scout className="size-24 text-foreground" />
+            <div className="border-faded mt-8 flex items-end justify-center gap-4 border bg-muted px-4 py-12 sm:gap-16 sm:px-6">
+              <Scout className="size-8 text-foreground/80 sm:size-10" />
+              <Scout className="size-12 text-foreground/80 sm:size-16" />
+              <Scout className="size-16 text-foreground sm:size-24" />
             </div>
           </AboutSection>
 
@@ -141,10 +141,10 @@ function MarkSpecimens() {
         <motion.li
           key={item.caption}
           variants={fadeUp}
-          className="border-faded flex flex-col items-center gap-5 rounded-2xl border bg-muted px-6 py-10"
+          className="border-faded flex flex-col items-center gap-5 border bg-muted px-6 py-10"
         >
           <div className="flex h-12 items-center">{item.node}</div>
-          <span className="text-faded text-detail-xs font-medium uppercase">
+          <span className="text-faded text-detail-xs font-medium">
             {item.caption}
           </span>
         </motion.li>
@@ -165,7 +165,7 @@ function Swatches() {
     <div className="mt-8 flex flex-col gap-8">
       {brand.color.groups.map((group) => (
         <div key={group.heading}>
-          <h3 className="text-faded text-detail-xs font-medium uppercase">
+          <h3 className="text-faded text-detail-xs font-medium">
             {group.heading}
           </h3>
 
@@ -177,7 +177,7 @@ function Swatches() {
               <motion.li
                 key={swatch.token}
                 variants={fadeUp}
-                className="group border-faded overflow-hidden rounded-xl border"
+                className="group border-faded overflow-hidden border"
               >
                 <div
                   className="h-20 w-full origin-bottom transition-transform duration-500 ease-out group-hover:scale-y-110 motion-reduce:group-hover:scale-y-100"
@@ -206,7 +206,7 @@ function Specimens() {
   return (
     <motion.ul
       {...reveal}
-      className="border-faded bg-faded mt-8 flex flex-col gap-px overflow-hidden rounded-2xl border"
+      className="border-faded bg-faded mt-8 flex flex-col gap-px overflow-hidden border"
     >
       {brand.type.specimens.map((specimen) => (
         <motion.li
@@ -214,8 +214,8 @@ function Specimens() {
           variants={fadeUp}
           className="bg-background p-6 md:p-7"
         >
-          <div className="flex items-baseline justify-between gap-4">
-            <span className="text-faded text-detail-xs font-medium uppercase">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <span className="text-faded text-detail-xs font-medium">
               {specimen.name}
             </span>
             <code className="text-faded font-mono text-detail-xs">
@@ -229,8 +229,8 @@ function Specimens() {
       ))}
 
       <motion.li variants={fadeUp} className="bg-background p-6 md:p-7">
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="text-faded text-detail-xs font-medium uppercase">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <span className="text-faded text-detail-xs font-medium">
             The accent word
           </span>
           <code className="text-faded font-mono text-detail-xs">
@@ -255,10 +255,10 @@ function VoicePairs() {
         <motion.li
           key={pair.write}
           variants={fadeUp}
-          className="border-faded bg-faded grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2"
+          className="border-faded bg-faded grid gap-px overflow-hidden border sm:grid-cols-2"
         >
           <div className="bg-background p-5">
-            <span className="text-faded flex items-center gap-2 text-detail-xs font-medium uppercase">
+            <span className="text-faded flex items-center gap-2 text-detail-xs font-medium">
               <X className="size-3.5" />
               Not this
             </span>
@@ -267,7 +267,7 @@ function VoicePairs() {
             </p>
           </div>
           <div className="bg-background p-5">
-            <span className="flex items-center gap-2 text-detail-xs font-medium text-olive uppercase">
+            <span className="flex items-center gap-2 text-detail-xs font-medium text-olive">
               <Check className="size-3.5" />
               This
             </span>

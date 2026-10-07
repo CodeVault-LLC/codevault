@@ -33,13 +33,14 @@ src/
 ```
 
 Rules of placement:
+
 - **Content and copy** (labels, cards, nav, taglines) go in
   `core/config/site.ts`, not inline in components.
 - **Reusable primitives** go in `components/ui`; **page-specific building
   blocks** in `components/sections` or `components/layout`.
 - **Shared animation** goes in `core/lib/motion.ts`.
 - Keep files focused. When a component starts doing several unrelated things,
-  split it (see how `Navbar` extracts `DropdownPanel` and `MobileMenu`).
+  split it (see the shared `ProjectCard`, `ProjectIntro`, and `SectionNav`).
 
 ## TypeScript & imports
 
@@ -112,12 +113,28 @@ observe the change in the running app before calling it done. See the repo's
 
 ## Quick command reference
 
-| Command | Does |
-| --- | --- |
-| `npm run dev` | Start dev server on :3000 (SSR) |
-| `npm run build` | Production build |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier write |
-| `npm run check` | Prettier check |
-| `npm run test` | Vitest |
+| Command             | Does                            |
+| ------------------- | ------------------------------- |
+| `npm run dev`       | Start dev server on :3000 (SSR) |
+| `npm run build`     | Production build                |
+| `npm run typecheck` | `tsc --noEmit`                  |
+| `npm run lint`      | ESLint                          |
+| `npm run format`    | Prettier write                  |
+| `npm run check`     | Prettier check                  |
+| `npm run test`      | Vitest                          |
+
+### Production smoke check
+
+`npm run build` explicitly sets production mode, since the local `.env` uses
+`NODE_ENV=development`. Run the output as well as compiling it:
+
+```bash
+NODE_ENV=production PORT=3002 node --env-file=.env .output/server/index.mjs
+curl -f http://localhost:3002/
+curl -f http://localhost:3002/projects
+curl -f http://localhost:3002/reports
+```
+
+The SSR environment keeps its entry and middleware in one bundle. This avoids
+an initialization-order failure in Nitro's second bundling pass
+(`__exportAll is not a function`). Browser route chunks still split normally.

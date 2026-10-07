@@ -1,11 +1,11 @@
 import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import { Plate } from "@/components/about/plate"
 import { Container } from "@/components/layout/container"
+import { ProjectIntro } from "@/components/projects/project-intro"
 import { ProjectShell } from "@/components/projects/project-shell"
-import { StatusChip } from "@/components/projects/status-chip"
 import { DetectorRail } from "@/components/projects/seamark/detector-rail"
 import { ChartSection } from "@/components/projects/seamark/section"
 import { SheetGrid } from "@/components/projects/seamark/sheet-grid"
@@ -17,7 +17,6 @@ import {
   acronym,
   area,
   evaluation,
-  expansion,
   glossary,
   humanInTheLoop,
   lede,
@@ -47,76 +46,8 @@ export function SeamarkPage() {
   return (
     <ProjectShell>
       <article>
-        {/* Masthead */}
-        <section className="border-faded relative overflow-hidden border-b bg-ivory-medium">
-          <SheetGrid />
-          <Container className="relative py-14 md:py-20">
-            <motion.div
-              variants={staggerContainer(0.07)}
-              initial="hidden"
-              whileInView="show"
-              viewport={viewportOnce}
-            >
-              <motion.div
-                variants={fadeUp}
-                className="flex flex-wrap items-baseline justify-between gap-4"
-              >
-                <Link
-                  to="/projects"
-                  className="text-faded inline-flex items-center gap-1.5 font-mono text-detail-xs uppercase transition-colors hover:text-foreground"
-                >
-                  <ArrowLeft className="size-3.5" />
-                  All projects
-                </Link>
-                <p className="text-faded font-mono text-detail-xs uppercase tabular-nums">
-                  SMK-01 · North Sea &amp; Skagerrak · 58°04′N 09°31′E
-                </p>
-              </motion.div>
-
-              <motion.h1
-                variants={fadeUp}
-                className="mt-10 text-display-xxl font-semibold"
-              >
-                Seamark
-              </motion.h1>
-
-              <motion.p
-                variants={fadeUp}
-                className="text-faded mt-4 max-w-2xl font-mono text-detail-xs uppercase"
-              >
-                {expansion}
-              </motion.p>
-
-              <motion.p
-                variants={fadeUp}
-                className="mt-8 max-w-3xl text-paragraph-l text-pretty text-muted-foreground"
-              >
-                {lede}
-              </motion.p>
-
-              <motion.p
-                variants={fadeUp}
-                className="mt-6 max-w-3xl text-paragraph-m text-pretty text-foreground/80"
-              >
-                It does not decide anything. Everything below is in service of
-                one question: what has to be true before a machine is allowed to
-                take up a person&apos;s{" "}
-                <span className="font-serif font-normal italic">attention</span>
-                ?
-              </motion.p>
-
-              <motion.div
-                variants={fadeUp}
-                className="mt-8 flex flex-wrap items-center gap-3"
-              >
-                <StatusChip status={project.status} />
-                <span className="text-faded font-mono text-detail-xs uppercase">
-                  {project.field}
-                </span>
-              </motion.div>
-            </motion.div>
-          </Container>
-
+        <ProjectIntro project={project} introduction={lede} />
+        <section className="bg-secondary">
           {/* Masthead figures — the four numbers the page is built around. */}
           <div className="border-faded relative border-t">
             <Container>
@@ -131,7 +62,7 @@ export function SeamarkPage() {
                     key={figure.label}
                     className="border-faded border-r border-b py-5 pr-4 last:border-r-0 md:border-b-0 md:py-6"
                   >
-                    <dt className="text-faded font-mono text-detail-xs uppercase">
+                    <dt className="text-faded font-mono text-detail-xs">
                       {figure.label}
                     </dt>
                     <dd className="mt-1.5 text-display-xs font-semibold tabular-nums">
@@ -158,13 +89,13 @@ export function SeamarkPage() {
           <motion.nav
             aria-label="Sheet contents"
             variants={staggerContainer(0.03)}
-            initial="hidden"
+            initial={false}
             whileInView="show"
             viewport={viewportOnce}
           >
             <motion.p
               variants={fadeUp}
-              className="text-faded font-mono text-detail-xs uppercase"
+              className="text-faded font-mono text-detail-xs"
             >
               Contents
             </motion.p>
@@ -194,7 +125,7 @@ export function SeamarkPage() {
         <Container className="flex flex-col gap-20 pb-20 md:gap-28 md:pb-28">
           {/* 01 — the signal */}
           <ChartSection {...panel("01")} lede={signal.body}>
-            <dl className="border-faded bg-faded grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2">
+            <dl className="border-faded bg-faded grid grid-cols-1 gap-px overflow-hidden border sm:grid-cols-2">
               {signal.properties.map((property) => (
                 <div key={property.term} className="bg-ivory-light p-6 md:p-7">
                   <dt className="text-display-xs font-semibold">
@@ -219,7 +150,7 @@ export function SeamarkPage() {
             <dl className="grid grid-cols-2 gap-x-8 gap-y-6 lg:grid-cols-3">
               {area.figures.map((figure) => (
                 <div key={figure.label}>
-                  <dt className="text-faded font-mono text-detail-xs uppercase">
+                  <dt className="text-faded font-mono text-detail-xs">
                     {figure.label}
                   </dt>
                   <dd className="mt-1.5 text-display-s font-semibold tabular-nums">
@@ -241,7 +172,7 @@ export function SeamarkPage() {
             </ul>
 
             <div className="border-faded mt-12 border-l pl-6 md:pl-8">
-              <p className="text-faded font-mono text-detail-xs uppercase">
+              <p className="text-faded font-mono text-detail-xs">
                 The map nobody publishes
               </p>
               <p className="mt-3 max-w-3xl text-paragraph-m text-pretty text-foreground/80">
@@ -323,7 +254,7 @@ export function SeamarkPage() {
           >
             <TriageQueue />
 
-            <ol className="border-faded bg-faded mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border md:grid-cols-3">
+            <ol className="border-faded bg-faded mt-12 grid grid-cols-1 gap-px overflow-hidden border md:grid-cols-3">
               {verdicts.map((verdict) => (
                 <li key={verdict.key} className="bg-ivory-light p-6 md:p-7">
                   <div className="flex items-baseline gap-3">
@@ -372,10 +303,10 @@ export function SeamarkPage() {
         <Container className="flex flex-col gap-20 py-20 md:gap-28 md:py-28">
           {/* 08 — evaluation */}
           <ChartSection {...panel("08")} lede={evaluation.caveat}>
-            <dl className="border-faded bg-faded grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 lg:grid-cols-3">
+            <dl className="border-faded bg-faded grid grid-cols-1 gap-px overflow-hidden border sm:grid-cols-2 lg:grid-cols-3">
               {evaluation.metrics.map((metric) => (
                 <div key={metric.label} className="bg-ivory-light p-6">
-                  <dt className="text-faded font-mono text-detail-xs uppercase">
+                  <dt className="text-faded font-mono text-detail-xs">
                     {metric.label}
                   </dt>
                   <dd>
@@ -415,14 +346,14 @@ export function SeamarkPage() {
 
           {/* 10 — the CodeVault loop */}
           <ChartSection {...panel("10")}>
-            <ol className="border-faded bg-faded grid grid-cols-1 gap-px overflow-hidden rounded-2xl border sm:grid-cols-2">
+            <ol className="border-faded bg-faded grid grid-cols-1 gap-px overflow-hidden border sm:grid-cols-2">
               {project.loop.map((step, i) => (
                 <li key={step.phase} className="bg-ivory-light p-6 md:p-8">
                   <div className="flex items-baseline gap-3">
                     <span className="text-faded font-mono text-detail-xs tabular-nums">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="font-mono text-detail-xs font-medium uppercase">
+                    <h3 className="font-mono text-detail-xs font-medium">
                       {step.phase}
                     </h3>
                   </div>
@@ -441,14 +372,14 @@ export function SeamarkPage() {
                 <li key={entry.date} className="relative pb-8 last:pb-0">
                   <span
                     aria-hidden
-                    className="absolute top-1.5 -left-[1.6875rem] size-2 rounded-full bg-olive ring-4 ring-ivory-light"
+                    className="absolute top-1.5 -left-[1.6875rem] size-2 rounded-full bg-olive ring-4 ring-background"
                   />
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <time className="text-faded font-mono text-detail-xs tabular-nums">
                       {entry.date}
                     </time>
                     {entry.tag && (
-                      <span className="text-faded font-mono text-detail-xs uppercase">
+                      <span className="text-faded font-mono text-detail-xs">
                         {entry.tag}
                       </span>
                     )}
@@ -497,7 +428,7 @@ export function SeamarkPage() {
           <Container className="relative py-20 md:py-24">
             <h2
               id="seamark-appendix"
-              className="text-faded font-mono text-detail-xs uppercase"
+              className="text-faded font-mono text-detail-xs"
             >
               Appendix
             </h2>
@@ -512,7 +443,7 @@ export function SeamarkPage() {
                         key={entry.term}
                         className="border-faded grid grid-cols-1 gap-1 border-b py-4 md:grid-cols-[10rem_1fr] md:gap-8"
                       >
-                        <dt className="font-mono text-detail-xs uppercase">
+                        <dt className="font-mono text-detail-xs">
                           {entry.term}
                         </dt>
                         <dd className="max-w-2xl text-paragraph-s text-pretty text-muted-foreground">
@@ -570,8 +501,8 @@ export function SeamarkPage() {
 
               {/* Sheet data */}
               <aside className="lg:sticky lg:top-24 lg:self-start">
-                <div className="border-faded rounded-2xl border bg-ivory-light p-6">
-                  <h3 className="text-faded font-mono text-detail-xs uppercase">
+                <div className="border-faded border bg-ivory-light p-6">
+                  <h3 className="text-faded font-mono text-detail-xs">
                     Sheet data
                   </h3>
                   <dl className="mt-4 flex flex-col gap-3">
@@ -580,7 +511,7 @@ export function SeamarkPage() {
                         key={fact.label}
                         className="border-faded flex items-baseline justify-between gap-4 border-b pb-3 last:border-b-0 last:pb-0"
                       >
-                        <dt className="text-faded font-mono text-detail-xs uppercase">
+                        <dt className="text-faded font-mono text-detail-xs">
                           {fact.label}
                         </dt>
                         <dd className="text-right font-mono text-detail-xs tabular-nums">
@@ -590,7 +521,7 @@ export function SeamarkPage() {
                     ))}
                   </dl>
 
-                  <h3 className="text-faded mt-6 font-mono text-detail-xs uppercase">
+                  <h3 className="text-faded mt-6 font-mono text-detail-xs">
                     Built with
                   </h3>
                   <ul className="mt-4 flex flex-wrap gap-2">
@@ -630,7 +561,7 @@ export function SeamarkPage() {
               className="group flex items-center justify-between gap-6 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <div>
-                <p className="text-faded font-mono text-detail-xs uppercase">
+                <p className="text-faded font-mono text-detail-xs">
                   Next project · {next.field}
                 </p>
                 <p className="mt-2 text-display-m font-semibold">{next.name}</p>

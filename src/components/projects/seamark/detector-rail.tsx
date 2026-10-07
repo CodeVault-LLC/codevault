@@ -16,7 +16,7 @@ export function DetectorRail() {
   return (
     <motion.ol
       variants={staggerContainer(0.07)}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={viewportEdge}
       className="border-faded bg-faded flex flex-col gap-px overflow-hidden rounded-2xl border"
@@ -29,7 +29,7 @@ export function DetectorRail() {
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-[7rem_1fr] md:gap-10">
             <div>
-              <p className="font-mono text-detail-xs font-medium tracking-wider uppercase">
+              <p className="font-mono text-detail-xs font-medium tracking-wider">
                 {d.code}
               </p>
               <div className="mt-3 flex items-center gap-3 md:mt-4 md:flex-col md:items-start md:gap-2">
@@ -58,7 +58,7 @@ export function DetectorRail() {
               </ul>
 
               <div className="border-faded mt-5 border-l pl-4">
-                <p className="text-faded font-mono text-detail-xs uppercase">
+                <p className="text-faded font-mono text-detail-xs">
                   What it confuses this with
                 </p>
                 <p className="mt-1.5 max-w-2xl text-paragraph-s text-pretty text-muted-foreground">

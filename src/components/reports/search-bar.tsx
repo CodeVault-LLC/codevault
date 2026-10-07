@@ -45,7 +45,7 @@ export function SearchBar({ search, total }: SearchBarProps) {
         />
         <button
           type="submit"
-          className="rounded-m bg-primary px-4 py-2 text-detail-xs font-medium tracking-wide text-primary-foreground uppercase transition-colors hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          className="rounded-m bg-primary px-4 py-2 text-detail-xs font-medium tracking-wide text-primary-foreground transition-colors hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         >
           Search
         </button>

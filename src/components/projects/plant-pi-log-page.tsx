@@ -19,14 +19,14 @@ export function PlantPiLogPage() {
           <div className="mx-auto max-w-2xl">
             <motion.div
               variants={staggerContainer(0.08)}
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
             >
               <motion.div variants={fadeUp}>
                 <Link
                   to="/projects/plant-pi"
-                  className="text-faded inline-flex items-center gap-1.5 text-sm transition-colors hover:text-foreground"
+                  className="text-faded inline-flex items-center gap-1.5 text-paragraph-s transition-colors hover:text-foreground"
                 >
                   <ArrowLeft className="size-4" />
                   Back to the plant-watering Pi
@@ -34,13 +34,13 @@ export function PlantPiLogPage() {
               </motion.div>
               <motion.p
                 variants={fadeUp}
-                className="text-faded mt-10 text-detail-xs font-medium uppercase"
+                className="text-faded mt-10 text-detail-xs font-medium"
               >
                 The plant-watering Pi · Full log
               </motion.p>
               <motion.h1
                 variants={fadeUp}
-                className="mt-4 text-display-l font-semibold text-balance"
+                className="mt-4 text-display-xl font-normal text-balance"
               >
                 Every entry, in{" "}
                 <span className="font-serif font-normal italic">order</span>.
@@ -56,7 +56,7 @@ export function PlantPiLogPage() {
 
             <motion.ol
               variants={staggerContainer(0.07)}
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={viewportOnce}
               className="border-faded mt-14 border-l pl-6"
@@ -69,12 +69,14 @@ export function PlantPiLogPage() {
                 >
                   <span
                     aria-hidden
-                    className="absolute top-2 -left-[1.6875rem] size-2 rounded-full bg-olive ring-4 ring-ivory-light"
+                    className="absolute top-2 -left-[1.6875rem] size-2 rounded-full bg-olive ring-4 ring-background"
                   />
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <time className="text-sm font-medium">{entry.date}</time>
+                    <time className="text-paragraph-s font-medium">
+                      {entry.date}
+                    </time>
                     {entry.tag && (
-                      <span className="text-faded text-detail-xs font-medium uppercase">
+                      <span className="text-faded text-detail-xs font-medium">
                         · {entry.tag}
                       </span>
                     )}
