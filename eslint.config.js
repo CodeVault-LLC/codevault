@@ -17,6 +17,6 @@ export default [
   {
     // .output is the Nitro build — bundled JS that is not in any tsconfig
     // project, so the typed parser errors on every file in it.
-    ignores: ["eslint.config.js", ".prettierrc", ".output", "dist", "drizzle"],
+    ignores: ["eslint.config.js", ".prettierrc", ".output", "dist"],
   },
 ]

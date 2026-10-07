@@ -1,140 +1,62 @@
 # Code rules
 
-Conventions for high-quality code in this repo. The goal is code that reads like
-the code already here — consistent, typed, and boring in the good way.
-
 ## Stack
 
 - **React 19** + **TypeScript** (strict), **Vite 8**.
-- **TanStack Start / Router** — SSR + file-based routing. Routes live in
-  [`src/routes/`](../src/routes); `routeTree.gen.ts` is generated — never edit it
-  by hand.
-- **Tailwind CSS v4** (config-in-CSS via `@theme`; tokens in `globals.css`).
-- **shadcn/ui** + **@base-ui/react** for primitives, **class-variance-authority**
-  for variants, **framer-motion** for animation, **lucide-react** for icons.
-- Tests: **Vitest** + Testing Library.
+- **TanStack Start / Router** — SSR and file-based routing in `src/routes`.
+  `routeTree.gen.ts` is generated; never edit it.
+- **Nitro** (`node-server` preset) for the server build.
+- **Tailwind CSS v4** — tokens in `globals.css` via `@theme`.
+- **framer-motion** for scroll reveals, **lucide-react** for icons.
+- **Vitest** for tests.
 
-## Project structure
+No database, auth, storage or environment variables. Keep it that way unless
+there's a strong reason; ask first.
 
-```
-src/
-  routes/                 file-based routes (SSR). "/" is index.tsx
-  components/
-    ui/                   shadcn / base-ui primitives (Button, etc.)
-    layout/               Navbar, Footer, Container — page chrome
-    sections/             homepage sections (hero, about, latest-releases…)
-    brand/                LogoMark and brand assets
-  core/
-    config/site.ts        site-wide content: nav, releases, footer, meta
-    lib/motion.ts         shared framer-motion variants
-    pages/                standalone page views (e.g. not-found)
-  lib/utils.ts            cn() and small helpers
-  styles/globals.css      design tokens + base layer
-```
+## Structure
 
-Rules of placement:
+- `src/core/config/` — all content and copy (`site.ts`, `news.ts`, `kilo.ts`,
+  `pages.ts`). Components own structure, not words.
+- `src/components/` — `layout`, `ui` (shared primitives), `news`, `kilo`,
+  `home`, `brand`.
+- `src/core/lib/` — `motion.ts` variants, `seo.ts` head tags.
+- `src/lib/` — `cn()`, security headers.
 
-- **Content and copy** (labels, cards, nav, taglines) go in
-  `core/config/site.ts`, not inline in components.
-- **Reusable primitives** go in `components/ui`; **page-specific building
-  blocks** in `components/sections` or `components/layout`.
-- **Shared animation** goes in `core/lib/motion.ts`.
-- Keep files focused. When a component starts doing several unrelated things,
-  split it (see the shared `ProjectCard`, `ProjectIntro`, and `SectionNav`).
+## TypeScript
 
-## TypeScript & imports
+- Strict, with `noUnusedLocals` / `noUnusedParameters`.
+- `verbatimModuleSyntax`: type-only imports use `import type`.
+- Import via `@/`.
+- Typed router links: use real route paths with `params` / `search`
+  (`to="/news/$slug" params={{ slug }}`), not hand-built URLs, where you can.
+- TypeScript stays on 6.x until `typescript-eslint` supports 7.
 
-- **Strict mode is on**, plus `noUnusedLocals` / `noUnusedParameters` and
-  `noFallthroughCasesInSwitch`. Unused code fails the build — delete it.
-- `verbatimModuleSyntax` is on: **type-only imports must be `import type`**
-  (e.g. `import type { Variants } from "framer-motion"`). Mixed value/type
-  imports use inline `type` on the specifier only when needed.
-- Use the `@/` alias for `src` imports (`@/components/...`), not long relative
-  paths.
-- Avoid `any`. Model real types; narrow instead of casting. The `as never`
-  casts around the topojson data are an isolated, commented exception — don't
-  spread that pattern.
+## Styling and React
 
-## Styling
+- Compose classes with `cn()`.
+- Function components and hooks. Side effects in `useEffect` with cleanup.
+- Per-frame animation lives outside React state (see `KiloScene`): a
+  `requestAnimationFrame` loop that stops offscreen and when the tab is hidden.
 
-- Compose classes with **`cn()`** from `@/lib/utils` (clsx + tailwind-merge) —
-  it dedupes conflicting Tailwind classes. Don't concatenate class strings by
-  hand.
-- Component variants use **`cva`** (see `components/ui/button.tsx`).
-- Follow the [design rules](./design-rules.md): tokens over hex, type scale over
-  raw sizes, semantic tokens for structure.
-- Prettier is configured with the Tailwind plugin and knows about `cn`/`cva`, so
-  class ordering is automatic — just run format.
+## Formatting and linting
 
-## React patterns
-
-- Function components with hooks. No class components.
-- Keep render pure. Side effects go in `useEffect` with correct deps and
-  cleanup (every listener/observer/rAF added is removed — see `Navbar`,
-  `WorldGlobe`).
-- For per-frame animation, keep state in a `ref` and write to the DOM inside a
-  single `requestAnimationFrame` loop; don't drive 60fps through `useState`.
-- Respect `useReducedMotion()` anywhere you animate.
-- Prefer semantic HTML and wire ARIA (`aria-labelledby`, `aria-expanded`,
-  `aria-label`) as you build, not after.
-
-## Formatting & linting
-
-- **Prettier** (`.prettierrc`): no semicolons, double quotes, 2-space indent,
-  `printWidth: 80`, `trailingComma: "es5"`, LF line endings. Run
-  `npm run format`; `npm run check` verifies.
-- **ESLint** uses `@tanstack/eslint-config`. Run `npm run lint`. Don't add new
-  warnings. (Two pre-existing `consistent-type-specifier-style` errors in
-  `button.tsx` / `utils.ts` predate current work — fix opportunistically, but
-  don't let your change add more.)
-- **`npm run typecheck`** (`tsc --noEmit`) must pass.
-
-## Commits
-
-- Small, focused commits with clear messages. Branch off `main`; open PRs into
-  `main`. The active working branch is `fix`.
-- Don't commit generated files you didn't mean to (`routeTree.gen.ts` is managed
-  by the router plugin).
+- Prettier: no semicolons, double quotes, `printWidth` 80. `bun run format`.
+- ESLint via `@tanstack/eslint-config`. `bun run lint`.
+- `bun run typecheck` must pass.
 
 ## Verification
 
-Typecheck and lint are necessary but **not sufficient** — they prove the code
-compiles, not that it works. For any behavioral change, **run the app and drive
-the change**:
+Typecheck and lint don't prove behavior. Run the app and look:
 
 ```bash
-npm run dev          # Vite dev server (SSR)
+bun install
+bun run dev        # http://localhost:3000
+bun run typecheck
+bun run lint
+bun run test
+bun run build
 ```
 
-Because the app is SSR, you can fetch `/` and assert on the rendered HTML for
-content changes; interactive behavior (drag, menus) needs a real browser. Always
-observe the change in the running app before calling it done. See the repo's
-`verify` skill for the full protocol.
-
-## Quick command reference
-
-| Command             | Does                            |
-| ------------------- | ------------------------------- |
-| `npm run dev`       | Start dev server on :3000 (SSR) |
-| `npm run build`     | Production build                |
-| `npm run typecheck` | `tsc --noEmit`                  |
-| `npm run lint`      | ESLint                          |
-| `npm run format`    | Prettier write                  |
-| `npm run check`     | Prettier check                  |
-| `npm run test`      | Vitest                          |
-
-### Production smoke check
-
-`npm run build` explicitly sets production mode, since the local `.env` uses
-`NODE_ENV=development`. Run the output as well as compiling it:
-
-```bash
-NODE_ENV=production PORT=3002 node --env-file=.env .output/server/index.mjs
-curl -f http://localhost:3002/
-curl -f http://localhost:3002/projects
-curl -f http://localhost:3002/reports
-```
-
-The SSR environment keeps its entry and middleware in one bundle. This avoids
-an initialization-order failure in Nitro's second bundling pass
-(`__exportAll is not a function`). Browser route chunks still split normally.
+Content is visible in the SSR'd HTML (`curl localhost:3000/news`). Motion, the
+canvas, the mobile menu and filters need a real browser — check 375px and
+desktop, light and dark.

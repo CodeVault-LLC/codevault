@@ -1,19 +1,17 @@
 import { cn } from "@/lib/utils"
 
-type ContainerProps = {
-  className?: string
-  children: React.ReactNode
-}
-
-export function Container({ className, children }: ContainerProps) {
+/** The page grid: 1280px wide at most, with a gutter that grows with the viewport. */
+export function Container({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-[1440px] px-6 md:px-10 lg:px-16",
+        "mx-auto w-full max-w-[86rem] px-4 sm:px-8 lg:px-10",
         className
       )}
-    >
-      {children}
-    </div>
+      {...props}
+    />
   )
 }

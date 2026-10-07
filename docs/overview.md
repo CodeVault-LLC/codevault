@@ -1,65 +1,53 @@
-# What CodeVault is
+# Overview
 
-## In one line
+## What CodeVault is
 
-> We point ourselves at tech, and see what happens.
+CodeVault builds projects across tech — tools, games, hardware, research — and
+writes down how they went. It is not a product company. The site is where the
+work is announced and explained.
 
-## The stance
+Right now most of the work is **Kilo**, an electrical design tool for
+industrially built building modules. Kilo has its own page and most of the
+news, but the site is CodeVault's, not Kilo's.
 
-CodeVault is **not a product company**. We don't build one thing and sell it. We
-are a small group of people who are curious about too many things to pick just
-one — so we run **projects**.
+## What the site is
 
-We think about projects the way NASA thinks about missions. Every project is a
-loop:
+Three things, and nothing else:
 
-1. **Trial** — build something real enough to react to. A prototype, a spike, a
-   weekend build.
-2. **Experience** — live with it. What's annoying, surprising, or actually
-   important only shows up once you use the thing.
-3. **Adjustment** — change our minds freely. Most of what we learn arrives after
-   the first version turns out to be wrong.
-4. **Result** — share whatever we ended up with: a tool, a write-up, or just a
-   repo. Then point ourselves at the next thing.
+| Page | Route | Purpose |
+| --- | --- | --- |
+| Home | `/` | Headline, the current announcement, latest posts |
+| Kilo | `/kilo` | What Kilo is, how it works, where it stands |
+| News | `/news`, `/news/$slug` | Every announcement, engineering note and update |
 
-## "A bit of everything"
+There is no database, no sign-in and no storage. Content lives in
+`src/core/config/` and ships with the code.
 
-The only constant is that it's **tech**. We aren't tied to a single field. One
-month it's serious developer tooling; the next it's a small browser game we
-pushed to GitHub in an afternoon that does a few basic things. Both are valid
-CodeVault work. The output ranges widely; the standard doesn't.
+## Reference
 
-Everything is built **in the open** and **shared as-is**. We don't pretend an
-experiment is a polished product. We show the trial and what we learned.
+The design deliberately follows anthropic.com: its warm palette, bold sans
+headlines over serif reading text, the large announcement card with an
+animated scene, oat release cards with mono detail rows, and article pages
+with a serif title over a drawn arc. Follow the patterns, not the assets —
+we use our own fonts (Inter, Lora, JetBrains Mono), our own marks and our own
+artwork, and never Anthropic's names or logos.
 
-## How we talk
+## Voice
 
-Our voice is **confident but understated, and never promotional**. We explain
-what we're doing and why, the way a curious person talks about work they enjoy —
-not the way a company markets a product.
+Plain, understated, curious. Say what something is and what state it's in.
 
-Reference points (borrow the feeling, not the words):
+- **Honest status.** Kilo is in development. "Working" means it runs today,
+  not that it's finished. Don't announce what hasn't happened.
+- **Say less.** One good sentence beats three that circle it. Not every
+  heading needs a description.
+- **No product-company language** — "platform," "solution," "get started,"
+  "sign up," "revolutionary."
+- **No customer names** without permission, even when the source documents
+  have them.
 
-- **Anthropic** — calm, plainspoken, mission-driven. Big claims stated quietly.
-  No hype, no exclamation marks, no "revolutionary."
-- **NASA** — projects and exploration. A sense of trying hard things in public
-  and reporting honestly on how they went.
+## Writing a news post
 
-Copy rules of thumb:
-
-- Prefer plain statements over slogans. The motto is deliberately indirect
-  ("…and see what happens") — keep that curiosity in the rest of the copy.
-- Say "projects," "experiments," "trying," "in the open." Avoid product-company
-  language: "platform," "solution," "get started," "sign up," "enterprise-grade."
-- Concrete beats abstract. "A small game about keeping satellites from
-  colliding" beats "innovative interactive experiences."
-- It's fine to admit something was hard, unfinished, or just interesting rather
-  than useful.
-
-## Where the identity lives in the code
-
-Site-wide copy and structure are config-driven in
-[`src/core/config/site.ts`](../src/core/config/site.ts): the tagline, nav labels
-(Projects / Research / About / Archive), selected projects, and the footer. The homepage sections that carry the story are `hero`, `latest-releases`, `research`, and `about` (the four-step loop) under
-[`src/components/sections/`](../src/components/sections). Change the message in
-those places, not in one-off strings scattered across components.
+Add an entry to `src/core/config/news.ts`. Every claim about Kilo should be
+checkable against the Kilo repository (`PHASES.md`, `docs/decisions/`,
+`docs/jobs/`, the commit log) on the post's date. Pick an existing illustration
+(`ArtKey`) and tone, or add one to `components/news/post-art.tsx`.

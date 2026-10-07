@@ -1,845 +1,278 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/lora";
+@import "@fontsource-variable/lora/wght-italic.css";
+@import "@fontsource-variable/jetbrains-mono";
 
-/* Admin only. IBM Plex has no variable mono build on Fontsource, so the mono
-   weights are pulled individually rather than as one axis. */
-@import "@fontsource-variable/ibm-plex-sans";
-@import "@fontsource/ibm-plex-mono/400.css";
-@import "@fontsource/ibm-plex-mono/500.css";
-@import "@fontsource/ibm-plex-mono/600.css";
-
-@custom-variant dark (&:is(.dark *));
+/* Dark mode follows the system. There is no toggle, so there is nothing to
+   store and nothing to flash on load. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 @theme inline {
-  --font-heading: var(--font-sans);
   --font-sans:
-    "Anthropic Sans", "Inter Variable", "Inter", system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-serif:
-    "Anthropic Serif", "Tiempos Text", "Source Serif Pro", Georgia, serif;
+    "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Lora Variable", "Lora", Georgia, "Times New Roman", serif;
   --font-mono:
-    "Anthropic Mono", "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+    "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono",
+    monospace;
 
-  /* Brand swatches */
-  --color-ivory-light: var(--ivory-light);
+  /* Swatches — fixed in both themes. Used for artwork tiles and accents. */
+  --color-ivory: var(--ivory-light);
   --color-ivory-medium: var(--ivory-medium);
   --color-ivory-dark: var(--ivory-dark);
   --color-oat: var(--oat);
-  --color-slate-dark: var(--slate-dark);
+  --color-slate: var(--slate-dark);
   --color-slate-medium: var(--slate-medium);
-  --color-slate-light: var(--slate-light);
-  --color-cloud-dark: var(--cloud-dark);
-  --color-cloud-medium: var(--cloud-medium);
-  --color-cloud-light: var(--cloud-light);
-  --color-olive: var(--olive);
+  --color-cloud: var(--cloud-dark);
   --color-clay: var(--clay);
-  --color-accent: var(--accent);
+  --color-clay-strong: var(--clay-strong);
+  --color-sky: var(--sky);
+  --color-olive: var(--olive);
+  --color-cactus: var(--cactus);
+  --color-heather: var(--heather);
+  --color-coral: var(--coral);
 
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
+  /* Semantic — these flip with the theme. */
   --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint: var(--faint);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-inverse-muted: var(--inverse-muted);
 
-  /* Sidebar surface (admin only — see .admin-surface below) */
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  /* Type scale. Display steps are set in the sans, paragraph steps in the
+     serif; the size carries its own line height and tracking. */
+  --text-display-xxl: clamp(3rem, 1.75rem + 5vw, 5.25rem);
+  --text-display-xxl--line-height: 1.04;
+  --text-display-xxl--letter-spacing: -0.02em;
+  --text-display-xl: clamp(2.5rem, 1.65rem + 3.4vw, 4rem);
+  --text-display-xl--line-height: 1.08;
+  --text-display-xl--letter-spacing: -0.03em;
+  --text-display-l: clamp(2.125rem, 1.6rem + 2.1vw, 3.25rem);
+  --text-display-l--line-height: 1.1;
+  --text-display-l--letter-spacing: -0.025em;
+  --text-display-m: clamp(1.625rem, 1.35rem + 1.1vw, 2.125rem);
+  --text-display-m--line-height: 1.2;
+  --text-display-m--letter-spacing: -0.015em;
+  --text-display-s: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --text-display-s--line-height: 1.3;
+  --text-display-s--letter-spacing: -0.015em;
+  --text-display-xs: 1.125rem;
+  --text-display-xs--line-height: 1.35;
+  --text-display-xs--letter-spacing: -0.01em;
 
-  --radius-sm: var(--radius-s);
-  --radius-md: var(--radius-s);
-  --radius-lg: var(--radius-m);
-  --radius-xl: var(--radius-l);
-  --radius-2xl: var(--radius-l);
-  --radius-3xl: calc(var(--radius-l) * 1.5);
-  --radius-4xl: calc(var(--radius-l) * 2);
+  --text-paragraph-l: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-paragraph-l--line-height: 1.42;
+  --text-paragraph-m: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-paragraph-m--line-height: 1.5;
+  --text-paragraph-s: 1.0625rem;
+  --text-paragraph-s--line-height: 1.6;
 
-  /* Anthropic fluid type scale */
-  --text-display-xs: clamp(1.125rem, 1.087rem + 0.163vw, 1.25rem);
-  --text-display-s: clamp(1.25rem, 1.173rem + 0.327vw, 1.5rem);
-  --text-display-m: clamp(1.375rem, 1.2rem + 0.4vw, 1.625rem);
-  --text-display-l: clamp(1.5rem, 1.2rem + 0.9vw, 2rem);
-  --text-display-xl: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem);
-  --text-display-xxl: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
-  --text-paragraph-s: clamp(0.9375rem, 0.9rem + 0.12vw, 1rem);
-  --text-paragraph-m: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
-  --text-paragraph-l: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-ui: 0.9375rem;
+  --text-ui--line-height: 1.25;
   --text-caption: 0.875rem;
-  --text-navigation: 0.9375rem;
-  --text-detail-xs: clamp(0.6875rem, 0.668rem + 0.082vw, 0.75rem);
+  --text-caption--line-height: 1.45;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.02em;
 
-  /* Admin type scale. Fixed steps, not fluid: a dashboard is read at a desk at
-     a known size, and clamp() sizing makes dense tables jitter as the viewport
-     moves. Deliberately separate from the editorial scale above (§Surfaces in
-     design-rules.md). */
-  --text-ui-xs: 0.75rem;
-  --text-ui-sm: 0.8125rem;
-  --text-ui-base: 0.875rem;
-  --text-ui-lg: 1rem;
-  --text-ui-xl: 1.25rem;
-  --text-ui-2xl: 1.75rem;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
-  /* Anthropic swatches */
   --ivory-light: #faf9f5;
   --ivory-medium: #f0eee6;
   --ivory-dark: #e8e6dc;
   --oat: #e3dacc;
   --slate-dark: #141413;
   --slate-medium: #3d3d3a;
-  --slate-light: #5e5d59;
   --cloud-dark: #87867f;
-  --cloud-medium: #b0aea5;
-  --cloud-light: #d1cfc5;
-  --olive: #788c5d;
   --clay: #d97757;
-  --accent: #c6613f;
+  --clay-strong: #a64b31;
+  --sky: #6a9bcc;
+  --olive: #788c5d;
+  --cactus: #bcd1ca;
+  --heather: #cbcadb;
+  --coral: #ebcece;
 
-  /* Semantic */
   --background: var(--ivory-light);
   --foreground: var(--slate-dark);
-  --card: #ffffff;
-  --card-foreground: var(--slate-dark);
-  --popover: var(--ivory-light);
-  --popover-foreground: var(--slate-dark);
-  --primary: var(--slate-dark);
-  --primary-foreground: var(--ivory-light);
-  --secondary: var(--ivory-medium);
-  --secondary-foreground: var(--slate-dark);
-  --muted: var(--ivory-medium);
-  --muted-foreground: var(--slate-light);
-  --accent-bg: var(--ivory-dark);
-  --accent-foreground: var(--slate-dark);
-  --destructive: #b1432a;
-  --border: #1414131a;
-  --input: #1414131a;
-  --ring: #1414134d;
+  --surface: var(--ivory-medium);
+  --card: var(--oat);
+  --card-hover: #dcd1c0;
+  --muted-foreground: #5e5d59;
+  --faint: var(--cloud-dark);
+  --border: #1414131f;
+  --border-strong: #14141340;
+  --accent: var(--clay-strong);
+  --inverse: var(--slate-dark);
+  --inverse-foreground: var(--ivory-light);
+  --inverse-muted: #b0aea5;
 
-  /* Sidebar. A shade off the page so the nav rail reads as chrome rather than
-     content, without a hard border doing the work. */
-  --sidebar: var(--ivory-medium);
-  --sidebar-foreground: var(--slate-dark);
-  --sidebar-primary: var(--slate-dark);
-  --sidebar-primary-foreground: var(--ivory-light);
-  --sidebar-accent: var(--ivory-dark);
-  --sidebar-accent-foreground: var(--slate-dark);
-  --sidebar-border: #1414131a;
-  --sidebar-ring: #1414134d;
-
-  /* Radii */
-  --radius-s: 0.25rem;
-  --radius-m: 0.5rem;
-  --radius-l: 1rem;
+  color-scheme: light;
 }
 
-.dark {
-  --background: #1f1e1d;
-  --foreground: var(--ivory-light);
-  --card: #26252337;
-  --card-foreground: var(--ivory-light);
-  --popover: #262523;
-  --popover-foreground: var(--ivory-light);
-  --primary: var(--ivory-light);
-  --primary-foreground: var(--slate-dark);
-  --secondary: #2b2a28;
-  --secondary-foreground: var(--ivory-light);
-  --muted: #2b2a28;
-  --muted-foreground: var(--cloud-medium);
-  --accent-bg: #2b2a28;
-  --accent-foreground: var(--ivory-light);
-  --destructive: #d97757;
-  --border: #faf9f51a;
-  --input: #faf9f51a;
-  --ring: #faf9f566;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1f1e1d;
+    --foreground: var(--ivory-light);
+    --surface: #262624;
+    --card: #30302e;
+    --card-hover: #383835;
+    --muted-foreground: #b0aea5;
+    --faint: #87867f;
+    --border: #faf9f51f;
+    --border-strong: #faf9f540;
+    --accent: var(--clay);
+    --inverse: #141413;
+    --inverse-foreground: var(--ivory-light);
+    --inverse-muted: #9c9a92;
 
-  --sidebar: #1a1918;
-  --sidebar-foreground: var(--ivory-light);
-  --sidebar-primary: var(--ivory-light);
-  --sidebar-primary-foreground: var(--slate-dark);
-  --sidebar-accent: #302f2c;
-  --sidebar-accent-foreground: var(--ivory-light);
-  --sidebar-border: #faf9f51a;
-  --sidebar-ring: #faf9f566;
+    color-scheme: dark;
+  }
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-  }
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
-  }
   html {
-    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  body {
+    @apply bg-background font-serif text-foreground;
+  }
+
   ::selection {
-    background: rgba(204, 120, 92, 0.5);
+    background: color-mix(in oklab, var(--clay) 35%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: var(--font-sans);
-  }
-  .font-serif {
-    font-family: var(--font-serif);
-  }
-  .font-mono {
-    font-family: var(--font-mono);
-  }
-  .text-display-xs {
-    font-size: var(--text-display-xs);
-    line-height: 1.3;
-    letter-spacing: -0.005em;
-  }
-  .text-display-s {
-    font-size: var(--text-display-s);
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-  }
-  .text-display-m {
-    font-size: var(--text-display-m);
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    font-weight: var(--tw-font-weight, 600);
-  }
-  .text-display-l {
-    font-size: var(--text-display-l);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: var(--tw-font-weight, 600);
-  }
-  .text-display-xl {
-    font-size: var(--text-display-xl);
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    font-weight: var(--tw-font-weight, 600);
-  }
-  .text-display-xxl {
-    font-size: var(--text-display-xxl);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    font-weight: var(--tw-font-weight, 600);
-  }
-  .text-paragraph-s {
-    font-size: var(--text-paragraph-s);
-    line-height: 1.4;
-  }
-  .text-paragraph-m {
-    font-size: var(--text-paragraph-m);
-    line-height: 1.4;
-  }
-  .text-paragraph-l {
-    font-size: var(--text-paragraph-l);
-    line-height: 1.4;
-  }
-  .text-detail-xs {
-    font-size: var(--text-detail-xs);
-    line-height: 1.3;
-    letter-spacing: 0.06em;
-  }
-  .text-faded {
-    color: color-mix(in srgb, var(--foreground) 60%, transparent);
-  }
-  /* Both derive from `--border` rather than a literal so they flip in dark mode.
-     The light-mode value is unchanged — `--border` *is* #1414131a at :root. */
-  .border-faded {
-    border-color: var(--border);
-  }
-  /* The fill behind the `gap-px` divider trick (design-system.md §Spacing):
-     a grid with `bg-faded` + `gap-px` shows this through the gaps as hairlines. */
-  .bg-faded {
-    background-color: var(--border);
-  }
-  .bg-ivory-light {
-    background-color: var(--ivory-light);
-  }
-  .bg-ivory-medium {
-    background-color: var(--ivory-medium);
-  }
-  .bg-ivory-dark {
-    background-color: var(--ivory-dark);
-  }
-  .bg-oat {
-    background-color: var(--oat);
+  /* The underline Anthropic's headline links use: thick, low, and the same
+     color as the text. */
+  .underline-display {
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.065em;
+    text-underline-offset: 0.12em;
   }
 
-  /* Admin type scale. Fixed sizes, normal tracking, tabular figures on the
-     numeric steps so columns of accession IDs and byte counts line up. */
-  .text-ui-xs {
-    font-size: var(--text-ui-xs);
-    line-height: 1.4;
-    letter-spacing: 0;
+  .underline-quiet {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--border-strong);
+    transition: text-decoration-color 200ms;
   }
-  .text-ui-sm {
-    font-size: var(--text-ui-sm);
-    line-height: 1.45;
-    letter-spacing: 0;
-  }
-  .text-ui-base {
-    font-size: var(--text-ui-base);
-    line-height: 1.5;
-    letter-spacing: 0;
-  }
-  .text-ui-lg {
-    font-size: var(--text-ui-lg);
-    line-height: 1.4;
-    letter-spacing: -0.005em;
-    font-weight: 600;
-  }
-  .text-ui-xl {
-    font-size: var(--text-ui-xl);
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    font-weight: 600;
-  }
-  .text-ui-2xl {
-    font-size: var(--text-ui-2xl);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
+
+  .underline-quiet:hover {
+    text-decoration-color: currentColor;
   }
 }
 
-/* The admin surface.
- *
- * `/admin` is an internal tool, not part of the public brand, and is
- * deliberately exempt from the editorial principles that govern the marketing
- * site and the archive (design-rules.md §Surfaces). Scoping the override to a
- * class rather than editing the global tokens is what keeps that exemption from
- * leaking: every public route still renders Inter on the fluid scale.
- *
- * `font-family` is restated rather than left to inheritance because `html`
- * already resolved `var(--font-sans)` to a computed value; descendants inherit
- * the result, not the variable.
- */
-.admin-surface {
-  --font-sans:
-    "IBM Plex Sans Variable", "IBM Plex Sans", system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
-
-  font-family: var(--font-sans);
-  font-size: var(--text-ui-base);
-}
-
-/* Research reading scale: compact supporting text, scoped to these pages. */
-.research-surface {
-  --severity-critical: #c62828;
-  --severity-high: #a64700;
-  --severity-medium: #806100;
-  --severity-low: #287344;
-  --severity-info: #2463a1;
-}
-
-.research-surface h1 {
-  font-weight: 400;
-}
-.research-surface .text-paragraph-m {
-  line-height: 1.6;
-}
-
-/* Severity colors are independent of the brand's clay action/error accent.
-   Amber is darker on paper so medium-severity text remains readable. */
-.dark .research-surface {
-  --severity-critical: #ff7474;
-  --severity-high: #ffad66;
-  --severity-medium: #e9cb56;
-  --severity-low: #79d69c;
-  --severity-info: #86baff;
-}
-.research-surface .research-severity {
-  color: var(--severity-color, var(--muted-foreground));
-  font-weight: 600;
-}
-.research-surface .research-severity[data-severity="Critical"] {
-  --severity-color: var(--severity-critical);
-  font-weight: 700;
-}
-.research-severity[data-severity="High"] {
-  --severity-color: var(--severity-high);
-}
-.research-severity[data-severity="Medium"] {
-  --severity-color: var(--severity-medium);
-}
-.research-severity[data-severity="Low"] {
-  --severity-color: var(--severity-low);
-}
-.research-severity[data-severity="Info"] {
-  --severity-color: var(--severity-info);
-}
-
-/* Long-form pages share a reading rhythm without changing compact UI copy. */
-.editorial-prose p,
-.editorial-prose li {
-  line-height: 1.7;
-}
-.editorial-prose h2,
-.editorial-prose h3 {
-  scroll-margin-top: 9rem;
-}
-
-/* Public editorial system. Display sizes remain token based; admin keeps its
-   separate UI scale. */
-@theme inline {
-  --text-display-hero: clamp(3rem, 1.75rem + 4.5vw, 6rem);
-}
-
-@layer utilities {
-  .text-display-hero {
-    font-size: var(--text-display-hero);
-    line-height: 0.98;
-    letter-spacing: -0.065em;
+/* Word-by-word rise for headlines. CSS rather than JS so a headline is never
+   stuck invisible waiting on hydration. `--i` is the word's index. */
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }
 
-@layer components {
-  .focus-ring {
-    @apply outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current;
+.word-rise {
+  display: inline-block;
+  animation: word-rise 900ms var(--ease-out-soft) both;
+  animation-delay: calc(var(--i, 0) * 55ms + var(--d, 0ms));
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
   }
-  .eyebrow {
-    @apply text-caption text-muted-foreground;
-  }
-  .editorial-link {
-    @apply inline-flex min-h-11 items-center justify-between gap-5 border-b border-foreground/30 pb-1 text-paragraph-s text-foreground transition-colors hover:border-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current;
-  }
-  .editorial-button {
-    @apply inline-flex min-h-11 items-center justify-center gap-6 rounded-sm bg-foreground px-5 py-3 text-paragraph-s text-background transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground;
-  }
-  .section-space {
-    @apply py-16 md:py-20 lg:py-24;
-  }
-  .nav-link {
-    @apply relative inline-flex min-h-11 items-center text-navigation text-muted-foreground transition-colors hover:text-foreground;
-  }
-  .nav-link::after {
-    content: "";
-    @apply absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-foreground transition-transform;
-  }
-  .nav-link:hover::after,
-  .nav-link-current::after {
-    scale: 1 1;
-  }
-  .nav-link-current {
-    color: var(--foreground);
-  }
-  .skip-link {
-    @apply absolute top-3 left-6 z-50 -translate-y-24 bg-foreground px-5 py-3 text-paragraph-s text-background focus:translate-y-0;
-  }
-  .project-surface {
-    --card: var(--secondary);
-  }
-  .project-surface .bg-ivory-medium {
-    background-color: var(--secondary);
-  }
-  .project-surface .bg-ivory-light {
-    background-color: var(--background);
-  }
-  .project-surface .bg-oat {
-    background-color: var(--secondary);
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
-html {
-  scroll-padding-top: 5.5rem;
+.fade-rise {
+  animation: fade-rise 900ms var(--ease-out-soft) both;
+  animation-delay: var(--d, 0ms);
 }
-.dark {
-  color-scheme: dark;
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
+
+.draw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-line 1600ms var(--ease-out-soft) both;
+  animation-delay: var(--d, 0ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .word-rise,
+  .fade-rise,
+  .draw-line {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }
 
-/* The homepage is an intentionally light editorial surface, independent of a
-   saved theme. Other routes retain the visitor's preference. */
-.home-surface {
-  color-scheme: light;
-  --background: var(--ivory-light);
-  --foreground: var(--slate-dark);
-  --card: var(--ivory-light);
-  --card-foreground: var(--slate-dark);
-  --primary: var(--slate-dark);
-  --primary-foreground: var(--ivory-light);
-  --secondary: var(--ivory-medium);
-  --secondary-foreground: var(--slate-dark);
-  --muted: var(--ivory-medium);
-  --muted-foreground: var(--slate-light);
-  --border: color-mix(in srgb, var(--slate-dark) 15%, transparent);
-  --ring: color-mix(in srgb, var(--slate-dark) 40%, transparent);
-}
-.security-hero {
-  --text-display-hero: clamp(2.9rem, 1.4rem + 4.2vw, 5.4rem);
-}
-.security-hero .text-display-hero {
-  line-height: 1.08;
-  letter-spacing: -0.055em;
-}
-.security-hero .font-serif {
-  letter-spacing: -0.065em;
-}
-.security-world-stage {
-  position: relative;
-  overflow: hidden;
-  background: var(--ivory-medium);
-  isolation: isolate;
-}
-.security-world-art {
-  display: block;
-  width: 100%;
-  height: auto;
-  color: var(--slate-dark);
-}
-.world-plate-caption {
-  position: absolute;
-  left: 1.75rem;
-  bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: var(--text-caption);
-  color: var(--slate-light);
-}
-.world-block {
-  stroke: var(--slate-medium);
-  stroke-width: 0.85;
-}
-.world-face-top {
-  fill: var(--ivory-light);
-}
-.world-face-left {
-  fill: var(--ivory-dark);
-}
-.world-face-right {
-  fill: var(--oat);
-}
-.world-block-olive .world-face-top {
-  fill: color-mix(in srgb, var(--olive) 55%, var(--ivory-light));
-}
-.world-block-olive .world-face-left {
-  fill: color-mix(in srgb, var(--olive) 70%, var(--ivory-light));
-}
-.world-block-olive .world-face-right {
-  fill: var(--olive);
-}
-.world-block-ink .world-face-top {
-  fill: var(--slate-light);
-}
-.world-block-ink .world-face-left {
-  fill: var(--slate-medium);
-}
-.world-block-ink .world-face-right {
-  fill: var(--slate-dark);
-}
-.world-shadow {
-  fill: var(--slate-dark);
-  opacity: 0.07;
-}
-.world-grid {
-  stroke: var(--slate-dark);
-  stroke-width: 0.45;
-  opacity: 0.12;
-}
-.world-terrain {
-  stroke: var(--slate-light);
-  stroke-width: 0.65;
-  opacity: 0.15;
-}
-.world-orbit {
-  stroke: var(--olive);
-  stroke-width: 0.8;
-  opacity: 0.3;
-}
-.world-orbit-outer {
-  stroke-dasharray: 2 9;
-  opacity: 0.4;
-}
-.world-ink-line {
-  stroke: var(--slate-medium);
-  stroke-width: 1.2;
-}
-.world-hatching {
-  stroke: var(--slate-medium);
-  stroke-width: 0.65;
-  opacity: 0.65;
-}
-.world-core-flute {
-  stroke: var(--slate-medium);
-  stroke-width: 0.75;
-  opacity: 0.8;
-}
-.world-screen-line {
-  stroke: var(--ivory-light);
-  stroke-width: 1.2;
-}
-.world-status,
-.world-signal {
-  fill: var(--olive);
-}
-.world-signal {
-  stroke: var(--ivory-light);
-  stroke-width: 1;
-}
-.world-route-bed {
-  stroke: var(--ivory-light);
-  stroke-width: 5;
-}
-.world-route {
-  stroke: var(--olive);
-  stroke-width: 1.25;
-  opacity: 0.65;
-}
-.world-tree {
-  fill: color-mix(in srgb, var(--olive) 20%, var(--ivory-medium));
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.world-tree-vein {
-  stroke: var(--olive);
-  stroke-width: 0.7;
-}
-.world-beacon-ring {
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.world-boundary-line {
-  stroke: var(--olive);
-  stroke-width: 0.9;
-  opacity: 0.65;
-}
-.world-boundary-latitude {
-  stroke: var(--olive);
-  stroke-width: 0.8;
-  opacity: 0.35;
-}
-.world-scan {
-  stroke: var(--olive);
-  stroke-width: 1.4;
-  opacity: 0.65;
-  stroke-dasharray: 4 5;
-}
-.world-paper {
-  fill: var(--ivory-light);
-  stroke: var(--slate-medium);
-  stroke-width: 0.8;
-}
-.world-coordinate {
-  stroke: var(--slate-light);
-  stroke-width: 0.7;
-  opacity: 0.5;
-}
-.world-devices,
-.world-lab,
-.world-record,
-.world-core,
-.world-connections,
-.world-boundary {
-  transition: opacity 700ms ease;
-}
-.security-world-stage[data-view="1"] .world-devices,
-.security-world-stage[data-view="1"] .world-lab,
-.security-world-stage[data-view="1"] .world-record {
-  opacity: 0.28;
-}
-.security-world-stage[data-view="1"] .world-boundary-line {
-  stroke-width: 1.5;
-  opacity: 1;
-}
-.security-world-stage[data-view="2"] .world-devices,
-.security-world-stage[data-view="2"] .world-boundary {
-  opacity: 0.2;
-}
-.security-world-stage[data-view="2"] .world-core {
-  opacity: 0.4;
-}
-.world-toolbar {
-  display: flex;
-  align-items: stretch;
-  background: var(--ivory-dark);
-  border-top: 1px solid var(--border);
-}
-.world-view-controls {
-  display: grid;
-  flex: 1;
-  grid-template-columns: repeat(3, 1fr);
-}
-.world-view-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem 1.75rem;
-  text-align: left;
-  font-size: var(--text-paragraph-s);
-  color: var(--slate-light);
-  border-right: 1px solid var(--border);
-  border-top: 2px solid transparent;
-  margin-top: -1px;
-  cursor: pointer;
-  transition:
-    background 200ms,
-    color 200ms,
-    border-color 200ms;
-}
-.world-view-button:hover {
-  background: var(--ivory-medium);
-  color: var(--slate-dark);
-}
-.world-view-active {
-  background: var(--ivory-medium);
-  border-top-color: var(--olive);
-  color: var(--slate-dark);
-}
-.world-view-button svg {
-  opacity: 0.4;
-  transition:
-    transform 200ms,
-    opacity 200ms;
-}
-.world-view-active svg {
-  opacity: 1;
-  transform: rotate(-45deg);
-}
-.world-pause {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 4rem;
-  min-height: 2.75rem;
-  cursor: pointer;
-}
-.world-pause:hover {
-  background: var(--ivory-medium);
-}
-.home-projects .bg-slate-dark {
-  background: var(--ivory-medium);
-  color: var(--slate-dark);
-}
-.home-projects .text-ivory-light\/70 {
-  color: var(--slate-light);
-}
-.home-projects article > a {
-  height: 15rem;
-}
-.home-projects article > div {
-  flex: 1;
-}
-.home-projects article {
-  display: flex;
-  flex-direction: column;
-}
-.home-projects article .editorial-link {
-  margin-top: auto;
-  padding-top: 1.5rem;
-}
-.home-footer {
-  background: var(--ivory-light);
-  color: var(--slate-dark);
-}
-.home-footer .text-ivory-light\/55,
-.home-footer .text-ivory-light\/60 {
-  color: var(--slate-light);
-}
-.home-footer .text-ivory-light\/85 {
-  color: var(--slate-medium);
-}
-.home-footer .border-ivory-light\/20 {
-  border-color: var(--border);
-}
-.home-footer a:hover {
-  color: var(--slate-dark);
-}
-@media (max-width: 767px) {
-  .security-world-art {
-    width: 150%;
-    max-width: none;
-    margin-left: -25%;
-  }
-  .world-plate-caption {
-    left: 1rem;
-    bottom: 1rem;
-    font-size: var(--text-caption);
-  }
-  .world-toolbar {
-    position: relative;
-    padding-right: 2.75rem;
-  }
-  .world-view-controls {
-    grid-template-columns: 1fr;
-  }
-  .world-view-button {
-    padding: 0.8rem 1rem;
-    border-top: 0;
-    border-bottom: 1px solid var(--border);
-    margin: 0;
-  }
-  .world-view-active {
-    box-shadow: inset 2px 0 var(--olive);
-  }
-  .world-pause {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    min-width: 2.75rem;
-  }
-  .home-projects article > a {
-    height: 16rem;
+/* Letters on the announcement arc. Opacity only: SVG text along a path can't
+   take per-glyph transforms. */
+@keyframes letter-in {
+  from {
+    opacity: 0;
   }
 }
 
-/* Each view reframes the same world. The boundary view lifts the system's cap
-   to make its separate layers visible; all transitions are user initiated. */
-.world-focus {
-  transform-origin: 600px 290px;
-  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+.letter-in {
+  animation: letter-in 700ms var(--ease-out-soft) both;
+  animation-delay: calc(400ms + var(--i, 0) * 45ms);
 }
-.world-core-crown {
-  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.security-world-stage[data-view="1"] .world-focus {
-  transform: translateY(20px) scale(1.15);
-}
-.security-world-stage[data-view="1"] .world-core-crown {
-  transform: translateY(-24px);
-}
-.security-world-stage[data-view="2"] .world-focus {
-  transform: translate(-30px, -40px) scale(1.12);
-}
+
 @media (prefers-reduced-motion: reduce) {
-  .world-focus,
-  .world-core-crown {
-    transform: none !important;
+  .letter-in {
+    animation: none;
   }
 }

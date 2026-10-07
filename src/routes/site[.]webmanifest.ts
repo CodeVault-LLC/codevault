@@ -33,8 +33,8 @@ export const Route = createFileRoute("/site.webmanifest")({
           // A manifest has one theme color, not the media-scoped pair the
           // document head carries, so this is the light value. Browsers that
           // honor the meta tags prefer those anyway.
-          theme_color: site.themeColor.light,
-          background_color: site.themeColor.light,
+          theme_color: "#faf9f5",
+          background_color: "#faf9f5",
           icons: [
             {
               src: "/android-chrome-192x192.png",

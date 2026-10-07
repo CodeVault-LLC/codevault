@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Kilo loop mascot</title>
+  <path d="M11 39C8 22 19 9 34 9C49 9 57 23 52 39L48 52Q47 55 43 55H40Q36 55 37 51L40 40Q41 35 36 34H29Q24 34 25 40L27 51Q28 55 24 55H20Q16 55 15 51Z" fill="#d97757"/>
+  <g fill="#0b0b0b"><rect x="25" y="23" width="3.5" height="7" rx="1.75"/><rect x="36" y="23" width="3.5" height="7" rx="1.75"/></g>
+</svg>

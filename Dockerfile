@@ -1,63 +1,21 @@
 # syntax=docker/dockerfile:1
 
-# Build with Bun (the repo's package manager), run on Node. The Nitro
-# node-server preset emits a plain Node entrypoint, and a long-lived process is
-# what the Postgres pool needs (design §10.1).
+# Build with Bun (the repo's package manager), run the Nitro node-server
+# output on Node. The site has no database, storage or secrets.
 
-FROM oven/bun:1.3.9-alpine AS build
+FROM oven/bun:1-alpine AS build
 WORKDIR /app
-
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
-
 COPY . .
-
-# The build compiles; it never connects. Env validation is skipped here and
-# only here — at runtime a missing variable must stop the process from starting.
-ENV SKIP_ENV_VALIDATION=true
-RUN bun run build && bun run build:migrate
+RUN bun run build
 
 FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
-
-# The PDF pipeline shells out to these (design §9.3, §9.4). A container host was
-# chosen partly so they could be native rather than pure-JS:
-#
-#   mupdf-tools   mutool clean — the default CDR pass
-#   ghostscript   the PDF→PostScript→PDF round trip, for files whose structural
-#                 scan finds an active construct
-#   poppler-utils pdftoppm, the cover-page renderer
-#   libwebp-tools cwebp, which turns that render into the WebP §5.2 asks for
-#
-# `sanitize.ts` and `thumbnail.ts` both degrade honestly when one is absent, so
-# a slimmer image stays possible — it just quietly loses a capability, which is
-# why they are pinned here rather than left to chance.
-RUN apk add --no-cache \
-      mupdf-tools \
-      ghostscript \
-      poppler-utils \
-      libwebp-tools
-
-# The app persists nothing to disk — all durable state is in Postgres and object
-# storage. It does write to /tmp: the PDF tools above exchange files rather than
-# streams, so each ingest creates a scratch directory and removes it in a
-# `finally`. A read-only root filesystem therefore needs a writable /tmp mount.
 RUN addgroup -S app && adduser -S app -G app
-
 COPY --from=build /app/.output ./.output
-# The .sql files the migrator reads. Kept as files rather than bundled so the
-# migrations that ran are inspectable inside a running container.
-COPY --from=build /app/drizzle ./drizzle
-
 USER app
 EXPOSE 3000
-
-# Migrations are NOT run here. They are a discrete pre-deploy step
-# (`node .output/migrate.mjs`) because Drizzle's migrator takes no advisory
-# lock, so N replicas booting at once would race the same DDL (design §10.4).
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD node -e "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-
 CMD ["node", ".output/server/index.mjs"]

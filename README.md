@@ -1,21 +1,12 @@
-# TanStack Start + shadcn/ui
+# CodeVault
 
-This is a template for a new TanStack Start project with React, TypeScript, and shadcn/ui.
-
-## Adding components
-
-To add components to your app, run the following command:
+The CodeVault website: news, and a home for Kilo. TanStack Start, React 19,
+Tailwind v4. No database, no accounts.
 
 ```bash
-npx shadcn@latest add button
+bun install
+bun run dev
 ```
 
-This will place the ui components in the `components` directory.
-
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
-```
+Read [AGENTS.md](./AGENTS.md) and [docs/](./docs/README.md) before changing
+things.

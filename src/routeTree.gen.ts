@@ -9,60 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SiteDotwebmanifestRouteImport } from './routes/site[.]webmanifest'
-import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
-import { Route as ReportsRouteImport } from './routes/reports'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as LegalRouteImport } from './routes/legal'
-import { Route as EnrollRouteImport } from './routes/enroll'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ResearchIndexRouteImport } from './routes/research.index'
-import { Route as ReportsIndexRouteImport } from './routes/reports.index'
-import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
-import { Route as LegalIndexRouteImport } from './routes/legal.index'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AboutIndexRouteImport } from './routes/about.index'
-import { Route as ResearchSlugRouteImport } from './routes/research.$slug'
-import { Route as ReportsBrowseRouteImport } from './routes/reports.browse'
-import { Route as ReportsAccessionIdRouteImport } from './routes/reports.$accessionId'
-import { Route as ProjectsTexRouteImport } from './routes/projects.tex'
-import { Route as ProjectsSeamarkRouteImport } from './routes/projects.seamark'
-import { Route as ProjectsSandboxRouteImport } from './routes/projects.sandbox'
-import { Route as ProjectsPlantPiRouteImport } from './routes/projects.plant-pi'
-import { Route as ProjectsOrbitRouteImport } from './routes/projects.orbit'
-import { Route as ProjectsGitStoryRouteImport } from './routes/projects.git-story'
-import { Route as LegalTermsRouteImport } from './routes/legal.terms'
-import { Route as LegalSecurityRouteImport } from './routes/legal.security'
-import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
-import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
-import { Route as ApiHealthRouteImport } from './routes/api.health'
-import { Route as AdminUsersRouteImport } from './routes/admin.users'
-import { Route as AdminAuditRouteImport } from './routes/admin.audit'
-import { Route as AboutWhoWeAreRouteImport } from './routes/about.who-we-are'
-import { Route as AboutContactRouteImport } from './routes/about.contact'
-import { Route as AboutBrandRouteImport } from './routes/about.brand'
+import { Route as KiloRouteImport } from './routes/kilo'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SiteDotwebmanifestRouteImport } from './routes/site[.]webmanifest'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as DotwellKnownSecurityDottxtRouteImport } from './routes/[.]well-known.security[.]txt'
-import { Route as AdminReportsIndexRouteImport } from './routes/admin.reports.index'
-import { Route as AdminDepositIndexRouteImport } from './routes/admin.deposit.index'
-import { Route as ReportsAccessionIdDownloadRouteImport } from './routes/reports.$accessionId_.download'
-import { Route as ProjectsPlantPiLogRouteImport } from './routes/projects.plant-pi_.log'
-import { Route as ApiIngestNotifyRouteImport } from './routes/api.ingest.notify'
-import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
-import { Route as AdminReportsReportIdRouteImport } from './routes/admin.reports.$reportId'
-import { Route as AdminDepositDraftIdRouteImport } from './routes/admin.deposit.$draftId'
-import { Route as ReportsAccessionIdCiteFormatRouteImport } from './routes/reports.$accessionId_.cite.$format'
+import { Route as NewsIndexRouteImport } from './routes/news.index'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SiteDotwebmanifestRoute = SiteDotwebmanifestRouteImport.update({
-  id: '/site.webmanifest',
-  path: '/site.webmanifest',
+const KiloRoute = KiloRouteImport.update({
+  id: '/kilo',
+  path: '/kilo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -70,165 +33,15 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
+const SiteDotwebmanifestRoute = SiteDotwebmanifestRouteImport.update({
+  id: '/site.webmanifest',
+  path: '/site.webmanifest',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
-} as any)
-const LegalRoute = LegalRouteImport.update({
-  id: '/legal',
-  path: '/legal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnrollRoute = EnrollRouteImport.update({
-  id: '/enroll',
-  path: '/enroll',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResearchIndexRoute = ResearchIndexRouteImport.update({
-  id: '/research/',
-  path: '/research/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReportsIndexRoute = ReportsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ReportsRoute,
-} as any)
-const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
-  id: '/projects/',
-  path: '/projects/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LegalIndexRoute = LegalIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => LegalRoute,
-} as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AboutIndexRoute = AboutIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AboutRoute,
-} as any)
-const ResearchSlugRoute = ResearchSlugRouteImport.update({
-  id: '/research/$slug',
-  path: '/research/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReportsBrowseRoute = ReportsBrowseRouteImport.update({
-  id: '/browse',
-  path: '/browse',
-  getParentRoute: () => ReportsRoute,
-} as any)
-const ReportsAccessionIdRoute = ReportsAccessionIdRouteImport.update({
-  id: '/$accessionId',
-  path: '/$accessionId',
-  getParentRoute: () => ReportsRoute,
-} as any)
-const ProjectsTexRoute = ProjectsTexRouteImport.update({
-  id: '/projects/tex',
-  path: '/projects/tex',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsSeamarkRoute = ProjectsSeamarkRouteImport.update({
-  id: '/projects/seamark',
-  path: '/projects/seamark',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsSandboxRoute = ProjectsSandboxRouteImport.update({
-  id: '/projects/sandbox',
-  path: '/projects/sandbox',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsPlantPiRoute = ProjectsPlantPiRouteImport.update({
-  id: '/projects/plant-pi',
-  path: '/projects/plant-pi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsOrbitRoute = ProjectsOrbitRouteImport.update({
-  id: '/projects/orbit',
-  path: '/projects/orbit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsGitStoryRoute = ProjectsGitStoryRouteImport.update({
-  id: '/projects/git-story',
-  path: '/projects/git-story',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LegalTermsRoute = LegalTermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => LegalRoute,
-} as any)
-const LegalSecurityRoute = LegalSecurityRouteImport.update({
-  id: '/security',
-  path: '/security',
-  getParentRoute: () => LegalRoute,
-} as any)
-const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => LegalRoute,
-} as any)
-const LegalCookiesRoute = LegalCookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => LegalRoute,
-} as any)
-const ApiHealthRoute = ApiHealthRouteImport.update({
-  id: '/api/health',
-  path: '/api/health',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminUsersRoute = AdminUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAuditRoute = AdminAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AboutWhoWeAreRoute = AboutWhoWeAreRouteImport.update({
-  id: '/who-we-are',
-  path: '/who-we-are',
-  getParentRoute: () => AboutRoute,
-} as any)
-const AboutContactRoute = AboutContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => AboutRoute,
-} as any)
-const AboutBrandRoute = AboutBrandRouteImport.update({
-  id: '/brand',
-  path: '/brand',
-  getParentRoute: () => AboutRoute,
 } as any)
 const DotwellKnownSecurityDottxtRoute =
   DotwellKnownSecurityDottxtRouteImport.update({
@@ -236,373 +49,106 @@ const DotwellKnownSecurityDottxtRoute =
     path: '/.well-known/security.txt',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminReportsIndexRoute = AdminReportsIndexRouteImport.update({
-  id: '/reports/',
-  path: '/reports/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminDepositIndexRoute = AdminDepositIndexRouteImport.update({
-  id: '/deposit/',
-  path: '/deposit/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const ReportsAccessionIdDownloadRoute =
-  ReportsAccessionIdDownloadRouteImport.update({
-    id: '/$accessionId_/download',
-    path: '/$accessionId/download',
-    getParentRoute: () => ReportsRoute,
-  } as any)
-const ProjectsPlantPiLogRoute = ProjectsPlantPiLogRouteImport.update({
-  id: '/projects/plant-pi_/log',
-  path: '/projects/plant-pi/log',
+const NewsIndexRoute = NewsIndexRouteImport.update({
+  id: '/news/',
+  path: '/news/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiIngestNotifyRoute = ApiIngestNotifyRouteImport.update({
-  id: '/api/ingest/notify',
-  path: '/api/ingest/notify',
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/news/$slug',
+  path: '/news/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminReportsReportIdRoute = AdminReportsReportIdRouteImport.update({
-  id: '/reports/$reportId',
-  path: '/reports/$reportId',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminDepositDraftIdRoute = AdminDepositDraftIdRouteImport.update({
-  id: '/deposit/$draftId',
-  path: '/deposit/$draftId',
-  getParentRoute: () => AdminRoute,
-} as any)
-const ReportsAccessionIdCiteFormatRoute =
-  ReportsAccessionIdCiteFormatRouteImport.update({
-    id: '/$accessionId_/cite/$format',
-    path: '/$accessionId/cite/$format',
-    getParentRoute: () => ReportsRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRouteWithChildren
-  '/admin': typeof AdminRouteWithChildren
-  '/enroll': typeof EnrollRoute
-  '/legal': typeof LegalRouteWithChildren
-  '/login': typeof LoginRoute
-  '/reports': typeof ReportsRouteWithChildren
+  '/kilo': typeof KiloRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
-  '/about/brand': typeof AboutBrandRoute
-  '/about/contact': typeof AboutContactRoute
-  '/about/who-we-are': typeof AboutWhoWeAreRoute
-  '/admin/audit': typeof AdminAuditRoute
-  '/admin/users': typeof AdminUsersRoute
-  '/api/health': typeof ApiHealthRoute
-  '/legal/cookies': typeof LegalCookiesRoute
-  '/legal/privacy': typeof LegalPrivacyRoute
-  '/legal/security': typeof LegalSecurityRoute
-  '/legal/terms': typeof LegalTermsRoute
-  '/projects/git-story': typeof ProjectsGitStoryRoute
-  '/projects/orbit': typeof ProjectsOrbitRoute
-  '/projects/plant-pi': typeof ProjectsPlantPiRoute
-  '/projects/sandbox': typeof ProjectsSandboxRoute
-  '/projects/seamark': typeof ProjectsSeamarkRoute
-  '/projects/tex': typeof ProjectsTexRoute
-  '/reports/$accessionId': typeof ReportsAccessionIdRoute
-  '/reports/browse': typeof ReportsBrowseRoute
-  '/research/$slug': typeof ResearchSlugRoute
-  '/about/': typeof AboutIndexRoute
-  '/admin/': typeof AdminIndexRoute
-  '/legal/': typeof LegalIndexRoute
-  '/projects/': typeof ProjectsIndexRoute
-  '/reports/': typeof ReportsIndexRoute
-  '/research/': typeof ResearchIndexRoute
-  '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
-  '/admin/reports/$reportId': typeof AdminReportsReportIdRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/ingest/notify': typeof ApiIngestNotifyRoute
-  '/projects/plant-pi/log': typeof ProjectsPlantPiLogRoute
-  '/reports/$accessionId/download': typeof ReportsAccessionIdDownloadRoute
-  '/admin/deposit/': typeof AdminDepositIndexRoute
-  '/admin/reports/': typeof AdminReportsIndexRoute
-  '/reports/$accessionId/cite/$format': typeof ReportsAccessionIdCiteFormatRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/news/': typeof NewsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/enroll': typeof EnrollRoute
-  '/login': typeof LoginRoute
+  '/kilo': typeof KiloRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
-  '/about/brand': typeof AboutBrandRoute
-  '/about/contact': typeof AboutContactRoute
-  '/about/who-we-are': typeof AboutWhoWeAreRoute
-  '/admin/audit': typeof AdminAuditRoute
-  '/admin/users': typeof AdminUsersRoute
-  '/api/health': typeof ApiHealthRoute
-  '/legal/cookies': typeof LegalCookiesRoute
-  '/legal/privacy': typeof LegalPrivacyRoute
-  '/legal/security': typeof LegalSecurityRoute
-  '/legal/terms': typeof LegalTermsRoute
-  '/projects/git-story': typeof ProjectsGitStoryRoute
-  '/projects/orbit': typeof ProjectsOrbitRoute
-  '/projects/plant-pi': typeof ProjectsPlantPiRoute
-  '/projects/sandbox': typeof ProjectsSandboxRoute
-  '/projects/seamark': typeof ProjectsSeamarkRoute
-  '/projects/tex': typeof ProjectsTexRoute
-  '/reports/$accessionId': typeof ReportsAccessionIdRoute
-  '/reports/browse': typeof ReportsBrowseRoute
-  '/research/$slug': typeof ResearchSlugRoute
-  '/about': typeof AboutIndexRoute
-  '/admin': typeof AdminIndexRoute
-  '/legal': typeof LegalIndexRoute
-  '/projects': typeof ProjectsIndexRoute
-  '/reports': typeof ReportsIndexRoute
-  '/research': typeof ResearchIndexRoute
-  '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
-  '/admin/reports/$reportId': typeof AdminReportsReportIdRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/ingest/notify': typeof ApiIngestNotifyRoute
-  '/projects/plant-pi/log': typeof ProjectsPlantPiLogRoute
-  '/reports/$accessionId/download': typeof ReportsAccessionIdDownloadRoute
-  '/admin/deposit': typeof AdminDepositIndexRoute
-  '/admin/reports': typeof AdminReportsIndexRoute
-  '/reports/$accessionId/cite/$format': typeof ReportsAccessionIdCiteFormatRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/news': typeof NewsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRouteWithChildren
-  '/admin': typeof AdminRouteWithChildren
-  '/enroll': typeof EnrollRoute
-  '/legal': typeof LegalRouteWithChildren
-  '/login': typeof LoginRoute
-  '/reports': typeof ReportsRouteWithChildren
+  '/kilo': typeof KiloRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
-  '/about/brand': typeof AboutBrandRoute
-  '/about/contact': typeof AboutContactRoute
-  '/about/who-we-are': typeof AboutWhoWeAreRoute
-  '/admin/audit': typeof AdminAuditRoute
-  '/admin/users': typeof AdminUsersRoute
-  '/api/health': typeof ApiHealthRoute
-  '/legal/cookies': typeof LegalCookiesRoute
-  '/legal/privacy': typeof LegalPrivacyRoute
-  '/legal/security': typeof LegalSecurityRoute
-  '/legal/terms': typeof LegalTermsRoute
-  '/projects/git-story': typeof ProjectsGitStoryRoute
-  '/projects/orbit': typeof ProjectsOrbitRoute
-  '/projects/plant-pi': typeof ProjectsPlantPiRoute
-  '/projects/sandbox': typeof ProjectsSandboxRoute
-  '/projects/seamark': typeof ProjectsSeamarkRoute
-  '/projects/tex': typeof ProjectsTexRoute
-  '/reports/$accessionId': typeof ReportsAccessionIdRoute
-  '/reports/browse': typeof ReportsBrowseRoute
-  '/research/$slug': typeof ResearchSlugRoute
-  '/about/': typeof AboutIndexRoute
-  '/admin/': typeof AdminIndexRoute
-  '/legal/': typeof LegalIndexRoute
-  '/projects/': typeof ProjectsIndexRoute
-  '/reports/': typeof ReportsIndexRoute
-  '/research/': typeof ResearchIndexRoute
-  '/admin/deposit/$draftId': typeof AdminDepositDraftIdRoute
-  '/admin/reports/$reportId': typeof AdminReportsReportIdRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/ingest/notify': typeof ApiIngestNotifyRoute
-  '/projects/plant-pi_/log': typeof ProjectsPlantPiLogRoute
-  '/reports/$accessionId_/download': typeof ReportsAccessionIdDownloadRoute
-  '/admin/deposit/': typeof AdminDepositIndexRoute
-  '/admin/reports/': typeof AdminReportsIndexRoute
-  '/reports/$accessionId_/cite/$format': typeof ReportsAccessionIdCiteFormatRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/news/': typeof NewsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
-    | '/admin'
-    | '/enroll'
-    | '/legal'
-    | '/login'
-    | '/reports'
+    | '/kilo'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
-    | '/about/brand'
-    | '/about/contact'
-    | '/about/who-we-are'
-    | '/admin/audit'
-    | '/admin/users'
-    | '/api/health'
-    | '/legal/cookies'
-    | '/legal/privacy'
-    | '/legal/security'
-    | '/legal/terms'
-    | '/projects/git-story'
-    | '/projects/orbit'
-    | '/projects/plant-pi'
-    | '/projects/sandbox'
-    | '/projects/seamark'
-    | '/projects/tex'
-    | '/reports/$accessionId'
-    | '/reports/browse'
-    | '/research/$slug'
-    | '/about/'
-    | '/admin/'
-    | '/legal/'
-    | '/projects/'
-    | '/reports/'
-    | '/research/'
-    | '/admin/deposit/$draftId'
-    | '/admin/reports/$reportId'
-    | '/api/auth/$'
-    | '/api/ingest/notify'
-    | '/projects/plant-pi/log'
-    | '/reports/$accessionId/download'
-    | '/admin/deposit/'
-    | '/admin/reports/'
-    | '/reports/$accessionId/cite/$format'
+    | '/news/$slug'
+    | '/news/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/enroll'
-    | '/login'
+    | '/kilo'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
-    | '/about/brand'
-    | '/about/contact'
-    | '/about/who-we-are'
-    | '/admin/audit'
-    | '/admin/users'
-    | '/api/health'
-    | '/legal/cookies'
-    | '/legal/privacy'
-    | '/legal/security'
-    | '/legal/terms'
-    | '/projects/git-story'
-    | '/projects/orbit'
-    | '/projects/plant-pi'
-    | '/projects/sandbox'
-    | '/projects/seamark'
-    | '/projects/tex'
-    | '/reports/$accessionId'
-    | '/reports/browse'
-    | '/research/$slug'
-    | '/about'
-    | '/admin'
-    | '/legal'
-    | '/projects'
-    | '/reports'
-    | '/research'
-    | '/admin/deposit/$draftId'
-    | '/admin/reports/$reportId'
-    | '/api/auth/$'
-    | '/api/ingest/notify'
-    | '/projects/plant-pi/log'
-    | '/reports/$accessionId/download'
-    | '/admin/deposit'
-    | '/admin/reports'
-    | '/reports/$accessionId/cite/$format'
+    | '/news/$slug'
+    | '/news'
   id:
     | '__root__'
     | '/'
-    | '/about'
-    | '/admin'
-    | '/enroll'
-    | '/legal'
-    | '/login'
-    | '/reports'
+    | '/kilo'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
-    | '/about/brand'
-    | '/about/contact'
-    | '/about/who-we-are'
-    | '/admin/audit'
-    | '/admin/users'
-    | '/api/health'
-    | '/legal/cookies'
-    | '/legal/privacy'
-    | '/legal/security'
-    | '/legal/terms'
-    | '/projects/git-story'
-    | '/projects/orbit'
-    | '/projects/plant-pi'
-    | '/projects/sandbox'
-    | '/projects/seamark'
-    | '/projects/tex'
-    | '/reports/$accessionId'
-    | '/reports/browse'
-    | '/research/$slug'
-    | '/about/'
-    | '/admin/'
-    | '/legal/'
-    | '/projects/'
-    | '/reports/'
-    | '/research/'
-    | '/admin/deposit/$draftId'
-    | '/admin/reports/$reportId'
-    | '/api/auth/$'
-    | '/api/ingest/notify'
-    | '/projects/plant-pi_/log'
-    | '/reports/$accessionId_/download'
-    | '/admin/deposit/'
-    | '/admin/reports/'
-    | '/reports/$accessionId_/cite/$format'
+    | '/news/$slug'
+    | '/news/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRouteWithChildren
-  AdminRoute: typeof AdminRouteWithChildren
-  EnrollRoute: typeof EnrollRoute
-  LegalRoute: typeof LegalRouteWithChildren
-  LoginRoute: typeof LoginRoute
-  ReportsRoute: typeof ReportsRouteWithChildren
+  KiloRoute: typeof KiloRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SiteDotwebmanifestRoute: typeof SiteDotwebmanifestRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DotwellKnownSecurityDottxtRoute: typeof DotwellKnownSecurityDottxtRoute
-  ApiHealthRoute: typeof ApiHealthRoute
-  ProjectsGitStoryRoute: typeof ProjectsGitStoryRoute
-  ProjectsOrbitRoute: typeof ProjectsOrbitRoute
-  ProjectsPlantPiRoute: typeof ProjectsPlantPiRoute
-  ProjectsSandboxRoute: typeof ProjectsSandboxRoute
-  ProjectsSeamarkRoute: typeof ProjectsSeamarkRoute
-  ProjectsTexRoute: typeof ProjectsTexRoute
-  ResearchSlugRoute: typeof ResearchSlugRoute
-  ProjectsIndexRoute: typeof ProjectsIndexRoute
-  ResearchIndexRoute: typeof ResearchIndexRoute
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiIngestNotifyRoute: typeof ApiIngestNotifyRoute
-  ProjectsPlantPiLogRoute: typeof ProjectsPlantPiLogRoute
+  NewsSlugRoute: typeof NewsSlugRoute
+  NewsIndexRoute: typeof NewsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/site.webmanifest': {
-      id: '/site.webmanifest'
-      path: '/site.webmanifest'
-      fullPath: '/site.webmanifest'
-      preLoaderRoute: typeof SiteDotwebmanifestRouteImport
+    '/kilo': {
+      id: '/kilo'
+      path: '/kilo'
+      fullPath: '/kilo'
+      preLoaderRoute: typeof KiloRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -612,229 +158,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
+    '/site.webmanifest': {
+      id: '/site.webmanifest'
+      path: '/site.webmanifest'
+      fullPath: '/site.webmanifest'
+      preLoaderRoute: typeof SiteDotwebmanifestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/legal': {
-      id: '/legal'
-      path: '/legal'
-      fullPath: '/legal'
-      preLoaderRoute: typeof LegalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/enroll': {
-      id: '/enroll'
-      path: '/enroll'
-      fullPath: '/enroll'
-      preLoaderRoute: typeof EnrollRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/research/': {
-      id: '/research/'
-      path: '/research'
-      fullPath: '/research/'
-      preLoaderRoute: typeof ResearchIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reports/': {
-      id: '/reports/'
-      path: '/'
-      fullPath: '/reports/'
-      preLoaderRoute: typeof ReportsIndexRouteImport
-      parentRoute: typeof ReportsRoute
-    }
-    '/projects/': {
-      id: '/projects/'
-      path: '/projects'
-      fullPath: '/projects/'
-      preLoaderRoute: typeof ProjectsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/legal/': {
-      id: '/legal/'
-      path: '/'
-      fullPath: '/legal/'
-      preLoaderRoute: typeof LegalIndexRouteImport
-      parentRoute: typeof LegalRoute
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/about/': {
-      id: '/about/'
-      path: '/'
-      fullPath: '/about/'
-      preLoaderRoute: typeof AboutIndexRouteImport
-      parentRoute: typeof AboutRoute
-    }
-    '/research/$slug': {
-      id: '/research/$slug'
-      path: '/research/$slug'
-      fullPath: '/research/$slug'
-      preLoaderRoute: typeof ResearchSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reports/browse': {
-      id: '/reports/browse'
-      path: '/browse'
-      fullPath: '/reports/browse'
-      preLoaderRoute: typeof ReportsBrowseRouteImport
-      parentRoute: typeof ReportsRoute
-    }
-    '/reports/$accessionId': {
-      id: '/reports/$accessionId'
-      path: '/$accessionId'
-      fullPath: '/reports/$accessionId'
-      preLoaderRoute: typeof ReportsAccessionIdRouteImport
-      parentRoute: typeof ReportsRoute
-    }
-    '/projects/tex': {
-      id: '/projects/tex'
-      path: '/projects/tex'
-      fullPath: '/projects/tex'
-      preLoaderRoute: typeof ProjectsTexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/seamark': {
-      id: '/projects/seamark'
-      path: '/projects/seamark'
-      fullPath: '/projects/seamark'
-      preLoaderRoute: typeof ProjectsSeamarkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/sandbox': {
-      id: '/projects/sandbox'
-      path: '/projects/sandbox'
-      fullPath: '/projects/sandbox'
-      preLoaderRoute: typeof ProjectsSandboxRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/plant-pi': {
-      id: '/projects/plant-pi'
-      path: '/projects/plant-pi'
-      fullPath: '/projects/plant-pi'
-      preLoaderRoute: typeof ProjectsPlantPiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/orbit': {
-      id: '/projects/orbit'
-      path: '/projects/orbit'
-      fullPath: '/projects/orbit'
-      preLoaderRoute: typeof ProjectsOrbitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/git-story': {
-      id: '/projects/git-story'
-      path: '/projects/git-story'
-      fullPath: '/projects/git-story'
-      preLoaderRoute: typeof ProjectsGitStoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/legal/terms': {
-      id: '/legal/terms'
-      path: '/terms'
-      fullPath: '/legal/terms'
-      preLoaderRoute: typeof LegalTermsRouteImport
-      parentRoute: typeof LegalRoute
-    }
-    '/legal/security': {
-      id: '/legal/security'
-      path: '/security'
-      fullPath: '/legal/security'
-      preLoaderRoute: typeof LegalSecurityRouteImport
-      parentRoute: typeof LegalRoute
-    }
-    '/legal/privacy': {
-      id: '/legal/privacy'
-      path: '/privacy'
-      fullPath: '/legal/privacy'
-      preLoaderRoute: typeof LegalPrivacyRouteImport
-      parentRoute: typeof LegalRoute
-    }
-    '/legal/cookies': {
-      id: '/legal/cookies'
-      path: '/cookies'
-      fullPath: '/legal/cookies'
-      preLoaderRoute: typeof LegalCookiesRouteImport
-      parentRoute: typeof LegalRoute
-    }
-    '/api/health': {
-      id: '/api/health'
-      path: '/api/health'
-      fullPath: '/api/health'
-      preLoaderRoute: typeof ApiHealthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/users': {
-      id: '/admin/users'
-      path: '/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/audit': {
-      id: '/admin/audit'
-      path: '/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminAuditRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/about/who-we-are': {
-      id: '/about/who-we-are'
-      path: '/who-we-are'
-      fullPath: '/about/who-we-are'
-      preLoaderRoute: typeof AboutWhoWeAreRouteImport
-      parentRoute: typeof AboutRoute
-    }
-    '/about/contact': {
-      id: '/about/contact'
-      path: '/contact'
-      fullPath: '/about/contact'
-      preLoaderRoute: typeof AboutContactRouteImport
-      parentRoute: typeof AboutRoute
-    }
-    '/about/brand': {
-      id: '/about/brand'
-      path: '/brand'
-      fullPath: '/about/brand'
-      preLoaderRoute: typeof AboutBrandRouteImport
-      parentRoute: typeof AboutRoute
     }
     '/.well-known/security.txt': {
       id: '/.well-known/security.txt'
@@ -843,172 +179,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownSecurityDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/reports/': {
-      id: '/admin/reports/'
-      path: '/reports'
-      fullPath: '/admin/reports/'
-      preLoaderRoute: typeof AdminReportsIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/deposit/': {
-      id: '/admin/deposit/'
-      path: '/deposit'
-      fullPath: '/admin/deposit/'
-      preLoaderRoute: typeof AdminDepositIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/reports/$accessionId_/download': {
-      id: '/reports/$accessionId_/download'
-      path: '/$accessionId/download'
-      fullPath: '/reports/$accessionId/download'
-      preLoaderRoute: typeof ReportsAccessionIdDownloadRouteImport
-      parentRoute: typeof ReportsRoute
-    }
-    '/projects/plant-pi_/log': {
-      id: '/projects/plant-pi_/log'
-      path: '/projects/plant-pi/log'
-      fullPath: '/projects/plant-pi/log'
-      preLoaderRoute: typeof ProjectsPlantPiLogRouteImport
+    '/news/': {
+      id: '/news/'
+      path: '/news'
+      fullPath: '/news/'
+      preLoaderRoute: typeof NewsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/ingest/notify': {
-      id: '/api/ingest/notify'
-      path: '/api/ingest/notify'
-      fullPath: '/api/ingest/notify'
-      preLoaderRoute: typeof ApiIngestNotifyRouteImport
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/news/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/reports/$reportId': {
-      id: '/admin/reports/$reportId'
-      path: '/reports/$reportId'
-      fullPath: '/admin/reports/$reportId'
-      preLoaderRoute: typeof AdminReportsReportIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/deposit/$draftId': {
-      id: '/admin/deposit/$draftId'
-      path: '/deposit/$draftId'
-      fullPath: '/admin/deposit/$draftId'
-      preLoaderRoute: typeof AdminDepositDraftIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/reports/$accessionId_/cite/$format': {
-      id: '/reports/$accessionId_/cite/$format'
-      path: '/$accessionId/cite/$format'
-      fullPath: '/reports/$accessionId/cite/$format'
-      preLoaderRoute: typeof ReportsAccessionIdCiteFormatRouteImport
-      parentRoute: typeof ReportsRoute
     }
   }
 }
 
-interface AboutRouteChildren {
-  AboutBrandRoute: typeof AboutBrandRoute
-  AboutContactRoute: typeof AboutContactRoute
-  AboutWhoWeAreRoute: typeof AboutWhoWeAreRoute
-  AboutIndexRoute: typeof AboutIndexRoute
-}
-
-const AboutRouteChildren: AboutRouteChildren = {
-  AboutBrandRoute: AboutBrandRoute,
-  AboutContactRoute: AboutContactRoute,
-  AboutWhoWeAreRoute: AboutWhoWeAreRoute,
-  AboutIndexRoute: AboutIndexRoute,
-}
-
-const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
-
-interface AdminRouteChildren {
-  AdminAuditRoute: typeof AdminAuditRoute
-  AdminUsersRoute: typeof AdminUsersRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-  AdminDepositDraftIdRoute: typeof AdminDepositDraftIdRoute
-  AdminReportsReportIdRoute: typeof AdminReportsReportIdRoute
-  AdminDepositIndexRoute: typeof AdminDepositIndexRoute
-  AdminReportsIndexRoute: typeof AdminReportsIndexRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminAuditRoute: AdminAuditRoute,
-  AdminUsersRoute: AdminUsersRoute,
-  AdminIndexRoute: AdminIndexRoute,
-  AdminDepositDraftIdRoute: AdminDepositDraftIdRoute,
-  AdminReportsReportIdRoute: AdminReportsReportIdRoute,
-  AdminDepositIndexRoute: AdminDepositIndexRoute,
-  AdminReportsIndexRoute: AdminReportsIndexRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
-
-interface LegalRouteChildren {
-  LegalCookiesRoute: typeof LegalCookiesRoute
-  LegalPrivacyRoute: typeof LegalPrivacyRoute
-  LegalSecurityRoute: typeof LegalSecurityRoute
-  LegalTermsRoute: typeof LegalTermsRoute
-  LegalIndexRoute: typeof LegalIndexRoute
-}
-
-const LegalRouteChildren: LegalRouteChildren = {
-  LegalCookiesRoute: LegalCookiesRoute,
-  LegalPrivacyRoute: LegalPrivacyRoute,
-  LegalSecurityRoute: LegalSecurityRoute,
-  LegalTermsRoute: LegalTermsRoute,
-  LegalIndexRoute: LegalIndexRoute,
-}
-
-const LegalRouteWithChildren = LegalRoute._addFileChildren(LegalRouteChildren)
-
-interface ReportsRouteChildren {
-  ReportsAccessionIdRoute: typeof ReportsAccessionIdRoute
-  ReportsBrowseRoute: typeof ReportsBrowseRoute
-  ReportsIndexRoute: typeof ReportsIndexRoute
-  ReportsAccessionIdDownloadRoute: typeof ReportsAccessionIdDownloadRoute
-  ReportsAccessionIdCiteFormatRoute: typeof ReportsAccessionIdCiteFormatRoute
-}
-
-const ReportsRouteChildren: ReportsRouteChildren = {
-  ReportsAccessionIdRoute: ReportsAccessionIdRoute,
-  ReportsBrowseRoute: ReportsBrowseRoute,
-  ReportsIndexRoute: ReportsIndexRoute,
-  ReportsAccessionIdDownloadRoute: ReportsAccessionIdDownloadRoute,
-  ReportsAccessionIdCiteFormatRoute: ReportsAccessionIdCiteFormatRoute,
-}
-
-const ReportsRouteWithChildren =
-  ReportsRoute._addFileChildren(ReportsRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRouteWithChildren,
-  AdminRoute: AdminRouteWithChildren,
-  EnrollRoute: EnrollRoute,
-  LegalRoute: LegalRouteWithChildren,
-  LoginRoute: LoginRoute,
-  ReportsRoute: ReportsRouteWithChildren,
+  KiloRoute: KiloRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SiteDotwebmanifestRoute: SiteDotwebmanifestRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   DotwellKnownSecurityDottxtRoute: DotwellKnownSecurityDottxtRoute,
-  ApiHealthRoute: ApiHealthRoute,
-  ProjectsGitStoryRoute: ProjectsGitStoryRoute,
-  ProjectsOrbitRoute: ProjectsOrbitRoute,
-  ProjectsPlantPiRoute: ProjectsPlantPiRoute,
-  ProjectsSandboxRoute: ProjectsSandboxRoute,
-  ProjectsSeamarkRoute: ProjectsSeamarkRoute,
-  ProjectsTexRoute: ProjectsTexRoute,
-  ResearchSlugRoute: ResearchSlugRoute,
-  ProjectsIndexRoute: ProjectsIndexRoute,
-  ResearchIndexRoute: ResearchIndexRoute,
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiIngestNotifyRoute: ApiIngestNotifyRoute,
-  ProjectsPlantPiLogRoute: ProjectsPlantPiLogRoute,
+  NewsSlugRoute: NewsSlugRoute,
+  NewsIndexRoute: NewsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
