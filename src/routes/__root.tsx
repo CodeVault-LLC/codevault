@@ -1,5 +1,4 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
-import { MotionConfig } from "framer-motion"
 
 import "@/styles/globals.css"
 import { site } from "@/core/config/site"
@@ -51,9 +50,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           content="#1f1e1d"
         />
         <HeadContent />
+        {/* Reveal hides sections until GSAP shows them; without JS, don't. */}
+        <noscript>
+          <style>
+            {"[data-reveal]{opacity:1!important;transform:none!important}"}
+          </style>
+        </noscript>
       </head>
       <body suppressHydrationWarning>
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        {children}
         <Scripts />
       </body>
     </html>

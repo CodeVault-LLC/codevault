@@ -7,7 +7,7 @@
   `routeTree.gen.ts` is generated; never edit it.
 - **Nitro** (`node-server` preset) for the server build.
 - **Tailwind CSS v4** — tokens in `globals.css` via `@theme`.
-- **framer-motion** for scroll reveals, **lucide-react** for icons.
+- **GSAP** (with `@gsap/react`) for JS animation, **lucide-react** for icons.
 - **Vitest** for tests.
 
 No database, auth, storage or environment variables. Keep it that way unless
@@ -19,7 +19,8 @@ there's a strong reason; ask first.
   `pages.ts`). Components own structure, not words.
 - `src/components/` — `layout`, `ui` (shared primitives), `news`, `kilo`,
   `home`, `brand`.
-- `src/core/lib/` — `motion.ts` variants, `seo.ts` head tags.
+- `src/core/lib/` — `motion.ts` (GSAP, its plugins, shared motion settings),
+  `seo.ts` head tags.
 - `src/lib/` — `cn()`, security headers.
 
 ## TypeScript
@@ -34,7 +35,9 @@ there's a strong reason; ask first.
 ## Styling and React
 
 - Compose classes with `cn()`.
-- Function components and hooks. Side effects in `useEffect` with cleanup.
+- Function components and hooks. Side effects in `useEffect` with cleanup;
+  GSAP in `useGSAP` with a `scope`, and `contextSafe` for anything created
+  later (callbacks, delayed calls).
 - Per-frame animation lives outside React state (see `KiloScene`): a
   `requestAnimationFrame` loop that stops offscreen and when the tab is hidden.
 

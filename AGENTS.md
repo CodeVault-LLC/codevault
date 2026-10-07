@@ -36,9 +36,9 @@ write down how they went. Kilo is the current one. Full context:
    semantic tokens, and the `text-display-*` / `text-paragraph-*` / `text-ui`
    / `text-caption` / `text-label` scale only.
    See [`src/styles/globals.css`](./src/styles/globals.css).
-4. **Reuse shared helpers.** `cn()` from `@/lib/utils` for classes; motion
-   variants from [`src/core/lib/motion.ts`](./src/core/lib/motion.ts). Respect
-   reduced motion.
+4. **Reuse shared helpers.** `cn()` from `@/lib/utils` for classes; GSAP and
+   its motion settings from [`src/core/lib/motion.ts`](./src/core/lib/motion.ts)
+   (import `gsap` from there, not from `"gsap"`). Respect reduced motion.
 9. **Be honest about Kilo.** News posts and status labels must be true of the
    Kilo repository on the date given. No customer names.
 5. **Keep the voice.** Plain, understated, curious, never promotional. Avoid

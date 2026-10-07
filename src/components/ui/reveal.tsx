@@ -1,6 +1,6 @@
-import { motion } from "framer-motion"
+import { useRef } from "react"
 
-import { fadeUp, staggerContainer, viewportOnce } from "@/core/lib/motion"
+import { gsap, motionQuery, reveal, useGSAP } from "@/core/lib/motion"
 
 /** Fades its children up the first time they scroll into view. */
 export function Reveal({
@@ -12,16 +12,34 @@ export function Reveal({
   className?: string
   stagger?: boolean
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      const root = ref.current
+      if (!root) return
+      const targets = stagger
+        ? gsap.utils.toArray<HTMLElement>("[data-reveal]", root)
+        : [root]
+      const mm = gsap.matchMedia()
+      mm.add(motionQuery.ok, () => {
+        gsap.to(targets, {
+          opacity: 1,
+          y: 0,
+          duration: reveal.duration,
+          ease: reveal.ease,
+          stagger: reveal.stagger,
+          scrollTrigger: { trigger: root, start: reveal.start, once: true },
+        })
+      })
+    },
+    { scope: ref }
+  )
+
   return (
-    <motion.div
-      className={className}
-      variants={stagger ? staggerContainer(0.08) : fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={viewportOnce}
-    >
+    <div ref={ref} className={className} data-reveal={stagger ? undefined : ""}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 
@@ -34,8 +52,8 @@ export function RevealItem({
   className?: string
 }) {
   return (
-    <motion.div className={className} variants={fadeUp}>
+    <div className={className} data-reveal="">
       {children}
-    </motion.div>
+    </div>
   )
 }

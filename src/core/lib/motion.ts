@@ -1,81 +1,25 @@
-import type { Variants } from "framer-motion"
+import { useGSAP } from "@gsap/react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-}
+// Registered once, here. Import gsap from this module, not from "gsap", so the
+// plugins are always in place. Registering is SSR-safe; nothing runs until a
+// component's useGSAP does, which is client-only.
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-}
+export { gsap, ScrollTrigger, useGSAP }
 
-export const fadeDown: Variants = {
-  hidden: { opacity: 0, y: -12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-}
+export const motionQuery = {
+  ok: "(prefers-reduced-motion: no-preference)",
+  reduce: "(prefers-reduced-motion: reduce)",
+} as const
 
-export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.96 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-}
-
-export const staggerContainer = (stagger = 0.08, delay = 0): Variants => ({
-  hidden: {},
-  show: {
-    transition: { staggerChildren: stagger, delayChildren: delay },
-  },
-})
-
-export const viewportOnce = { once: true, amount: 0.25 } as const
-
-// Same thing for blocks taller than the viewport, where waiting for a quarter
-// of the element to be visible means a screen of nothing while the reader
-// scrolls. Reveals as soon as the block's leading edge crosses in.
-export const viewportEdge = { once: true, amount: 0 } as const
-
-// Hero letters settle individually; section words lift through a quiet mask.
-// The fade variant is used sparingly for short supporting headings.
-export const textTransitions = {
-  letters: {
-    keyframes: {
-      opacity: [0, 1],
-      y: ["0.35em", "0em"],
-      filter: ["blur(6px)", "blur(0px)"],
-    },
-    duration: 0.85,
-    stagger: 0.028,
-  },
-  words: {
-    keyframes: { y: ["110%", "0%"], opacity: [0, 1] },
-    duration: 0.7,
-    stagger: 0.07,
-  },
-  fade: {
-    keyframes: { opacity: [0.15, 1], filter: ["blur(3px)", "blur(0px)"] },
-    duration: 0.9,
-    stagger: 0.1,
-  },
-}
-
-// Slow, coordinated motion for the homepage's architectural illustration.
-export const securityWorldMotion = {
-  signalSeconds: 10,
-  scanSeconds: 4,
-  parallax: 12,
+// Sections fade up the first time they scroll into view. The starting offset
+// lives in CSS (`[data-reveal]` in globals.css) so the server-rendered HTML
+// doesn't flash before hydration.
+export const reveal = {
+  duration: 0.55,
+  ease: "power4.out",
+  stagger: 0.08,
+  start: "top 85%",
 } as const

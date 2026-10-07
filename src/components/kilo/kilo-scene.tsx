@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
 
+import { gsap } from "@/core/lib/motion"
 import { cn } from "@/lib/utils"
 import {
   kiloBodyPath,
@@ -319,24 +320,168 @@ const INTRO = {
 }
 
 type Stop = { pt: Pt; module?: number; angle: number }
-type Hop = {
-  from: Stop
-  to: Stop
-  start: number
-  end: number
-  height: number
+
+/** Everything about the mascot that moves. The timeline writes it. */
+type Pose = {
+  x: number
+  y: number
+  /** The ground under the mascot, for its shadow. */
+  gy: number
+  angle: number
+  sx: number
+  sy: number
+  alpha: number
+  lookX: number
+  lookY: number
+  blink: number
 }
 
 type Plan = {
-  hops: Hop[]
+  /** Paused; the scene's clock seeks it, so it stops when the scene does. */
+  timeline: gsap.core.Timeline
+  pose: Pose
   /** When each module is switched on, relative to the loop start. */
   litAt: number[]
-  /** Mascot leaves at this time, the scene resets at `length`. */
+  /** Mascot has left by this time, the scene resets at `length`. */
   exit: number
   length: number
 }
 
-function plan(arc: Arc, modules: Module[], scale: number): Plan {
+const restPose: Pose = {
+  x: 0,
+  y: 0,
+  gy: 0,
+  angle: 0,
+  sx: 1,
+  sy: 1,
+  alpha: 1,
+  lookX: 0,
+  lookY: 0,
+  blink: 0,
+}
+
+// The landing squash flows straight into the next crouch on quick ground
+// hops; only longer rests get the elastic settle.
+const SQUASH = 0.08
+const SETTLE = 0.55
+
+/** Squash (k > 0) or stretch (k < 0), keeping the body's volume roughly. */
+const squash = (k: number) => ({ sx: 1 + k, sy: 1 / (1 + k) })
+
+/**
+ * One jump, timed like a thrown body: constant speed across, a parabola up
+ * and down (quad out, then quad in), with the time up and the time down each
+ * set by the height it has to cover. Returns the landing time.
+ */
+function hop(
+  tl: gsap.core.Timeline,
+  pose: Pose,
+  at: number,
+  from: Stop,
+  to: Stop,
+  height: number,
+  gravity: number,
+  { crouch, energy = 1 }: { crouch: number; energy?: number }
+) {
+  const apex = Math.min(from.pt.y, to.pt.y) - height
+  const up = Math.sqrt((2 * (from.pt.y - apex)) / gravity)
+  const down = Math.sqrt((2 * (to.pt.y - apex)) / gravity)
+  const lift = at + crouch
+  const land = lift + up + down
+  const dir = Math.sign(to.pt.x - from.pt.x)
+  const kick = Math.min(0.12, up * 0.7)
+  const midAngle = lerp(from.angle, to.angle, 0.5)
+
+  // Anticipation: sink into the knees and lean back a touch.
+  tl.to(
+    pose,
+    {
+      ...squash(0.14 * energy),
+      angle: from.angle - dir * 0.07 * energy,
+      duration: crouch,
+      ease: "power2.out",
+    },
+    at
+  )
+  // Take-off stretch, relaxing toward the top of the arc.
+  tl.to(
+    pose,
+    { ...squash(-0.11 * energy), duration: kick, ease: "power2.out" },
+    lift
+  )
+  tl.to(
+    pose,
+    { sx: 1, sy: 1, duration: up - kick, ease: "sine.inOut" },
+    lift + kick
+  )
+  // Stretching a little again on the way down.
+  tl.to(
+    pose,
+    { ...squash(-0.045 * energy), duration: down, ease: "sine.in" },
+    lift + up
+  )
+  // Leans into the jump, then rights itself for the landing.
+  tl.to(
+    pose,
+    {
+      angle: midAngle + dir * 0.16 * energy,
+      duration: up,
+      ease: "power2.out",
+    },
+    lift
+  )
+  tl.to(
+    pose,
+    { angle: to.angle - dir * 0.03, duration: down, ease: "sine.inOut" },
+    lift + up
+  )
+  tl.to(
+    pose,
+    { x: to.pt.x, gy: to.pt.y, duration: up + down, ease: "none" },
+    lift
+  )
+  tl.to(pose, { y: apex, duration: up, ease: "power1.out" }, lift)
+  tl.to(pose, { y: to.pt.y, duration: down, ease: "power1.in" }, lift + up)
+  return land
+}
+
+/** The squash on touchdown, and — given room — a springy settle. */
+function landing(
+  tl: gsap.core.Timeline,
+  pose: Pose,
+  land: number,
+  to: Stop,
+  room: number,
+  energy = 1
+) {
+  tl.to(
+    pose,
+    { ...squash(0.2 * energy), duration: SQUASH, ease: "power1.out" },
+    land
+  )
+  if (room >= SQUASH + SETTLE) {
+    tl.to(
+      pose,
+      {
+        sx: 1,
+        sy: 1,
+        angle: to.angle,
+        duration: SETTLE,
+        ease: "elastic.out(1, 0.45)",
+      },
+      land + SQUASH
+    )
+  } else {
+    tl.to(
+      pose,
+      { angle: to.angle, duration: room - SQUASH, ease: "power2.out" },
+      land + SQUASH
+    )
+  }
+}
+
+function plan(arc: Arc, modules: Module[], scale: number, size: number): Plan {
+  const rand = mulberry32(11)
   const ground = (u: number): Stop => {
     const p = arc.at(u)
     return { pt: p, angle: arc.angle(p.x) }
@@ -347,31 +492,107 @@ function plan(arc: Arc, modules: Module[], scale: number): Plan {
     stops.push({ pt: m.roof, module: i, angle: 0 })
     // Two hops on the ground after each roof, then on to the next module.
     const u = (m.roof.x - arc.x0) / (arc.x1 - arc.x0)
-    const gap = [u + 0.085, u + 0.15]
-    for (const g of gap) stops.push(ground(Math.min(g, 0.95)))
+    for (const g of [u + 0.085, u + 0.15]) stops.push(ground(Math.min(g, 0.95)))
   })
+  // One last hop, off the end of the arc.
+  const lastU = (stops[stops.length - 1].pt.x - arc.x0) / (arc.x1 - arc.x0)
+  const off = ground(Math.min(lastU + 0.04, 0.99))
 
-  const hops: Hop[] = []
+  const gravity = 2000 * scale
+  // Drops in from just above the first stop. This is also where the loop
+  // rewinds to, since the tweens below record it as their starting values.
+  const drop = size * 0.6
+  const fall = Math.sqrt((2 * drop) / gravity)
+  const pose: Pose = {
+    ...restPose,
+    ...squash(-0.06),
+    x: stops[0].pt.x,
+    y: stops[0].pt.y - drop,
+    gy: stops[0].pt.y,
+    angle: stops[0].angle,
+    alpha: 0,
+    lookX: 0.6,
+  }
+  const tl = gsap.timeline({ paused: true })
   const litAt: number[] = []
-  let t = 0
+
+  tl.to(pose, { alpha: 1, duration: fall * 0.8, ease: "power1.out" }, 0)
+  tl.to(pose, { y: stops[0].pt.y, duration: fall, ease: "power1.in" }, 0)
+  let t = fall
+  landing(tl, pose, t, stops[0], 0.7)
+  t += 0.7
+
   for (let i = 1; i < stops.length; i++) {
     const from = stops[i - 1]
     const to = stops[i]
-    const dist = Math.hypot(to.pt.x - from.pt.x, to.pt.y - from.pt.y)
-    const rise = Math.max(0, from.pt.y - to.pt.y)
-    const duration = 0.36 + dist / (900 * scale) + rise / (700 * scale)
-    const height = 10 * scale + rise * 0.55 + dist * 0.12
-    hops.push({ from, to, start: t, end: t + duration, height })
-    t += duration
-    if (to.module !== undefined) {
-      litAt[to.module] = t
-      t += 1.25 // stays a moment to watch the lights come on
-    } else {
-      t += 0.1
+    const roof = from.module !== undefined || to.module !== undefined
+    const dist = Math.abs(to.pt.x - from.pt.x)
+    const height = roof ? size * 0.16 : size * 0.3 + dist * 0.1
+    const land = hop(tl, pose, t, from, to, height, gravity, {
+      crouch: roof ? 0.2 : 0.13,
+    })
+
+    if (to.module === undefined) {
+      // Quick, uneven ground hops; never quite a metronome.
+      const room = SQUASH + 0.03 + rand() * 0.12
+      landing(tl, pose, land, to, room)
+      t = land + room
+      continue
+    }
+
+    // On a roof: look down at the lamp as it wires up, a small hop of
+    // delight when it comes on, then eyes forward to the next jump.
+    litAt[to.module] = land + 0.1
+    landing(tl, pose, land, to, 0.75)
+    tl.to(
+      pose,
+      { lookX: -1.5, lookY: 1.2, duration: 0.3, ease: "power2.out" },
+      land + 0.2
+    )
+    const happy = hop(tl, pose, land + 0.75, to, to, size * 0.1, gravity, {
+      crouch: 0.12,
+      energy: 0.5,
+    })
+    landing(tl, pose, happy, to, 0.62, 0.5)
+    tl.to(
+      pose,
+      { lookX: 0.6, lookY: 0, duration: 0.3, ease: "power2.inOut" },
+      happy + 0.3
+    )
+    t = happy + 0.62
+  }
+
+  // Off the end, fading as it goes.
+  const gone = hop(
+    tl,
+    pose,
+    t,
+    stops[stops.length - 1],
+    off,
+    size * 0.3,
+    gravity,
+    { crouch: 0.13 }
+  )
+  tl.to(
+    pose,
+    { alpha: 0, duration: (gone - t) * 0.8, ease: "power1.in" },
+    t + 0.13
+  )
+  const exit = gone
+  const length = exit + 1.9
+
+  // Blinks at uneven intervals, sometimes twice.
+  for (let b = 1.4 + rand() * 1.5; b < length - 0.5; b += 2.4 + rand() * 2.8) {
+    const twice = rand() < 0.2
+    for (let k = 0; k < (twice ? 2 : 1); k++) {
+      const s = b + k * 0.2
+      tl.to(pose, { blink: 1, duration: 0.07, ease: "power2.in" }, s)
+      tl.to(pose, { blink: 0, duration: 0.1, ease: "power2.out" }, s + 0.07)
     }
   }
-  const exit = t + 0.15
-  return { hops, litAt, exit, length: exit + 1.9 }
+  tl.set({}, {}, length)
+
+  return { timeline: tl, pose, litAt, exit, length }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -405,7 +626,7 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   let arcChalk: Chalk
   let modules: Module[] = []
   let moduleChalk: { visible: Chalk[]; details: Chalk[] }[] = []
-  let choreography: Plan
+  let choreography: Plan | undefined
   let mascotSize = 40
   let cache: HTMLCanvasElement | null = null
 
@@ -413,7 +634,9 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   let last = 0
   let frame = 0
   let visible = false
-  const pointer = { x: 0.5, active: false }
+  // Eyes follow the pointer with a little lag, not locked to it.
+  const gaze = { x: 0 }
+  const gazeTo = gsap.quickTo(gaze, "x", { duration: 0.6, ease: "power3.out" })
 
   function layout() {
     const rect = canvas.getBoundingClientRect()
@@ -457,7 +680,13 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
       ),
     }))
     mascotSize = s * 0.85
-    choreography = plan(arc, modules, clamp(width / 1200, 0.45, 1.2))
+    choreography?.timeline.kill()
+    choreography = plan(
+      arc,
+      modules,
+      clamp(width / 1200, 0.45, 1.2),
+      mascotSize
+    )
     cache = null
   }
 
@@ -606,41 +835,45 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     ctx.restore()
   }
 
-  function drawMascot(
-    foot: Pt,
-    angle: number,
-    sx: number,
-    sy: number,
-    alpha: number,
-    blink: number
-  ) {
-    if (alpha <= 0) return
+  function drawMascot(pose: Pose) {
+    if (pose.alpha <= 0) return
     const k = mascotSize / 64
+    // Shadow stays on the ground, shrinking and fading as the mascot leaves
+    // it — gone by half a body's height, so it never slides up a wall on
+    // the jump to a roof.
+    const air = clamp((pose.gy - pose.y) / (mascotSize * 0.5), 0, 1)
     ctx.save()
-    ctx.globalAlpha = alpha
-    ctx.translate(foot.x, foot.y)
-    ctx.rotate(angle)
-    ctx.scale(k * sx, k * sy)
-    ctx.translate(-kiloFoot.x, -kiloFoot.y)
-    // Soft shadow under the feet.
-    ctx.save()
-    ctx.globalAlpha = alpha * 0.12
+    ctx.globalAlpha = pose.alpha * 0.12 * (1 - air)
     ctx.fillStyle = colors.ink
     ctx.beginPath()
-    ctx.ellipse(32, 56, 20, 2.6, 0, 0, Math.PI * 2)
+    ctx.ellipse(
+      pose.x,
+      pose.gy + k,
+      20 * k * (1 - air * 0.45),
+      2.6 * k,
+      0,
+      0,
+      Math.PI * 2
+    )
     ctx.fill()
     ctx.restore()
+
+    ctx.save()
+    ctx.globalAlpha = pose.alpha
+    ctx.translate(pose.x, pose.y)
+    ctx.rotate(pose.angle)
+    ctx.scale(k * pose.sx, k * pose.sy)
+    ctx.translate(-kiloFoot.x, -kiloFoot.y)
     ctx.fillStyle = colors.accent
     ctx.fill(body)
-    // Eyes glance toward the pointer.
-    const look = pointer.active ? clamp((pointer.x - 0.5) * 4, -1.6, 1.6) : 0
+    const lookX = clamp(pose.lookX + gaze.x, -1.8, 1.8)
     ctx.fillStyle = "#141413"
-    const eh = kiloEyeHeight * (1 - blink * 0.85)
+    const eh = kiloEyeHeight * (1 - pose.blink * 0.85)
     for (const ex of kiloEyes) {
       ctx.beginPath()
       ctx.roundRect(
-        ex + look,
-        kiloEyeY + (kiloEyeHeight - eh) / 2,
+        ex + lookX,
+        kiloEyeY + pose.lookY + (kiloEyeHeight - eh) / 2,
         kiloEyeWidth,
         eh,
         kiloEyeWidth / 2
@@ -648,62 +881,6 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
       ctx.fill()
     }
     ctx.restore()
-  }
-
-  function mascotAt(t: number) {
-    const { hops, exit } = choreography
-    const first = hops[0]
-    // Fade in at the start, out at the exit.
-    const alpha =
-      t < exit ? clamp(t / 0.35, 0, 1) : clamp(1 - (t - exit) / 0.35, 0, 1)
-
-    let pose = {
-      foot: first.from.pt,
-      angle: first.from.angle,
-      sx: 1,
-      sy: 1,
-    }
-    for (const h of hops) {
-      if (t < h.start) {
-        // Resting at `h.from`; a crouch just before take-off.
-        const crouch = clamp(1 - (h.start - t) / 0.09, 0, 1)
-        pose = {
-          foot: h.from.pt,
-          angle: h.from.angle,
-          sx: 1 + 0.08 * crouch,
-          sy: 1 - 0.1 * crouch,
-        }
-        break
-      }
-      if (t <= h.end) {
-        const p = (t - h.start) / (h.end - h.start)
-        const e = easeInOut(p)
-        pose = {
-          foot: {
-            x: lerp(h.from.pt.x, h.to.pt.x, e),
-            y: lerp(h.from.pt.y, h.to.pt.y, e) - h.height * 4 * p * (1 - p),
-          },
-          angle:
-            lerp(h.from.angle, h.to.angle, e) + Math.sin(p * Math.PI) * 0.12,
-          sx: 1 - 0.05 * Math.sin(p * Math.PI),
-          sy: 1 + 0.07 * Math.sin(p * Math.PI),
-        }
-        break
-      }
-      // Landed: a short squash, then settle.
-      const since = t - h.end
-      const squash = since < 0.22 ? Math.sin((since / 0.22) * Math.PI) : 0
-      pose = {
-        foot: h.to.pt,
-        angle: h.to.angle,
-        sx: 1 + 0.12 * squash,
-        sy: 1 - 0.14 * squash,
-      }
-    }
-    const blinkPhase = t % 3.1
-    const blink =
-      blinkPhase > 2.95 ? Math.sin(((blinkPhase - 2.95) / 0.15) * Math.PI) : 0
-    return { ...pose, alpha, blink }
   }
 
   function render(total: number, still: boolean) {
@@ -725,23 +902,19 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
     if (still) {
       modules.forEach((m) => drawCircuit(m, 3, 1))
-      const centre = modules[1]
-      drawMascot(centre.roof, 0, 1, 1, 1, 0)
+      const { x, y } = modules[1].roof
+      drawMascot({ ...restPose, x, y, gy: y })
       return
     }
 
     const loopT = total - INTRO.mascotIn
-    if (loopT < 0) return
-    const t = loopT % choreography.length
-    const fadeOut =
-      t > choreography.exit + 0.6
-        ? clamp(1 - (t - choreography.exit - 0.6) / 0.9, 0, 1)
-        : 1
-    modules.forEach((m, i) =>
-      drawCircuit(m, t - choreography.litAt[i], fadeOut)
-    )
-    const pose = mascotAt(t)
-    drawMascot(pose.foot, pose.angle, pose.sx, pose.sy, pose.alpha, pose.blink)
+    if (loopT < 0 || !choreography) return
+    const { timeline, pose, litAt, exit, length } = choreography
+    const t = loopT % length
+    const fadeOut = t > exit + 0.6 ? clamp(1 - (t - exit - 0.6) / 0.9, 0, 1) : 1
+    modules.forEach((m, i) => drawCircuit(m, t - litAt[i], fadeOut))
+    timeline.time(t)
+    drawMascot(pose)
   }
 
   function tick(now: number) {
@@ -787,8 +960,9 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
   function onPointer(event: PointerEvent) {
     const rect = canvas.getBoundingClientRect()
-    pointer.x = (event.clientX - rect.left) / rect.width
-    pointer.active = event.clientY >= rect.top && event.clientY <= rect.bottom
+    const inside = event.clientY >= rect.top && event.clientY <= rect.bottom
+    const x = (event.clientX - rect.left) / rect.width
+    gazeTo(inside ? clamp((x - 0.5) * 4, -1.6, 1.6) : 0)
   }
 
   layout()
@@ -807,6 +981,8 @@ function runScene(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
   return () => {
     stop()
+    choreography?.timeline.kill()
+    gsap.killTweensOf(gaze)
     resizer.disconnect()
     observer.disconnect()
     document.removeEventListener("visibilitychange", sync)

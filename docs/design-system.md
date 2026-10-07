@@ -53,14 +53,16 @@ Scale (each step carries its line height and tracking):
 
 - Headlines rise in word by word (`HeadlineWords`, CSS `word-rise`).
 - Hero elements fade up with `fade-rise` and a `--d` delay.
-- Sections reveal on scroll with `Reveal` / `RevealItem` (framer-motion,
-  variants in `core/lib/motion.ts`).
+- Sections reveal on scroll with `Reveal` / `RevealItem` (GSAP ScrollTrigger,
+  settings in `core/lib/motion.ts`; the hidden start state is CSS).
 - Card hover: background shifts one step, the arrow slides 2px.
-- The Kilo scene is canvas; see `components/kilo/kilo-scene.tsx`.
+- The Kilo scene is canvas; see `components/kilo/kilo-scene.tsx`. The
+  mascot's hops are a paused GSAP timeline the scene's clock seeks: real
+  jump arcs, squash and stretch, an elastic settle on longer rests.
 
-Everything respects reduced motion: CSS animations switch off, framer-motion
-runs under `MotionConfig reducedMotion="user"`, and the canvas draws its
-finished state once.
+Everything respects reduced motion: CSS animations switch off, GSAP code runs
+under `gsap.matchMedia()` with the queries in `motionQuery`, and the canvas
+draws its finished state once.
 
 ## Components
 
