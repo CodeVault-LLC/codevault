@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BrandRouteImport } from './routes/brand'
 import { Route as KiloRouteImport } from './routes/kilo'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SiteDotwebmanifestRouteImport } from './routes/site[.]webmanifest'
@@ -21,6 +22,11 @@ import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandRoute = BrandRouteImport.update({
+  id: '/brand',
+  path: '/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KiloRoute = KiloRouteImport.update({
@@ -62,6 +68,7 @@ const NewsSlugRoute = NewsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/brand': typeof BrandRoute
   '/kilo': typeof KiloRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/brand': typeof BrandRoute
   '/kilo': typeof KiloRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
@@ -83,6 +91,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/brand': typeof BrandRoute
   '/kilo': typeof KiloRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/brand'
     | '/kilo'
     | '/robots.txt'
     | '/site.webmanifest'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/brand'
     | '/kilo'
     | '/robots.txt'
     | '/site.webmanifest'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/brand'
     | '/kilo'
     | '/robots.txt'
     | '/site.webmanifest'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrandRoute: typeof BrandRoute
   KiloRoute: typeof KiloRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SiteDotwebmanifestRoute: typeof SiteDotwebmanifestRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brand': {
+      id: '/brand'
+      path: '/brand'
+      fullPath: '/brand'
+      preLoaderRoute: typeof BrandRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kilo': {
@@ -198,6 +218,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrandRoute: BrandRoute,
   KiloRoute: KiloRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SiteDotwebmanifestRoute: SiteDotwebmanifestRoute,

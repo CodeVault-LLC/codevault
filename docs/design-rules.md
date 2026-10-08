@@ -6,8 +6,8 @@ How to use the [design system](./design-system.md) well.
 
 1. **Quiet by default.** Whitespace and type do the work. Add a border,
    shadow or color only when it earns its place.
-2. **One accent.** Clay belongs to Kilo and to moments that matter. A page
-   with clay everywhere has no accent.
+2. **One accent.** Persimmon belongs to Kilo and to moments that matter. A page
+   with persimmon everywhere has no accent.
 3. **Editorial, not app-like.** Closer to a well-set magazine page than a
    dashboard.
 4. **Honest states.** In development is in development. See

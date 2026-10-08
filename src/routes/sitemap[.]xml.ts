@@ -13,6 +13,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/", lastmod: latest },
           { path: "/kilo", lastmod: latest },
           { path: "/news", lastmod: latest },
+          { path: "/brand" },
           ...allPosts().map((post) => ({
             path: `/news/${post.slug}`,
             lastmod: post.date,

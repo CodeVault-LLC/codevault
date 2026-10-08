@@ -1,16 +1,10 @@
 import type { ArtKey, Tone } from "@/core/config/news"
 import { cn } from "@/lib/utils"
-import {
-  kiloBodyPath,
-  kiloEyeHeight,
-  kiloEyeWidth,
-  kiloEyeY,
-  kiloEyes,
-} from "@/components/kilo/artwork"
 import { LogoGlyph } from "@/components/brand/logo-glyph"
+import { Orbit, orbitFoot } from "@/components/brand/orbit"
 
 const toneClass: Record<Tone, string> = {
-  clay: "bg-clay",
+  persimmon: "bg-persimmon",
   oat: "bg-oat",
   sky: "bg-sky",
   olive: "bg-olive",
@@ -59,34 +53,25 @@ export function PostArt({
   )
 }
 
-function Mascot({
-  x,
-  y,
-  size = 64,
-  fill = "#faf9f5",
-}: {
-  x: number
-  y: number
-  size?: number
-  fill?: string
-}) {
-  const k = size / 64
+/**
+ * Orbit standing with its feet at (x, y), held still like printed artwork.
+ * `size` is the drawing's width; the ink and stroke above don't reach it.
+ */
+function Mascot({ x, y, size = 136 }: { x: number; y: number; size?: number }) {
+  // Orbit's viewBox is 136 units from (-8, -12).
+  const k = size / 136
   return (
-    <g transform={`translate(${x - 32 * k} ${y - 55 * k}) scale(${k})`}>
-      <path d={kiloBodyPath} fill={fill} stroke="none" />
-      {kiloEyes.map((ex) => (
-        <rect
-          key={ex}
-          x={ex}
-          y={kiloEyeY}
-          width={kiloEyeWidth}
-          height={kiloEyeHeight}
-          rx={kiloEyeWidth / 2}
-          fill="#141413"
-          stroke="none"
-        />
-      ))}
-    </g>
+    <svg
+      x={x - (orbitFoot.x + 8) * k}
+      y={y - (orbitFoot.y + 12) * k}
+      width={size}
+      height={size}
+      overflow="visible"
+      fill="#141413"
+      stroke="none"
+    >
+      <Orbit tone="ivory" still />
+    </svg>
   )
 }
 
@@ -136,7 +121,7 @@ const ART: Record<Exclude<ArtKey, "fresh">, React.ReactNode> = {
   kilo: (
     <>
       <path d="M20 232 A 520 520 0 0 1 380 232" />
-      <Mascot x={200} y={202} size={120} />
+      <Mascot x={200} y={202} size={190} />
     </>
   ),
   assistant: (

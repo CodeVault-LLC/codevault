@@ -174,7 +174,7 @@ function BodyBlock({ block }: { block: Block }) {
             <li key={item} className="relative pl-6">
               <span
                 aria-hidden
-                className="absolute top-[0.7em] left-0 size-1.5 rounded-full bg-clay"
+                className="absolute top-[0.7em] left-0 size-1.5 rounded-full bg-persimmon"
               />
               {item}
             </li>

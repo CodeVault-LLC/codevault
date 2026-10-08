@@ -50,6 +50,7 @@ export const site = {
       {
         heading: "CodeVault",
         links: [
+          { label: "Brand", href: "/brand" },
           { label: "GitHub", href: "https://github.com/CodeVault-LLC" },
           {
             label: "Report a vulnerability",

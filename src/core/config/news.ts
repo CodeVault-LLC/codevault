@@ -18,7 +18,7 @@ export type ArtKey =
   "kilo" | "assistant" | "viewport" | "revit" | "foundation" | "fresh"
 
 /** Background swatch behind the illustration. */
-export type Tone = "clay" | "oat" | "sky" | "olive" | "cactus" | "heather"
+export type Tone = "persimmon" | "oat" | "sky" | "olive" | "cactus" | "heather"
 
 export type Block =
   | { type: "p"; text: string }
@@ -51,7 +51,7 @@ const posts: Post[] = [
       "An electrical design tool for building modules. The model is always on screen, and an assistant works through the same tools you do.",
     lead: "Kilo is an electrical design tool for industrially built modules — rooms and units that leave the factory already wired. We started it on October 5th. This is what it is, what works today, and what doesn't yet.",
     art: "kilo",
-    tone: "clay",
+    tone: "persimmon",
     body: [
       { type: "h2", id: "why", text: "Why we're building it" },
       {

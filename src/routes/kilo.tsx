@@ -6,10 +6,10 @@ import { postsFor } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
 import { cn } from "@/lib/utils"
+import { Orbit } from "@/components/brand/orbit"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { KiloLogo } from "@/components/kilo/kilo-logo"
-import { KiloMascot } from "@/components/kilo/kilo-mascot"
 import { KiloScene } from "@/components/kilo/kilo-scene"
 import { NewsRow } from "@/components/news/news-row"
 import { ButtonLink } from "@/components/ui/button-link"
@@ -30,7 +30,7 @@ function KiloPage() {
   return (
     <PageShell>
       <Container className="flex flex-col items-center pt-14 pb-12 text-center sm:pt-20 lg:pt-24">
-        <KiloMascot motion="greeting" className="mb-6 size-16 sm:size-20" />
+        <Orbit className="mb-4 size-28 sm:size-32" />
         <p className="fade-rise mb-5 font-mono text-label text-muted-foreground uppercase">
           {kilo.hero.eyebrow}
         </p>
@@ -145,7 +145,7 @@ function KiloPage() {
 
 const statusDot: Record<Status, string> = {
   Working: "bg-olive",
-  "In progress": "bg-clay",
+  "In progress": "bg-persimmon",
   Next: "ring-1 ring-faint ring-inset",
 }
 

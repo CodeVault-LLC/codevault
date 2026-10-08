@@ -13,7 +13,7 @@ export function KiloLogo({ className }: { className?: string }) {
       <path
         d={kiloMarkPath}
         transform="translate(0 4)"
-        className="fill-clay-strong dark:fill-clay"
+        className="fill-persimmon-strong dark:fill-persimmon"
       />
       <path
         d={kiloWordmarkPath}

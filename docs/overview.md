@@ -12,13 +12,14 @@ news, but the site is CodeVault's, not Kilo's.
 
 ## What the site is
 
-Three things, and nothing else:
+Four things, and nothing else:
 
 | Page | Route | Purpose |
 | --- | --- | --- |
 | Home | `/` | Headline, the current announcement, latest posts |
 | Kilo | `/kilo` | What Kilo is, how it works, where it stands |
 | News | `/news`, `/news/$slug` | Every announcement, engineering note and update |
+| Brand | `/brand` | Logo, Orbit the mascot, colour and type |
 
 There is no database, no sign-in and no storage. Content lives in
 `src/core/config/` and ships with the code.

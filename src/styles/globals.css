@@ -24,8 +24,10 @@
   --color-slate: var(--slate-dark);
   --color-slate-medium: var(--slate-medium);
   --color-cloud: var(--cloud-dark);
-  --color-clay: var(--clay);
-  --color-clay-strong: var(--clay-strong);
+  --color-persimmon: var(--persimmon);
+  --color-persimmon-strong: var(--persimmon-strong);
+  --color-persimmon-shade: var(--persimmon-shade);
+  --color-persimmon-light: var(--persimmon-light);
   --color-sky: var(--sky);
   --color-olive: var(--olive);
   --color-cactus: var(--cactus);
@@ -94,8 +96,10 @@
   --slate-dark: #141413;
   --slate-medium: #3d3d3a;
   --cloud-dark: #87867f;
-  --clay: #d97757;
-  --clay-strong: #a64b31;
+  --persimmon: #e85d3c;
+  --persimmon-strong: #b03a1e;
+  --persimmon-shade: #c64528;
+  --persimmon-light: #f7977d;
   --sky: #6a9bcc;
   --olive: #788c5d;
   --cactus: #bcd1ca;
@@ -111,7 +115,7 @@
   --faint: var(--cloud-dark);
   --border: #1414131f;
   --border-strong: #14141340;
-  --accent: var(--clay-strong);
+  --accent: var(--persimmon-strong);
   --inverse: var(--slate-dark);
   --inverse-foreground: var(--ivory-light);
   --inverse-muted: #b0aea5;
@@ -130,7 +134,7 @@
     --faint: #87867f;
     --border: #faf9f51f;
     --border-strong: #faf9f540;
-    --accent: var(--clay);
+    --accent: var(--persimmon);
     --inverse: #141413;
     --inverse-foreground: var(--ivory-light);
     --inverse-muted: #9c9a92;
@@ -152,7 +156,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--clay) 35%, transparent);
+    background: color-mix(in oklab, var(--persimmon) 35%, transparent);
   }
 
   :focus-visible {
