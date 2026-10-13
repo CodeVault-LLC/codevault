@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
+import { allGuides } from "@/core/config/guides"
 import { allPosts } from "@/core/config/news"
 import { site } from "@/core/config/site"
 
@@ -9,10 +10,15 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: () => {
         const base = site.url.replace(/\/+$/, "")
         const latest = allPosts()[0]?.date
+        const guidesUpdated = allGuides()
+          .map((guide) => guide.updated)
+          .sort()
+          .at(-1)
         const entries = [
           { path: "/", lastmod: latest },
           { path: "/electrical", lastmod: latest },
           { path: "/news", lastmod: latest },
+          { path: "/guides", lastmod: guidesUpdated },
           { path: "/about" },
           { path: "/brand" },
           { path: "/contact" },
@@ -20,6 +26,10 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...allPosts().map((post) => ({
             path: `/news/${post.slug}`,
             lastmod: post.date,
+          })),
+          ...allGuides().map((guide) => ({
+            path: `/guides/${guide.slug}`,
+            lastmod: guide.updated,
           })),
         ]
         const body = [

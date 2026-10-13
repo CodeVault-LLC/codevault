@@ -15,17 +15,18 @@ and most of the news, but the site is CodeVault's, not the product's.
 
 ## What the site is
 
-Four things, plus the pages the law asks for:
+Five things, plus the pages the law asks for:
 
-| Page       | Route                  | Purpose                                                  |
-| ---------- | ---------------------- | -------------------------------------------------------- |
-| Home       | `/`                    | Headline, the current announcement, latest posts         |
-| Electrical | `/electrical`          | What it does, how it works, where it stands              |
-| News       | `/news`, `/news/$slug` | Every announcement, engineering note and update          |
-| About      | `/about`               | Who CodeVault is: what we make, where we are, the facts  |
-| Brand      | `/brand`               | Logo, Orbit the mascot, colour and type                  |
-| Contact    | `/contact`             | Email, and the business facts ehandelsloven § 8 requires |
-| Privacy    | `/privacy`             | The GDPR notice: what data the site touches and why      |
+| Page       | Route                      | Purpose                                                  |
+| ---------- | -------------------------- | -------------------------------------------------------- |
+| Home       | `/`                        | Headline, the current announcement, latest posts         |
+| Electrical | `/electrical`              | What it does, how it works, where it stands              |
+| News       | `/news`, `/news/$slug`     | Every announcement, engineering note and update          |
+| Guides     | `/guides`, `/guides/$slug` | Plain answers to problems people search for              |
+| About      | `/about`                   | Who CodeVault is: what we make, where we are, the facts  |
+| Brand      | `/brand`                   | Logo, Orbit the mascot, colour and type                  |
+| Contact    | `/contact`                 | Email, and the business facts ehandelsloven § 8 requires |
+| Privacy    | `/privacy`                 | The GDPR notice: what data the site touches and why      |
 
 The business facts (name, company form, org number, address) live in
 `src/core/config/company.ts`. The footer, Contact and Privacy pages read them
@@ -60,6 +61,26 @@ Plain, understated, curious. Say what something is and what state it's in.
   "sign up," "revolutionary."
 - **No customer names** without permission, even when the source documents
   have them.
+
+## Writing a guide
+
+Guides are how people find us without searching for "CodeVault". Each one
+answers a question someone types into a search engine, such as a Revit
+problem or a rollout question, and ends with a sentence or two on what
+CodeVault Electrical does about it, linked to `/electrical`. Never redirect a
+visitor from a guide; a page built to rank and then forward people is a
+doorway page, and search engines penalise the whole site for it.
+
+- **Useful without us.** Someone who will never install the add-in should
+  still get their answer.
+- **True, and not too specific.** Revit facts are ones Autodesk documents or
+  anyone can check. Product claims trace to the product's changelog. Leave
+  out setting names and numbers that will go stale.
+- **The searcher's words** in the title and the first sentences.
+
+Add an entry to `src/core/config/guides.ts`, link it from related news posts
+(`guides` on the post), run `bun run og:images`, and bump `updated` whenever
+a guide changes.
 
 ## Writing a news post
 

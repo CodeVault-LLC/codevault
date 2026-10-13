@@ -70,6 +70,7 @@ export const site = {
             label: "Introducing CodeVault Electrical",
             href: `/news/${electrical.announcementSlug}`,
           },
+          { label: "Guides", href: "/guides" },
         ],
       },
       {

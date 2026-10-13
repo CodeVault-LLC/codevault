@@ -1,8 +1,10 @@
 import { company } from "@/core/config/company"
 import { electrical } from "@/core/config/electrical"
+import type { Guide } from "@/core/config/guides"
+import { allGuides } from "@/core/config/guides"
 import type { Block, Post } from "@/core/config/news"
 import { allPosts, formatDate } from "@/core/config/news"
-import { news } from "@/core/config/pages"
+import { guidesPage, news } from "@/core/config/pages"
 import { site } from "@/core/config/site"
 import { BASE, absolute } from "./seo"
 
@@ -15,6 +17,7 @@ import { BASE, absolute } from "./seo"
 const about = `${company.name} is a Norwegian software company. It builds software for problems large organisations have learned to live with. Its current product is ${electrical.name}, a Revit add-in for electricians that routes conduit.`
 
 const postUrl = (post: Post) => absolute(`/news/${post.slug}`)
+const guideUrl = (guide: Guide) => absolute(`/guides/${guide.slug}`)
 
 export function llmsIndex(): string {
   const posts = allPosts()
@@ -34,6 +37,12 @@ export function llmsIndex(): string {
     "",
     ...posts.map(
       (post) => `- [${post.title}](${postUrl(post)}): ${post.summary}`
+    ),
+    "",
+    "## Guides",
+    "",
+    ...allGuides().map(
+      (guide) => `- [${guide.title}](${guideUrl(guide)}): ${guide.description}`
     ),
     "",
     "## Company",
@@ -93,6 +102,17 @@ export function llmsFull(): string {
         `${formatDate(post.date)} · ${post.category} · ${postUrl(post)}`,
         post.lead,
         ...post.body.map(blockToMarkdown),
+      ].join("\n\n")
+    ),
+    `## ${guidesPage.heading}`,
+    ...allGuides().map((guide) =>
+      [
+        `### ${guide.title}`,
+        `${guidesPage.updated} ${formatDate(guide.updated)} · ${guideUrl(guide)}`,
+        guide.answer,
+        ...guide.body.map(blockToMarkdown),
+        `#### ${guidesPage.product}`,
+        guide.product,
       ].join("\n\n")
     ),
   ]

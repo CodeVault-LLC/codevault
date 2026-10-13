@@ -46,6 +46,11 @@ To finish:
       "CodeVault LLC". Use "CodeVault" as the display name, verify
       codevault.no on the organisation and link it to
       `https://www.codevault.no`.
+- [ ] **More guides** (`src/core/config/guides.ts`). Next candidates: the
+      NEC 360° bend rule (only once the product counts bends, or written
+      without implying it does); conduit routing add-ins for Revit, compared
+      fairly; Norwegian versions of the first four. Check Search Console
+      first to see which of the current guides are being found.
 - [ ] **Register the company** in Brønnøysundregistrene, then fill in
       `orgNumber` (and `legalName`, `address`) in
       `src/core/config/company.ts`. The footer, Contact, Privacy, About and

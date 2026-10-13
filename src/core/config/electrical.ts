@@ -181,5 +181,6 @@ export const electrical = {
     ],
   },
 
+  guidesHeading: "Guides",
   newsHeading: "Electrical news",
 } as const

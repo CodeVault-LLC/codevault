@@ -23,12 +23,22 @@ is generated from `src/core/config/`, so it says what the pages say.
   `/electrical` describes the product (SoftwareApplication), its FAQ
   (FAQPage) and where it sits (BreadcrumbList). Every post is a BlogPosting.
   Never add ratings, prices or dates that aren't true.
+- **Guides.** `/guides/$slug` pages answer the questions people search for
+  and link to `/electrical`. Each is a `TechArticle` that `mentions` the
+  product, with `dateModified` from its `updated` date. See
+  [overview.md](./overview.md#writing-a-guide) for how to write one.
 - **Robots.** Everything is open. Search and AI crawlers are also welcomed by
   name. Don't block one without a reason.
 - **Canonical address.** `site.url` is `https://www.codevault.no`, where the
   site is served; the bare domain redirects there.
 - **Caching.** Pages are cached at Vercel's edge for a day and cleared on every
   deploy (`lib/cache-headers.ts`).
+
+## Adding a guide
+
+Run `bun run og:images`; a test fails until the card exists. The sitemap,
+`llms.txt` and `llms-full.txt` pick it up by themselves, and so do the
+Guides index and the list on `/electrical`.
 
 ## Adding a news post
 

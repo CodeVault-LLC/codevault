@@ -6,7 +6,7 @@ then the linked docs before making substantial changes.
 ## What this project is
 
 The CodeVault website — a **TanStack Start** (React 19 + TypeScript, SSR) app
-styled with **Tailwind v4**. Three sections: Home, **News**, and
+styled with **Tailwind v4**. Three sections: Home, **News** (with **Guides**), and
 **CodeVault Electrical** (our Revit add-in for electricians, at `/electrical`).
 No database, auth or storage.
 
@@ -34,7 +34,7 @@ the current product. Read as a company a large customer can trust, without overc
    naming, and structure. Consistency beats cleverness.
 2. **Content lives in config.** User-facing strings (nav, cards, footer, meta,
    tagline) belong in [`src/core/config/`](./src/core/config/) — `site.ts`,
-   `news.ts`, `electrical.ts`, `about.ts`, `pages.ts`, `company.ts`, `legal.ts` — not
+   `news.ts`, `guides.ts`, `electrical.ts`, `about.ts`, `pages.ts`, `company.ts`, `legal.ts` — not
    scattered inline.
 3. **Use the design tokens.** No raw hex or hand-set font sizes — swatches,
    semantic tokens, and the `text-display-*` / `text-paragraph-*` / `text-ui`

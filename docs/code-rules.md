@@ -15,7 +15,7 @@ there's a strong reason; ask first.
 
 ## Structure
 
-- `src/core/config/` — all content and copy (`site.ts`, `news.ts`,
+- `src/core/config/` — all content and copy (`site.ts`, `news.ts`, `guides.ts`,
   `electrical.ts`, `pages.ts`, `company.ts`, `legal.ts`). Components own
   structure, not words.
 - `src/components/` — `layout`, `ui` (shared primitives), `news`,

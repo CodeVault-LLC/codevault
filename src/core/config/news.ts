@@ -42,6 +42,8 @@ export type Post = {
   art: ArtKey
   tone: Tone
   body: Block[]
+  /** Guides on the same problem, by slug. Listed after the post. */
+  guides?: string[]
 }
 
 const posts: Post[] = [
@@ -54,6 +56,10 @@ const posts: Post[] = [
     summary:
       "A Revit add-in for electricians, starting with conduit routing. It's in development, and we're opening early access.",
     lead: "CodeVault Electrical is a Revit add-in for electricians and electrical designers. It starts with conduit: pick the devices, and it suggests a route that keeps clear of what's in the way.",
+    guides: [
+      "revit-conduit-device-without-connector",
+      "deploy-revit-add-in-to-every-machine",
+    ],
     art: "electrical",
     tone: "persimmon",
     body: [
@@ -141,6 +147,10 @@ const posts: Post[] = [
     summary:
       "Conduit is the run that gets moved when everything else is already in the ceiling. Why drawing it is hard, and what every route we suggest promises.",
     lead: "Conduit is often modelled last and moved first. By the time the electrical design is drawn, ducts, pipes and steel have the best space, and a clash found later is usually solved by bending conduit around it. A tool that draws those routes has to be exact about what it promises.",
+    guides: [
+      "revit-conduit-around-linked-models",
+      "revit-conduit-not-enough-room-for-fittings",
+    ],
     art: "clearance",
     tone: "sky",
     body: [
@@ -220,6 +230,7 @@ const posts: Post[] = [
     summary:
       "Junction boxes in a wall are now joined the way conduit is run: up out of the top, across, and down into the next.",
     lead: "In an early test with junction boxes set into a wall, the conduit dropped below the floor and came back up. It was a valid route, and not one anyone would install.",
+    guides: ["revit-conduit-device-without-connector"],
     art: "openings",
     tone: "olive",
     body: [

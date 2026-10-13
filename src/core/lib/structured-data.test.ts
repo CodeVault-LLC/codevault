@@ -3,6 +3,7 @@ import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 
 import { electrical } from "@/core/config/electrical"
+import { allGuides } from "@/core/config/guides"
 import { allPosts } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { llmsFull, llmsIndex, rss } from "./llms"
@@ -12,6 +13,7 @@ import {
   article,
   breadcrumbs,
   faq,
+  guideArticle,
   organization,
   software,
   website,
@@ -29,6 +31,9 @@ describe("structured data", () => {
     faq(electrical.faq.items),
     breadcrumbs([{ name: "Home", path: "/" }]),
     ...allPosts().map((post) => article(post, `/og/news/${post.slug}.png`)),
+    ...allGuides().map((guide) =>
+      guideArticle(guide, `/og/guides/${guide.slug}.png`)
+    ),
   ]
 
   it("is schema.org with a type, every time", () => {
@@ -54,13 +59,15 @@ describe("structured data", () => {
 })
 
 describe("social cards", () => {
-  it("exist for the site, the product and every post", () => {
+  it("exist for the site, the product, every post and every guide", () => {
     // Run `bun run og:images` after adding a post.
     expect(publicFile(site.ogImage)).toBe(true)
     expect(publicFile(electrical.ogImage)).toBe(true)
     expect(publicFile("/og/about.png")).toBe(true)
     for (const post of allPosts())
       expect(publicFile(`/og/news/${post.slug}.png`)).toBe(true)
+    for (const guide of allGuides())
+      expect(publicFile(`/og/guides/${guide.slug}.png`)).toBe(true)
   })
 })
 
@@ -78,6 +85,16 @@ describe("text for readers that don't render", () => {
   it("puts every post's full text in llms-full.txt", () => {
     const full = llmsFull()
     for (const post of allPosts()) expect(full).toContain(post.lead)
+  })
+
+  it("indexes every guide, with its full text", () => {
+    const index = llmsIndex()
+    const full = llmsFull()
+    for (const guide of allGuides()) {
+      expect(index).toContain(absolute(`/guides/${guide.slug}`))
+      expect(full).toContain(guide.answer)
+      expect(full).toContain(guide.product)
+    }
   })
 
   it("keeps the feed well formed", () => {

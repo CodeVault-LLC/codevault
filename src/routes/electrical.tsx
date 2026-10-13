@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import type { Status } from "@/core/config/electrical"
 import { electrical } from "@/core/config/electrical"
 import { images } from "@/core/config/images"
+import { allGuides } from "@/core/config/guides"
 import { postsFor } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
@@ -15,6 +16,7 @@ import { ElectricalHero } from "@/components/electrical/electrical-hero"
 import { HowItWorks } from "@/components/electrical/how-it-works"
 import { ModelReveal } from "@/components/electrical/model-reveal"
 import { ToolDiagram } from "@/components/electrical/tool-diagram"
+import { GuideRow } from "@/components/guides/guide-row"
 import { NewsRow } from "@/components/news/news-row"
 import { Arrow, ButtonLink, buttonClass } from "@/components/ui/button-link"
 import { Photo } from "@/components/ui/photo"
@@ -178,6 +180,19 @@ function ElectricalPage() {
               </div>
             ))}
           </dl>
+        </Reveal>
+      </Container>
+
+      <Container className="pb-20 lg:pb-28">
+        <Reveal>
+          <h2 className="mb-4 font-sans text-display-s font-semibold">
+            {electrical.guidesHeading}
+          </h2>
+          <ul className="border-t border-border">
+            {allGuides().map((guide) => (
+              <GuideRow key={guide.slug} guide={guide} />
+            ))}
+          </ul>
         </Reveal>
       </Container>
 

@@ -1,5 +1,5 @@
 // Renders the social cards (Open Graph images) in public/og/: one for the
-// site, one for CodeVault Electrical, and one per news post.
+// site, one for CodeVault Electrical, one per news post and one per guide.
 //
 // Run with `bun run og:images` after changing a post's title or summary, or
 // adding one. It lays each card out as HTML with the site's own fonts and has
@@ -14,6 +14,7 @@ import { join } from "node:path"
 import { pathToFileURL } from "node:url"
 
 import { electrical } from "../src/core/config/electrical"
+import { allGuides } from "../src/core/config/guides"
 import { allPosts } from "../src/core/config/news"
 import { site } from "../src/core/config/site"
 
@@ -133,6 +134,12 @@ for (const post of allPosts())
   render(
     `news/${post.slug}`,
     card({ label: post.category, title: post.title, body: post.summary })
+  )
+
+for (const guide of allGuides())
+  render(
+    `guides/${guide.slug}`,
+    card({ label: "Guide", title: guide.title, body: guide.description })
   )
 
 rmSync(TMP, { recursive: true, force: true })

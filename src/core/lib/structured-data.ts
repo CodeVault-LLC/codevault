@@ -1,5 +1,6 @@
 import { company } from "@/core/config/company"
 import { electrical } from "@/core/config/electrical"
+import type { Guide } from "@/core/config/guides"
 import type { Post } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { BASE, absolute } from "./seo"
@@ -140,6 +141,28 @@ export function article(post: Post, image: string): JsonLd {
     publisher: ref(ids.organization),
     isPartOf: ref(ids.website),
     ...(post.project === electrical.name ? { about: ref(ids.product) } : {}),
+  }
+}
+
+/** A guide: a reference article, kept current rather than dated news. */
+export function guideArticle(guide: Guide, image: string): JsonLd {
+  const url = absolute(`/guides/${guide.slug}`)
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `${url}#article`,
+    headline: guide.title,
+    description: guide.description,
+    url,
+    mainEntityOfPage: url,
+    image: absolute(image),
+    dateModified: guide.updated,
+    inLanguage: "en",
+    author: ref(ids.organization),
+    publisher: ref(ids.organization),
+    isPartOf: ref(ids.website),
+    // The guide is about the problem; the product is mentioned at the end.
+    mentions: ref(ids.product),
   }
 }
 
