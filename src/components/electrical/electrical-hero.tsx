@@ -9,10 +9,10 @@ import { HeadlineWords } from "@/components/ui/headline-words"
 /**
  * The Electrical page's hero: one building, the full width of the screen.
  *
- * It opens dark, like the building before the lights are on. The drawing of
- * the space blooms out from the middle in faint light lines, then the
- * photograph comes up out of the dark through it, the model becoming the
- * building, and the name and an index of the page follow. After
+ * It opens dark. A level line draws out from the middle, across the horizon
+ * of the room, where the floor meets the far windows, and the picture opens
+ * out from it, top and bottom, easing back into place. Then the name and an
+ * index of the page follow. After
  * that the camera drifts very slowly. Scrolling away lifts the words off and
  * lets the picture go.
  *
@@ -94,19 +94,8 @@ export function ElectricalHero() {
       className="relative isolate flex h-[calc(100svh-4rem)] min-h-[36rem] flex-col overflow-hidden bg-slate lg:h-[calc(100svh-4.5rem)]"
     >
       <div data-recede="" className="absolute inset-0 -z-10">
-        {/* The drawing, first, in faint light lines on the dark, blooming
-            out from the middle. */}
-        <img
-          src={src("hero-drawing", 1536)}
-          alt=""
-          width={1536}
-          height={1024}
-          fetchPriority="high"
-          decoding="async"
-          className="hero-bloom absolute inset-0 size-full object-cover opacity-35 invert"
-        />
-        {/* Then the photograph, developing through it, in three lights. */}
-        <div className="hero-develop absolute inset-0">
+        {/* The photograph, in three lights, opening out from the horizon. */}
+        <div className="hero-aperture absolute inset-0">
           <div className="hero-drift absolute inset-0">
             {LIGHTS.map((name) => {
               const photo = PHOTOS[name]
@@ -128,6 +117,11 @@ export function ElectricalHero() {
             })}
           </div>
         </div>
+        {/* The level line it opens from, across the horizon of the room. */}
+        <div
+          aria-hidden
+          className="hero-level absolute inset-x-0 top-1/2 h-px bg-ivory/80"
+        />
         {/* A shade behind the words, so they read in every light. */}
         <div className="hero-shade absolute inset-0 bg-[radial-gradient(ellipse_62%_58%_at_50%_50%,color-mix(in_oklab,var(--slate-dark)_66%,transparent),transparent_78%),linear-gradient(to_top,color-mix(in_oklab,var(--slate-dark)_45%,transparent),transparent_35%)]" />
       </div>

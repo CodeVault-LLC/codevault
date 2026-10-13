@@ -85,8 +85,9 @@ Scale (each step carries its line height and tracking):
 - **The Electrical hero** (`components/electrical/electrical-hero.tsx`)
   fills the screen with one building, a long floor under construction with
   conduit converging down the ceiling, in three lights: morning, noon and
-  evening, one camera. It opens on bare paper: the drawing of the space
-  blooms out from the middle, the photograph develops through it, then the
+  evening, one camera. It opens dark: a level line draws out from the
+  middle across the room's horizon, and the picture opens out from it, top
+  and bottom, easing back into place. No colour, one movement. Then the
   name and an index of the page, its rows joined by dashed runs that turn
   solid persimmon when pointed at. The scene opens in the visitor's own time
   of day; the switch at the bottom changes it with a slow crossfade. After
