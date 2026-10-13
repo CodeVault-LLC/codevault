@@ -6,6 +6,13 @@ import { nitro } from "nitro/vite"
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  build: {
+    // Small assets are inlined as data: URLs by default. Fonts never are:
+    // the CSP allows fonts from 'self' only, and an inlined subset would be
+    // blocked.
+    assetsInlineLimit: (file) =>
+      /\.(woff2?|ttf|otf)$/.test(file) ? false : undefined,
+  },
   // Keep Start's server entry and middleware together through Nitro's second
   // bundling pass. Split SSR chunks can initialize shared helpers out of order.
   environments: {
