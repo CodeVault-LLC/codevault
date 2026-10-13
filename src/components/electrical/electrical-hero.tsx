@@ -43,7 +43,6 @@ function lightNow(): Light {
 /** The page's sections, in order, for the index under the name. */
 const INDEX = [
   { id: "tools", label: electrical.tools.heading },
-  { id: "model", label: electrical.model.heading },
   { id: "how", label: electrical.principles.heading },
   { id: "status", label: electrical.status.heading },
   { id: "questions", label: electrical.faq.heading },

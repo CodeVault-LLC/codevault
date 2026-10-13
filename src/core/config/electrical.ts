@@ -58,20 +58,6 @@ export const electrical = {
     ],
   },
 
-  // The scroll sequence: a photographed ceiling becomes its drawing, and a
-  // route is suggested and added along it. One line per stage, in order. It
-  // illustrates the idea; the add-in works in the Revit model, not on
-  // photographs.
-  model: {
-    heading: "From the building to the route",
-    steps: [
-      "A ceiling, half built.",
-      "The same ceiling, as a model.",
-      "Pick two devices, and a route is suggested.",
-      "Checked, then added as one undo step.",
-    ],
-  },
-
   // Four steps, shown beside a drawing that scrolling plays through. The
   // drawing has exactly these four stages, in this order.
   principles: {

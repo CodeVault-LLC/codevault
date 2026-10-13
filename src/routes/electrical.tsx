@@ -14,7 +14,6 @@ import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalMark } from "@/components/electrical/electrical-mark"
 import { ElectricalHero } from "@/components/electrical/electrical-hero"
 import { HowItWorks } from "@/components/electrical/how-it-works"
-import { ModelReveal } from "@/components/electrical/model-reveal"
 import { ToolDiagram } from "@/components/electrical/tool-diagram"
 import { GuideRow } from "@/components/guides/guide-row"
 import { NewsRow } from "@/components/news/news-row"
@@ -98,15 +97,6 @@ function ElectricalPage() {
             </RevealItem>
           ))}
         </Reveal>
-      </Container>
-
-      <Container id="model" className="scroll-mt-24 pt-20 lg:pt-28">
-        <Reveal>
-          <h2 className="mb-10 font-sans text-display-s font-semibold">
-            {electrical.model.heading}
-          </h2>
-        </Reveal>
-        <ModelReveal />
       </Container>
 
       <HowItWorks />

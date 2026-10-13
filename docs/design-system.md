@@ -94,17 +94,6 @@ Scale (each step carries its line height and tracking):
   the introduction the camera drifts very slowly, and scrolling away lifts
   the words off. Reference: Anthropic's model launch pages; ours shows a
   building, not a sky.
-- **From the building to the route** (`components/electrical/model-reveal.tsx`)
-  is on the Electrical page, after "Two ways to connect". The frame is
-  pinned and scrolling plays it, forwards and back: a photographed ceiling
-  settles in; a persimmon scan line sweeps across and leaves the ceiling's
-  drawing behind (traced from the photo with an edge filter, so it's in
-  register: `conduit-ceiling-drawing-1536.webp`); the camera moves in while a
-  junction box and an end are picked and a dashed route is suggested along
-  the real conduit; a check runs along it, it turns solid, and the camera
-  pulls back. Photo, drawing and route share one 3:2 stage, cropped with
-  container units so the run is never cut off. A caption under the frame
-  names each stage. With reduced motion it isn't pinned and shows the end.
 - The routing scene is canvas; see `components/electrical/routing-scene.tsx`.
   A chalk floor plan, drawn flat like a drawing sheet: walls, doors,
   windows, a column grid with bubbles, ductwork dashed overhead. Room by
