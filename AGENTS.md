@@ -63,6 +63,8 @@ the current product. Read as a company a large customer can trust, without overc
 - **Ask before large or ambiguous changes.** For creative/redesign work,
   confirm direction before implementing.
 - **Commit and push only when the user asks.**
+- **Open work is in [`TODO.md`](./TODO.md)**, most urgent first. Check it
+  before starting, and remove items when they're done.
 
 ## Verify before you claim done
 

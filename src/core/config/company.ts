@@ -23,7 +23,9 @@ export const company = {
   orgNumber: null as string | null,
   vatRegistered: false,
   address: null as Address | null,
-  email: "post@codevault.no",
+  // TEMPORARY: codevault.no has no mail server yet, so post@codevault.no
+  // can't receive mail. Until it can, everything points here. See TODO.md.
+  email: "lukmarwil@gmail.com",
 } as const
 
 /** "912 345 678", with " MVA" once VAT-registered. */
