@@ -25,6 +25,12 @@ export const Route = createRootRoute({
         href: "/favicon-32x32.png",
       },
       { rel: "manifest", href: "/site.webmanifest" },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "CodeVault news",
+        href: "/news/rss.xml",
+      },
     ],
   }),
   errorComponent: () => <NotFound />,

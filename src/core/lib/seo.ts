@@ -1,4 +1,5 @@
 import { site } from "@/core/config/site"
+import type { JsonLd } from "./structured-data"
 
 // One place that turns a page's title, description and path into the full set
 // of head tags a link to it needs.
@@ -25,17 +26,23 @@ export type SeoInput = {
    * override for a page with its own artwork.
    */
   image?: string
+  /** What the social card shows, for people who can't see it. */
+  imageAlt?: string
   /**
    * Open Graph type. `article` for a dated, authored page — a project log or
    * a report record — and `website` for everything else.
    */
   type?: "website" | "article"
+  /** For an article: when it was published (yyyy-mm-dd) and its section. */
+  article?: { published: string; section: string }
+  /** Structured data for the page; build it with `structured-data.ts`. */
+  jsonLd?: JsonLd[]
 }
 
-const BASE = site.url.replace(/\/+$/, "")
+export const BASE = site.url.replace(/\/+$/, "")
 
 /** Absolute URL for a site-relative path, with no double slash at the join. */
-function absolute(path: string): string {
+export function absolute(path: string): string {
   return path === "/"
     ? BASE
     : `${BASE}${path.startsWith("/") ? path : `/${path}`}`
@@ -60,14 +67,20 @@ function absolute(path: string): string {
  * back to Open Graph, which is why both carry the same values.
  */
 export function seo(input: SeoInput) {
-  const { title, description, path, type = "website" } = input
+  const { title, description, path, type = "website", article } = input
   const url = absolute(path)
   const image = absolute(input.image ?? site.ogImage)
+  const imageAlt = input.imageAlt ?? title
 
   return {
     meta: [
       { title },
       { name: "description", content: description },
+      // Indexable, with large image previews and full snippets allowed.
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1",
+      },
 
       { property: "og:type", content: type },
       { property: "og:site_name", content: site.name },
@@ -79,13 +92,27 @@ export function seo(input: SeoInput) {
       // dimensions; without them the card can render as a thumbnail.
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: imageAlt },
       { property: "og:locale", content: "en" },
+      ...(article
+        ? [
+            { property: "article:published_time", content: article.published },
+            { property: "article:section", content: article.section },
+            { property: "article:publisher", content: BASE },
+          ]
+        : []),
 
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: image },
+      { name: "twitter:image:alt", content: imageAlt },
     ],
     links: [{ rel: "canonical", href: url }],
+    // JSON-LD, with "<" escaped so no value can close the script tag early.
+    scripts: (input.jsonLd ?? []).map((data) => ({
+      type: "application/ld+json",
+      children: JSON.stringify(data).replace(/</g, "\\u003c"),
+    })),
   }
 }

@@ -15,6 +15,9 @@ export const electrical = {
   short: "Electrical",
   path: "/electrical",
   tagline: "Conduit routing for Revit.",
+  /** The page's <title>: the name, and what people search for. */
+  seoTitle: "CodeVault Electrical — Conduit routing add-in for Revit",
+  ogImage: "/og/electrical.png",
   summary:
     "A Revit add-in for electricians. Pick the devices, and it suggests a conduit route that keeps clear of what's in the way. In development, with early access open.",
   announcementSlug: "introducing-codevault-electrical",
@@ -85,6 +88,38 @@ export const electrical = {
     { label: "Stage", value: "In development" },
     { label: "Access", value: "Early access" },
   ],
+
+  // Plain answers to what people (and the assistants they ask) want to know.
+  // Shown on the page and given to search engines as an FAQ; keep both true.
+  faq: {
+    heading: "Questions",
+    items: [
+      {
+        q: "What is CodeVault Electrical?",
+        a: "A Revit add-in for electricians and electrical designers. It routes conduit: pick two devices, or several, and it suggests a route that keeps clear of what's in the way.",
+      },
+      {
+        q: "Which versions of Revit does it work with?",
+        a: "Revit 2025 and 2026, on Windows.",
+      },
+      {
+        q: "Does it see linked models?",
+        a: "Yes. Routes keep clear of what's in linked models as well as the host model, checked against their real geometry before you see the suggestion.",
+      },
+      {
+        q: "Will it change my model without asking?",
+        a: "No. Every route is shown first. Add it as one undo step, or cancel and nothing changes.",
+      },
+      {
+        q: "Can I use it today?",
+        a: "It's in development. Early access is open to a small group of electrical contractors and designers; apply by email.",
+      },
+      {
+        q: "Who makes it?",
+        a: "CodeVault, a Norwegian software company.",
+      },
+    ],
+  },
 
   newsHeading: "Electrical news",
 } as const

@@ -67,4 +67,5 @@ Electrical should be checkable against its repository (`CHANGELOG.md`,
 `PLAN.md`, `docs/adr/`, the commit log) on the post's date. Describe what it
 does for the people using it, not what it's built with. Pick an existing
 illustration (`ArtKey`) and tone, or add one to
-`components/news/post-art.tsx`.
+`components/news/post-art.tsx`. Then run `bun run og:images` for its social
+card; see [seo.md](./seo.md).

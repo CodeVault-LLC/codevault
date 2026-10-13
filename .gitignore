@@ -16,4 +16,5 @@ todos.json
 # typescript
 *.tsbuildinfo
 .brand-tmp
+.og-tmp
 .impeccable/

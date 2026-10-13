@@ -21,11 +21,12 @@ the current product. Read as a company a large customer can trust, without overc
 
 ## Read before you build
 
-| If you're touching…                           | Read                                                                                                  |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Copy, messaging, positioning                  | [`docs/overview.md`](./docs/overview.md)                                                              |
-| Anything visual (color, type, layout, motion) | [`docs/design-system.md`](./docs/design-system.md) + [`docs/design-rules.md`](./docs/design-rules.md) |
-| Any code                                      | [`docs/code-rules.md`](./docs/code-rules.md)                                                          |
+| If you're touching…                            | Read                                                                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Copy, messaging, positioning                   | [`docs/overview.md`](./docs/overview.md)                                                              |
+| Anything visual (color, type, layout, motion)  | [`docs/design-system.md`](./docs/design-system.md) + [`docs/design-rules.md`](./docs/design-rules.md) |
+| Any code                                       | [`docs/code-rules.md`](./docs/code-rules.md)                                                          |
+| Metadata, structured data, feeds, social cards | [`docs/seo.md`](./docs/seo.md)                                                                        |
 
 ## Ground rules
 

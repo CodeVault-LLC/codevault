@@ -5,6 +5,7 @@ import { allPosts, findPost, formatDate } from "@/core/config/news"
 import { news } from "@/core/config/pages"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
+import { article, breadcrumbs } from "@/core/lib/structured-data"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { NewsRow } from "@/components/news/news-row"
@@ -26,10 +27,26 @@ export const Route = createFileRoute("/news/$slug")({
           description: loaderData.summary,
           path: `/news/${loaderData.slug}`,
           type: "article",
+          image: postImage(loaderData.slug),
+          article: {
+            published: loaderData.date,
+            section: loaderData.category,
+          },
+          jsonLd: [
+            article(loaderData, postImage(loaderData.slug)),
+            breadcrumbs([
+              { name: site.name, path: "/" },
+              { name: news.heading, path: "/news" },
+              { name: loaderData.title, path: `/news/${loaderData.slug}` },
+            ]),
+          ],
         })
       : {},
   component: Article,
 })
+
+/** Each post's social card, made by `bun run og:images`. */
+const postImage = (slug: string) => `/og/news/${slug}.png`
 
 function Article() {
   const post = Route.useLoaderData()

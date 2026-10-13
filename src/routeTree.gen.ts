@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ElectricalRouteImport } from './routes/electrical'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SiteDotwebmanifestRouteImport } from './routes/site[.]webmanifest'
@@ -20,6 +22,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as DotwellKnownSecurityDottxtRouteImport } from './routes/[.]well-known.security[.]txt'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
+import { Route as NewsRssDotxmlRouteImport } from './routes/news.rss[.]xml'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,6 +42,16 @@ const ContactRoute = ContactRouteImport.update({
 const ElectricalRoute = ElectricalRouteImport.update({
   id: '/electrical',
   path: '/electrical',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -77,18 +90,26 @@ const NewsSlugRoute = NewsSlugRouteImport.update({
   path: '/news/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsRssDotxmlRoute = NewsRssDotxmlRouteImport.update({
+  id: '/news/rss.xml',
+  path: '/news/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
   '/electrical': typeof ElectricalRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/news/$slug': typeof NewsSlugRoute
+  '/news/rss.xml': typeof NewsRssDotxmlRoute
   '/news/': typeof NewsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -96,12 +117,15 @@ export interface FileRoutesByTo {
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
   '/electrical': typeof ElectricalRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/news/$slug': typeof NewsSlugRoute
+  '/news/rss.xml': typeof NewsRssDotxmlRoute
   '/news': typeof NewsIndexRoute
 }
 export interface FileRoutesById {
@@ -110,12 +134,15 @@ export interface FileRoutesById {
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
   '/electrical': typeof ElectricalRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/.well-known/security.txt': typeof DotwellKnownSecurityDottxtRoute
   '/news/$slug': typeof NewsSlugRoute
+  '/news/rss.xml': typeof NewsRssDotxmlRoute
   '/news/': typeof NewsIndexRoute
 }
 export interface FileRouteTypes {
@@ -125,12 +152,15 @@ export interface FileRouteTypes {
     | '/brand'
     | '/contact'
     | '/electrical'
+    | '/llms-full.txt'
+    | '/llms.txt'
     | '/privacy'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
     | '/news/$slug'
+    | '/news/rss.xml'
     | '/news/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -138,12 +168,15 @@ export interface FileRouteTypes {
     | '/brand'
     | '/contact'
     | '/electrical'
+    | '/llms-full.txt'
+    | '/llms.txt'
     | '/privacy'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
     | '/news/$slug'
+    | '/news/rss.xml'
     | '/news'
   id:
     | '__root__'
@@ -151,12 +184,15 @@ export interface FileRouteTypes {
     | '/brand'
     | '/contact'
     | '/electrical'
+    | '/llms-full.txt'
+    | '/llms.txt'
     | '/privacy'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
     | '/.well-known/security.txt'
     | '/news/$slug'
+    | '/news/rss.xml'
     | '/news/'
   fileRoutesById: FileRoutesById
 }
@@ -165,12 +201,15 @@ export interface RootRouteChildren {
   BrandRoute: typeof BrandRoute
   ContactRoute: typeof ContactRoute
   ElectricalRoute: typeof ElectricalRoute
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SiteDotwebmanifestRoute: typeof SiteDotwebmanifestRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DotwellKnownSecurityDottxtRoute: typeof DotwellKnownSecurityDottxtRoute
   NewsSlugRoute: typeof NewsSlugRoute
+  NewsRssDotxmlRoute: typeof NewsRssDotxmlRoute
   NewsIndexRoute: typeof NewsIndexRoute
 }
 
@@ -202,6 +241,20 @@ declare module '@tanstack/react-router' {
       path: '/electrical'
       fullPath: '/electrical'
       preLoaderRoute: typeof ElectricalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -253,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news/rss.xml': {
+      id: '/news/rss.xml'
+      path: '/news/rss.xml'
+      fullPath: '/news/rss.xml'
+      preLoaderRoute: typeof NewsRssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -261,12 +321,15 @@ const rootRouteChildren: RootRouteChildren = {
   BrandRoute: BrandRoute,
   ContactRoute: ContactRoute,
   ElectricalRoute: ElectricalRoute,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SiteDotwebmanifestRoute: SiteDotwebmanifestRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   DotwellKnownSecurityDottxtRoute: DotwellKnownSecurityDottxtRoute,
   NewsSlugRoute: NewsSlugRoute,
+  NewsRssDotxmlRoute: NewsRssDotxmlRoute,
   NewsIndexRoute: NewsIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -5,3 +5,4 @@
 - [Design rules](./design-rules.md) — how to use it, definition of done
 - [Code rules](./code-rules.md) — stack, structure, verification
 - [Deployment](./deployment.md) — build and run
+- [Search and AI](./seo.md) — metadata, structured data, llms.txt, feeds, social cards

@@ -5,11 +5,13 @@ import { electrical } from "./electrical"
 
 export const site = {
   name: "CodeVault",
-  url: "https://codevault.no",
-  title: "CodeVault",
+  // The address the site is served from. The bare domain redirects here, so
+  // canonicals, the sitemap and structured data all point at this one.
+  url: "https://www.codevault.no",
+  title: "CodeVault — Software for problems organisations live with",
   description:
     "CodeVault builds software for problems large organisations have learned to live with. Right now that means CodeVault Electrical, conduit routing for Revit.",
-  ogImage: "/og-image.png",
+  ogImage: "/og/site.png",
   github: "https://github.com/CodeVault-LLC",
   securityEmail: "security@codevault.no",
 

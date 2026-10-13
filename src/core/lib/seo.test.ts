@@ -105,9 +105,33 @@ describe("tag coverage", () => {
     const { meta } = seo(PAGE)
 
     for (const tag of meta) {
-      if ("property" in tag) expect(tag.property).toMatch(/^og:/)
+      if ("property" in tag) expect(tag.property).toMatch(/^(og|article):/)
       if ("name" in tag && tag.name?.startsWith("twitter:"))
         expect("property" in tag).toBe(false)
     }
+  })
+})
+
+describe("articles and structured data", () => {
+  it("adds publish metadata to an article", () => {
+    const { meta } = seo({
+      ...PAGE,
+      type: "article",
+      article: { published: "2026-10-12", section: "Engineering" },
+    })
+
+    expect(metaByKey(meta, "article:published_time")).toBe("2026-10-12")
+    expect(metaByKey(meta, "article:section")).toBe("Engineering")
+  })
+
+  it("escapes < in JSON-LD so a value can't close the script tag", () => {
+    const { scripts } = seo({
+      ...PAGE,
+      jsonLd: [{ "@type": "Thing", name: "</script><b>" }],
+    })
+
+    expect(scripts[0].type).toBe("application/ld+json")
+    expect(scripts[0].children).not.toContain("<")
+    expect(JSON.parse(scripts[0].children).name).toBe("</script><b>")
   })
 })

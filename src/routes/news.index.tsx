@@ -11,6 +11,7 @@ import {
 } from "@/core/config/news"
 import { news } from "@/core/config/pages"
 import { seo } from "@/core/lib/seo"
+import { breadcrumbs } from "@/core/lib/structured-data"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
@@ -22,7 +23,17 @@ export const Route = createFileRoute("/news/")({
   validateSearch: (search: Record<string, unknown>): { category?: Category } =>
     isCategory(search.category) ? { category: search.category } : {},
   head: () =>
-    seo({ title: news.title, description: news.description, path: "/news" }),
+    seo({
+      title: news.title,
+      description: news.description,
+      path: "/news",
+      jsonLd: [
+        breadcrumbs([
+          { name: "CodeVault", path: "/" },
+          { name: news.heading, path: "/news" },
+        ]),
+      ],
+    }),
   component: NewsIndex,
 })
 

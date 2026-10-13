@@ -1,0 +1,31 @@
+# Search and AI
+
+How the site describes itself to search engines and AI assistants. All of it
+is generated from `src/core/config/`, so it says what the pages say.
+
+| What                      | Where                         | Built by                      |
+| ------------------------- | ----------------------------- | ----------------------------- |
+| Title, description, cards | every page's `<head>`         | `core/lib/seo.ts`             |
+| Structured data (JSON-LD) | every page's `<head>`         | `core/lib/structured-data.ts` |
+| Sitemap                   | `/sitemap.xml`                | `routes/sitemap[.]xml.ts`     |
+| Crawler rules             | `/robots.txt`                 | `routes/robots[.]txt.ts`      |
+| Summary for AI assistants | `/llms.txt`, `/llms-full.txt` | `core/lib/llms.ts`            |
+| News feed                 | `/news/rss.xml`               | `core/lib/llms.ts`            |
+| Social cards (1200×630)   | `public/og/`                  | `bun run og:images`           |
+
+- **Structured data.** Home says who CodeVault is (Organization, WebSite).
+  `/electrical` describes the product (SoftwareApplication), its FAQ
+  (FAQPage) and where it sits (BreadcrumbList). Every post is a BlogPosting.
+  Never add ratings, prices or dates that aren't true.
+- **Robots.** Everything is open. Search and AI crawlers are also welcomed by
+  name. Don't block one without a reason.
+- **Canonical address.** `site.url` is `https://www.codevault.no`, where the
+  site is served; the bare domain redirects there.
+- **Caching.** Pages are cached at Vercel's edge for a day and cleared on every
+  deploy (`lib/cache-headers.ts`).
+
+## Adding a news post
+
+Run `bun run og:images` to make its social card. A test fails until the card
+exists. `llms.txt`, `llms-full.txt`, the feed and the sitemap pick the post up
+by themselves.

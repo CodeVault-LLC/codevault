@@ -5,6 +5,7 @@ import { electrical } from "@/core/config/electrical"
 import { postsFor } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
+import { breadcrumbs, faq, software } from "@/core/lib/structured-data"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
@@ -19,9 +20,19 @@ import { Reveal, RevealItem } from "@/components/ui/reveal"
 export const Route = createFileRoute("/electrical")({
   head: () =>
     seo({
-      title: `${electrical.name} — ${site.name}`,
+      title: electrical.seoTitle,
       description: electrical.summary,
       path: electrical.path,
+      image: electrical.ogImage,
+      imageAlt: `${electrical.name}: ${electrical.tagline}`,
+      jsonLd: [
+        software(),
+        faq(electrical.faq.items),
+        breadcrumbs([
+          { name: site.name, path: "/" },
+          { name: electrical.name, path: electrical.path },
+        ]),
+      ],
     }),
   component: ElectricalPage,
 })
@@ -165,6 +176,28 @@ function ElectricalPage() {
               </li>
             ))}
           </ul>
+        </Reveal>
+      </Container>
+
+      <Container className="grid gap-10 pb-20 lg:grid-cols-12 lg:pb-28">
+        <Reveal className="lg:col-span-4">
+          <h2 className="font-sans text-display-s font-semibold">
+            {electrical.faq.heading}
+          </h2>
+        </Reveal>
+        <Reveal className="lg:col-span-7 lg:col-start-6">
+          <dl className="border-t border-border">
+            {electrical.faq.items.map((item) => (
+              <div key={item.q} className="border-b border-border py-6">
+                <dt className="mb-2 font-sans text-display-xs font-semibold">
+                  {item.q}
+                </dt>
+                <dd className="text-paragraph-s text-foreground/85">
+                  {item.a}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </Reveal>
       </Container>
 

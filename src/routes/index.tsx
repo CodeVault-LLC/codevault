@@ -4,6 +4,7 @@ import { electrical } from "@/core/config/electrical"
 import { site } from "@/core/config/site"
 import { allPosts, postsFor } from "@/core/config/news"
 import { seo } from "@/core/lib/seo"
+import { organization, website } from "@/core/lib/structured-data"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalAnnouncement } from "@/components/home/electrical-announcement"
@@ -14,7 +15,12 @@ import { NewsRow } from "@/components/news/news-row"
 
 export const Route = createFileRoute("/")({
   head: () =>
-    seo({ title: site.title, description: site.description, path: "/" }),
+    seo({
+      title: site.title,
+      description: site.description,
+      path: "/",
+      jsonLd: [organization(), website()],
+    }),
   component: Home,
 })
 
