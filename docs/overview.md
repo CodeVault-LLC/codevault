@@ -22,6 +22,7 @@ Four things, plus the pages the law asks for:
 | Home       | `/`                    | Headline, the current announcement, latest posts         |
 | Electrical | `/electrical`          | What it does, how it works, where it stands              |
 | News       | `/news`, `/news/$slug` | Every announcement, engineering note and update          |
+| About      | `/about`               | Who CodeVault is: what we make, where we are, the facts  |
 | Brand      | `/brand`               | Logo, Orbit the mascot, colour and type                  |
 | Contact    | `/contact`             | Email, and the business facts ehandelsloven § 8 requires |
 | Privacy    | `/privacy`             | The GDPR notice: what data the site touches and why      |

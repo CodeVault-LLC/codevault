@@ -13,6 +13,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/", lastmod: latest },
           { path: "/electrical", lastmod: latest },
           { path: "/news", lastmod: latest },
+          { path: "/about" },
           { path: "/brand" },
           { path: "/contact" },
           { path: "/privacy" },

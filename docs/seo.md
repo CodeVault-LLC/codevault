@@ -13,7 +13,13 @@ is generated from `src/core/config/`, so it says what the pages say.
 | News feed                 | `/news/rss.xml`               | `core/lib/llms.ts`            |
 | Social cards (1200×630)   | `public/og/`                  | `bun run og:images`           |
 
-- **Structured data.** Home says who CodeVault is (Organization, WebSite).
+- **The name.** "CodeVault" is shared with unrelated companies abroad. The
+  About page (AboutPage) says plainly who this CodeVault is: a Norwegian
+  software company that makes CodeVault Electrical. Keep the name, country
+  and product together wherever the company is described, here and on other
+  sites.
+- **Structured data.** Home says who CodeVault is (Organization, WebSite),
+  including the topics it works on (`knowsAbout`).
   `/electrical` describes the product (SoftwareApplication), its FAQ
   (FAQPage) and where it sits (BreadcrumbList). Every post is a BlogPosting.
   Never add ratings, prices or dates that aren't true.

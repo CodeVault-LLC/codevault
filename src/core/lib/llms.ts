@@ -38,6 +38,7 @@ export function llmsIndex(): string {
     "",
     "## Company",
     "",
+    `- [About](${absolute("/about")}): who CodeVault is and what it makes`,
     `- [Contact](${absolute("/contact")}): email and business details`,
     `- [Privacy](${absolute("/privacy")}): what data the site touches and why`,
     `- [Brand](${absolute("/brand")}): logo, mascot, colour and type`,

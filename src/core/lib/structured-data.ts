@@ -41,6 +41,14 @@ export function organization(): JsonLd {
     email: company.email,
     address: { "@type": "PostalAddress", addressCountry: "NO" },
     sameAs: [site.github],
+    // What the company works on, so the name is tied to its field rather than
+    // to the other companies that share it.
+    knowsAbout: [
+      "Autodesk Revit",
+      "Electrical design",
+      "Conduit routing",
+      "Building information modeling",
+    ],
     ...(company.orgNumber
       ? {
           identifier: {
@@ -50,6 +58,19 @@ export function organization(): JsonLd {
           },
         }
       : {}),
+  }
+}
+
+export function aboutPage(): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    url: absolute("/about"),
+    name: `About ${company.name}`,
+    inLanguage: "en",
+    isPartOf: ref(ids.website),
+    about: ref(ids.organization),
+    mainEntity: ref(ids.organization),
   }
 }
 

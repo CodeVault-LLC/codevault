@@ -8,6 +8,7 @@ import { site } from "@/core/config/site"
 import { llmsFull, llmsIndex, rss } from "./llms"
 import { BASE, absolute } from "./seo"
 import {
+  aboutPage,
   article,
   breadcrumbs,
   faq,
@@ -23,6 +24,7 @@ describe("structured data", () => {
   const all = [
     organization(),
     website(),
+    aboutPage(),
     software(),
     faq(electrical.faq.items),
     breadcrumbs([{ name: "Home", path: "/" }]),
@@ -56,6 +58,7 @@ describe("social cards", () => {
     // Run `bun run og:images` after adding a post.
     expect(publicFile(site.ogImage)).toBe(true)
     expect(publicFile(electrical.ogImage)).toBe(true)
+    expect(publicFile("/og/about.png")).toBe(true)
     for (const post of allPosts())
       expect(publicFile(`/og/news/${post.slug}.png`)).toBe(true)
   })

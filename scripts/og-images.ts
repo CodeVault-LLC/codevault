@@ -112,6 +112,15 @@ render(
 )
 
 render(
+  "about",
+  card({
+    label: "About",
+    title: "CodeVault is a software company in Norway.",
+    body: `Software for problems large organisations have learned to live with. First: ${electrical.name}.`,
+  })
+)
+
+render(
   "electrical",
   card({
     label: electrical.hero.eyebrow,

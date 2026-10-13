@@ -34,7 +34,7 @@ the current product. Read as a company a large customer can trust, without overc
    naming, and structure. Consistency beats cleverness.
 2. **Content lives in config.** User-facing strings (nav, cards, footer, meta,
    tagline) belong in [`src/core/config/`](./src/core/config/) — `site.ts`,
-   `news.ts`, `electrical.ts`, `pages.ts`, `company.ts`, `legal.ts` — not
+   `news.ts`, `electrical.ts`, `about.ts`, `pages.ts`, `company.ts`, `legal.ts` — not
    scattered inline.
 3. **Use the design tokens.** No raw hex or hand-set font sizes — swatches,
    semantic tokens, and the `text-display-*` / `text-paragraph-*` / `text-ui`
