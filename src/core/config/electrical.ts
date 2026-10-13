@@ -83,6 +83,34 @@ export const electrical = {
     ] satisfies { label: string; status: Status }[],
   },
 
+  // What IT and BIM managers ask before rolling it out. Each line is backed by
+  // the repository's security policy, settings docs and changelog.
+  rollout: {
+    heading: "Before it goes on every machine",
+    items: [
+      {
+        title: "Your models stay on your machines",
+        body: "It makes no network calls. Logs record element IDs and timings, never model contents.",
+      },
+      {
+        title: "Managed centrally",
+        body: "A machine-wide settings file overrides each user's, and one switch turns every command off.",
+      },
+      {
+        title: "Changes only what it adds",
+        body: "Each route is one undo step, stamped with its ID and version. It never saves the project, and linked models are read only.",
+      },
+      {
+        title: "Works with shared models",
+        body: "It checks that elements are editable, and stops before changing anything if a link is unloaded or a workset is closed.",
+      },
+      {
+        title: "No clashes with other add-ins",
+        body: "It loads no third-party libraries into Revit.",
+      },
+    ],
+  },
+
   facts: [
     { label: "Runs in", value: "Revit 2025 and 2026" },
     { label: "Stage", value: "In development" },

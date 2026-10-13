@@ -2,12 +2,13 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import { electrical } from "@/core/config/electrical"
 import { site } from "@/core/config/site"
-import { allPosts, postsFor } from "@/core/config/news"
+import { allPosts } from "@/core/config/news"
 import { seo } from "@/core/lib/seo"
 import { organization, website } from "@/core/lib/structured-data"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalAnnouncement } from "@/components/home/electrical-announcement"
+import { ButtonLink } from "@/components/ui/button-link"
 import { HeadlineWords } from "@/components/ui/headline-words"
 import { Reveal, RevealItem } from "@/components/ui/reveal"
 import { ReleaseCard } from "@/components/news/release-card"
@@ -25,17 +26,15 @@ export const Route = createFileRoute("/")({
 })
 
 function Home() {
-  const latest = postsFor(electrical.name).slice(0, 3)
-  const more = allPosts().filter((post) => !latest.includes(post))
+  const posts = allPosts()
+  const latest = posts.slice(0, 3)
+  const more = posts.slice(3)
 
   return (
     <PageShell>
       <Container className="grid items-end gap-8 pt-14 pb-12 sm:pt-20 lg:grid-cols-12 lg:pt-28 lg:pb-20">
-        <h1 className="font-sans text-display-xl font-bold lg:col-span-7">
-          <HeadlineWords
-            text={site.home.headline}
-            links={site.home.headlineLinks}
-          />
+        <h1 className="font-sans text-display-l font-bold lg:col-span-7">
+          <HeadlineWords text={site.home.headline} />
         </h1>
         <p
           className="fade-rise max-w-[40ch] text-paragraph-l lg:col-span-4 lg:col-start-9"
@@ -49,11 +48,69 @@ function Home() {
         <ElectricalAnnouncement />
       </Container>
 
+      <Container className="grid gap-10 pt-20 lg:grid-cols-12 lg:pt-28">
+        <Reveal className="lg:col-span-4">
+          <h2 className="font-sans text-display-s font-semibold">
+            {site.home.approach.heading}
+          </h2>
+        </Reveal>
+        <div className="lg:col-span-7 lg:col-start-6">
+          <Reveal>
+            <p className="font-sans text-display-m font-medium text-balance">
+              {site.home.approach.statement}
+            </p>
+          </Reveal>
+          <Reveal stagger className="mt-12 grid gap-8 sm:grid-cols-3 sm:gap-6">
+            {site.home.approach.items.map((item) => (
+              <RevealItem
+                key={item.title}
+                className="border-t border-border pt-4"
+              >
+                <h3 className="mb-2 font-sans text-display-xs font-semibold">
+                  {item.title}
+                </h3>
+                <p className="text-paragraph-s text-foreground/85">
+                  {item.body}
+                </p>
+              </RevealItem>
+            ))}
+          </Reveal>
+        </div>
+      </Container>
+
+      <Container className="grid gap-10 pt-20 lg:grid-cols-12 lg:pt-28">
+        <Reveal className="lg:col-span-4">
+          <h2 className="font-sans text-display-s font-semibold">
+            {electrical.rollout.heading}
+          </h2>
+        </Reveal>
+        <Reveal className="lg:col-span-7 lg:col-start-6">
+          <dl className="border-t border-border">
+            {electrical.rollout.items.map((item) => (
+              <div
+                key={item.title}
+                className="grid gap-2 border-b border-border py-6 sm:grid-cols-5 sm:gap-8"
+              >
+                <dt className="font-sans text-display-xs font-semibold sm:col-span-2">
+                  {item.title}
+                </dt>
+                <dd className="text-paragraph-s text-foreground/85 sm:col-span-3">
+                  {item.body}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </Container>
+
       <Container className="py-20 lg:py-28">
-        <Reveal>
-          <h2 className="mb-6 font-sans text-display-s font-semibold">
+        <Reveal className="mb-6 flex items-end justify-between gap-4">
+          <h2 className="font-sans text-display-s font-semibold">
             {site.home.latestHeading}
           </h2>
+          <ButtonLink to="/news" variant="secondary">
+            {site.home.allNews}
+          </ButtonLink>
         </Reveal>
         <Reveal stagger className="grid gap-4 md:grid-cols-3">
           {latest.map((post) => (

@@ -27,13 +27,30 @@ export const site = {
   cta: { label: "Early access", href: electrical.path },
 
   home: {
-    // Words wrapped in `[]` are underlined links; see `HeadlineWords`.
-    headline:
-      "We build software for the problems large organisations have [learned to live with].",
-    headlineLinks: [electrical.path],
+    headline: "Software for the problems large organisations live with.",
     intro:
       "Right now that means CodeVault Electrical, a Revit add-in that routes conduit for electricians.",
-    latestHeading: "Latest from Electrical",
+    approach: {
+      heading: "What we look for",
+      statement:
+        "Every large organisation has a problem it stopped calling a problem. Someone keeps a spreadsheet for it, or loses an afternoon to it every week. We go looking for those, and write the software that ends them.",
+      items: [
+        {
+          title: "There's a workaround",
+          body: "A spreadsheet, a macro, or one person who knows how. The problem is real, and nobody has fixed it.",
+        },
+        {
+          title: "It's done by hand, often",
+          body: "Too small to escalate, too frequent to ignore.",
+        },
+        {
+          title: "It fits what people already use",
+          body: "Trying it should take an afternoon.",
+        },
+      ],
+    },
+    latestHeading: "News",
+    allNews: "All news",
     moreHeading: "More from CodeVault",
     statement: "What we're building, what we've decided, and why.",
   },
