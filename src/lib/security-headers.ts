@@ -105,9 +105,9 @@ export const securityHeaders = createMiddleware({ type: "request" }).server(
       if (!headers.has(name)) headers.set(name, value)
     }
 
-    // `x-forwarded-proto` because production terminates TLS at Cloudflare and
-    // reaches the container over plain HTTP through the tunnel — the request
-    // URL here says `http:` even when the reader is on `https:`.
+    // `x-forwarded-proto` because TLS ends at the host's edge (Vercel, or a
+    // proxy in front of a container), so the request URL here can say `http:`
+    // even when the reader is on `https:`.
     const proto =
       request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol
 
