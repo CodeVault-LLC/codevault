@@ -27,6 +27,14 @@ export const electrical = {
     body: "Pick two devices, or several, and get a conduit route that keeps clear of what's in the way.",
     secondary: "Read the announcement",
     note: "In development. Early access by application.",
+    /** The scene's light, chosen by the visitor's own time of day. */
+    light: {
+      label: "Light",
+      morning: "Morning",
+      noon: "Noon",
+      evening: "Evening",
+    },
+    credit: "Generated image, not a real project",
   },
 
   access: {
@@ -50,23 +58,40 @@ export const electrical = {
     ],
   },
 
+  // The scroll sequence: a photographed ceiling becomes its drawing, and a
+  // route is suggested and added along it. One line per stage, in order. It
+  // illustrates the idea; the add-in works in the Revit model, not on
+  // photographs.
+  model: {
+    heading: "From the building to the route",
+    steps: [
+      "A ceiling, half built.",
+      "The same ceiling, as a model.",
+      "Pick two devices, and a route is suggested.",
+      "Checked, then added as one undo step.",
+    ],
+  },
+
+  // Four steps, shown beside a drawing that scrolling plays through. The
+  // drawing has exactly these four stages, in this order.
   principles: {
     heading: "How it works",
     items: [
       {
-        title: "Suggested, then added",
-        doodle: "preview",
-        body: "The route is shown before you accept it. Add it as one undo step, or cancel and the model is left as it was.",
+        title: "Pick the devices",
+        body: "Two for a single run, A to B. Or several, linked as a chain or as a tree.",
       },
       {
-        title: "Clear of what you set to Avoid",
-        doodle: "avoid",
-        body: "Ducts, pipes, columns, doors and windows by default, in the model and its links, checked against their real geometry. Walls, beams and ceilings may be passed through; each one is listed before you accept.",
-      },
-      {
-        title: "Laid out the way it's installed",
-        doodle: "elbow",
+        title: "It suggests a route",
         body: "Right angles, room for every elbow, and as few bends as it can. Boxes in a wall are joined up, across and down.",
+      },
+      {
+        title: "It checks the route",
+        body: "Against everything set to Avoid, in the model and its links, using their real geometry. Walls, beams and ceilings it passes through are listed.",
+      },
+      {
+        title: "You decide",
+        body: "Add it as one undo step, or cancel and the model is left as it was.",
       },
     ],
   },
@@ -81,6 +106,13 @@ export const electrical = {
       { label: "First release", status: "In progress" },
       { label: "Drops to the nearest cable tray", status: "Next" },
     ] satisfies { label: string; status: Status }[],
+  },
+
+  // Beside two photographs of installed conduit. The photographs set the
+  // scene; they aren't routes CodeVault Electrical made.
+  layout: {
+    heading: "Laid out the way it's installed",
+    body: "Right angles, room for every elbow, and as few bends as it can. Boxes in a wall are joined up, across and down.",
   },
 
   // What IT and BIM managers ask before rolling it out. Each line is backed by

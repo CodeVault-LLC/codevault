@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import { about, aboutFacts } from "@/core/config/about"
 import { electrical } from "@/core/config/electrical"
+import { images } from "@/core/config/images"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
 import { aboutPage, breadcrumbs } from "@/core/lib/structured-data"
@@ -10,6 +11,7 @@ import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalMark } from "@/components/electrical/electrical-mark"
 import { ButtonLink } from "@/components/ui/button-link"
 import { HeadlineWords } from "@/components/ui/headline-words"
+import { Photo } from "@/components/ui/photo"
 import { Reveal, RevealItem } from "@/components/ui/reveal"
 
 export const Route = createFileRoute("/about")({
@@ -43,6 +45,14 @@ function AboutPage() {
         >
           {about.lead}
         </p>
+      </Container>
+
+      <Container className="pb-20 lg:pb-28">
+        <Photo
+          image={images.exterior}
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          className="aspect-[16/9] sm:aspect-[21/9]"
+        />
       </Container>
 
       <Container className="pb-20 lg:pb-28">

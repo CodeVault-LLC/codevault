@@ -24,6 +24,22 @@ Semantic tokens: `background`, `foreground`, `surface`, `card`, `card-hover`,
 Dark mode follows `prefers-color-scheme`; there is no toggle. Illustration
 tiles keep their swatch and ink in both themes, like printed artwork.
 
+## Photography
+
+Daylight photographs of buildings under construction: galvanized conduit,
+cable tray, ceiling voids, switch rooms, the outside of a frame going up.
+Calm, orderly, warm neutral light, so they sit with ivory and oat. No people,
+no text, no logos. They're generated for this site (OpenAI image generation
+through Codex); the prompts ask for an editorial architectural photograph,
+35mm, bright natural daylight, muted warm neutral palette.
+
+- Listed with alt text in `src/core/config/images.ts`; files in
+  `public/images/` as WebP at 960 and 1536 wide (`cwebp -q 80`).
+- Shown with `Photo`, which crops to its frame and settles in once when
+  scrolled into view. `priority` for a photo near the top of a page.
+- They set the scene. Never caption one as a route CodeVault Electrical
+  made, or as a customer's building.
+
 ## Type
 
 | Family         | Token        | Use                                             |
@@ -47,7 +63,7 @@ Scale (each step carries its line height and tracking):
 
 - Announcement card: `rounded-3xl`. Cards and art tiles: `rounded-2xl`.
   Buttons and inputs: `rounded-lg`. Chips: `rounded-full`.
-- Wrap content in `Container` (max 86rem, gutter 16 → 40px).
+- Wrap content in `Container` (max 80rem, 1280px, gutter 16 → 40px).
 - Sections breathe: `py-20 lg:py-28` between major blocks.
 
 ## Motion
@@ -57,19 +73,55 @@ Scale (each step carries its line height and tracking):
 - Sections reveal on scroll with `Reveal` / `RevealItem` (GSAP ScrollTrigger,
   settings in `core/lib/motion.ts`; the hidden start state is CSS).
 - Card hover: background shifts one step, the arrow slides 2px.
+- **The announcement card introduces itself, then rests** (about five
+  seconds, CSS only, in `components/home/electrical-announcement.tsx`).
+  Three illustration tiles fade in on their swatches, pale at first and
+  deepening like a print, each drawing one thing the product does. A hairline
+  arc draws through them, each tile folds down into a small device on the
+  line as the line passes, and the name settles onto the line, then the
+  tagline and button. At rest, every ten seconds a soft persimmon pulse
+  glides along the line and each device lights as it passes; otherwise
+  nothing moves. With reduced motion it opens on the resting card, still.
+- **The Electrical hero** (`components/electrical/electrical-hero.tsx`)
+  fills the screen with one building, a long floor under construction with
+  conduit converging down the ceiling, in three lights: morning, noon and
+  evening, one camera. It opens on bare paper: the drawing of the space
+  blooms out from the middle, the photograph develops through it, then the
+  name and an index of the page, its rows joined by dashed runs that turn
+  solid persimmon when pointed at. The scene opens in the visitor's own time
+  of day; the switch at the bottom changes it with a slow crossfade. After
+  the introduction the camera drifts very slowly, and scrolling away lifts
+  the words off. Reference: Anthropic's model launch pages; ours shows a
+  building, not a sky.
+- **From the building to the route** (`components/electrical/model-reveal.tsx`)
+  is on the Electrical page, after "Two ways to connect". The frame is
+  pinned and scrolling plays it, forwards and back: a photographed ceiling
+  settles in; a persimmon scan line sweeps across and leaves the ceiling's
+  drawing behind (traced from the photo with an edge filter, so it's in
+  register: `conduit-ceiling-drawing-1536.webp`); the camera moves in while a
+  junction box and an end are picked and a dashed route is suggested along
+  the real conduit; a check runs along it, it turns solid, and the camera
+  pulls back. Photo, drawing and route share one 3:2 stage, cropped with
+  container units so the run is never cut off. A caption under the frame
+  names each stage. With reduced motion it isn't pinned and shows the end.
 - The routing scene is canvas; see `components/electrical/routing-scene.tsx`.
-  A chalk floor plan lies foreshortened on the card, as if on a table: walls,
-  doors, windows, a column grid with bubbles, ductwork dashed overhead. Room
-  by room, a pointer picks the devices, the search spreads, the route draws in
-  with rounded elbows, a check walks it and marks each wall it passes through
-  with a sleeve, and the lights come on. Every route comes from the router in
-  `floor-plan.ts`, so none of them cross a duct, a column or a door's swing.
-  Wide screens get a three-room plan, sized by the card's height so it sits
-  in the middle rather than stretching; narrow ones get a compact plan.
+  A chalk floor plan, drawn flat like a drawing sheet: walls, doors,
+  windows, a column grid with bubbles, ductwork dashed overhead. Room by
+  room, a pointer picks the devices, the search spreads, a route is
+  suggested (dashed), a check walks it and marks each wall it passes through
+  with a sleeve, and it's added (solid); the lights come on. Every route
+  comes from the router in `floor-plan.ts`, so none of them cross a duct, a
+  column or a door's swing. The plan is sized by whichever of the frame's
+  width and height runs out first, never stretched.
+- **How it works** on the Electrical page is scroll-driven: the steps scroll
+  past a pinned drawing (under the header on phones) that plays each step as
+  it's read. Its steps in `electrical.ts` match the scene's four stages.
+- Large statements can ink in word by word as they scroll (`InkText`), as
+  "What we look for" does on the homepage. Once per page at most.
 - Doodles (`components/ui/doodle.tsx`) are small line drawings in the same
   language — square terminals, stepped routes, something in the way — that
   draw themselves in once when scrolled into view. One per idea, beside the
-  point it illustrates: the "How it works" items, Contact, the 404 page. New
+  point it illustrates: Contact and the 404 page. New
   drawings go in that file's `DRAWINGS`. Don't put one on every heading.
 - The tool diagrams on the Electrical page draw in on scroll and replay when
   their card is hovered. An "In progress" status dot breathes (`pulse-dot`).

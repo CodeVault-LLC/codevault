@@ -30,6 +30,11 @@ export const site = {
     headline: "Software for the problems large organisations live with.",
     intro:
       "Right now that means CodeVault Electrical, a Revit add-in that routes conduit for electricians.",
+    // What a visitor can actually get, said plainly, next to a photograph.
+    product: {
+      body: "A Revit add-in that routes conduit. Pick the devices, and it suggests a run that keeps clear of what's set to Avoid, checked against the model's real geometry. Nothing is added until you accept it.",
+      more: "How it works",
+    },
     approach: {
       heading: "What we look for",
       statement:

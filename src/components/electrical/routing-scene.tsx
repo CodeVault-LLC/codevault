@@ -1,47 +1,58 @@
 import { useEffect, useRef } from "react"
 
 import { cn } from "@/lib/utils"
-import type { Device, FloorPlan, Pt, SolvedPlan } from "./floor-plan"
+import type { Device, FloorPlan, Job, Pt, SolvedPlan } from "./floor-plan"
 import { compactPlan, solve, widePlan } from "./floor-plan"
 
 /**
  * The CodeVault Electrical scene, drawn on a canvas.
  *
- * A chalk floor plan lies on the card as if on a table: walls, doors and
+ * A chalk floor plan, drawn flat like a drawing sheet: walls, doors and
  * windows, a column grid with its bubbles, and ductwork overhead, drawn
  * dashed. Room by room, a pointer picks the devices — four lights in a
  * chain, sockets in a tree, then one box to the distribution board, A to B —
  * and the route is searched for, drawn and checked. Where a route passes
  * through a wall, a sleeve marks it. When a room is done, its lights come on.
  *
+ * A route is suggested first, drawn dashed, and becomes solid only once it
+ * has been checked and added, the way the add-in works.
+ *
  * Every route comes from the router in `floor-plan.ts`, so none of them cut
- * through a duct, a column or a door's swing. Decorative: the card around it
- * carries the real heading and link.
+ * through a duct, a column or a door's swing. Decorative: the page around it
+ * carries the real heading and text.
+ *
+ * It plays, then rests: every room is worked through once, those in `order`
+ * first, and the finished drawing stays. With `progress`, scrolling drives
+ * the first room in `order` instead, one step at a time (see `stepTimes`).
  *
  * Costs: the plan is drawn once into a cached layer after the intro; each
- * frame after that only draws the work in progress. The loop stops while the
- * canvas is offscreen or the tab is hidden, and with reduced motion the
- * finished plan is drawn once and never animated.
+ * frame after that only draws the work in progress. Nothing runs while the
+ * scene rests, is offscreen or the tab is hidden, and with reduced motion
+ * the finished plan is drawn once and never animated.
  */
 export function RoutingScene({
   className,
-  frame = "card",
+  order = [],
+  progress,
 }: {
   className?: string
-  /**
-   * `card` leaves room for the announcement's title above and its text
-   * below; `panel` lets the plan fill the frame.
-   */
-  frame?: "card" | "panel"
+  /** Rooms to work through first, by kind; the rest follow in plan order. */
+  order?: Job["kind"][]
+  /** 0 → 1: drives the first room in `order` step by step instead. */
+  progress?: React.RefObject<number>
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const key = order.join(",")
 
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext("2d")
     if (!canvas || !ctx) return
-    return runScene(canvas, ctx, frame)
-  }, [frame])
+    return runScene(canvas, ctx, {
+      order: key ? (key.split(",") as Job["kind"][]) : [],
+      progress,
+    })
+  }, [key, progress])
 
   return (
     <div
@@ -58,9 +69,6 @@ export function RoutingScene({
     </div>
   )
 }
-
-/** How much the plan is foreshortened, like a drawing lying on a table. */
-const TILT = 0.74
 
 /* -------------------------------------------------------------------------- */
 /* Helpers                                                                    */
@@ -160,7 +168,7 @@ function rounded(corners: Pt[], radius: number): Pt[] {
     const p0 = { x: b.x - u.x * r, y: b.y - u.y * r }
     const p1 = { x: b.x + v.x * r, y: b.y + v.y * r }
     // A quadratic through the corner is close enough to a quarter circle
-    // at this size, and stays right on a foreshortened plan.
+    // at this size.
     for (let k = 0; k <= 8; k++) {
       const s = k / 8
       const m = 1 - s
@@ -273,8 +281,11 @@ type JobTimes = {
 }
 
 type Timeline = {
+  /** By job index, in the plan's order. */
   jobs: JobTimes[]
-  /** The work is cleared away from here; the loop restarts at `length`. */
+  /** Job indices in the order they play. */
+  order: number[]
+  /** The work is cleared away from here; it starts over at `length`. */
   fade: number
   length: number
 }
@@ -303,17 +314,47 @@ function jobTimes(solved: SolvedPlan, index: number, t0: number): JobTimes {
   return { t0, picks, links: times, check, done, t1: done + 0.9 }
 }
 
-/** The rooms, one after another. */
-function timeline(solved: SolvedPlan): Timeline {
+/** The rooms, one after another: those named in `first` before the rest. */
+function timeline(solved: SolvedPlan, first: Job["kind"][]): Timeline {
+  const all = solved.jobs.map((_, i) => i)
+  const named = first.flatMap((kind) =>
+    all.filter((i) => solved.jobs[i].job.kind === kind)
+  )
+  const order = [...new Set([...named, ...all])]
   const jobs: JobTimes[] = []
   let t = 0
-  solved.jobs.forEach((_, i) => {
-    const times = jobTimes(solved, i, t)
-    jobs.push(times)
-    t = times.t1
-  })
+  for (const i of order) {
+    jobs[i] = jobTimes(solved, i, t)
+    t = jobs[i].t1
+  }
   const fade = t + 0.6
-  return { jobs, fade, length: fade + 1.4 }
+  return { jobs, order, fade, length: fade + 1.4 }
+}
+
+/**
+ * The four steps a scrolled room is shown in, as stretches of its timeline:
+ * the devices are picked, a route is suggested, it's checked, and it's added.
+ */
+function stepTimes(times: JobTimes): [number, number][] {
+  const lastPick = times.picks[times.picks.length - 1]
+  const lastLink = times.links[times.links.length - 1]
+  return [
+    [times.t0, lastPick + 0.35],
+    [times.links[0].search[0], lastLink.draw[1]],
+    [times.check[0], times.check[1]],
+    [times.done, times.t1],
+  ]
+}
+
+/** Where `progress` (0 → 1) puts a scrolled room on its timeline. */
+function scrubTime(times: JobTimes, progress: number): number {
+  const steps = stepTimes(times)
+  const p = clamp(progress, 0, 1) * steps.length
+  const i = Math.min(steps.length - 1, Math.floor(p))
+  // Each step plays over the first part of its stretch of scroll, then
+  // holds, so it can be read while its text is in view.
+  const u = clamp((p - i) / 0.7, 0, 1)
+  return lerp(steps[i][0], steps[i][1], u)
 }
 
 /* -------------------------------------------------------------------------- */
@@ -389,11 +430,17 @@ type Layout = {
   stops: Stop[]
 }
 
+type SceneOptions = {
+  order: Job["kind"][]
+  progress?: React.RefObject<number>
+}
+
 function runScene(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D,
-  frame: "card" | "panel"
+  options: SceneOptions
 ) {
+  const { progress } = options
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)")
   const dark = window.matchMedia("(prefers-color-scheme: dark)")
 
@@ -409,6 +456,10 @@ function runScene(
   let last = 0
   let frameId = 0
   let visible = false
+  /** When the scene comes to rest, in seconds since it started. */
+  let until = Infinity
+  /** The scroll position last drawn, so an unchanged frame is skipped. */
+  let drawnProgress = -1
 
   function layout() {
     const rect = canvas.getBoundingClientRect()
@@ -422,27 +473,21 @@ function runScene(
     const plan = narrow ? compactPlan : widePlan
     const solved = solve(plan)
 
-    // The area the plan may use, leaving the card's title and text clear.
-    // On wide frames the height decides the size, so the plan sits in the
-    // middle with room around it instead of stretching edge to edge.
-    const area =
-      frame === "card"
-        ? narrow
-          ? { top: 0.2, bottom: 0.7, side: 0.05 }
-          : { top: 0.29, bottom: 0.77, side: 0.12 }
-        : { top: 0.08, bottom: 0.92, side: 0.08 }
+    // The area the plan may use. Whichever of width and height runs out
+    // first decides the size, so the plan is never stretched.
+    const area = { top: 0.08, bottom: 0.92, side: 0.08 }
     // The plan plus its grid bubbles, which sit outside the walls.
     const bounds = { x0: -1.9, y0: -1.9, x1: plan.w + 0.7, y1: plan.h + 0.7 }
     const bw = bounds.x1 - bounds.x0
-    const bh = (bounds.y1 - bounds.y0) * TILT
+    const bh = bounds.y1 - bounds.y0
     const availW = width * (1 - area.side * 2)
     const availH = height * (area.bottom - area.top)
     const s = Math.min(availW / bw, availH / bh)
     const ox = (width - bw * s) / 2 - bounds.x0 * s
-    const oy = height * area.top + (availH - bh * s) / 2 - bounds.y0 * s * TILT
+    const oy = height * area.top + (availH - bh * s) / 2 - bounds.y0 * s
     const project = (pt: Pt): Pt => ({
       x: ox + pt.x * s,
-      y: oy + pt.y * s * TILT,
+      y: oy + pt.y * s,
     })
 
     const rand = mulberry32(7)
@@ -473,15 +518,19 @@ function runScene(
       })
     )
 
-    const tl = timeline(solved)
-    const stops = solved.jobs.flatMap((job, j) =>
-      job.devices.map((id, i) => ({
-        t: tl.jobs[j].picks[i],
-        at: project(solved.devices.get(id)?.at ?? { x: 0, y: 0 }),
-      }))
-    )
+    const tl = timeline(solved, options.order)
+    const stops = solved.jobs
+      .flatMap((job, j) =>
+        job.devices.map((id, i) => ({
+          t: tl.jobs[j].picks[i],
+          at: project(solved.devices.get(id)?.at ?? { x: 0, y: 0 }),
+        }))
+      )
+      .sort((a, b) => a.t - b.t)
     L = { plan, solved, s, project, links, wallChalk, tl, stops }
     cache = null
+    if (!progress)
+      until = INTRO.work + tl.jobs[tl.order[tl.order.length - 1]].t1
   }
 
   function introProgress(t: number, [a, b]: readonly [number, number]) {
@@ -510,15 +559,15 @@ function runScene(
         // A crossed circle, as on an electrical drawing.
         const r = u * 0.3
         target.beginPath()
-        target.ellipse(x, y, r, r * TILT, 0, 0, Math.PI * 2)
+        target.ellipse(x, y, r, r, 0, 0, Math.PI * 2)
         target.fill()
         target.stroke()
         const k = r * Math.SQRT1_2
         target.beginPath()
-        target.moveTo(x - k, y - k * TILT)
-        target.lineTo(x + k, y + k * TILT)
-        target.moveTo(x + k, y - k * TILT)
-        target.lineTo(x - k, y + k * TILT)
+        target.moveTo(x - k, y - k)
+        target.lineTo(x + k, y + k)
+        target.moveTo(x + k, y - k)
+        target.lineTo(x - k, y + k)
         target.stroke()
         break
       }
@@ -530,14 +579,14 @@ function runScene(
         ]
         const back = {
           x: -Math.cos(dir) * r * 0.5,
-          y: -Math.sin(dir) * r * 0.5 * TILT,
+          y: -Math.sin(dir) * r * 0.5,
         }
         target.beginPath()
         target.ellipse(
           x + back.x,
           y + back.y,
           r,
-          r * TILT,
+          r,
           0,
           dir - Math.PI / 2,
           dir + Math.PI / 2
@@ -555,31 +604,31 @@ function runScene(
         const a = dir - Math.PI / 4
         const tip = {
           x: x + Math.cos(a) * u * 0.42,
-          y: y + Math.sin(a) * u * 0.42 * TILT,
+          y: y + Math.sin(a) * u * 0.42,
         }
         target.beginPath()
         target.moveTo(x, y)
         target.lineTo(tip.x, tip.y)
         target.lineTo(
           tip.x + Math.cos(a + Math.PI / 2) * u * 0.12,
-          tip.y + Math.sin(a + Math.PI / 2) * u * 0.12 * TILT
+          tip.y + Math.sin(a + Math.PI / 2) * u * 0.12
         )
         target.stroke()
         target.fillStyle = color
         target.beginPath()
-        target.ellipse(x, y, r * 1.4, r * 1.4 * TILT, 0, 0, Math.PI * 2)
+        target.ellipse(x, y, r * 1.4, r * 1.4, 0, 0, Math.PI * 2)
         target.fill()
         break
       }
       case "box": {
         const h = u * 0.2
         target.beginPath()
-        target.rect(x - h, y - h * TILT, h * 2, h * 2 * TILT)
+        target.rect(x - h, y - h, h * 2, h * 2)
         target.fill()
         target.stroke()
         target.fillStyle = color
         target.beginPath()
-        target.ellipse(x, y, h * 0.32, h * 0.32 * TILT, 0, 0, Math.PI * 2)
+        target.ellipse(x, y, h * 0.32, h * 0.32, 0, 0, Math.PI * 2)
         target.fill()
         break
       }
@@ -587,7 +636,7 @@ function runScene(
         // A distribution board: a long box against the wall, half filled.
         const along = d.facing === "n" || d.facing === "s"
         const hw = along ? u * 0.55 : u * 0.2
-        const hh = (along ? u * 0.2 : u * 0.55) * TILT
+        const hh = along ? u * 0.2 : u * 0.55
         target.beginPath()
         target.rect(x - hw, y - hh, hw * 2, hh * 2)
         target.fill()
@@ -700,8 +749,8 @@ function runScene(
         target.lineWidth = 0.9
         target.beginPath()
         for (const k of [-off, 0, off]) {
-          target.moveTo(pa.x, pa.y + k * TILT)
-          target.lineTo(pb.x, pb.y + k * TILT)
+          target.moveTo(pa.x, pa.y + k)
+          target.lineTo(pb.x, pb.y + k)
         }
         target.stroke()
       }
@@ -817,9 +866,7 @@ function runScene(
     if (!L || alpha <= 0) return
     const len = clamp(L.s * 0.6, 8, 18)
     const w = clamp(L.s * 0.26, 5, 9)
-    const [hw, hh] = sl.horizontal
-      ? [len / 2, (w / 2) * TILT * 1.4]
-      : [w / 2, (len / 2) * TILT]
+    const [hw, hh] = sl.horizontal ? [len / 2, (w / 2) * 1.4] : [w / 2, len / 2]
     ctx.save()
     ctx.globalAlpha = alpha
     ctx.strokeStyle = colors.accent
@@ -840,7 +887,8 @@ function runScene(
     ctx.restore()
   }
 
-  function drawRoute(link: DrawnLink, drawn: number, alpha: number) {
+  /** A route, dashed while it's a suggestion and solid once `added`. */
+  function drawRoute(link: DrawnLink, drawn: number, alpha: number, added = 1) {
     if (drawn <= 0 || alpha <= 0) return
     ctx.save()
     ctx.globalAlpha = alpha
@@ -853,7 +901,16 @@ function runScene(
     ctx.stroke()
     ctx.strokeStyle = colors.accent
     ctx.lineWidth = 2.2
-    ctx.stroke()
+    if (added < 1) {
+      ctx.globalAlpha = alpha * (1 - added)
+      ctx.setLineDash([6, 5])
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
+    if (added > 0) {
+      ctx.globalAlpha = alpha * added
+      ctx.stroke()
+    }
     ctx.restore()
   }
 
@@ -873,7 +930,7 @@ function runScene(
       const fadeAll = p > 1 ? 1 - (p - 1) / 0.6 : 1
       ctx.globalAlpha = alpha * 0.5 * (1 - age) * fadeAll
       const q = link.explored[i]
-      ctx.fillRect(q.x - size / 2, q.y - (size / 2) * TILT, size, size * TILT)
+      ctx.fillRect(q.x - size / 2, q.y - size / 2, size, size)
     }
     ctx.restore()
   }
@@ -889,7 +946,7 @@ function runScene(
     ctx.setLineDash([3, 3])
     ctx.lineDashOffset = -t * 12
     ctx.beginPath()
-    ctx.ellipse(x, y, r, r * TILT, 0, 0, Math.PI * 2)
+    ctx.ellipse(x, y, r, r, 0, 0, Math.PI * 2)
     ctx.stroke()
     ctx.restore()
   }
@@ -900,7 +957,7 @@ function runScene(
     const off = Math.max(L.s, 16) * 0.75
     const size = clamp(L.s * 0.42, 10, 14)
     const tx = x + off * 0.9
-    const ty = y - off * TILT
+    const ty = y - off
     ctx.save()
     ctx.globalAlpha = alpha
     ctx.font = `600 ${Math.round(size)}px ${colors.font}`
@@ -924,7 +981,6 @@ function runScene(
     const on = easeOut(since / 0.5)
     ctx.save()
     ctx.translate(x, y)
-    ctx.scale(1, TILT)
     const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, r)
     glow.addColorStop(0, colors.accent)
     glow.addColorStop(1, clear(colors.accent))
@@ -959,7 +1015,7 @@ function runScene(
       const drawn =
         link.track.length *
         easeInOut((t - lt.draw[0]) / (lt.draw[1] - lt.draw[0]))
-      drawRoute(link, drawn, alpha)
+      drawRoute(link, drawn, alpha, smooth(0, 0.35, done))
     })
 
     // The check walks every route at once; each sleeve appears as it passes.
@@ -1027,7 +1083,9 @@ function runScene(
     if (!L) return
     const { stops } = L
     const first = stops[0].t
-    const appear = smooth(first - 0.9, first - 0.5, t)
+    // It steps away as the scene comes to rest.
+    const away = progress ? 1 : 1 - smooth(until - 0.7, until - 0.2, elapsed)
+    const appear = smooth(first - 0.9, first - 0.5, t) * away
     if (appear * alpha <= 0) return
     const at = pointerAt(stops, t)
     // Fades in a little way off its first device, and glides in.
@@ -1074,6 +1132,18 @@ function runScene(
       drawStatic(ctx, total)
     }
 
+    const { tl } = L
+    if (progress) {
+      // Scrolled: one room, at the step the page is on.
+      const index = tl.order[0]
+      const times = tl.jobs[index]
+      const t = still ? times.t1 : scrubTime(times, progress.current)
+      drawnProgress = progress.current
+      drawJob(index, times, t, 1)
+      if (!still) drawPointer(t, 1 - smooth(times.done, times.done + 0.4, t))
+      return
+    }
+
     if (still) {
       drawFinished()
       return
@@ -1081,7 +1151,6 @@ function runScene(
 
     const loopT = total - INTRO.work
     if (loopT < 0) return
-    const { tl } = L
     const t = loopT % tl.length
     const alpha = 1 - smooth(tl.fade, tl.fade + 1, t)
     tl.jobs.forEach((times, i) => drawJob(i, times, t, alpha))
@@ -1091,13 +1160,23 @@ function runScene(
   function tick(now: number) {
     const delta = last ? Math.min(0.05, (now - last) / 1000) : 0
     last = now
-    elapsed += delta
+    const introDone = elapsed > INTRO.devices[1] + 0.2
+    if (progress && introDone && progress.current === drawnProgress) {
+      // Nothing has moved; wait for the next scroll.
+      frameId = requestAnimationFrame(tick)
+      return
+    }
+    elapsed = Math.min(until, elapsed + delta)
     render(elapsed, false)
+    if (elapsed >= until) {
+      frameId = 0
+      return
+    }
     frameId = requestAnimationFrame(tick)
   }
 
   function start() {
-    if (frameId || reduce.matches) return
+    if (frameId || reduce.matches || elapsed >= until) return
     last = 0
     frameId = requestAnimationFrame(tick)
   }

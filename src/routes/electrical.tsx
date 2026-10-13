@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import type { Status } from "@/core/config/electrical"
 import { electrical } from "@/core/config/electrical"
+import { images } from "@/core/config/images"
 import { postsFor } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
@@ -10,11 +11,13 @@ import { cn } from "@/lib/utils"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalMark } from "@/components/electrical/electrical-mark"
-import { RoutingScene } from "@/components/electrical/routing-scene"
+import { ElectricalHero } from "@/components/electrical/electrical-hero"
+import { HowItWorks } from "@/components/electrical/how-it-works"
+import { ModelReveal } from "@/components/electrical/model-reveal"
 import { ToolDiagram } from "@/components/electrical/tool-diagram"
 import { NewsRow } from "@/components/news/news-row"
 import { Arrow, ButtonLink, buttonClass } from "@/components/ui/button-link"
-import { Doodle } from "@/components/ui/doodle"
+import { Photo } from "@/components/ui/photo"
 import { Reveal, RevealItem } from "@/components/ui/reveal"
 
 export const Route = createFileRoute("/electrical")({
@@ -40,31 +43,17 @@ export const Route = createFileRoute("/electrical")({
 function ElectricalPage() {
   return (
     <PageShell>
-      <Container className="flex flex-col items-center pt-14 pb-12 text-center sm:pt-20 lg:pt-24">
-        <ElectricalMark className="fade-rise mb-6 size-12 sm:size-14" />
-        <p
-          className="fade-rise mb-4 font-mono text-label text-muted-foreground uppercase"
-          style={{ "--d": "40ms" } as React.CSSProperties}
-        >
-          {electrical.hero.eyebrow}
-        </p>
-        <h1
-          className="fade-rise font-sans text-display-l font-semibold"
-          style={{ "--d": "80ms" } as React.CSSProperties}
-        >
-          <span className="text-muted-foreground">CodeVault</span> Electrical
-        </h1>
-        <p
-          className="fade-rise mt-6 max-w-[32ch] text-paragraph-l"
-          style={{ "--d": "160ms" } as React.CSSProperties}
-        >
-          {electrical.hero.body}
-        </p>
-        <div
-          className="fade-rise mt-8 flex flex-col items-center gap-3"
-          style={{ "--d": "240ms" } as React.CSSProperties}
-        >
-          <div className="flex flex-wrap justify-center gap-3">
+      <ElectricalHero />
+
+      <Container className="grid gap-8 pt-16 sm:pt-20 lg:grid-cols-12 lg:items-end lg:pt-24">
+        <Reveal className="lg:col-span-7">
+          <ElectricalMark className="mb-6 size-10" />
+          <p className="max-w-[30ch] font-sans text-display-m font-medium text-balance">
+            {electrical.hero.body}
+          </p>
+        </Reveal>
+        <Reveal className="flex flex-col gap-3 lg:col-span-4 lg:col-start-9 lg:items-end">
+          <div className="flex flex-wrap gap-3 lg:justify-end">
             <a href={electrical.access.href} className={buttonClass()}>
               {electrical.access.label}
               <Arrow />
@@ -79,19 +68,10 @@ function ElectricalPage() {
           <p className="font-sans text-caption text-muted-foreground">
             {electrical.hero.note}
           </p>
-        </div>
+        </Reveal>
       </Container>
 
-      <Container>
-        <div
-          className="fade-rise relative h-[clamp(24rem,40vw,36rem)] overflow-hidden rounded-3xl bg-surface"
-          style={{ "--d": "300ms" } as React.CSSProperties}
-        >
-          <RoutingScene frame="panel" />
-        </div>
-      </Container>
-
-      <Container className="pt-20 lg:pt-28">
+      <Container id="tools" className="scroll-mt-24 pt-20 lg:pt-28">
         <Reveal>
           <h2 className="mb-10 font-sans text-display-s font-semibold">
             {electrical.tools.heading}
@@ -118,51 +98,48 @@ function ElectricalPage() {
         </Reveal>
       </Container>
 
-      <Container className="py-20 lg:py-28">
+      <Container id="model" className="scroll-mt-24 pt-20 lg:pt-28">
         <Reveal>
           <h2 className="mb-10 font-sans text-display-s font-semibold">
-            {electrical.principles.heading}
+            {electrical.model.heading}
           </h2>
         </Reveal>
-        <Reveal stagger className="grid gap-10 md:grid-cols-3 md:gap-8">
-          {electrical.principles.items.map((item, i) => (
-            <RevealItem
-              key={item.title}
-              className="border-t border-border-strong pt-5"
-            >
-              <p className="font-mono text-label text-muted-foreground">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <Doodle name={item.doodle} className="my-8 h-20" />
-              <h3 className="mb-2 font-sans text-display-xs font-semibold">
-                {item.title}
-              </h3>
-              <p className="text-paragraph-s text-foreground/85">{item.body}</p>
-            </RevealItem>
-          ))}
-        </Reveal>
+        <ModelReveal />
       </Container>
 
-      <Container className="grid gap-12 pb-20 lg:grid-cols-12 lg:pb-28">
+      <HowItWorks />
+
+      <Container className="pb-20 lg:pb-28">
+        <Reveal className="mb-10 grid gap-4 lg:grid-cols-12">
+          <h2 className="font-sans text-display-s font-semibold lg:col-span-4">
+            {electrical.layout.heading}
+          </h2>
+          <p className="max-w-[48ch] text-paragraph-m text-foreground/85 lg:col-span-7 lg:col-start-6">
+            {electrical.layout.body}
+          </p>
+        </Reveal>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Photo
+            image={images.studWall}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="aspect-[3/2]"
+          />
+          <Photo
+            image={images.conduitBends}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="aspect-[3/2]"
+          />
+        </div>
+      </Container>
+
+      <Container
+        id="status"
+        className="grid scroll-mt-24 gap-12 pb-20 lg:grid-cols-12 lg:pb-28"
+      >
         <Reveal className="lg:col-span-4">
-          <h2 className="mb-6 font-sans text-display-s font-semibold">
+          <h2 className="font-sans text-display-s font-semibold">
             {electrical.status.heading}
           </h2>
-          <dl>
-            {electrical.facts.map((fact) => (
-              <div
-                key={fact.label}
-                className="flex justify-between gap-4 border-t border-border py-3"
-              >
-                <dt className="font-mono text-label text-muted-foreground uppercase">
-                  {fact.label}
-                </dt>
-                <dd className="text-right font-sans text-caption">
-                  {fact.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </Reveal>
         <Reveal className="lg:col-span-7 lg:col-start-6">
           <ul className="rounded-2xl bg-surface px-5 sm:px-8">
@@ -179,7 +156,10 @@ function ElectricalPage() {
         </Reveal>
       </Container>
 
-      <Container className="grid gap-10 pb-20 lg:grid-cols-12 lg:pb-28">
+      <Container
+        id="questions"
+        className="grid scroll-mt-24 gap-10 pb-20 lg:grid-cols-12 lg:pb-28"
+      >
         <Reveal className="lg:col-span-4">
           <h2 className="font-sans text-display-s font-semibold">
             {electrical.faq.heading}

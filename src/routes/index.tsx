@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 import { electrical } from "@/core/config/electrical"
+import { images } from "@/core/config/images"
 import { site } from "@/core/config/site"
 import { allPosts } from "@/core/config/news"
 import { seo } from "@/core/lib/seo"
@@ -8,8 +9,10 @@ import { organization, website } from "@/core/lib/structured-data"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalAnnouncement } from "@/components/home/electrical-announcement"
-import { ButtonLink } from "@/components/ui/button-link"
+import { Arrow, ButtonLink, buttonClass } from "@/components/ui/button-link"
 import { HeadlineWords } from "@/components/ui/headline-words"
+import { InkText } from "@/components/ui/ink-text"
+import { Photo } from "@/components/ui/photo"
 import { Reveal, RevealItem } from "@/components/ui/reveal"
 import { ReleaseCard } from "@/components/news/release-card"
 import { NewsRow } from "@/components/news/news-row"
@@ -48,6 +51,31 @@ function Home() {
         <ElectricalAnnouncement />
       </Container>
 
+      <Container className="grid items-center gap-10 pt-20 lg:grid-cols-12 lg:gap-12 lg:pt-28">
+        <Photo
+          image={images.ceilingVoid}
+          sizes="(min-width: 1024px) 720px, 100vw"
+          className="aspect-[4/3] lg:col-span-7"
+        />
+        <Reveal className="lg:col-span-5">
+          <h2 className="mb-4 font-sans text-display-m font-semibold">
+            {electrical.name}
+          </h2>
+          <p className="mb-8 max-w-[44ch] text-paragraph-m text-foreground/85">
+            {site.home.product.body}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a href={electrical.access.href} className={buttonClass()}>
+              {electrical.access.label}
+              <Arrow />
+            </a>
+            <ButtonLink to={electrical.path} variant="secondary">
+              {site.home.product.more}
+            </ButtonLink>
+          </div>
+        </Reveal>
+      </Container>
+
       <Container className="grid gap-10 pt-20 lg:grid-cols-12 lg:pt-28">
         <Reveal className="lg:col-span-4">
           <h2 className="font-sans text-display-s font-semibold">
@@ -55,11 +83,10 @@ function Home() {
           </h2>
         </Reveal>
         <div className="lg:col-span-7 lg:col-start-6">
-          <Reveal>
-            <p className="font-sans text-display-m font-medium text-balance">
-              {site.home.approach.statement}
-            </p>
-          </Reveal>
+          <InkText
+            text={site.home.approach.statement}
+            className="font-sans text-display-m font-medium text-balance"
+          />
           <Reveal stagger className="mt-12 grid gap-8 sm:grid-cols-3 sm:gap-6">
             {site.home.approach.items.map((item) => (
               <RevealItem
@@ -79,11 +106,18 @@ function Home() {
       </Container>
 
       <Container className="grid gap-10 pt-20 lg:grid-cols-12 lg:pt-28">
-        <Reveal className="lg:col-span-4">
-          <h2 className="font-sans text-display-s font-semibold">
-            {electrical.rollout.heading}
-          </h2>
-        </Reveal>
+        <div className="lg:col-span-4">
+          <Reveal>
+            <h2 className="font-sans text-display-s font-semibold">
+              {electrical.rollout.heading}
+            </h2>
+          </Reveal>
+          <Photo
+            image={images.electricalRoom}
+            sizes="400px"
+            className="mt-8 hidden aspect-[4/5] lg:block"
+          />
+        </div>
         <Reveal className="lg:col-span-7 lg:col-start-6">
           <dl className="border-t border-border">
             {electrical.rollout.items.map((item) => (
