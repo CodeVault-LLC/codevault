@@ -270,6 +270,26 @@
   }
 }
 
+/* A ring that breathes out from a status dot: work in progress. */
+@keyframes pulse-dot {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--persimmon) 50%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 7px color-mix(in oklab, var(--persimmon) 0%, transparent);
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s var(--ease-out-soft) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot {
+    animation: none;
+  }
+}
+
 /* Letters on the announcement arc. Opacity only: SVG text along a path can't
    take per-glyph transforms. */
 @keyframes letter-in {

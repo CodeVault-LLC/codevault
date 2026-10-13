@@ -1,5 +1,6 @@
 import { site } from "@/core/config/site"
 import { ButtonLink } from "@/components/ui/button-link"
+import { Doodle } from "@/components/ui/doodle"
 import { Container } from "./container"
 import { PageShell } from "./page-shell"
 
@@ -7,6 +8,7 @@ export function NotFound() {
   return (
     <PageShell>
       <Container className="py-32 lg:py-48">
+        <Doodle name="loose" className="mb-8 h-20" />
         <p className="mb-4 font-mono text-label text-muted-foreground uppercase">
           404
         </p>

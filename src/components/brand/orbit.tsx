@@ -913,8 +913,8 @@ type OrbitProps = {
    */
   layer?: "all" | "back" | "front"
   /**
-   * Skips Orbit's own blinks and gestures, for a parent that animates it
-   * (the Kilo scene) or artwork that should hold still (post art).
+   * Skips Orbit's own blinks and gestures, for a parent that animates it or
+   * artwork that should hold still.
    */
   still?: boolean
   /** Accessible name. Without one the drawing is decorative. */

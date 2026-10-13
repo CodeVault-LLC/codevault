@@ -1,89 +1,128 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import type { Status } from "@/core/config/kilo"
-import { kilo } from "@/core/config/kilo"
+import type { Status } from "@/core/config/electrical"
+import { electrical } from "@/core/config/electrical"
 import { postsFor } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
 import { cn } from "@/lib/utils"
-import { Orbit } from "@/components/brand/orbit"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
-import { KiloLogo } from "@/components/kilo/kilo-logo"
-import { KiloScene } from "@/components/kilo/kilo-scene"
+import { ElectricalMark } from "@/components/electrical/electrical-mark"
+import { RoutingScene } from "@/components/electrical/routing-scene"
+import { ToolDiagram } from "@/components/electrical/tool-diagram"
 import { NewsRow } from "@/components/news/news-row"
-import { ButtonLink } from "@/components/ui/button-link"
+import { Arrow, ButtonLink, buttonClass } from "@/components/ui/button-link"
+import { Doodle } from "@/components/ui/doodle"
 import { Reveal, RevealItem } from "@/components/ui/reveal"
 
-export const Route = createFileRoute("/kilo")({
+export const Route = createFileRoute("/electrical")({
   head: () =>
     seo({
-      title: `Kilo — ${site.name}`,
-      description: kilo.summary,
-      path: "/kilo",
-      image: "/kilo/kilo-social.png",
+      title: `${electrical.name} — ${site.name}`,
+      description: electrical.summary,
+      path: electrical.path,
     }),
-  component: KiloPage,
+  component: ElectricalPage,
 })
 
-function KiloPage() {
+function ElectricalPage() {
   return (
     <PageShell>
       <Container className="flex flex-col items-center pt-14 pb-12 text-center sm:pt-20 lg:pt-24">
-        <Orbit className="mb-4 size-28 sm:size-32" />
-        <p className="fade-rise mb-5 font-mono text-label text-muted-foreground uppercase">
-          {kilo.hero.eyebrow}
+        <ElectricalMark className="fade-rise mb-6 size-12 sm:size-14" />
+        <p
+          className="fade-rise mb-4 font-mono text-label text-muted-foreground uppercase"
+          style={{ "--d": "40ms" } as React.CSSProperties}
+        >
+          {electrical.hero.eyebrow}
         </p>
         <h1
-          className="fade-rise"
+          className="fade-rise font-sans text-display-l font-semibold"
           style={{ "--d": "80ms" } as React.CSSProperties}
         >
-          <span className="sr-only">{kilo.hero.heading}</span>
-          <KiloLogo className="h-14 sm:h-20" />
+          <span className="text-muted-foreground">CodeVault</span> Electrical
         </h1>
         <p
-          className="fade-rise mt-6 max-w-[28ch] text-paragraph-l"
+          className="fade-rise mt-6 max-w-[32ch] text-paragraph-l"
           style={{ "--d": "160ms" } as React.CSSProperties}
         >
-          {kilo.hero.body}
+          {electrical.hero.body}
         </p>
         <div
           className="fade-rise mt-8 flex flex-col items-center gap-3"
           style={{ "--d": "240ms" } as React.CSSProperties}
         >
-          <ButtonLink to={`/news/${kilo.announcementSlug}`}>
-            {kilo.hero.primary}
-          </ButtonLink>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a href={electrical.access.href} className={buttonClass()}>
+              {electrical.access.label}
+              <Arrow />
+            </a>
+            <ButtonLink
+              to={`/news/${electrical.announcementSlug}`}
+              variant="secondary"
+            >
+              {electrical.hero.secondary}
+            </ButtonLink>
+          </div>
           <p className="font-sans text-caption text-muted-foreground">
-            {kilo.hero.note}
+            {electrical.hero.note}
           </p>
         </div>
       </Container>
 
       <Container>
         <div
-          className="fade-rise relative h-[clamp(22rem,42vw,36rem)] overflow-hidden rounded-3xl bg-surface"
+          className="fade-rise relative h-[clamp(24rem,40vw,36rem)] overflow-hidden rounded-3xl bg-surface"
           style={{ "--d": "300ms" } as React.CSSProperties}
         >
-          <KiloScene />
+          <RoutingScene frame="panel" />
         </div>
+      </Container>
+
+      <Container className="pt-20 lg:pt-28">
+        <Reveal>
+          <h2 className="mb-10 font-sans text-display-s font-semibold">
+            {electrical.tools.heading}
+          </h2>
+        </Reveal>
+        <Reveal stagger className="grid gap-4 md:grid-cols-2">
+          {electrical.tools.items.map((tool) => (
+            <RevealItem
+              key={tool.name}
+              className="flex flex-col rounded-2xl bg-surface p-6 sm:p-8"
+            >
+              <ToolDiagram
+                diagram={tool.diagram}
+                className="mx-auto mb-8 max-w-sm"
+              />
+              <h3 className="mb-2 font-sans text-display-xs font-semibold">
+                {tool.name}
+              </h3>
+              <p className="max-w-[40ch] text-paragraph-s text-foreground/85">
+                {tool.body}
+              </p>
+            </RevealItem>
+          ))}
+        </Reveal>
       </Container>
 
       <Container className="py-20 lg:py-28">
         <Reveal>
           <h2 className="mb-10 font-sans text-display-s font-semibold">
-            {kilo.principles.heading}
+            {electrical.principles.heading}
           </h2>
         </Reveal>
         <Reveal stagger className="grid gap-10 md:grid-cols-3 md:gap-8">
-          {kilo.principles.items.map((item, i) => (
+          {electrical.principles.items.map((item, i) => (
             <RevealItem
               key={item.title}
               className="border-t border-border-strong pt-5"
             >
-              <p className="mb-6 font-mono text-label text-muted-foreground">
+              <p className="font-mono text-label text-muted-foreground">
                 {String(i + 1).padStart(2, "0")}
               </p>
+              <Doodle name={item.doodle} className="my-8 h-20" />
               <h3 className="mb-2 font-sans text-display-xs font-semibold">
                 {item.title}
               </h3>
@@ -96,10 +135,10 @@ function KiloPage() {
       <Container className="grid gap-12 pb-20 lg:grid-cols-12 lg:pb-28">
         <Reveal className="lg:col-span-4">
           <h2 className="mb-6 font-sans text-display-s font-semibold">
-            {kilo.status.heading}
+            {electrical.status.heading}
           </h2>
           <dl>
-            {kilo.facts.map((fact) => (
+            {electrical.facts.map((fact) => (
               <div
                 key={fact.label}
                 className="flex justify-between gap-4 border-t border-border py-3"
@@ -107,14 +146,16 @@ function KiloPage() {
                 <dt className="font-mono text-label text-muted-foreground uppercase">
                   {fact.label}
                 </dt>
-                <dd className="font-sans text-caption">{fact.value}</dd>
+                <dd className="text-right font-sans text-caption">
+                  {fact.value}
+                </dd>
               </div>
             ))}
           </dl>
         </Reveal>
         <Reveal className="lg:col-span-7 lg:col-start-6">
           <ul className="rounded-2xl bg-surface px-5 sm:px-8">
-            {kilo.status.rows.map((row) => (
+            {electrical.status.rows.map((row) => (
               <li
                 key={row.label}
                 className="flex items-center justify-between gap-4 border-b border-border py-4 last:border-0"
@@ -130,10 +171,10 @@ function KiloPage() {
       <Container className="pb-24 lg:pb-32">
         <Reveal>
           <h2 className="mb-4 font-sans text-display-s font-semibold">
-            {kilo.newsHeading}
+            {electrical.newsHeading}
           </h2>
           <ul className="border-t border-border">
-            {postsFor("Kilo").map((post) => (
+            {postsFor(electrical.name).map((post) => (
               <NewsRow key={post.slug} post={post} />
             ))}
           </ul>
@@ -145,7 +186,7 @@ function KiloPage() {
 
 const statusDot: Record<Status, string> = {
   Working: "bg-olive",
-  "In progress": "bg-persimmon",
+  "In progress": "bg-persimmon pulse-dot",
   Next: "ring-1 ring-faint ring-inset",
 }
 

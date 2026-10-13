@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandRouteImport } from './routes/brand'
-import { Route as KiloRouteImport } from './routes/kilo'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ElectricalRouteImport } from './routes/electrical'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SiteDotwebmanifestRouteImport } from './routes/site[.]webmanifest'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -29,9 +31,19 @@ const BrandRoute = BrandRouteImport.update({
   path: '/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KiloRoute = KiloRouteImport.update({
-  id: '/kilo',
-  path: '/kilo',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ElectricalRoute = ElectricalRouteImport.update({
+  id: '/electrical',
+  path: '/electrical',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -69,7 +81,9 @@ const NewsSlugRoute = NewsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
-  '/kilo': typeof KiloRoute
+  '/contact': typeof ContactRoute
+  '/electrical': typeof ElectricalRoute
+  '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -80,7 +94,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
-  '/kilo': typeof KiloRoute
+  '/contact': typeof ContactRoute
+  '/electrical': typeof ElectricalRoute
+  '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -92,7 +108,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
-  '/kilo': typeof KiloRoute
+  '/contact': typeof ContactRoute
+  '/electrical': typeof ElectricalRoute
+  '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/site.webmanifest': typeof SiteDotwebmanifestRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -105,7 +123,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/brand'
-    | '/kilo'
+    | '/contact'
+    | '/electrical'
+    | '/privacy'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
@@ -116,7 +136,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/brand'
-    | '/kilo'
+    | '/contact'
+    | '/electrical'
+    | '/privacy'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
@@ -127,7 +149,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/brand'
-    | '/kilo'
+    | '/contact'
+    | '/electrical'
+    | '/privacy'
     | '/robots.txt'
     | '/site.webmanifest'
     | '/sitemap.xml'
@@ -139,7 +163,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrandRoute: typeof BrandRoute
-  KiloRoute: typeof KiloRoute
+  ContactRoute: typeof ContactRoute
+  ElectricalRoute: typeof ElectricalRoute
+  PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SiteDotwebmanifestRoute: typeof SiteDotwebmanifestRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -164,11 +190,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrandRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/kilo': {
-      id: '/kilo'
-      path: '/kilo'
-      fullPath: '/kilo'
-      preLoaderRoute: typeof KiloRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/electrical': {
+      id: '/electrical'
+      path: '/electrical'
+      fullPath: '/electrical'
+      preLoaderRoute: typeof ElectricalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -219,7 +259,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrandRoute: BrandRoute,
-  KiloRoute: KiloRoute,
+  ContactRoute: ContactRoute,
+  ElectricalRoute: ElectricalRoute,
+  PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SiteDotwebmanifestRoute: SiteDotwebmanifestRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

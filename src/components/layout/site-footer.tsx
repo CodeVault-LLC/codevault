@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router"
 
 import type { Category } from "@/core/config/news"
+import { legalLine } from "@/core/config/company"
+import { legalLinks } from "@/core/config/legal"
 import { site } from "@/core/config/site"
 import { LogoGlyph } from "@/components/brand/logo-glyph"
 import { Container } from "./container"
@@ -52,10 +54,30 @@ export function SiteFooter() {
           ))}
         </div>
       </Container>
-      <Container className="border-t border-inverse-foreground/15 py-8">
-        <p className="font-sans text-caption text-inverse-muted">
-          {site.footer.copyright}
-        </p>
+      <Container className="flex flex-col gap-4 border-t border-inverse-foreground/15 py-8 font-sans text-caption text-inverse-muted md:flex-row md:items-start md:justify-between">
+        <div className="space-y-1">
+          <p>{site.footer.copyright}</p>
+          <p>
+            {legalLine().map((part, i) => (
+              <span key={part}>
+                {i > 0 && <span aria-hidden> · </span>}
+                {part}
+              </span>
+            ))}
+          </p>
+        </div>
+        <ul className="flex gap-6">
+          {legalLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                to={link.href}
+                className="hover:text-inverse-foreground hover:underline hover:underline-offset-4"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Container>
     </footer>
   )

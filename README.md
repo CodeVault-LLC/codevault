@@ -1,6 +1,6 @@
 # CodeVault
 
-The CodeVault website: news, and a home for Kilo. TanStack Start, React 19,
+The CodeVault website: news, and a home for CodeVault Electrical. TanStack Start, React 19,
 Tailwind v4. No database, no accounts.
 
 ```bash

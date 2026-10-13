@@ -1,21 +1,24 @@
 // News posts. Newest first is applied by `allPosts()`, not by the order here.
 //
-// Everything in these posts should be true of the project on the date given.
-// Kilo's source of truth is its own repository (PHASES.md, the decision log and
-// the job documents); when in doubt, say less.
+// Everything in these posts should be true of the work on the date given.
+// CodeVault Electrical's source of truth is its own repository (the changelog,
+// the plan and the decision records); when in doubt, say less. It is meant to
+// be sold, so posts describe what it does for the people using it, not how
+// it's built: no languages, frameworks or vendors beyond Revit itself.
+
+import { electrical } from "./electrical"
 
 export const categories = [
   "Announcements",
-  "Kilo",
+  "Electrical",
   "Engineering",
-  "Notes",
 ] as const
 
 export type Category = (typeof categories)[number]
 
 /** Which illustration a post uses. See `components/news/post-art.tsx`. */
 export type ArtKey =
-  "kilo" | "assistant" | "viewport" | "revit" | "foundation" | "fresh"
+  "electrical" | "ab" | "clearance" | "openings" | "fittings" | "ribbon" | "box"
 
 /** Background swatch behind the illustration. */
 export type Tone = "persimmon" | "oat" | "sky" | "olive" | "cactus" | "heather"
@@ -25,6 +28,7 @@ export type Block =
   | { type: "h2"; text: string; id: string }
   | { type: "list"; items: string[] }
   | { type: "figure"; art: ArtKey; tone: Tone; caption: string }
+  | { type: "cta"; text: string; label: string; href: string }
 
 export type Post = {
   slug: string
@@ -42,213 +46,236 @@ export type Post = {
 
 const posts: Post[] = [
   {
-    slug: "introducing-kilo",
-    title: "Introducing Kilo",
-    date: "2026-10-07",
+    slug: electrical.announcementSlug,
+    title: "Introducing CodeVault Electrical",
+    date: "2026-10-13",
     category: "Announcements",
-    project: "Kilo",
+    project: electrical.name,
     summary:
-      "An electrical design tool for building modules. The model is always on screen, and an assistant works through the same tools you do.",
-    lead: "Kilo is an electrical design tool for industrially built modules — rooms and units that leave the factory already wired. We started it on October 5th. This is what it is, what works today, and what doesn't yet.",
-    art: "kilo",
+      "A Revit add-in for electricians, starting with conduit routing. It's in development, and we're opening early access.",
+    lead: "CodeVault Electrical is a Revit add-in for electricians and electrical designers. It starts with conduit: pick the devices, and it suggests a route that keeps clear of what's in the way.",
+    art: "electrical",
     tone: "persimmon",
     body: [
-      { type: "h2", id: "why", text: "Why we're building it" },
+      { type: "h2", id: "why", text: "Why conduit first" },
       {
         type: "p",
-        text: "Electrical design for modular buildings mostly happens in large, general-purpose BIM tools. They can do the job, but the daily work is slow: a lot of the same steps, repeated across a lot of very similar modules.",
+        text: "Drawing conduit in Revit is slow, careful work in 3D. Revit gives you conduit, fittings and a place to put them; the route itself is yours to find, segment by segment, around ducts, beams and pipes that usually live in someone else's linked model.",
       },
       {
         type: "p",
-        text: "Kilo's bet is that this work gets much faster when the model is the application. It's always on screen, frequent actions take a click or a keystroke, and exact values can be typed while you work.",
+        text: "And it doesn't stay drawn. Electrical is often modelled after mechanical and plumbing, so conduit takes the space that's left, and every design change that moves a duct sends someone back to redraw the runs around it.",
       },
-      { type: "h2", id: "today", text: "What works today" },
+      {
+        type: "p",
+        text: "CodeVault Electrical does the routing. You pick the devices; it finds a route, draws it, and asks before keeping it.",
+      },
+      { type: "h2", id: "workflow", text: "How it works in Revit" },
+      {
+        type: "p",
+        text: "It adds a CodeVault Electrical tab to the ribbon. Everything starts from there.",
+      },
       {
         type: "list",
         items: [
-          "Durable projects that survive a crash, a copy and a move.",
-          "Opening IFC models and showing them straight away, in plan and in 3D.",
-          "Selecting, isolating and clipping reference models, with exact height ranges and box selection.",
-          "A searchable component catalogue, with drag-and-drop placement, snapping and undo.",
+          "Route A→B: pick two devices, or a device and an open conduit end.",
+          "Connect Devices: select several, and they're linked as a chain or as a tree.",
+          "The route is drawn and highlighted first. Add it as one undo step, or cancel and the model is left as it was.",
+          "Settings: what routes keep clear of and what they may pass through, clearance, conduit type and how runs are linked, in one window.",
         ],
       },
       {
         type: "figure",
-        art: "viewport",
+        art: "ribbon",
         tone: "oat",
-        caption: "Plan and 3D views of the same model, sharing one selection.",
+        caption:
+          "One tab, two tools, and the route in the model before you accept it.",
       },
-      { type: "h2", id: "progress", text: "What's in progress" },
+      { type: "h2", id: "model", text: "Works with the model you have" },
       {
-        type: "p",
-        text: "An assistant that works inside the workspace, using the same commands as the designer. We're also writing a reader that opens Revit files directly, without Revit. Both have their own posts.",
-      },
-      { type: "h2", id: "missing", text: "What isn't there yet" },
-      {
-        type: "p",
-        text: "Circuits, routing, schedules and drawing outputs: the parts that turn a placed design into something a factory can build. They come next.",
-      },
-      { type: "h2", id: "availability", text: "Availability" },
-      {
-        type: "p",
-        text: "Kilo is in development and isn't available to download yet. When that changes, we'll say so here.",
-      },
-    ],
-  },
-  {
-    slug: "kilo-assistant",
-    title: "An assistant that works in the model",
-    date: "2026-10-07",
-    category: "Kilo",
-    project: "Kilo",
-    summary:
-      "Kilo's assistant uses the same typed commands as the designer, so every change it makes shows up in the model and can be undone.",
-    lead: "Most AI features in design tools sit next to the work, in a chat window. In Kilo, the assistant works through the same commands the designer uses.",
-    art: "assistant",
-    tone: "heather",
-    body: [
-      { type: "h2", id: "same-tools", text: "Same tools, same rules" },
-      {
-        type: "p",
-        text: "Every change in Kilo is a typed command. The assistant gets no special access: it calls those commands, and each one records who issued it. Its edits land as ordinary revisions, highlighted in the viewport and undoable like anything else.",
-      },
-      { type: "h2", id: "looking", text: "Looking before acting" },
-      {
-        type: "p",
-        text: "Before it places anything, the assistant can probe the model. It can measure against reference geometry, check clearances, and find the wall frames a component would mount on. A designer answers these questions by eye. The assistant has to ask them out loud.",
+        type: "list",
+        items: [
+          "Your families. Plenty of receptacle, switch and light families have no conduit connector at all; routes still reach them, and any end that couldn't be joined is named so you can finish it.",
+          "Your conduit. New runs continue the type of the conduit you picked and use sizes from the project's own list.",
+          "Everyone else's models. Routes keep clear of what's in linked models too, checked against their real geometry before you see the suggestion.",
+        ],
       },
       {
         type: "figure",
-        art: "assistant",
-        tone: "heather",
+        art: "ab",
+        tone: "sky",
         caption:
-          "Suggestions appear in the model, not just in the conversation.",
+          "A box to the distribution board: around the duct, through one wall.",
       },
-      { type: "h2", id: "status", text: "Status" },
+      { type: "h2", id: "firm", text: "Built for a firm, not just a desk" },
+      {
+        type: "list",
+        items: [
+          "Settings can be managed centrally. People see them, read-only, and an administrator can switch the add-in off for everyone.",
+          "Installs per user or per machine, for Revit 2025 and 2026.",
+          "If a linked model isn't loaded or a workset is closed, it stops and says so, rather than route against half a building.",
+          "Every piece of conduit it adds is marked with the route it came from.",
+          "Collect diagnostics puts logs and settings in one file for support, without reading or changing the model.",
+        ],
+      },
+      { type: "h2", id: "next", text: "What comes next" },
       {
         type: "p",
-        text: "This is early. The conversation, command provenance and geometry tools are in place. We're still working out how suggestions are shown, accepted and rejected. Underneath, it runs on Claude Code.",
+        text: "Drops from devices to the nearest cable tray. After that, more electrical tools, each in its own panel on the same tab.",
+      },
+      { type: "h2", id: "early-access", text: "Early access" },
+      {
+        type: "cta",
+        text: "We're working with a small group of electrical contractors and designers ahead of the first release. Partners get early builds, a direct line to the people building it, and a say in what comes next.",
+        label: electrical.access.label,
+        href: electrical.access.href,
       },
     ],
   },
   {
-    slug: "opening-revit-files",
-    title: "Opening Revit files without Revit",
-    date: "2026-10-07",
+    slug: "what-a-route-promises",
+    title: "What a route promises",
+    date: "2026-10-12",
     category: "Engineering",
-    project: "Kilo",
+    project: electrical.name,
     summary:
-      "A Revit file is a container of compressed streams with its own schema inside. Here's what we found taking one apart.",
-    lead: "Electrical designers have years of work in Revit's .rvt format. For Kilo to be useful, it has to read those files with our own code, and without Revit installed.",
-    art: "revit",
+      "Conduit is the run that gets moved when everything else is already in the ceiling. Why drawing it is hard, and what every route we suggest promises.",
+    lead: "Conduit is often modelled last and moved first. By the time the electrical design is drawn, ducts, pipes and steel have the best space, and a clash found later is usually solved by bending conduit around it. A tool that draws those routes has to be exact about what it promises.",
+    art: "clearance",
     tone: "sky",
     body: [
-      { type: "h2", id: "inside", text: "What's inside" },
+      { type: "h2", id: "hard", text: "Why it's hard" },
       {
         type: "p",
-        text: "An .rvt file is a Microsoft compound file: a small file system holding around fifteen named streams. A couple are plain text, like basic file information and transmission data. The rest are stored as DEFLATE-compressed chunks. The main partition of a mid-sized model inflates to several times its size on disk.",
+        text: "On a plan, a run between two boxes is a line. In the model it's a path through a ceiling that is already full.",
       },
-      { type: "h2", id: "schema", text: "A schema that describes itself" },
-      {
-        type: "p",
-        text: "One stream holds a self-describing schema: about 6,000 class names, each with its fields. Electrical connectors, circuit paths, conduit runs, cable trays and geometry are all in there by name. That turns the job from guessing at bytes into reading a map.",
-      },
-      {
-        type: "figure",
-        art: "revit",
-        tone: "sky",
-        caption: "One file, many streams. Most of them are compressed.",
-      },
-      { type: "h2", id: "dependencies", text: "Dependencies hide in the data" },
-      {
-        type: "p",
-        text: "Linked models aren't always listed in the obvious metadata. We found one cloud link recorded only inside a data partition. So detecting a missing dependency means reading the link elements themselves, not just the XML.",
-      },
-      { type: "h2", id: "status", text: "Where it stands" },
-      {
-        type: "p",
-        text: "The reader accounts for every byte in the files we've tested and reads the class schema. Next, it has to interpret elements into Kilo's own model.",
-      },
-    ],
-  },
-  {
-    slug: "viewport-first",
-    title: "Viewport first",
-    date: "2026-10-06",
-    category: "Kilo",
-    project: "Kilo",
-    summary:
-      "Opening a file should show it. A change of direction on Kilo's second day, and what it took out of the way.",
-    lead: "On day two we changed direction. Kilo had been growing confirmation steps between the designer and the model: previews, coordinate acceptance, review gates. We moved them out of the way.",
-    art: "viewport",
-    tone: "olive",
-    body: [
-      {
-        type: "h2",
-        id: "application",
-        text: "The model is the application",
-      },
-      {
-        type: "p",
-        text: "Opening a project lands in the workspace, and the plan and 3D viewport is by far the largest thing on screen. Settings, inputs and history are panels, never the landing screen. Opening a file shows it.",
-      },
-      { type: "h2", id: "background", text: "Checks run in the background" },
-      {
-        type: "p",
-        text: "Unit and coordinate problems still get found. They appear as warnings in the workspace, and only interrupt when a model can't be used at all. Aligning coordinates became a tool you reach for, not a gate you pass through.",
-      },
-      { type: "h2", id: "precision", text: "Precision stays underneath" },
-      {
-        type: "p",
-        text: "Exact units, durable revisions, undo and recovery are still hard rules. The core enforces them, and the interface shows them as a small status rather than as ceremony.",
-      },
-    ],
-  },
-  {
-    slug: "a-fresh-start",
-    title: "A fresh start for this site",
-    date: "2026-10-07",
-    category: "Notes",
-    summary: "We stripped codevault.no down to two things: news, and Kilo.",
-    lead: "This site used to hold a report archive, sign-in, project dossiers and a research section. That was more machinery than anyone needed to read a few pages.",
-    art: "fresh",
-    tone: "cactus",
-    body: [
-      {
-        type: "p",
-        text: "So we started over. No database, no accounts, no storage — just pages. News is where we write about what we're doing. Kilo has a page of its own because, right now, it's most of what we're doing.",
-      },
-      {
-        type: "p",
-        text: "The old work isn't gone. It lives in the repository history, and the projects worth writing about will come back as posts.",
-      },
-    ],
-  },
-  {
-    slug: "projects-that-survive",
-    title: "Day one: projects that survive",
-    date: "2026-10-05",
-    category: "Kilo",
-    project: "Kilo",
-    summary:
-      "Before Kilo could draw anything, it had to be able to keep it. The first day went into durable projects.",
-    lead: "A design tool that loses work is not a design tool. So Kilo's first day went into the part nobody sees.",
-    art: "foundation",
-    tone: "oat",
-    body: [
-      { type: "h2", id: "means", text: "What that means" },
       {
         type: "list",
         items: [
-          "Projects keep the original files they were made from, untouched.",
-          "Every change is a revision, so a project can be copied, moved and reopened exactly.",
-          "An interrupted save recovers instead of corrupting.",
+          "Most of what's in the way isn't yours. Structure, ventilation, plumbing and sprinklers sit in linked models that other people own, and they move between revisions.",
+          "Every bend is a fitting. An elbow needs straight run on both sides, and a run that's a little too short won't take one.",
+          "Bends add up. Codes limit how much a run may bend between pull points (in the US, 360 degrees), because every bend makes the cable harder to pull.",
+          "Not everything is an obstacle. Conduit goes through walls and slabs every day, but each penetration needs a hole, a sleeve and often fire stopping, and someone has to know where it is.",
+          "Clashes found late are expensive. On site they mean stopped work, a reroute, and more bends than anyone planned.",
         ],
       },
-      { type: "h2", id: "built", text: "How it's built" },
+      { type: "h2", id: "promise", text: "The promise" },
       {
         type: "p",
-        text: "Kilo is a desktop app built on Tauri. The design engine is written in Rust and the interface in React. The engine owns the design state, and the interface asks it for things.",
+        text: "Every route CodeVault Electrical suggests keeps clear of everything set to Avoid, in the model and in its links. It's checked before the suggestion appears, against the real geometry of what's there. If anything set to Avoid would be hit, nothing changes, and the message names the element in the way.",
+      },
+      { type: "h2", id: "avoid", text: "Avoid, or Go through" },
+      {
+        type: "p",
+        text: "Every kind of element is set to one or the other. By default, conduit keeps clear of ducts, pipes, cable trays, columns, equipment, doors and windows, and may pass through walls, beams and ceilings, the way it's installed. Each switch can be changed, and your own families can have rules of their own: anything named glass, say, always avoided.",
+      },
+      {
+        type: "figure",
+        art: "clearance",
+        tone: "sky",
+        caption:
+          "Around what's set to Avoid; through the wall, which is listed before you accept.",
+      },
+      { type: "h2", id: "listed", text: "Listed, not hidden" },
+      {
+        type: "p",
+        text: "What a route passes through because the settings allow it is listed in the preview, with a reminder to check drilling, sleeves or fire stopping. Ends that couldn't be joined are named too, with the element to select, so they can be finished by hand. Coordination starts with a list instead of a search.",
+      },
+      { type: "h2", id: "fittings", text: "Fittings that fit" },
+      {
+        type: "p",
+        text: "A route that can't take its elbows isn't a route. Every bend we suggest has room for the fitting that goes there, sized from the conduit you're using. Routes prefer fewer bends and level runs, and boxes in a wall are joined up, across and down, the way they're installed.",
+      },
+      {
+        type: "figure",
+        art: "fittings",
+        tone: "heather",
+        caption:
+          "Room for every elbow, and as few of them as the route allows.",
+      },
+      { type: "h2", id: "no-route", text: "When there's no way through" },
+      {
+        type: "p",
+        text: "Sometimes there isn't one. Then you get no route rather than a bad one. The message says what kind of element is in the way, and suggests setting it to Go through if conduit may pass it. Nothing is added to the model without you seeing it first.",
+      },
+      { type: "h2", id: "words", text: "Why we don't say clash-free" },
+      {
+        type: "p",
+        text: "Because it isn't the promise. A route keeps clear of what you set to Avoid, and tells you about the rest. That's narrower than clash-free, and it's a promise we can keep.",
+      },
+      {
+        type: "cta",
+        text: "If your team draws conduit in Revit 2025 or 2026, we'd like to hear what gets in the way. Early access is open to a small group of electrical contractors and designers.",
+        label: electrical.access.label,
+        href: electrical.access.href,
+      },
+    ],
+  },
+  {
+    slug: "up-across-and-down",
+    title: "Up, across and down",
+    date: "2026-10-10",
+    category: "Electrical",
+    project: electrical.name,
+    summary:
+      "Junction boxes in a wall are now joined the way conduit is run: up out of the top, across, and down into the next.",
+    lead: "In an early test with junction boxes set into a wall, the conduit dropped below the floor and came back up. It was a valid route, and not one anyone would install.",
+    art: "openings",
+    tone: "olive",
+    body: [
+      { type: "h2", id: "site", text: "How it's done on site" },
+      {
+        type: "p",
+        text: "Conduit from a box in a wall usually goes up. It leaves through the top, runs in the space above the ceiling, and drops into the next box. That space is where the runs can be reached later; going under the floor means the slab, and usually somebody else's space.",
+      },
+      { type: "h2", id: "wrong", text: "What went wrong" },
+      {
+        type: "p",
+        text: "The add-in took the shortest way out of each box, and on those boxes that was through the bottom. Every rule was kept: clear of obstacles, room for every elbow. It still dropped about 400 mm under the floor to get between two boxes on the same wall.",
+      },
+      {
+        type: "p",
+        text: "That's the harder kind of mistake. A route that fails is obvious. A route that works but isn't how anyone would build it has to be noticed, deleted and drawn again by hand.",
+      },
+      { type: "h2", id: "top", text: "Top first" },
+      {
+        type: "p",
+        text: "Now a box is left through the top whenever it can be. If the top openings are taken or blocked, a side; the bottom only when nothing else will do. Boxes on the same wall are joined up, across and down.",
+      },
+      {
+        type: "figure",
+        art: "openings",
+        tone: "olive",
+        caption:
+          "Two boxes in a wall, joined through their top openings. The old route, under the floor, ghosted below.",
+      },
+      { type: "h2", id: "solid", text: "Boxes are solid" },
+      {
+        type: "p",
+        text: "A box is also something to keep clear of, except straight out of its openings. A route can't pass through one, or leave from its back. Each opening carries one run, and a box that already has a run gets the next through a free opening instead of failing.",
+      },
+      { type: "h2", id: "families", text: "Families vary" },
+      {
+        type: "p",
+        text: "Box families differ from office to office. Some put several connectors on a single opening; many receptacle families have no conduit connector at all. Routes handle both: openings are never shared, and a device without a connector is still reached, with the end named in the preview so it can be joined by hand.",
+      },
+      {
+        type: "figure",
+        art: "box",
+        tone: "cactus",
+        caption:
+          "Out through the top when it's free; the side when it isn't; the bottom last.",
+      },
+      { type: "h2", id: "test", text: "The test" },
+      {
+        type: "p",
+        text: "Clear of obstacles is the minimum. The real test is whether an electrician would run it that way.",
+      },
+      {
+        type: "cta",
+        text: "Got box families that don't behave? We'd like to try them. Early access is open to a small group of electrical contractors and designers.",
+        label: electrical.access.label,
+        href: electrical.access.href,
       },
     ],
   },

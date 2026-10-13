@@ -1,41 +1,46 @@
 // Site-wide copy. Page components own structure; the words live here and in
-// `news.ts` / `kilo.ts`.
+// `news.ts` / `electrical.ts`.
+
+import { electrical } from "./electrical"
 
 export const site = {
   name: "CodeVault",
   url: "https://codevault.no",
   title: "CodeVault",
   description:
-    "CodeVault builds projects across tech and writes down how they went. Right now that mostly means Kilo.",
+    "CodeVault builds software for problems large organisations have learned to live with. Right now that means CodeVault Electrical, conduit routing for Revit.",
   ogImage: "/og-image.png",
   github: "https://github.com/CodeVault-LLC",
   securityEmail: "security@codevault.no",
 
   nav: [
-    { label: "Kilo", href: "/kilo" },
+    { label: electrical.short, href: electrical.path },
     { label: "News", href: "/news" },
   ],
-  cta: { label: "Meet Kilo", href: "/kilo" },
+  cta: { label: "Early access", href: electrical.path },
 
   home: {
     // Words wrapped in `[]` are underlined links; see `HeadlineWords`.
-    headline: "We build [projects] across tech and write down [what happens].",
-    headlineLinks: ["/kilo", "/news"],
+    headline:
+      "We build software for the problems large organisations have [learned to live with].",
+    headlineLinks: [electrical.path],
     intro:
-      "Some of it ships, some of it doesn't. Either way, the notes end up here.",
-    latestHeading: "Latest from Kilo",
+      "Right now that means CodeVault Electrical, a Revit add-in that routes conduit for electricians.",
+    latestHeading: "Latest from Electrical",
     moreHeading: "More from CodeVault",
-    statement:
-      "We try things across tech — tools, games, hardware, research — and keep honest notes on what we learn.",
+    statement: "What we're building, what we've decided, and why.",
   },
 
   footer: {
     columns: [
       {
-        heading: "Kilo",
+        heading: electrical.short,
         links: [
-          { label: "Overview", href: "/kilo" },
-          { label: "Introducing Kilo", href: "/news/introducing-kilo" },
+          { label: "Overview", href: electrical.path },
+          {
+            label: "Introducing CodeVault Electrical",
+            href: `/news/${electrical.announcementSlug}`,
+          },
         ],
       },
       {
@@ -44,7 +49,7 @@ export const site = {
           { label: "All news", href: "/news" },
           { label: "Announcements", href: "/news", category: "Announcements" },
           { label: "Engineering", href: "/news", category: "Engineering" },
-          { label: "Notes", href: "/news", category: "Notes" },
+          { label: "Electrical", href: "/news", category: "Electrical" },
         ],
       },
       {

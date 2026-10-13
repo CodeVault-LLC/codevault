@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router"
 
+import { electrical } from "@/core/config/electrical"
 import { site } from "@/core/config/site"
 import { allPosts, postsFor } from "@/core/config/news"
 import { seo } from "@/core/lib/seo"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
-import { KiloAnnouncement } from "@/components/home/kilo-announcement"
+import { ElectricalAnnouncement } from "@/components/home/electrical-announcement"
 import { HeadlineWords } from "@/components/ui/headline-words"
 import { Reveal, RevealItem } from "@/components/ui/reveal"
 import { ReleaseCard } from "@/components/news/release-card"
@@ -18,7 +19,7 @@ export const Route = createFileRoute("/")({
 })
 
 function Home() {
-  const latest = postsFor("Kilo").slice(0, 3)
+  const latest = postsFor(electrical.name).slice(0, 3)
   const more = allPosts().filter((post) => !latest.includes(post))
 
   return (
@@ -39,7 +40,7 @@ function Home() {
       </Container>
 
       <Container>
-        <KiloAnnouncement />
+        <ElectricalAnnouncement />
       </Container>
 
       <Container className="py-20 lg:py-28">
@@ -57,21 +58,25 @@ function Home() {
         </Reveal>
       </Container>
 
-      <Container className="grid gap-10 pb-24 lg:grid-cols-12 lg:pb-32">
-        <Reveal className="lg:col-span-5">
-          <h2 className="mb-4 font-sans text-display-s font-semibold">
-            {site.home.moreHeading}
-          </h2>
-          <p className="max-w-[30ch] text-paragraph-l">{site.home.statement}</p>
-        </Reveal>
-        <Reveal className="lg:col-span-7">
-          <ul className="border-t border-border">
-            {more.map((post) => (
-              <NewsRow key={post.slug} post={post} />
-            ))}
-          </ul>
-        </Reveal>
-      </Container>
+      {more.length > 0 && (
+        <Container className="grid gap-10 pb-24 lg:grid-cols-12 lg:pb-32">
+          <Reveal className="lg:col-span-5">
+            <h2 className="mb-4 font-sans text-display-s font-semibold">
+              {site.home.moreHeading}
+            </h2>
+            <p className="max-w-[30ch] text-paragraph-l">
+              {site.home.statement}
+            </p>
+          </Reveal>
+          <Reveal className="lg:col-span-7">
+            <ul className="border-t border-border">
+              {more.map((post) => (
+                <NewsRow key={post.slug} post={post} />
+              ))}
+            </ul>
+          </Reveal>
+        </Container>
+      )}
     </PageShell>
   )
 }

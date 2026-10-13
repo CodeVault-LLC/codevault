@@ -2,8 +2,7 @@
 
 export const news = {
   title: "News — CodeVault",
-  description:
-    "Announcements, engineering notes and updates from CodeVault and Kilo.",
+  description: "Announcements, engineering notes and updates from CodeVault.",
   heading: "News",
   allHeading: "All news",
   allLabel: "All",

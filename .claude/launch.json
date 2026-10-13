@@ -6,6 +6,12 @@
       "runtimeExecutable": "bunx",
       "runtimeArgs": ["vite", "dev", "--port", "3100"],
       "port": 3100
+    },
+    {
+      "name": "dev-alt",
+      "runtimeExecutable": "bunx",
+      "runtimeArgs": ["vite", "dev", "--port", "3101", "--strictPort"],
+      "port": 3101
     }
   ]
 }

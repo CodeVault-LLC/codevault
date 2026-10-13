@@ -18,9 +18,9 @@ export const brand = {
 
   mascot: {
     heading: "Orbit",
-    body: "A small world with a ring around it. Its hands and feet float free like moons, so it can hold anything and sit anywhere. Orbit belongs to every CodeVault project.",
+    body: "A small world with a ring around it. Its hands and feet float free like moons, so it can hold anything and sit anywhere.",
     inputHeading: "On an input",
-    placeholder: "Ask Kilo about this module…",
+    placeholder: "Search news",
     inputs: [
       { pose: "sit", label: "Sitting on the edge" },
       { pose: "peek", label: "Peeking over" },
@@ -40,7 +40,7 @@ export const brand = {
 
   color: {
     heading: "Colour",
-    body: "Warm neutrals and one accent. Persimmon is for Orbit, Kilo and the moments that matter.",
+    body: "Warm neutrals and one accent. Persimmon is for Orbit, CodeVault Electrical and the moments that matter.",
     swatches: [
       { name: "Persimmon", token: "persimmon", hex: "#e85d3c" },
       { name: "Persimmon strong", token: "persimmon-strong", hex: "#b03a1e" },
@@ -62,13 +62,13 @@ export const brand = {
         name: "Inter",
         role: "Headlines and interface",
         font: "sans",
-        sample: "We build projects across tech.",
+        sample: "Problems we have learned to live with.",
       },
       {
         name: "Lora",
         role: "Reading text",
         font: "serif",
-        sample: "Some of it ships, some of it doesn't.",
+        sample: "Conduit routing for Revit.",
       },
       {
         name: "JetBrains Mono",

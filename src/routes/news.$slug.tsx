@@ -10,6 +10,7 @@ import { PageShell } from "@/components/layout/page-shell"
 import { NewsRow } from "@/components/news/news-row"
 import { PostArt } from "@/components/news/post-art"
 import { ArcRule } from "@/components/ui/arc-rule"
+import { Arrow, buttonClass } from "@/components/ui/button-link"
 import { Reveal } from "@/components/ui/reveal"
 
 export const Route = createFileRoute("/news/$slug")({
@@ -25,8 +26,6 @@ export const Route = createFileRoute("/news/$slug")({
           description: loaderData.summary,
           path: `/news/${loaderData.slug}`,
           type: "article",
-          image:
-            loaderData.project === "Kilo" ? "/kilo/kilo-social.png" : undefined,
         })
       : {},
   component: Article,
@@ -193,6 +192,16 @@ function BodyBlock({ block }: { block: Block }) {
             {block.caption}
           </figcaption>
         </figure>
+      )
+    case "cta":
+      return (
+        <div className="rounded-2xl bg-surface p-6 sm:p-8">
+          <p className="mb-6">{block.text}</p>
+          <a href={block.href} className={buttonClass()}>
+            {block.label}
+            <Arrow />
+          </a>
+        </div>
       )
   }
 }

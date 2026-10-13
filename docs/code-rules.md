@@ -15,10 +15,11 @@ there's a strong reason; ask first.
 
 ## Structure
 
-- `src/core/config/` — all content and copy (`site.ts`, `news.ts`, `kilo.ts`,
-  `pages.ts`). Components own structure, not words.
-- `src/components/` — `layout`, `ui` (shared primitives), `news`, `kilo`,
-  `home`, `brand`.
+- `src/core/config/` — all content and copy (`site.ts`, `news.ts`,
+  `electrical.ts`, `pages.ts`, `company.ts`, `legal.ts`). Components own
+  structure, not words.
+- `src/components/` — `layout`, `ui` (shared primitives), `news`,
+  `electrical`, `home`, `brand`.
 - `src/core/lib/` — `motion.ts` (GSAP, its plugins, shared motion settings),
   `seo.ts` head tags.
 - `src/lib/` — `cn()`, security headers.
@@ -38,8 +39,10 @@ there's a strong reason; ask first.
 - Function components and hooks. Side effects in `useEffect` with cleanup;
   GSAP in `useGSAP` with a `scope`, and `contextSafe` for anything created
   later (callbacks, delayed calls).
-- Per-frame animation lives outside React state (see `KiloScene`): a
+- Per-frame animation lives outside React state (see `RoutingScene`): a
   `requestAnimationFrame` loop that stops offscreen and when the tab is hidden.
+- Keep logic that can be pure, pure, and test it: the scene's plans and router
+  live in `components/electrical/floor-plan.ts`, with tests beside it.
 
 ## Formatting and linting
 

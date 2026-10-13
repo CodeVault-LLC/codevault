@@ -31,7 +31,9 @@ describe("news", () => {
   })
 
   it("finds posts by slug", () => {
-    expect(findPost("introducing-kilo")?.title).toBe("Introducing Kilo")
+    expect(findPost("introducing-codevault-electrical")?.title).toBe(
+      "Introducing CodeVault Electrical"
+    )
     expect(findPost("missing")).toBeUndefined()
   })
 
