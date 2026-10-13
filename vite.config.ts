@@ -16,7 +16,10 @@ const config = defineConfig({
   plugins: [
     tailwindcss(),
     tanstackStart(),
-    nitro({ preset: "node-server" }),
+    // Vercel sets VERCEL=1 during its builds; there the output is Vercel's
+    // own format. Everywhere else (Docker, `node .output/server/index.mjs`)
+    // it's a plain Node server.
+    nitro({ preset: process.env.VERCEL ? "vercel" : "node-server" }),
     viteReact(),
   ],
 })
