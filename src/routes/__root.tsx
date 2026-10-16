@@ -18,6 +18,13 @@ export const Route = createRootRoute({
         sizes: "180x180",
         href: "/apple-touch-icon.png",
       },
+      // Google Search uses only icons at a multiple of 48px.
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "96x96",
+        href: "/favicon-96x96.png",
+      },
       {
         rel: "icon",
         type: "image/png",

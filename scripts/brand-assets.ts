@@ -102,6 +102,9 @@ console.log("  logo-mark.svg")
 
 png("favicon-16x16.png", tab, 16)
 png("favicon-32x32.png", tab, 32)
+// Google Search shows a site's icon only at a multiple of 48px, and ignores
+// the 16 and 32 above.
+png("favicon-96x96.png", tab, 96)
 // Apple masks the tile itself, so this one is square and full-bleed.
 png(
   "apple-touch-icon.png",
