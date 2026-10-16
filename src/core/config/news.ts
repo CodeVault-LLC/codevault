@@ -72,24 +72,11 @@ const posts: Post[] = [
       { type: "h2", id: "nearest", text: "Nearest is a route, not a distance" },
       {
         type: "p",
-        text: "The tray straight above a device is often not the one to use. It may be boxed in by ductwork, too narrow for the conduit, or sloped. So Drop to Tray doesn't measure, it plans. It reads every tray within reach, in the model and in linked models, and orders them by the cheapest route that could possibly reach each one. Then it plans real routes in that order, and stops as soon as no remaining tray could beat the best drop it has found.",
+        text: "The tray straight above a device is often not the one to use. It may be boxed in by ductwork, too narrow for the conduit, or sloped. So Drop to Tray doesn't measure, it plans. It reads every tray within reach, in the model and in linked models, and orders them by the cheapest route that could possibly reach each one. It then plans real routes in that order, one tray at a time, with that tray as the destination and every other tray treated as solid. As soon as no remaining tray could beat the best drop found, it stops. Searching all trays at once would be cheaper, but the search couldn't tell which tray it was entering and could pass through one tray to reach another. Pruning keeps it to one or two searches in practice, so the accuracy costs very little.",
       },
       {
         type: "p",
-        text: "Each tray is searched on its own, with that tray as the destination and every other tray treated as solid. Searching all trays at once would be cheaper, but the search couldn't tell which tray it was entering, and could pass through one tray on its way to another. Pruning keeps it to one or two searches in practice, so the accuracy costs very little.",
-      },
-      {
-        type: "p",
-        text: "If a nearer tray wasn't used, the suggestion says why: it was blocked, it had no room for the conduit, or its route was more expensive than the one chosen.",
-      },
-      { type: "h2", id: "entries", text: "Where a drop can land" },
-      {
-        type: "p",
-        text: "A tray offers entries on its bottom and on both sides, but only where the conduit fits. The side rail has to be at least as tall as the conduit and the bottom at least as wide, and every entry keeps clear of the tray's ends. A device directly under a tray rises straight into it. One that's blocked at that point can enter a little further along instead of failing.",
-      },
-      {
-        type: "p",
-        text: "Revit has no join between conduit and cable tray, so a drop stops at the tray's face, and the suggestion says so. The tray itself is never modified.",
+        text: "Where a drop lands is planned just as carefully. A tray offers entries on its bottom and on both sides, but only where the conduit fits: the side rail at least as tall as the conduit, the bottom at least as wide, and every entry clear of the tray's ends. A device directly under a tray rises straight into it, and one that's blocked at that point enters a little further along instead of failing. Revit has no join between conduit and cable tray, so the drop stops at the tray's face, and the tray itself is never modified. If a nearer tray wasn't used, the suggestion says why: blocked, no room for the conduit, or a more expensive route than the one chosen.",
       },
       {
         type: "figure",
@@ -101,16 +88,11 @@ const posts: Post[] = [
       { type: "h2", id: "batch", text: "Fifty at once" },
       {
         type: "p",
-        text: "Select up to 50 devices and each gets its own drop. They are planned one after another under a single time budget, so every drop keeps clear of the ones before it. Before you see anything, the whole batch is checked together against the model's real geometry, including the space between the new drops. You review it once and accept it as one undo step.",
+        text: "Select up to 50 devices and each gets its own drop. They are planned one after another under a single time budget, so every drop keeps clear of the ones before it. Before you see anything, the whole batch is checked together against the model's real geometry, including the space between the new drops. You review it once and accept it as one undo step. If one device can't be reached, nothing is added and the message names that device. That's deliberate: a batch that quietly skips three devices out of forty is a batch someone has to audit by hand.",
       },
       {
         type: "p",
-        text: "If one device can't be reached, nothing is added, and the message names that device. That's deliberate. A batch that quietly skips three devices out of forty is a batch someone has to audit by hand.",
-      },
-      { type: "h2", id: "routes", text: "Whole routes" },
-      {
-        type: "p",
-        text: "A new Routes panel works on routes CodeVault Electrical added. Select Routes picks up every piece of one. Remove Routes deletes it in one undo step and leaves the devices alone. Re-route plans it again between the same devices after the model has changed, and swaps it in.",
+        text: "Routes stay manageable after they're added. A new Routes panel works on routes CodeVault Electrical added: Select Routes picks up every piece of one, Remove Routes deletes it in one undo step and leaves the devices alone, and Re-route plans it again between the same devices after the model has changed, and swaps it in.",
       },
     ],
   },
@@ -133,30 +115,16 @@ const posts: Post[] = [
       { type: "h2", id: "why", text: "Why conduit first" },
       {
         type: "p",
-        text: "Revit gives you conduit, fittings and a place to put them. Finding the route is up to you, segment by segment, around ducts, beams and pipes that usually live in someone else's linked model. Electrical is often modelled after mechanical and plumbing, so conduit gets the space that's left. Every revision that moves a duct sends someone back to redraw the runs around it.",
+        text: "Revit gives you conduit, fittings and a place to put them. Finding the route is up to you, segment by segment, around ducts, beams and pipes that usually live in someone else's linked model. Electrical is often modelled after mechanical and plumbing, so conduit gets the space that's left, and every revision that moves a duct sends someone back to redraw the runs around it.",
       },
       {
         type: "p",
-        text: "Underneath, this is a search problem with hard constraints. Runs are straight with right-angle bends. Every bend needs room for its elbow. Clearances must be kept, and the model keeps changing. That is work software should do well, and people shouldn't have to do by hand.",
+        text: "Underneath, this is a search problem with hard constraints: straight runs with right-angle bends, room for every elbow, clearances to keep, and a model that keeps changing. The router works in 3D, on a sparse grid built from the faces of everything it has to keep clear of. It looks for the cheapest right-angled path, where every bend and every metre of vertical travel has a cost, and it never bends before there's room for the elbow. Routes come out short, level where they can be, and buildable as drawn. Connect Devices plans a whole network together, trying alternative layouts, routing orders and openings within one time limit and keeping the best complete network. Nothing is drawn unless every link is planned.",
       },
-      { type: "h2", id: "routing", text: "How it routes" },
+      { type: "h2", id: "workflow", text: "In Revit, with the model you have" },
       {
         type: "p",
-        text: "The router works in 3D, on a sparse grid built from the faces of everything it has to keep clear of. It searches for the cheapest right-angled path, where every bend and every metre of vertical travel has a cost. It never bends before there's room for the elbow. Routes come out short, level where they can be, and buildable as drawn.",
-      },
-      {
-        type: "p",
-        text: "Connect Devices plans a whole network together. Within one time limit it tries alternative layouts, routing orders and openings, and keeps the best complete network. Nothing is drawn unless every link is planned.",
-      },
-      { type: "h2", id: "workflow", text: "In Revit" },
-      {
-        type: "list",
-        items: [
-          "Route A→B: pick two devices, or a device and an open conduit end.",
-          "Connect Devices: select several, and they're linked as a chain or as a tree.",
-          "The route is drawn and highlighted first. Add it as one undo step, or cancel and the model is left as it was.",
-          "Settings: what routes keep clear of and what they may pass through, clearance, conduit type and how runs are linked, in one window.",
-        ],
+        text: "It adds a CodeVault Electrical tab to the ribbon. Route A→B joins two devices, or a device and an open conduit end. Connect Devices links several, as a chain or as a tree. Either way the route is drawn and highlighted first, and you add it as one undo step or cancel and the model is left as it was. One Settings window covers what routes keep clear of and what they may pass through, clearance, conduit type and how runs are linked.",
       },
       {
         type: "figure",
@@ -165,14 +133,9 @@ const posts: Post[] = [
         caption:
           "One tab, two tools, and the route in the model before you accept it.",
       },
-      { type: "h2", id: "model", text: "Works with the model you have" },
       {
-        type: "list",
-        items: [
-          "Your families. Plenty of receptacle, switch and light families have no conduit connector at all. Routes still reach them, and any end that couldn't be joined is named so you can finish it.",
-          "Your conduit. New runs continue the type of the conduit you picked and use sizes from the project's own list.",
-          "Everyone else's models. Routes keep clear of what's in linked models too, checked against their real geometry before you see the suggestion.",
-        ],
+        type: "p",
+        text: "It works with the model you already have. Plenty of receptacle, switch and light families have no conduit connector at all; routes still reach them, and any end that couldn't be joined is named so you can finish it. New runs continue the type of the conduit you picked and use sizes from the project's own list. And routes keep clear of what's in linked models too, checked against their real geometry before you see the suggestion.",
       },
       {
         type: "figure",
@@ -192,12 +155,10 @@ const posts: Post[] = [
           "Collect diagnostics puts logs and settings in one file for support, without reading or changing the model.",
         ],
       },
-      { type: "h2", id: "next", text: "What comes next" },
       {
         type: "p",
-        text: "Drops from devices to the nearest cable tray. After that, more electrical tools, each in its own panel on the same tab.",
+        text: "Next are drops from devices to the nearest cable tray, and after that more electrical tools, each in its own panel on the same tab.",
       },
-      { type: "h2", id: "early-access", text: "Early access" },
       {
         type: "cta",
         text: "We're working with a small group of electrical contractors and designers ahead of the first release. Partners get early builds, a direct line to the people building it, and a say in what comes next.",
@@ -237,28 +198,34 @@ const posts: Post[] = [
           "Clashes found late are expensive. On site they mean stopped work, a reroute, and more bends than anyone planned.",
         ],
       },
-      { type: "h2", id: "search", text: "Constraints inside the search" },
+      {
+        type: "h2",
+        id: "search",
+        text: "A search that only returns buildable routes",
+      },
       {
         type: "p",
         text: "The common way to route around obstacles is to find a path and then repair it: straighten it, insert the elbows, nudge whatever doesn't fit. Every repair step is a place where a valid path can become an invalid one. We wanted the search to produce only routes that can be built.",
       },
       {
         type: "p",
-        text: "So the router works on a Hanan grid. Its lines run through every face of every obstacle, grown by the clearance and the conduit's radius, plus the endpoints and the points one straight run away from them. The grid is sparse in open space and dense where the decisions are. Each state in the search is a position and a direction of travel, so bends are counted exactly. A turn jumps straight to the first point where the next elbow would fit, so every route the search returns already has room for its fittings. There is no repair step to fail afterwards.",
+        text: "So the router works on a Hanan grid. Its lines run through every face of every obstacle, grown by the clearance and the conduit's radius, plus the endpoints and the points one straight run away from them, which makes the grid sparse in open space and dense where the decisions are. Each state in the search is a position and a direction of travel, so bends are counted exactly, and a turn jumps straight to the first point where the next elbow would fit. Every route the search returns already has room for its fittings; there is no repair step to fail afterwards. The cost of a route is its length plus a penalty for each bend and for vertical travel, and the estimate that guides the search never overstates what's left, so the route it returns is the cheapest on the grid and the same model gives the same route every time. The details matter: an earlier version let every move jump to any point along a line, and on a scene with 300 obstacles and ten devices it took 4 seconds instead of 0.17.",
       },
       {
         type: "p",
-        text: "The cost of a route is its length, plus a penalty for each bend and for vertical travel. The estimate that guides the search never overstates the remaining cost, so the route it returns is the cheapest one on the grid, and the same model gives the same route every time. The details matter. An earlier version let every move jump to any point along a line. It found the same routes, but on a scene with 300 obstacles and ten devices it took 4 seconds instead of 0.17.",
+        text: "One thing the search can't know is how long an elbow family is, because Revit doesn't say in advance. The router plans with a minimum straight run worked out from the conduit's bend radius and diameter. If Revit still refuses an elbow, it plans again with longer runs, up to three times. Each attempt is a complete, validated route, and you only see the one that worked.",
       },
-      { type: "h2", id: "promise", text: "The promise" },
+      {
+        type: "figure",
+        art: "fittings",
+        tone: "heather",
+        caption:
+          "Room for every elbow, and as few of them as the route allows.",
+      },
+      { type: "h2", id: "promise", text: "The promise, and how it's checked" },
       {
         type: "p",
-        text: "Every route CodeVault Electrical suggests keeps clear of everything set to Avoid, in the model and in its links. It's checked before the suggestion appears, against the real geometry of what's there. If anything set to Avoid would be hit, nothing changes, and the message names the element in the way.",
-      },
-      { type: "h2", id: "checks", text: "Three checks before you see it" },
-      {
-        type: "p",
-        text: "The planner works with boxes, and a box is an approximation of an element. So a route passes three independent checks before it appears.",
+        text: "Every route CodeVault Electrical suggests keeps clear of everything set to Avoid, in the model and in its links. The planner works with boxes, and a box is only an approximation of an element, so a route passes three independent checks before it appears.",
       },
       {
         type: "list",
@@ -270,12 +237,12 @@ const posts: Post[] = [
       },
       {
         type: "p",
-        text: "If anything set to Avoid is hit, the whole route is rolled back and the model is left as it was. If a linked model becomes unavailable partway through, the check doesn't quietly pass. It fails, and says why.",
+        text: "If anything set to Avoid is hit, the whole route is rolled back, the model is left as it was, and the message names the element in the way. If a linked model becomes unavailable partway through, the check doesn't quietly pass; it fails, and says why. Behind that, every change to the router runs against benchmark scenes built from real pilot cases, gated on outcome, separation, bends, length, detour, search effort and whether it gives the same answer twice. A change that makes any of them worse has to justify itself before it ships.",
       },
-      { type: "h2", id: "avoid", text: "Avoid, or Go through" },
+      { type: "h2", id: "words", text: "Narrower than clash-free" },
       {
         type: "p",
-        text: "Every kind of element is set to one or the other. By default, conduit keeps clear of ducts, pipes, cable trays, columns, equipment, doors and windows, and may pass through walls, beams and ceilings, the way it's installed. Each switch can be changed, and your own families can have rules of their own: anything named glass, say, always avoided.",
+        text: "Every kind of element is set to Avoid or Go through. By default, conduit keeps clear of ducts, pipes, cable trays, columns, equipment, doors and windows, and may pass through walls, beams and ceilings, the way it's installed. Each switch can be changed, and your own families can have rules of their own: anything named glass, say, always avoided. What a route passes through because the settings allow it is listed in the preview, with a reminder to check drilling, sleeves or fire stopping, and ends that couldn't be joined are named with the element to select. Coordination starts with a list instead of a search.",
       },
       {
         type: "figure",
@@ -284,37 +251,9 @@ const posts: Post[] = [
         caption:
           "Around what's set to Avoid; through the wall, which is listed before you accept.",
       },
-      { type: "h2", id: "listed", text: "Listed, not hidden" },
       {
         type: "p",
-        text: "What a route passes through because the settings allow it is listed in the preview, with a reminder to check drilling, sleeves or fire stopping. Ends that couldn't be joined are named too, with the element to select, so they can be finished by hand. Coordination starts with a list instead of a search.",
-      },
-      { type: "h2", id: "fittings", text: "Fittings that fit" },
-      {
-        type: "p",
-        text: "Revit can't say in advance how long an elbow family is. So the router plans with a minimum straight run worked out from the conduit's bend radius and diameter. If Revit still refuses an elbow, it plans again with longer runs, up to three times. Each attempt is a complete, validated route, and you only see the one that worked.",
-      },
-      {
-        type: "figure",
-        art: "fittings",
-        tone: "heather",
-        caption:
-          "Room for every elbow, and as few of them as the route allows.",
-      },
-      { type: "h2", id: "measured", text: "Measured, not assumed" },
-      {
-        type: "p",
-        text: "Routing quality is easy to claim and hard to keep. Every change to the router runs against a set of benchmark scenes built from real pilot cases. The gates cover outcome, separation, bends, length, detour, search effort, and whether it gives the same answer twice. A change that makes any of them worse has to justify itself before it ships.",
-      },
-      { type: "h2", id: "no-route", text: "When there's no way through" },
-      {
-        type: "p",
-        text: "Sometimes there isn't one. Then you get no route rather than a bad one. The message says what kind of element is in the way, and suggests setting it to Go through if conduit may pass it. Nothing is added to the model without you seeing it first.",
-      },
-      { type: "h2", id: "words", text: "Why we don't say clash-free" },
-      {
-        type: "p",
-        text: "Because that isn't the promise. A route keeps clear of what you set to Avoid, and tells you about the rest. That's narrower than clash-free, and it's a promise we can keep.",
+        text: "Sometimes there's no way through. Then you get no route rather than a bad one, with the kind of element that's in the way and a suggestion to set it to Go through if conduit may pass it. That's why we don't say clash-free. A route keeps clear of what you set to Avoid, and tells you about the rest. It's a narrower promise, and one we can keep.",
       },
       {
         type: "cta",
@@ -340,26 +279,16 @@ const posts: Post[] = [
       { type: "h2", id: "valid", text: "Valid is the minimum" },
       {
         type: "p",
-        text: "A route that fails costs little. You read the message and change something. A route that passes every check but isn't how anyone builds costs more, because someone has to notice it, delete it and draw it again by hand. For a routing tool, correct has to include how the trade works, not just the geometry.",
+        text: "A route that fails costs little: you read the message and change something. A route that passes every check but isn't how anyone builds costs more, because someone has to notice it, delete it and draw it again by hand. For a routing tool, correct has to include how the trade works, not just the geometry.",
       },
-      { type: "h2", id: "site", text: "How it's done on site" },
       {
         type: "p",
-        text: "Conduit from a box in a wall usually goes up. It leaves through the top, runs in the space above the ceiling, and drops into the next box. That space is where the runs can be reached later. Going under the floor means the slab, and usually somebody else's space.",
-      },
-      { type: "h2", id: "cause", text: "The cause" },
-      {
-        type: "p",
-        text: "The router fixed the pair of openings before it started searching, by straight-line distance. On those boxes the closest pair was the bottom openings, and from there the cheapest legal route went under the floor. The search did exactly what it was asked. It was asked the wrong question.",
+        text: "On site, conduit from a box in a wall usually goes up. It leaves through the top, runs in the space above the ceiling where it can be reached later, and drops into the next box. Going under the floor means the slab, and usually somebody else's space. Our router didn't know that. It fixed the pair of openings before it started searching, by straight-line distance, and on those boxes the closest pair was at the bottom. From there the cheapest legal route went under the floor. The search did exactly what it was asked. It was asked the wrong question.",
       },
       { type: "h2", id: "top", text: "Let the search choose" },
       {
         type: "p",
-        text: "Now every free opening of each device goes into the search, and the search starts from all of them at once. Leaving or entering a device costs nothing through the top, a little through a side, and more through the bottom. That cost is weighed against length and bends in the same search. A top opening wins whenever it reasonably can, a side when the top is taken or blocked, and the bottom only when nothing else will do.",
-      },
-      {
-        type: "p",
-        text: "The opening is part of the route, so the same search that chooses the route should choose it.",
+        text: "Now every free opening of each device goes into the search, and the search starts from all of them at once. Leaving or entering a device costs nothing through the top, a little through a side, and more through the bottom, and that cost is weighed against length and bends in the same search. A top opening wins whenever it reasonably can, a side when the top is taken or blocked, and the bottom only when nothing else will do. The opening is part of the route, so the same search that chooses the route should choose it.",
       },
       {
         type: "figure",
@@ -368,15 +297,9 @@ const posts: Post[] = [
         caption:
           "Two boxes in a wall, joined through their top openings. The old route, under the floor, ghosted below.",
       },
-      { type: "h2", id: "solid", text: "Boxes are solid" },
       {
         type: "p",
-        text: "A box is now an obstacle too, except for a channel straight out of each opening. A route can't pass through one or leave from its back. Each opening carries one run, and a box that already has a run gets the next one through a free opening instead of failing.",
-      },
-      { type: "h2", id: "families", text: "Families vary" },
-      {
-        type: "p",
-        text: "Box families differ from office to office. Some put several connectors on a single opening, and many receptacle families have no conduit connector at all. Routes handle both. Openings are never shared, and a device without a connector is still reached, with the end named in the preview so it can be joined by hand.",
+        text: "A box is now an obstacle too, except for a channel straight out of each opening, so a route can't pass through one or leave from its back. Each opening carries one run, and a box that already has a run gets the next one through a free opening instead of failing. Box families differ from office to office: some put several connectors on a single opening, and many receptacle families have no conduit connector at all. Routes handle both. Openings are never shared, and a device without a connector is still reached, with the end named in the preview so it can be joined by hand.",
       },
       {
         type: "figure",
@@ -385,7 +308,6 @@ const posts: Post[] = [
         caption:
           "Out through the top when it's free; the side when it isn't; the bottom last.",
       },
-      { type: "h2", id: "test", text: "The test" },
       {
         type: "p",
         text: "Clear of obstacles is the minimum. The standard is whether an electrician would run it that way.",
