@@ -44,7 +44,6 @@ function lightNow(): Light {
 const INDEX = [
   { id: "features", label: electrical.features.heading },
   { id: "how", label: electrical.principles.heading },
-  { id: "status", label: electrical.status.heading },
   { id: "questions", label: electrical.faq.heading },
 ]
 

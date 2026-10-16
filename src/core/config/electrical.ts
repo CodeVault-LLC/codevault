@@ -46,74 +46,40 @@ export const electrical = {
   },
 
   // One row per tool, each beside a drawing of what it does. The drawing's
-  // frame is sized for a short screen recording to take its place later.
+  // frame is sized for a short screen recording to take its place later, so
+  // the words stay short and let the picture do the work.
   features: {
     heading: "What it does",
     items: [
       {
         name: "Route A→B",
         diagram: "ab",
-        status: "Working",
-        body: "Pick two devices, or a device and the open end of a conduit, and it suggests one run between them.",
-        details: [
-          "Right angles, room for every elbow, and as few bends as it can.",
-          "No more than 360° of bends in a run where a route allows it, and a warning where none does.",
-          "A run that continues existing conduit keeps its type, size and Service Type.",
-        ],
+        body: "Two devices, one run between them.",
       },
       {
         name: "Connect Devices",
         diagram: "network",
-        status: "Working",
-        body: "Select several devices and they're linked as a chain or as a tree, planned together so an early run never boxes in a later one.",
-        details: [
-          "Click devices in the view, or draw a box around them. Only devices are added.",
-          "The same devices give the same network, whatever order they're picked in.",
-          "Nothing is drawn unless every link can be planned.",
-        ],
+        body: "Several devices, linked as a chain or a tree.",
       },
       {
         name: "Drop to Tray",
         diagram: "tray",
-        status: "Working",
-        body: "Select a device, and it drops conduit into the bottom or side of the nearest cable tray it can reach, in the model or a linked one.",
-        details: [
-          "It names the tray it used, and says why a nearer one wasn't.",
-          "The tray itself is never changed.",
-          "Straight, horizontal trays for now.",
-        ],
+        body: "From a device to the nearest cable tray.",
       },
       {
-        name: "Up to 50 drops at once",
+        name: "Many drops at once",
         diagram: "batch",
-        status: "Working",
-        body: "Select a room's worth of devices, and each gets its own drop to tray, in one review and one undo step.",
-        details: [
-          "Drops keep clear of each other as well as the model.",
-          "The review lists each device's tray, with the total length and elbows.",
-          "If one device can't be routed, nothing is added and the message names it.",
-        ],
+        body: "Up to 50 devices, one review, one undo.",
       },
       {
         name: "Watching routes",
         diagram: "watch",
-        status: "Next",
-        body: "When a device moves, or a duct is moved into a route, it will notice, say what happened and offer a fix to review. It never changes a route on its own.",
-        details: [
-          "Working today: Re-route plans a route again after the model changes, and swaps it in one undo step.",
-          "Select Routes and Remove Routes act on a whole route at once, and leave the devices as they are.",
-        ],
+        body: "Coming next. When something is moved into a route, it notices and offers a fix.",
       },
     ],
   } satisfies {
     heading: string
-    items: {
-      name: string
-      diagram: Diagram
-      status: Status
-      body: string
-      details: string[]
-    }[]
+    items: { name: string; diagram: Diagram; body: string }[]
   },
 
   // Four steps, shown beside a drawing that scrolling plays through. The

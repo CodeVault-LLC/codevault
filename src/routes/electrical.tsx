@@ -13,7 +13,6 @@ import { ElectricalMark } from "@/components/electrical/electrical-mark"
 import { ElectricalHero } from "@/components/electrical/electrical-hero"
 import { Features } from "@/components/electrical/features"
 import { HowItWorks } from "@/components/electrical/how-it-works"
-import { StatusChip } from "@/components/electrical/status-chip"
 import { GuideRow } from "@/components/guides/guide-row"
 import { NewsRow } from "@/components/news/news-row"
 import { Arrow, ButtonLink, buttonClass } from "@/components/ui/button-link"
@@ -96,30 +95,6 @@ function ElectricalPage() {
             className="aspect-[3/2]"
           />
         </div>
-      </Container>
-
-      <Container
-        id="status"
-        className="grid scroll-mt-24 gap-12 pb-20 lg:grid-cols-12 lg:pb-28"
-      >
-        <Reveal className="lg:col-span-4">
-          <h2 className="font-sans text-display-s font-semibold">
-            {electrical.status.heading}
-          </h2>
-        </Reveal>
-        <Reveal className="lg:col-span-7 lg:col-start-6">
-          <ul className="rounded-2xl bg-surface px-5 sm:px-8">
-            {electrical.status.rows.map((row) => (
-              <li
-                key={row.label}
-                className="flex items-center justify-between gap-4 border-b border-border py-4 last:border-0"
-              >
-                <span className="text-paragraph-s">{row.label}</span>
-                <StatusChip status={row.status} />
-              </li>
-            ))}
-          </ul>
-        </Reveal>
       </Container>
 
       <Container
