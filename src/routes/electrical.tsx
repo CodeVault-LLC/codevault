@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import type { Status } from "@/core/config/electrical"
 import { electrical } from "@/core/config/electrical"
 import { images } from "@/core/config/images"
 import { allGuides } from "@/core/config/guides"
@@ -8,18 +7,18 @@ import { postsFor } from "@/core/config/news"
 import { site } from "@/core/config/site"
 import { seo } from "@/core/lib/seo"
 import { breadcrumbs, faq, software } from "@/core/lib/structured-data"
-import { cn } from "@/lib/utils"
 import { Container } from "@/components/layout/container"
 import { PageShell } from "@/components/layout/page-shell"
 import { ElectricalMark } from "@/components/electrical/electrical-mark"
 import { ElectricalHero } from "@/components/electrical/electrical-hero"
+import { Features } from "@/components/electrical/features"
 import { HowItWorks } from "@/components/electrical/how-it-works"
-import { ToolDiagram } from "@/components/electrical/tool-diagram"
+import { StatusChip } from "@/components/electrical/status-chip"
 import { GuideRow } from "@/components/guides/guide-row"
 import { NewsRow } from "@/components/news/news-row"
 import { Arrow, ButtonLink, buttonClass } from "@/components/ui/button-link"
 import { Photo } from "@/components/ui/photo"
-import { Reveal, RevealItem } from "@/components/ui/reveal"
+import { Reveal } from "@/components/ui/reveal"
 
 export const Route = createFileRoute("/electrical")({
   head: () =>
@@ -72,32 +71,7 @@ function ElectricalPage() {
         </Reveal>
       </Container>
 
-      <Container id="tools" className="scroll-mt-24 pt-20 lg:pt-28">
-        <Reveal>
-          <h2 className="mb-10 font-sans text-display-s font-semibold">
-            {electrical.tools.heading}
-          </h2>
-        </Reveal>
-        <Reveal stagger className="grid gap-4 md:grid-cols-2">
-          {electrical.tools.items.map((tool) => (
-            <RevealItem
-              key={tool.name}
-              className="flex flex-col rounded-2xl bg-surface p-6 sm:p-8"
-            >
-              <ToolDiagram
-                diagram={tool.diagram}
-                className="mx-auto mb-8 max-w-sm"
-              />
-              <h3 className="mb-2 font-sans text-display-xs font-semibold">
-                {tool.name}
-              </h3>
-              <p className="max-w-[40ch] text-paragraph-s text-foreground/85">
-                {tool.body}
-              </p>
-            </RevealItem>
-          ))}
-        </Reveal>
-      </Container>
+      <Features />
 
       <HowItWorks />
 
@@ -199,23 +173,5 @@ function ElectricalPage() {
         </Reveal>
       </Container>
     </PageShell>
-  )
-}
-
-const statusDot: Record<Status, string> = {
-  Working: "bg-olive",
-  "In progress": "bg-persimmon pulse-dot",
-  Next: "ring-1 ring-faint ring-inset",
-}
-
-function StatusChip({ status }: { status: Status }) {
-  return (
-    <span className="inline-flex shrink-0 items-center gap-2 font-sans text-caption text-muted-foreground">
-      <span
-        aria-hidden
-        className={cn("size-2 rounded-full", statusDot[status])}
-      />
-      {status}
-    </span>
   )
 }

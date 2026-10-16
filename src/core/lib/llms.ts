@@ -85,8 +85,10 @@ export function llmsFull(): string {
     `${e.tagline} ${e.hero.body}`,
     `Page: ${absolute(e.path)}`,
     e.facts.map((fact) => `- ${fact.label}: ${fact.value}`).join("\n"),
-    `### ${e.tools.heading}`,
-    e.tools.items.map((tool) => `- ${tool.name}: ${tool.body}`).join("\n"),
+    `### ${e.features.heading}`,
+    e.features.items
+      .map((item) => `- ${item.name} (${item.status}): ${item.body}`)
+      .join("\n"),
     `### ${e.principles.heading}`,
     e.principles.items
       .map((item) => `- ${item.title}. ${item.body}`)
