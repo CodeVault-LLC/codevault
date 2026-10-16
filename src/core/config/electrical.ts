@@ -9,6 +9,9 @@ import { company } from "./company"
 
 export type Status = "Working" | "In progress" | "Next"
 
+/** The drawings in src/components/electrical/tool-diagram.tsx. */
+export type Diagram = "ab" | "network" | "tray" | "batch" | "watch"
+
 export const electrical = {
   name: "CodeVault Electrical",
   /** In the nav and anywhere the full name is too long. */
@@ -19,7 +22,7 @@ export const electrical = {
   seoTitle: "CodeVault Electrical — Conduit routing add-in for Revit",
   ogImage: "/og/electrical.png",
   summary:
-    "A Revit add-in for electricians. Pick the devices, and it suggests a conduit route that keeps clear of what's in the way. In development, with early access open.",
+    "A Revit add-in for electricians. Pick the devices, and it suggests a conduit route between them, or down to the nearest cable tray, that keeps clear of what's in the way. In development, with early access open.",
   announcementSlug: "introducing-codevault-electrical",
 
   hero: {
@@ -42,20 +45,41 @@ export const electrical = {
     href: `mailto:${company.email}?subject=CodeVault%20Electrical%20early%20access`,
   },
 
-  tools: {
-    heading: "Two ways to connect",
+  // One row per tool, each beside a drawing of what it does. The drawing's
+  // frame is sized for a short screen recording to take its place later, so
+  // the words stay short and let the picture do the work.
+  features: {
+    heading: "What it does",
     items: [
       {
         name: "Route A→B",
         diagram: "ab",
-        body: "Pick two devices, or a device and an open conduit end, and get one run between them.",
+        body: "Two devices, one run between them.",
       },
       {
         name: "Connect Devices",
         diagram: "network",
-        body: "Select several, and they're linked as a chain or as a tree.",
+        body: "Several devices, linked as a chain or a tree.",
+      },
+      {
+        name: "Drop to Tray",
+        diagram: "tray",
+        body: "From a device to the nearest cable tray.",
+      },
+      {
+        name: "Many drops at once",
+        diagram: "batch",
+        body: "Up to 50 devices, one review, one undo.",
+      },
+      {
+        name: "Watching routes",
+        diagram: "watch",
+        body: "Coming next. When something is moved into a route, it notices and offers a fix.",
       },
     ],
+  } satisfies {
+    heading: string
+    items: { name: string; diagram: Diagram; body: string }[]
   },
 
   // Four steps, shown beside a drawing that scrolling plays through. The
@@ -65,7 +89,7 @@ export const electrical = {
     items: [
       {
         title: "Pick the devices",
-        body: "Two for a single run, A to B. Or several, linked as a chain or as a tree.",
+        body: "Two for one run, several for a chain or a tree, or up to 50 to drop to the nearest cable tray.",
       },
       {
         title: "It suggests a route",
@@ -87,10 +111,15 @@ export const electrical = {
     rows: [
       { label: "Route A→B", status: "Working" },
       { label: "Connect Devices, as a chain or a tree", status: "Working" },
+      {
+        label: "Drop to Tray, up to 50 devices at once",
+        status: "Working",
+      },
+      { label: "Select, Remove and Re-route", status: "In progress" },
       { label: "Avoid or Go through, per kind of element", status: "Working" },
       { label: "Final check against actual geometry", status: "Working" },
       { label: "First release", status: "In progress" },
-      { label: "Drops to the nearest cable tray", status: "Next" },
+      { label: "Watching routes after the model changes", status: "Next" },
     ] satisfies { label: string; status: Status }[],
   },
 
@@ -98,7 +127,6 @@ export const electrical = {
   // scene; they aren't routes CodeVault Electrical made.
   layout: {
     heading: "Laid out the way it's installed",
-    body: "Right angles, room for every elbow, and as few bends as it can. Boxes in a wall are joined up, across and down.",
   },
 
   // What IT and BIM managers ask before rolling it out. Each line is backed by
@@ -108,7 +136,7 @@ export const electrical = {
     items: [
       {
         title: "Your models stay on your machines",
-        body: "It makes no network calls. Logs record element IDs and timings, never model contents.",
+        body: "Nothing from a model leaves the machine. The licence check sends an activation code, a random ID for the PC and the version. Logs record element IDs and timings, never model contents.",
       },
       {
         title: "Managed centrally",
@@ -130,7 +158,7 @@ export const electrical = {
   },
 
   facts: [
-    { label: "Runs in", value: "Revit 2025 and 2026" },
+    { label: "Built for", value: "Revit 2025 and 2026" },
     { label: "Stage", value: "In development" },
     { label: "Access", value: "Early access" },
   ],
@@ -142,11 +170,11 @@ export const electrical = {
     items: [
       {
         q: "What is CodeVault Electrical?",
-        a: "A Revit add-in for electricians and electrical designers. It routes conduit: pick two devices, or several, and it suggests a route that keeps clear of what's in the way.",
+        a: "A Revit add-in for electricians and electrical designers. It routes conduit: pick two devices, or several, and it suggests a route that keeps clear of what's in the way. It can also drop conduit from devices to the nearest cable tray.",
       },
       {
         q: "Which versions of Revit does it work with?",
-        a: "Revit 2025 and 2026, on Windows.",
+        a: "It's built for Revit 2025 and 2026, on Windows. So far it has been tested in 2026.",
       },
       {
         q: "Does it see linked models?",

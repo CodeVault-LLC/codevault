@@ -240,7 +240,7 @@ const guides: Guide[] = [
       },
     ],
     product:
-      "CodeVault Electrical installs per user or per machine. A machine-wide settings file overrides each user's, one switch turns every command off, and it makes no network calls.",
+      "CodeVault Electrical installs per user or per machine. A machine-wide settings file overrides each user's, and one switch turns every command off. Nothing from a model leaves the machine; the licence check sends only an activation code, a random ID for the PC and the version.",
     related: { news: ["introducing-codevault-electrical"] },
   },
 ]

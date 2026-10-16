@@ -1,20 +1,29 @@
 import { useRef } from "react"
 
 import { gsap, motionQuery, useGSAP } from "@/core/lib/motion"
+import type { Diagram } from "@/core/config/electrical"
 import { cn } from "@/lib/utils"
 
-export type Diagram = "ab" | "network"
+type Box = [x: number, y: number, width: number, height: number]
 
 /**
  * What each tool does, drawn the way the product's own icons are: square
  * terminals, a stepped route with rounded elbows, and something in the way.
+ * A tray is an open channel along the top; a moved obstacle arrives after the
+ * route is drawn, the way a duct is moved into a route that was already there.
  */
 const DIAGRAMS: Record<
   Diagram,
-  { routes: string[]; terminals: [number, number][]; obstacle?: string }
+  {
+    routes: string[]
+    terminals: [number, number][]
+    obstacles?: Box[]
+    tray?: string
+    moved?: Box
+  }
 > = {
   ab: {
-    obstacle: "M128 44 H196 V118 H128 Z",
+    obstacles: [[128, 44, 68, 74]],
     routes: ["M52 140 H218 Q234 140 234 124 V66 Q234 50 250 50 H268"],
     terminals: [
       [40, 140],
@@ -34,6 +43,46 @@ const DIAGRAMS: Record<
       [280, 140],
     ],
   },
+  tray: {
+    tray: "M40 26 V42 H290 V26",
+    obstacles: [[62, 70, 60, 52]],
+    routes: ["M102 150 H170 Q186 150 186 134 V46"],
+    terminals: [[90, 150]],
+  },
+  batch: {
+    tray: "M30 26 V42 H290 V26",
+    obstacles: [[108, 54, 44, 34]],
+    routes: [
+      "M60 138 V46",
+      "M130 138 V118 Q130 102 146 102 H164 Q180 102 180 86 V46",
+      "M210 138 V46",
+      "M270 138 V46",
+    ],
+    terminals: [
+      [60, 150],
+      [130, 150],
+      [210, 150],
+      [270, 150],
+    ],
+  },
+  watch: {
+    routes: ["M52 140 H218 Q234 140 234 124 V66 Q234 50 250 50 H268"],
+    terminals: [
+      [40, 140],
+      [280, 50],
+    ],
+    moved: [136, 116, 56, 48],
+  },
+}
+
+function Obstacle({ box, className }: { box: Box; className?: string }) {
+  const [x, y, w, h] = box
+  return (
+    <g className={className} strokeWidth={1.5} strokeDasharray="5 4">
+      <rect x={x} y={y} width={w} height={h} />
+      <path d={`M${x} ${y} L${x + w} ${y + h} M${x + w} ${y} L${x} ${y + h}`} />
+    </g>
+  )
 }
 
 /**
@@ -48,7 +97,7 @@ export function ToolDiagram({
   className?: string
 }) {
   const ref = useRef<SVGSVGElement>(null)
-  const { routes, terminals, obstacle } = DIAGRAMS[diagram]
+  const { routes, terminals, obstacles = [], tray, moved } = DIAGRAMS[diagram]
 
   useGSAP(
     () => {
@@ -66,13 +115,19 @@ export function ToolDiagram({
           if (!tl.isActive() && tl.progress() === 1) tl.restart()
         }
         card?.addEventListener("pointerenter", replay)
-        tl.from(ends, {
-          scale: 0,
-          transformOrigin: "50% 50%",
-          duration: 0.4,
-          ease: "back.out(2)",
-          stagger: 0.12,
-        })
+        const trays = gsap.utils.toArray<SVGPathElement>("[data-tray]", svg)
+        if (trays.length) tl.from(trays, { opacity: 0, duration: 0.4 })
+        tl.from(
+          ends,
+          {
+            scale: 0,
+            transformOrigin: "50% 50%",
+            duration: 0.4,
+            ease: "back.out(2)",
+            stagger: 0.12,
+          },
+          "<"
+        )
         paths.forEach((path, i) => {
           const length = path.getTotalLength()
           tl.fromTo(
@@ -82,6 +137,25 @@ export function ToolDiagram({
             i === 0 ? ">-0.1" : "<0.35"
           )
         })
+        const arrivals = gsap.utils.toArray<SVGGElement>("[data-moved]", svg)
+        if (arrivals.length) {
+          tl.from(arrivals, {
+            y: -48,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power2.out",
+          })
+          tl.from(
+            "[data-clash]",
+            {
+              scale: 0,
+              transformOrigin: "50% 50%",
+              duration: 0.4,
+              ease: "back.out(2)",
+            },
+            ">-0.1"
+          )
+        }
         return () => card?.removeEventListener("pointerenter", replay)
       })
     },
@@ -98,11 +172,16 @@ export function ToolDiagram({
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      {obstacle && (
-        <g className="stroke-faint" strokeWidth={1.5} strokeDasharray="5 4">
-          <path d={obstacle} />
-          <path d="M128 44 L196 118 M196 44 L128 118" />
-        </g>
+      {obstacles.map((box) => (
+        <Obstacle key={box.join()} box={box} className="stroke-faint" />
+      ))}
+      {tray && (
+        <path
+          data-tray=""
+          d={tray}
+          className="stroke-foreground"
+          strokeWidth={2.5}
+        />
       )}
       {/* Every halo before any route, so a branch never notches the run it
           leaves from. */}
@@ -129,6 +208,20 @@ export function ToolDiagram({
           className="fill-foreground"
         />
       ))}
+      {moved && (
+        <g>
+          <g data-moved="">
+            <Obstacle box={moved} className="stroke-foreground" />
+          </g>
+          <circle
+            data-clash=""
+            cx={moved[0] + moved[2] / 2}
+            cy={140} // where it crosses the route
+            r={6}
+            className="fill-foreground"
+          />
+        </g>
+      )}
     </svg>
   )
 }

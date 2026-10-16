@@ -18,7 +18,14 @@ export type Category = (typeof categories)[number]
 
 /** Which illustration a post uses. See `components/news/post-art.tsx`. */
 export type ArtKey =
-  "electrical" | "ab" | "clearance" | "openings" | "fittings" | "ribbon" | "box"
+  | "electrical"
+  | "ab"
+  | "clearance"
+  | "openings"
+  | "fittings"
+  | "ribbon"
+  | "box"
+  | "tray"
 
 /** Background swatch behind the illustration. */
 export type Tone = "persimmon" | "oat" | "sky" | "olive" | "cactus" | "heather"
@@ -47,6 +54,47 @@ export type Post = {
 }
 
 const posts: Post[] = [
+  {
+    slug: "down-to-the-tray",
+    title: "Down to the tray",
+    date: "2026-10-16",
+    category: "Electrical",
+    project: electrical.name,
+    summary:
+      "Drop to Tray draws conduit from a device to the nearest cable tray, for one device or up to 50 at once.",
+    lead: "In a lot of ceilings, devices don't run to each other. Each one drops to the cable tray overhead. CodeVault Electrical now draws those drops.",
+    guides: ["revit-conduit-around-linked-models"],
+    art: "tray",
+    tone: "oat",
+    body: [
+      { type: "h2", id: "one", text: "One device" },
+      {
+        type: "p",
+        text: "Select a device and click Drop to Tray. It finds the nearest horizontal tray it can reach, in the model or a linked one, and suggests a drop into its bottom or side that keeps clear of everything set to Avoid. The suggestion names the tray, and if a nearer one wasn't used, it says why.",
+      },
+      {
+        type: "p",
+        text: "The tray itself is never changed. Revit can't join conduit to a tray, so the drop stops at the tray's face, and the suggestion says so.",
+      },
+      {
+        type: "figure",
+        art: "tray",
+        tone: "oat",
+        caption:
+          "Three drops into the bottom of the tray, one of them around the duct.",
+      },
+      { type: "h2", id: "batch", text: "Fifty at once" },
+      {
+        type: "p",
+        text: "Select up to 50 devices and each gets its own drop, in one review and one undo step. The drops keep clear of each other too. If one device can't be reached, nothing is added, and the message names it.",
+      },
+      { type: "h2", id: "routes", text: "Whole routes" },
+      {
+        type: "p",
+        text: "A new Routes panel works on routes CodeVault Electrical added. Select Routes picks up every piece of one. Remove Routes deletes it in one undo step and leaves the devices alone. Re-route plans it again between the same devices after the model has changed, and swaps it in. These three are new, and we haven't tried them in Revit yet.",
+      },
+    ],
+  },
   {
     slug: electrical.announcementSlug,
     title: "Introducing CodeVault Electrical",

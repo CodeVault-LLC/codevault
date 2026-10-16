@@ -142,6 +142,21 @@ function Duct({
 }
 
 const ART: Record<ArtKey, React.ReactNode> = {
+  tray: (
+    <>
+      {/* Under the slab: a cable tray, a duct, and three devices dropping up
+          into the tray's bottom, one of them around the duct */}
+      <path d="M20 34 H380" strokeWidth={5} strokeLinecap="square" />
+      <path d="M70 62 V82 H350 V62" strokeWidth={3.5} />
+      <Duct x={90} y={110} w={80} h={44} />
+      <Route d="M130 228 V200 Q130 186 144 186 H176 Q190 186 190 172 V86" />
+      <Route d="M240 228 V86" />
+      <Route d="M320 228 V86" />
+      <Terminal x={130} y={240} />
+      <Terminal x={240} y={240} />
+      <Terminal x={320} y={240} />
+    </>
+  ),
   electrical: (
     <>
       {/* Two rooms, a diffuser overhead, and one run between two devices,
