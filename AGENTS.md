@@ -58,7 +58,10 @@ the current product. Read as a company a large customer can trust, without overc
    essay about our correspondence philosophy. Cut to what the page is actually
    for. **Not every heading needs a description**, and a section that only
    works because it's padded out should be shorter or gone. One good sentence
-   beats three that circle it. Silence is often the right answer.
+   beats three that circle it. Silence is often the right answer. News posts
+   are the exception in length, not in discipline: they read as an
+   engineering blog, with depth on how the work thinks. See "Writing a news
+   post" in [`docs/overview.md`](./docs/overview.md).
 8. **Responsive, accessible, dark-mode-safe.** All three are part of "done."
 9. **Never hand-edit generated files** (`src/routeTree.gen.ts`).
 
