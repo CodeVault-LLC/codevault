@@ -91,7 +91,7 @@ const posts: Post[] = [
       { type: "h2", id: "routes", text: "Whole routes" },
       {
         type: "p",
-        text: "A new Routes panel works on routes CodeVault Electrical added. Select Routes picks up every piece of one. Remove Routes deletes it in one undo step and leaves the devices alone. Re-route plans it again between the same devices after the model has changed, and swaps it in. These three are new, and we haven't tried them in Revit yet.",
+        text: "A new Routes panel works on routes CodeVault Electrical added. Select Routes picks up every piece of one. Remove Routes deletes it in one undo step and leaves the devices alone. Re-route plans it again between the same devices after the model has changed, and swaps it in.",
       },
     ],
   },

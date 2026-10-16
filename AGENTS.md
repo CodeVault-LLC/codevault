@@ -43,9 +43,14 @@ the current product. Read as a company a large customer can trust, without overc
 4. **Reuse shared helpers.** `cn()` from `@/lib/utils` for classes; GSAP and
    its motion settings from [`src/core/lib/motion.ts`](./src/core/lib/motion.ts)
    (import `gsap` from there, not from `"gsap"`). Respect reduced motion.
-5. **Be honest about CodeVault Electrical.** News posts and status labels must
-   be true of its repository on the date given. Routes keep clear of what is
-   set to Avoid; never call them "clash-free". No customer names.
+5. **Be accurate about CodeVault Electrical, not confessional.** News posts and
+   status labels must be true of its repository on the date given. Routes keep
+   clear of what is set to Avoid; never call them "clash-free". No customer
+   names. **Accurate does not mean listing our own shortcomings.** Don't add
+   disclaimers about what is untested, unfinished or unproven ("These three are
+   new, and we haven't tried them in Revit yet."). Say what it does; if
+   something isn't ready to stand behind, leave it out rather than apologise
+   for it.
 6. **Keep the voice.** Plain, understated, curious, never promotional. Avoid
    product-company language ("platform," "solution," "get started," "sign up").
 7. **Say less.** This is the rule that gets broken most. Detail is not the same
