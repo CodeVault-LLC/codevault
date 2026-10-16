@@ -84,6 +84,25 @@ a guide changes.
 
 ## Writing a news post
 
+News reads as an engineering blog, not a changelog. Write as the engineers
+who built it ("we"), to a reader who knows the trade ("you"), and leave them
+feeling the work is careful and the problems are hard. The product is how we
+solved the problem, never the pitch.
+
+- **Open with the problem**, not the button. What's hard about it, on site
+  or in the model, comes before what the tool does.
+- **Show how it thinks.** The search, the checks, the trade-offs we chose
+  and why. Real numbers where we have them. This is where the depth comes
+  from, and it never needs a language or framework name.
+- **Have a view.** One or two lines a reader could quote: "The opening is
+  part of the route, so the same search that chooses the route should
+  choose it."
+- **Limits are design decisions**, stated once as a choice ("all or
+  nothing, on purpose"), never as an apology.
+- **Light on story.** One concrete case is enough to set up a problem.
+- **Two lengths.** Engineering posts are essays; release posts open the
+  same way but stay short.
+
 Add an entry to `src/core/config/news.ts`. Every claim about CodeVault
 Electrical should be checkable against its repository (`CHANGELOG.md`,
 `PLAN.md`, `docs/adr/`, the commit log) on the post's date. Describe what it
