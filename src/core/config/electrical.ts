@@ -89,7 +89,7 @@ export const electrical = {
     items: [
       {
         title: "Pick the devices",
-        body: "Two for a single run, A to B. Or several, linked as a chain or as a tree.",
+        body: "Two for one run, several for a chain or a tree, or up to 50 to drop to the nearest cable tray.",
       },
       {
         title: "It suggests a route",
@@ -115,7 +115,7 @@ export const electrical = {
         label: "Drop to Tray, up to 50 devices at once",
         status: "Working",
       },
-      { label: "Select, Remove and Re-route", status: "Working" },
+      { label: "Select, Remove and Re-route", status: "In progress" },
       { label: "Avoid or Go through, per kind of element", status: "Working" },
       { label: "Final check against actual geometry", status: "Working" },
       { label: "First release", status: "In progress" },
@@ -127,7 +127,6 @@ export const electrical = {
   // scene; they aren't routes CodeVault Electrical made.
   layout: {
     heading: "Laid out the way it's installed",
-    body: "Right angles, room for every elbow, and as few bends as it can. Boxes in a wall are joined up, across and down.",
   },
 
   // What IT and BIM managers ask before rolling it out. Each line is backed by

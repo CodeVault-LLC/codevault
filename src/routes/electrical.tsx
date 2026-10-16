@@ -75,13 +75,10 @@ function ElectricalPage() {
       <HowItWorks />
 
       <Container className="pb-20 lg:pb-28">
-        <Reveal className="mb-10 grid gap-4 lg:grid-cols-12">
-          <h2 className="font-sans text-display-s font-semibold lg:col-span-4">
+        <Reveal>
+          <h2 className="mb-10 font-sans text-display-s font-semibold">
             {electrical.layout.heading}
           </h2>
-          <p className="max-w-[48ch] text-paragraph-m text-foreground/85 lg:col-span-7 lg:col-start-6">
-            {electrical.layout.body}
-          </p>
         </Reveal>
         <div className="grid gap-4 md:grid-cols-2">
           <Photo
